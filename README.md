@@ -3,6 +3,15 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 
 This is an activity log and/or notepad of sorts. _(If successful, there will be scripts and stuff here that we can PR to Inkscape.)_ Mind the TODOs and FIXMEs.
 
+# 27.02.2019
+- Cloned the Inkscape master branch (1.0 alpha is only a tag, not a branch) to try my luck again.
+  - I'm happily surprised that compilation was fine :-). Quite a few warnings, but that's to be expected from a huge piece of software. 
+  - The resulting build appears to be working (no real testing done).
+- Master branch was at commit a456169068e7a1ca8715860715fbe912d6cf7fa5.
+  - Since this is now known to work, I'll be using this exact commit as a base. Once I get the whole build chain (source to dmg) up and running, I'll re-open this to always us the current master code.
+
+__Next__: create application bundle
+
 # 23.02.2019
 Starting point for everything is a clean macOS 10.13.6 installation. "Clean" as in "freshly installed + XCode". 
 - Based on ipatch's notes:
