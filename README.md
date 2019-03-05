@@ -1,7 +1,14 @@
 # mibap - macOS Inkscape Build And Package
 The Inkscape devs need help with compiling and packaging on macOS ("from source to dmg"). I want to help, so let's see how far we come. I'm saying "we" because this is not a singular person's effort, it's a joint effort. I want to take a look at and (hopefully) build upon what others have come up with. Ideally we can take this past the finish line, but if not, someone else will have the chance to pick up the torch.
 
-This is an activity log and/or notepad of sorts. _(If successful, there will be scripts and stuff here that we can PR to Inkscape.)_ Mind the TODOs and FIXMEs.
+This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
+Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
+
+# 04.03.2019
+- Began work on script to create application bundle.
+  - First step was creating a recursive function to parse all dynamically linked libraries from a given starting point (the inkscape binary).
+
+__Next__: continue work on script
 
 # 27.02.2019
 - Cloned the Inkscape master branch (1.0 alpha is only a tag, not a branch) to try my luck again.
