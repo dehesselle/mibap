@@ -4,8 +4,12 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
 Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
 
+# DD.MM.YYYY
+- overview `@executable_path`, `@loader_path`, `@rpath`: https://wincent.com/wiki/%40executable_path%2C_%40load_path_and_%40rpath
+- doing exactly what I'm about to do: https://extra.freetimedev.com/index.php?category=tutorials&subject=app-bundle
+
 # 05.03.2019
-- Talked to the Inkscap Devs during their hackfest via RocketChat. The "master" issue for macOS related work is https://gitlab.com/inkscape/inkscape/issues/84.
+- Talked to the Inkscape Devs during their hackfest via RocketChat. The "master" issue for macOS related work is https://gitlab.com/inkscape/inkscape/issues/84.
   - The app [Bluefish](http://bluefish.openoffice.nl/download.html) came up when we were talking about how other apps are doing what we want to do. It is GTK3, runs on macOS (menubar integration). Will try to get some insights/inspiration from that app.
 - Working on `create_app.sh` script. Rewriting library paths and copying files into an app bundle directory structure is done (but not finished!) so I can perform the first test.
   - The created app does not run. Would've been to easy if it did, I know.
