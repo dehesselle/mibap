@@ -4,6 +4,23 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
 Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
 
+# 05.03.2019
+- Talked to the Inkscap Devs during their hackfest via RocketChat. The "master" issue for macOS related work is https://gitlab.com/inkscape/inkscape/issues/84.
+  - The app [Bluefish](http://bluefish.openoffice.nl/download.html) came up when we were talking about how other apps are doing what we want to do. It is GTK3, runs on macOS (menubar integration). Will try to get some insights/inspiration from that app.
+- Working on `create_app.sh` script. Rewriting library paths and copying files into an app bundle directory structure is done (but not finished!) so I can perform the first test.
+  - The created app does not run. Would've been to easy if it did, I know.
+  - There are error messages from `GLib-GObject-CRITICAL` and more, but sadly they don't tell me "couldn't find file X", "error doing Y".
+  - Using `dtruss` reveals that rewriting library paths as I did is not enough. There are still _a lot_ of systemcalls to libraries/paths in the homebrew build directory which I supposedly rewrote with my script.
+    - I haven't checked all the libraries yet for things that I missed. Need to check.
+    - More important: I'm aware that it doesn't look right to me, e.g. I don't have `lib/gio/modules` right now. That's what I should look into first.
+  - Need to read up on relocatable libraries again, it's been to long.
+  - Also: I'm using `@executable_path` instead `@rpath` right now so I did not have to figure out how to set it. (The first one is fixed thing, the later can be set dynamically.)
+- I just noticed that the older Inkscape 0.92.2 doesn't launch its executable directly but a shellscript doing a lot of stuff to the environment. It even includes a FIXME about "Inkscape needs better relocation support". Ha 🤪!
+  - Kidding aside, a compiled version of the newest Inkscape does run without all that. Parts of that might get relevant later when we get to things like Extensions, Python support etc.
+- `@rpath` can be set with `install_name_tool` as well.
+
+__Next__: Go back to the working compiled version of Inkscape. Change paths for one single library, than library by library. Find the error.
+
 # 04.03.2019
 - Began work on script to create application bundle.
   - First step was creating a recursive function to parse all dynamically linked libraries from a given starting point (the inkscape binary).
