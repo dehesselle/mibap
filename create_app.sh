@@ -40,7 +40,7 @@ function copy_rewrite_libs
     chmod 644 $APP_LIB_DIR/*    # TODO not whole directory, plz!
 
     otool -L $file | while IFS="" read -r line; do
-      if [[ $line =~ [^/]+(/Volumes/WORK/homebrew/[^\  ]+).* ]]; then
+      if [[ $line =~ [^/]+(/Volumes/WORK/homebrew/[^\  ]+).* ]]; then   # FIXME hard-coded path!
         local lib=${BASH_REMATCH[1]}   # extract fully qualified filename
 
         if [ "$file" = "$lib" ]; then   # first line from otool is library ID
@@ -63,12 +63,14 @@ mkdir -p $APP_DIR/Contents/MacOS
 mkdir -p $APP_LIB_DIR
 
 # This catches a lot of libraries (i.e. everything from homebrew), but not all.
-# Also, the inkscape binary is treated as library and gets misplaced
-# in APP_LIB_DIR.
+# Also, the Inkscape binary is treated as library, gets (mis-) placed
+# in APP_LIB_DIR and its execute flags removed.
 > $WORK_DIR/remember.txt
 copy_rewrite_libs $INKSCAPE_BUILD/bin/inkscape $WORK_DIR/remember.txt
 # Move the misplaced Inkscape binary.
 mv $APP_LIB_DIR/inkscape $APP_DIR/Contents/MacOS
+# Make executable (again).
+chmod 755 $APP_DIR/Contents/MacOS/inkscape
 
 # The Inkscape binary is small, its own stuff is in libinkscape_base.dylib.
 # Since that is not from homebrew, it wasn't caught during the first run.
@@ -76,6 +78,18 @@ mv $APP_LIB_DIR/inkscape $APP_DIR/Contents/MacOS
 copy_rewrite_libs $INKSCAPE_BUILD/lib/inkscape/libinkscape_base.dylib $WORK_DIR/remember.txt
 # Manually set the ID of said library.
 install_name_tool -id Inkscape.app/Contents/Resources/lib/libinkscape_base.dylib $APP_LIB_DIR/libinkscape_base.dylib
-# Manuall rewrite the path in Inkscape binary for said library.
+# Manually rewrite the path in Inkscape binary for said library.
 install_name_tool -change @rpath/libinkscape_base.dylib @executable_path/../Resources/lib/libinkscape_base.dylib $APP_DIR/Contents/MacOS/inkscape
+
+# There is also a binary named inkview.
+copy_rewrite_libs $INKSCAPE_BUILD/bin/inkview $WORK_DIR/remember.txt
+# Move the misplaced inkview binary.
+mv $APP_LIB_DIR/inkview $APP_DIR/Contents/MacOS
+# Make executable (again).
+chmod 755 $APP_DIR/Contents/MacOS/inkview
+# Manually rewrite the path in Inkscape binary for said library.
+install_name_tool -change @rpath/libinkscape_base.dylib @executable_path/../Resources/lib/libinkscape_base.dylib $APP_DIR/Contents/MacOS/inkview
+
+# Copy shared resources.
+cp -R $INKSCAPE_BUILD/share $APP_RES_DIR
 
