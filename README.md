@@ -4,7 +4,20 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
 Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
 
-# DD.MM.YYYY
+# 07.03.2019
+Out of curiosity I spent the last days with [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx/) due to the fact that this is the "more native approach". If you build GTK with what the GTK project offers, there is the benefit of [gtk-mac-bundler](https://gitlab.gnome.org/GNOME/gtk-mac-bundler) to (hopefully) take care of a lot of things.
+- successfully setup build environment with gtk-osx (it's jhbuild, tailored for osx)
+  - added additional stuff not covered by jhbuild but required to compile Inkscape
+- successfully compiled Inkscape
+- first steps using gtk-mac-bundler
+  - has problems with libinkscape_base.dylib, manual fixing of library paths
+  - has problems with poppler, manual fixing of library paths
+  - Without visible library problems, Inkscape still fails to run. But GTK dialog comes up, "internal error" - at least something.
+- Unbundled Inkscape fails to run as well - that I didn't expect. Glib::Error "unrepresentable character in conversion input".
+
+__Next__: compare library version between homebrew build and jhbuild?
+
+# 06.03.2019
 - overview `@executable_path`, `@loader_path`, `@rpath`: https://wincent.com/wiki/%40executable_path%2C_%40load_path_and_%40rpath
 - doing exactly what I'm about to do: https://extra.freetimedev.com/index.php?category=tutorials&subject=app-bundle
 
