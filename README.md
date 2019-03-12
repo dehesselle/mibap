@@ -4,6 +4,9 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
 Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
 
+# 12.03.2019
+Used "hello world"-style examples (see files in `gtkdemo` directory) to build and package GTK apps.
+
 # 10.03.2019
 Due to user feedback in the chat I invested some time looking at how to build and run current versions of Inkscape (0.94) on High Sierra and Mojave using MacPorts. I gained some valuable insights, made at least one guy happy and gave some input back to Inkscape on how to update [their instructions](https://inkscape.org/release/inkscape-0.92.4/mac-os-x/macports/dl/).
 
