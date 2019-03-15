@@ -154,7 +154,8 @@ read -p "*** PRESS ENTER TO CONTINUE ***"
 cd $SRC_DIR
 git clone --depth 1 https://gitlab.com/inkscape/inkscape
 mkdir inkscape_build; cd inkscape_build
-cmake -DCMAKE_PREFIX_PATH=$OPT -DCMAKE_INSTALL_PREFIX=$WRK_DIR/inkscape -DWITH_OPENMP=OFF ../inkscape
+cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$WRK_DIR/inkscape -DWITH_OPENMP=OFF ..make
+make install
 
 
 
