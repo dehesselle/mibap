@@ -4,7 +4,7 @@ export MAKEFLAGS="-j8"
 
 ###
 
-diskutil unmountDisk WORK
+diskutil unmountDisk "WORK"
 diskutil erasevolume HFS+ "WORK" $(hdiutil attach -nomount ram://$(expr 10 \* 1024 \* 2048))
 WRK_DIR=/Volumes/WORK
 
@@ -12,7 +12,7 @@ WRK_DIR=/Volumes/WORK
 
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
-echo "export PATH=$PATH:$BIN_DIR" > ~/.profile
+echo "export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin" > ~/.profile
 source ~/.profile
 
 TMP_DIR=$OPT_DIR/tmp
@@ -48,9 +48,35 @@ echo "progress_bar = True" >> ~/.jhbuildrc-custom
 ###
 
 jhbuild bootstrap
-read -p "*** PRESS ENTER TO CONTINUE ***"
 
 ###
+
+cd $SRC_DIR
+curl -L https://www.openssl.org/source/openssl-1.1.1b.tar.gz | tar xz
+cd openssl-1.1.1b
+jhbuild run ./config --prefix=$OPT_DIR
+jhbuild run make
+jhbuild run make install
+ln -s /etc/ssl/cert.pem $OPT_DIR/ssl
+
+###
+
+jhbuild build python
+
+cd $SRC_DIR
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+jhbuild run python get-pip.py
+jhbuild run pip install six
+
+###
+
+jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3 gtkmm3 vala
+
+exit 0
+
+###
+
+
 
 cd $SRC_DIR
 curl ftp://xmlsoft.org/libxml2/libxml2-2.9.9.tar.gz | tar xz
@@ -156,6 +182,76 @@ git clone --depth 1 https://gitlab.com/inkscape/inkscape
 mkdir inkscape_build; cd inkscape_build
 cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$WRK_DIR/inkscape -DWITH_OPENMP=OFF ..make
 make install
+
+
+### need to patch libraries in binary
+
+install_name_tool -change @rpath/libpoppler.85.dylib $OPT_DIR/lib/libpoppler.85.dylib $WRK_DIR/inkscape/bin/inkscape
+install_name_tool -change @rpath/libpoppler-glib.8.dylib $OPT_DIR/lib/libpoppler-glib.8.dylib $WRK_DIR/inkscape/bin/inkscape
+
+
+
+####
+
+# test: not required
+cd $SRC_DIR
+curl -L https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz | tar xz
+cd libiconv-1.15
+jhbuild run ./configure --prefix=$OPT_DIR
+jhbuild run make
+jhbuild run make install
+
+
+cd $SRC_DIR
+curl -L https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz | tar xz
+cd pcre-8.43
+jhbuild run ./configure --prefix=$OPT_DIR
+jhbuild run make
+jhbuild run make install
+
+
+cd $SRC_DIR
+curl -L https://download.gnome.org/sources/glib/2.60/glib-2.60.0.tar.xz | tar xJ
+cd glib-2.60.0
+jhbuild run meson _build -Diconv=native --prefix=$OPT_DIR
+jhbiuld run ninja -C _build 
+jhbiuld run ninja -C _build install 
+
+
+
+
+
+
+cd $SRC_DIR
+curl -L https://download.gnome.org/sources/libsigc++/2.99/libsigc++-2.99.12.tar.xz | tar xJ
+cd libsigc++-2.99.12
+jhbuild run ./autogen.sh
+jhbuild run ./configure --prefix=$OPT_DIR
+jhbuild run make
+jhbuild run make install
+
+
+
+
+######################## glibmm fails to build!!!!!!
+
+
+cd $SRC_DIR
+curl -L https://github.com/GNOME/mm-common/archive/0.9.12.tar.gz | tar xz
+cd mm-common-0.9.12
+jhbuild run ./autogen.sh
+jhbuild run ./configure --prefix=$OPT_DIR
+jhbuild run make USE_NETWORK=yes
+jhbuild run make install
+
+
+
+cd $SRC_DIR
+curl -L https://github.com/GNOME/glibmm/archive/2.59.1.tar.gz | tar xz
+cd glibmm-2.59.1
+jhbuild run ./autogen.sh
+jhbuild run ./configure --prefix=$OPT_DIR
+
 
 
 
