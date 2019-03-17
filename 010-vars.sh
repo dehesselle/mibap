@@ -8,7 +8,7 @@
 
 #### compilation settings ######################################################
 
-MAKEFLAGS="-j $(sysctl -n hw.ncpu)"   # use all available cores
+export MAKEFLAGS="-j $(sysctl -n hw.ncpu)"   # use all available cores
 
 ### workspace/build environment paths ##########################################
 
@@ -47,5 +47,5 @@ URL_GC=http://www.hboehm.info/gc/gc_source/gc-8.0.2.tar.gz
 URL_GDL=https://github.com/GNOME/gdl/archive/GDL_3_28_0.tar.gz
 URL_BOOST=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
-URL_POPPLER=https://poppler.freedesktop.org/poppler-0.74.0.tar.xz 
+URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
