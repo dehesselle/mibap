@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 # 060-jhbuild-inkdeps.sh
+# https://github.com/dehesselle/mibap
 #
 # Install additional dependencies into our jhbuild environment required for
 # building Inkscape.

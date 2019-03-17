@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 # 050-jhbuild-gtk3.sh
+# https://github.com/dehesselle/mibap
 #
 # Install everything GTK3 required by Inkscape.
 

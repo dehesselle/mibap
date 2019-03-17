@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 # 070-inkscape.sh
+# https://github.com/dehesselle/mibap
 #
 # Compile Inkscapke.
 

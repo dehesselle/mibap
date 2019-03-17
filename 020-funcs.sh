@@ -1,4 +1,5 @@
 # 020-funcs.sh
+# https://github.com/dehesselle/mibap
 #
 # This file contains all the global functions and is meant to be sourced by 
 # other files.

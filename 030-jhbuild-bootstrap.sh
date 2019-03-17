@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # 030-jhbuild-bootstrap.sh
+# https://github.com/dehesselle/mibap
 #
 # Bootstrap the jhbuild environment.
 

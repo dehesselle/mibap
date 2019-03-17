@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # 040-jhbuild-python2.sh
+# https://github.com/dehesselle/mibap
 #
 # Install working Python 2 w/SSL to avoid jhbuild shooting itself in the foot.
 

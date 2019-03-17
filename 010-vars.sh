@@ -1,4 +1,5 @@
 # 010-vars.sh
+# https://github.com/dehesselle/mibap
 #
 # This file contains all the global variables and is meant to be sourced by 
 # other files.
