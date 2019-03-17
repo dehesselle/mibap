@@ -13,7 +13,7 @@ export MAKEFLAGS="-j $(sysctl -n hw.ncpu)"   # use all available cores
 ### workspace/build environment paths ##########################################
 
 RAMDISK=WORK   # name of ramdisk
-RAMDISK_SIZE=8   # unit is GiB
+RAMDISK_SIZE=10   # unit is GiB
 WRK_DIR=/Volumes/$RAMDISK   # path to ramdisk
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
