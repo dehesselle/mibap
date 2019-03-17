@@ -57,7 +57,7 @@ jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$OPT_DIR ..
 jhbuild run make
 jhbuild run make install
 
-### install Ooppler ############################################################
+### install Poppler ############################################################
 
 get_source $URL_POPPLER
 mkdir builddir; cd builddir
