@@ -5,8 +5,9 @@
 # Install additional dependencies into our jhbuild environment required for
 # building Inkscape.
 
-source 010-vars.sh
-source 020-funcs.sh
+SELF_DIR=$(cd $(dirname "$0"); pwd -P)
+source $SELF_DIR/010-vars.sh
+source $SELF_DIR/020-funcs.sh
 
 ### install GNU Scientific Library #############################################
 

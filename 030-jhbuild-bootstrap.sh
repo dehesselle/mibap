@@ -4,7 +4,8 @@
 #
 # Bootstrap the jhbuild environment.
 
-source 010-vars.sh
+SELF_DIR=$(cd $(dirname "$0"); pwd -P)
+source $SELF_DIR/010-vars.sh
 
 ### create ramdisk as workspace ################################################
 

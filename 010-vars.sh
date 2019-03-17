@@ -21,10 +21,6 @@ TMP_DIR=$OPT_DIR/tmp
 SRC_DIR=$OPT_DIR/src
 LIB_DIR=$OPT_DIR/lib
 
-### inkscape source path ####
-#INK_SRC_DIR=$SRC_DIR/inkscape
-# TODO unused, delete?
-
 ### application bundle paths ###################################################
 
 APP_DIR=$HOME/Desktop/Inkscape.app   # if you want to change this, also change
@@ -34,6 +30,7 @@ APP_RES_DIR=$APP_DIR/Contents/Resources
 APP_LIB_DIR=$APP_RES_DIR/lib
 APP_BIN_DIR=$APP_RES_DIR/bin
 APP_EXE_DIR=$APP_DIR/Contents/MacOS
+APP_PLIST=$APP_DIR/Contents/Info.plist
 
 ### downlad URLs ###############################################################
 

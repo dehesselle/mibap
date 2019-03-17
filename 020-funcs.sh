@@ -12,7 +12,9 @@ source 010-vars.sh
 
 function get_repo_version
 {
-  echo $(git -C $INK_SRC_DIR describe --tags --dirty)
+  local repo=$1
+  #echo $(git -C $repo describe --tags --dirty)
+  echo $(git -C $repo log --pretty=format:'%h' -n 1)
 }
 
 ### get compression flag by filename extension #################################

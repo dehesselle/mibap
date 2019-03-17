@@ -4,8 +4,9 @@
 #
 # Install working Python 2 w/SSL to avoid jhbuild shooting itself in the foot.
 
-source 010-vars.sh
-source 020-funcs.sh
+SELF_DIR=$(cd $(dirname "$0"); pwd -P)
+source $SELF_DIR/010-vars.sh
+source $SELF_DIR/020-funcs.sh
 
 ### install OpenSSL ############################################################
 
