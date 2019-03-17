@@ -22,7 +22,7 @@ function get_comp_flag
 
   local extension=${file##*.}
 
-  case extension in
+  case $extension in
     gz) echo "z"  ;;
     bz2) echo "j" ;;
     xz) echo "J"  ;;
@@ -35,18 +35,16 @@ function get_comp_flag
 function get_source
 {
   local url=$1
+  local log=$TMP_DIR/$FUNCNAME.log
 
-  cd $INK_SRC_DIR
+  cd $SRC_DIR
 
   # This downloads a file and pipes it directly into tar (file is not saved
-  # to disk), determines the decompression flag by its suffix and returns
+  # to disk) to extract it. Output is saved temporarily to determine
   # the directory the files have been extracted to.
-  local source_dir=$(curl -sL $url | 
-                     tar xv$get_comp_flag($url) 2>&1 |
-                     head -1 | 
-                     awk '{ print $2 }')
-
-  cd $source_dir
+  curl -sL $url | tar xv$(get_comp_flag $url) 2>$log
+  cd $(head -1 $log | awk '{ print $2 }')
+  rm $log
 }
 
 ### make, make install in jhbuild environment ##################################

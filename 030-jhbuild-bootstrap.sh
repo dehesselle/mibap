@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # 030-jhbuild-bootstrap.sh
 #
 # Bootstrap the jhbuild environment.
@@ -6,7 +7,7 @@ source 010-vars.sh
 
 ### create ramdisk as workspace ################################################
 
-diskutil unmountDisk "$RAMDISK"
+diskutil unmountDisk "$WRK_DIR"
 diskutil erasevolume HFS+ "$RAMDISK" $(hdiutil attach -nomount ram://$(expr $RAMDISK_SIZE \* 1024 \* 2048))
 
 ### setup path #################################################################
