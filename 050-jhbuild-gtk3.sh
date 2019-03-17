@@ -9,7 +9,7 @@ source 020-funcs.sh
 
 jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3 gtkmm3 vala
 
-### update glibmm ##############################################################
+### update C++ bindings for Glib ###############################################
 
 # We need to update glibmm in order to fix
 # https://bugzilla.gnome.org/show_bug.cgi?id=795338

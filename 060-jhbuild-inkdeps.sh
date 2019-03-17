@@ -6,18 +6,18 @@
 source 010-vars.sh
 source 020-funcs.sh
 
-### install gsl ################################################################
+### install GNU Scientific Library #############################################
 
 get_source $URL_GSL
 configure_make_makeinstall
 
-### install gsl ################################################################
+### install C library for public suffix list ###################################
 
 get_source $URL_LIBPSL
 jhbuild run ./autogen.sh
 configure_make_makeinstall --enable-gtk-doc
 
-### install libsoup ############################################################
+### install GNOME http client/server library ###################################
 
 # libsoup needs meson and ninja to compile and those packages require
 # Python 3.
@@ -35,7 +35,7 @@ jhbuild run ninja install
 get_source $URL_GC
 configure_make_makeinstall
 
-### install gdl ################################################################
+### install GNOME Docking Library ##############################################
 
 get_source $URL_GDL
 jhbuild run ./autogen.sh
@@ -55,7 +55,7 @@ jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$OPT_DIR ..
 jhbuild run make
 jhbuild run make install
 
-### install poppler ############################################################
+### install Ooppler ############################################################
 
 get_source $URL_POPPLER
 mkdir builddir; cd builddir
