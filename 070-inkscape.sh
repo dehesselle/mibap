@@ -28,6 +28,7 @@ cd $SRC_DIR
 git clone https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 cd gtk-mac-bundler
 make install
+cp $SRC_DIR/gtk-mac-bundler/examples/gtk3-launcher.sh $SELF_DIR
 
 cd $SELF_DIR
 jhbuild run gtk-mac-bundler inkscape.bundle
