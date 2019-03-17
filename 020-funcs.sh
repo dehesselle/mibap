@@ -43,7 +43,7 @@ function get_source
   # This downloads a file and pipes it directly into tar (file is not saved
   # to disk) to extract it. Output is saved temporarily to determine
   # the directory the files have been extracted to.
-  curl -sL $url | tar xv$(get_comp_flag $url) 2>$log
+  curl -L $url | tar xv$(get_comp_flag $url) 2>$log
   cd $(head -1 $log | awk '{ print $2 }')
   rm $log
 }
@@ -61,6 +61,6 @@ function make_makeinstall
 function configure_make_makeinstall
 {
   local flags="$*"
-  jhbuild ./configure --prefix=$OPT_DIR $flags
+  jhbuild run ./configure --prefix=$OPT_DIR $flags
   make_makeinstall
 }
