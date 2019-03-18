@@ -1,8 +1,6 @@
 # mibap - macOS Inkscape build and package
 
-This repository contains my efforts in regards to building and packaging Inkscape 1.0 (currently in alpha, Git master branch) on macOS. The scripts herein are targeted to be run on a dedicated build machine, not on your regular day-to-day machine.
-
-_(The former readme of this repository has been moved to [DIARY.md](DIARY.md).)_
+This repository contains my efforts in regards to building and packaging [Inkscape](https://inkscape.org) 1.0 (currently in alpha, Git master branch) on macOS. The scripts herein are targeted to be run on a dedicated build machine, not on your regular day-to-day machine.
 
 ## Requirements
 
@@ -38,7 +36,17 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `Desktop` fo
 
 ### known issues
 
-- On macOS 10.13, step `030` fails during configuration of `expat`. Open a shell (menu option `4`), manually configure via `./configure --prefix=$OPT_DIR`, then `exit` the shell and continue the build process (menu option `2`).
+- On macOS 10.13, step `030` fails during configuration of `expat`. Open a shell (menu option `4`), manually configure via
+
+  ```bash
+  # The prefix is the value of $OPT_DIR (see 010-vars.sh), but $OPT_DIR
+  # is not available in this environment. Set the real value as prefix.
+  ./configure --prefix=/Volumes/WORK/opt
+  ```
+
+  and `exit` the shell. Then continue the build process (menu option `2`).
+- If you're logged in to the desktop (instead of doing everything headless via ssh), you'll probably get a popup asking to install Java. It's triggered by `gettext`'s configuration and can be safely ignored.
+- The build environment set up by `jhbuild` is not version-pinned, i.e. it might pull in newer/other libraries when run again later. This might introduce new problems or even breakage.
 
 ## Status
 
