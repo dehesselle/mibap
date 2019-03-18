@@ -4,6 +4,9 @@ The Inkscape devs need help with compiling and packaging on macOS ("from source 
 This is an activity log and/or notepad of sorts. Mind that this here is all work in progress, far from being polished or in a presentable state. It'll stay "dirty" until it actually does what it's supposed to do.  
 Final goal is that there will be scripts and stuff here that we can PR to Inkscape.
 
+# 16.03.2019 - Heureka!
+After many hours of research and trial&error, I've got a working `jhbuild` environment that can successfully compile Inkscape. And gladly, `gtk-mac-bundler` does do all the heavy lifting in regards to packaging. Late at night, it was already Sunday 17th, I produced a working application bundle.
+
 # 12.03.2019
 Used "hello world"-style examples (see files in `gtkdemo` directory) to build and package GTK apps.
 
