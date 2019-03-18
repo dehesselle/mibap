@@ -43,3 +43,7 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `Desktop` fo
 ## Status
 
 As of v0.1, a working application bundle of Inkscape can be built. But this is only the starting point. There are still a lot of things missing/left to optimize, this is a work-in-progress.
+
+### History
+
+If you're interested in how this all started, check the former readme, now renamed to [DIARY.md](DIARY.md). Older (now discarded) scripts can be found checking out the `legacy` tag (it points to the last commit prior to `v0.1`).
