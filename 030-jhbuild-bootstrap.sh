@@ -38,10 +38,12 @@ cd $WRK_DIR
 bash <(curl -s $URL_GTK_OSX_BUILD_SETUP)   # run scrip to setup jhbuild
 
 # remove previous configuration
-LINE_NO=$(grep -n "# And more..." ~/.jhbuildrc-custom | awk -F ":" '{ print $1 }')
-head -n +$LINE_NO ~/.jhbuildrc-custom >~/.jhbuildrc-custom.stripped
-mv ~/.jhbuildrc-custom.stripped ~/.jhbuildrc-custom
-unset LINE_NO
+if [ -f $HOME/.jhbuildrc-custom ]; then
+  LINE_NO=$(grep -n "# And more..." ~/.jhbuildrc-custom | awk -F ":" '{ print $1 }')
+  head -n +$LINE_NO ~/.jhbuildrc-custom >~/.jhbuildrc-custom.stripped
+  mv ~/.jhbuildrc-custom.stripped ~/.jhbuildrc-custom
+  unset LINE_NO
+fi
 
 # configure jhbuild
 echo "checkoutroot = '$SRC_DIR/checkout'" >> ~/.jhbuildrc-custom
