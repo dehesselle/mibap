@@ -48,7 +48,7 @@ configure_make_makeinstall
 
 get_source $URL_BOOST
 jhbuild run ./bootstrap.sh --prefix=$OPT_DIR
-jhbuild run ./b2 -j8 install
+jhbuild run ./b2 -j$CORES install
 
 ### install OpenJPEG ###########################################################
 

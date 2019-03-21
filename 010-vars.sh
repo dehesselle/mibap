@@ -8,7 +8,8 @@
 
 #### compilation settings ######################################################
 
-export MAKEFLAGS="-j $(sysctl -n hw.ncpu)"   # use all available cores
+CORES=$(sysctl -n hw.ncpu)"   # use all available cores
+export MAKEFLAGS="-j $CORES"
 
 ### workspace/build environment paths ##########################################
 
