@@ -17,7 +17,6 @@ configure_make_makeinstall
 ### install C library for public suffix list ###################################
 
 get_source $URL_LIBPSL
-jhbuild run ./autogen.sh
 configure_make_makeinstall --enable-gtk-doc
 
 ### install GNOME http client/server library ###################################
