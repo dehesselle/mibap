@@ -9,8 +9,8 @@ source $SELF_DIR/010-vars.sh
 
 ### create ramdisk as workspace ################################################
 
+export RAMDISK
 diskutil eject $(diskutil info $RAMDISK | head -n 1 | awk '{ print $3 }')
-[ $? -ne 0 ] && exit 1
 diskutil erasevolume HFS+ "$RAMDISK" $(hdiutil attach -nomount ram://$(expr $RAMDISK_SIZE \* 1024 \* 2048))
 
 ### setup path #################################################################
