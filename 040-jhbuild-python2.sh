@@ -2,7 +2,7 @@
 # 040-jhbuild-python2.sh
 # https://github.com/dehesselle/mibap
 #
-# Install working Python 2 w/SSL to avoid jhbuild shooting itself in the foot.
+# Install working Python 2 w/SSL.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 source $SELF_DIR/010-vars.sh
@@ -10,18 +10,19 @@ source $SELF_DIR/020-funcs.sh
 
 ### install OpenSSL ############################################################
 
-# OpenSSL is required for Python to build the SSL module. Without the SSL
-# module jhbuild would no longer function because all downloads are https.
+# Build OpenSSL as dedicated step because we need to link our system
+# configuration and certs (/etc/ssl) to it. Otherwise https downloads
+# will fail with certification validation issues.
 
-get_source $URL_OPENSSL
-jhbuild run ./config --prefix=$OPT_DIR
-make_makeinstall
-ln -sf /etc/ssl/cert.pem $OPT_DIR/ssl   # required for https certificate validation
+jhbuild build openssl
+mkdir -p $OPT_DIR/etc
+ln -sf /etc/ssl $OPT_DIR/etc   # link system config to our OpenSSL
 
 ### install Python 2 ###########################################################
 
 # Some packages complain about non-exiting development headers when you rely
-# solely on the OS-provided Python installation.
+# solely on the macOS-provided Python installation. This also enables 
+# system-wide installations of packages without permission issues.
 
 jhbuild build python
 

@@ -63,6 +63,20 @@ function make_makeinstall
 function configure_make_makeinstall
 {
   local flags="$*"
+
   jhbuild run ./configure --prefix=$OPT_DIR $flags
   make_makeinstall
 }
+
+### cmake, make, make install in jhbuild environment ###########################
+
+function cmake_make_makeinstall
+{
+  local flags="$*"
+
+  mkdir builddir
+  cd builddir
+  jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$OPT_DIR $flags ..
+  make_makeinstall
+}
+

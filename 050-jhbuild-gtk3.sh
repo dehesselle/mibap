@@ -8,17 +8,13 @@ SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 source $SELF_DIR/010-vars.sh
 source $SELF_DIR/020-funcs.sh
 
-### install FreeType ###########################################################
+### install GTK3 libraries #####################################################
 
-# Compiling cairo in the GTK3 step below breaks complaining about missing
-# 'ft2build.h'. So we install freetype.
-
-#get_source $URL_FREETYPE
-#configure_make_makeinstall
-
-### install GTK3 ###############################################################
-
-jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-freetype meta-gtk-osx-gtk3 gtkmm3 vala
+jhbuild build \
+  gtkmm3 \
+  meta-gtk-osx-bootstrap \
+  meta-gtk-osx-freetype \
+  meta-gtk-osx-gtk3
 
 ### update C++ bindings for Glib ###############################################
 

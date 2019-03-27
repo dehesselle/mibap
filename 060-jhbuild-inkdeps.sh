@@ -14,23 +14,12 @@ source $SELF_DIR/020-funcs.sh
 get_source $URL_GSL
 configure_make_makeinstall
 
-### install C library for public suffix list ###################################
+### install additional GNOME libraries http client/server library ##############
 
-get_source $URL_LIBPSL
-configure_make_makeinstall --enable-gtk-doc
+# libsoup - GNOME http client/server library
+# vala - compiler using GObject Type System
 
-### install GNOME http client/server library ###################################
-
-# libsoup needs meson and ninja to compile and those packages require
-# Python 3.
-jhbuild build python3
-jhbuild run pip3 install meson ninja
-
-get_source $URL_LIBSOUP
-jhbuild run meson --prefix=$OPT_DIR builddir
-cd builddir
-jhbuild run ninja
-jhbuild run ninja install
+jhbuild build libsoup vala
 
 ### install Garbage Collector for C/C++ ########################################
 
@@ -52,15 +41,10 @@ jhbuild run ./b2 -j$CORES install
 ### install OpenJPEG ###########################################################
 
 get_source $URL_OPENJPEG
-mkdir builddir; cd builddir
-jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$OPT_DIR ..
-jhbuild run make
-jhbuild run make install
+cmake_make_makeinstall
 
 ### install Poppler ############################################################
 
 get_source $URL_POPPLER
-mkdir builddir; cd builddir
-jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DENABLE_UNSTABLE_API_ABI_HEADERS=ON ..
-jhbuild run make
-jhbuild run make install
+cmake_make_makeinstall -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
+

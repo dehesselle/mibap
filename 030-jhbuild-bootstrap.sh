@@ -10,6 +10,7 @@ source $SELF_DIR/010-vars.sh
 ### create ramdisk as workspace ################################################
 
 diskutil eject $(diskutil info $RAMDISK | head -n 1 | awk '{ print $3 }')
+[ $? -ne 0 ] && exit 1
 diskutil erasevolume HFS+ "$RAMDISK" $(hdiutil attach -nomount ram://$(expr $RAMDISK_SIZE \* 1024 \* 2048))
 
 ### setup path #################################################################
@@ -35,7 +36,7 @@ ln -sf $SRC_DIR ~/Source   # link to our workspace
 ### install and configure jhbuild ##############################################
 
 cd $WRK_DIR
-bash <(curl -s $URL_GTK_OSX_BUILD_SETUP)   # run scrip to setup jhbuild
+bash <(curl -s $URL_GTK_OSX_BUILD_SETUP)   # jhbuild setup script
 
 # remove previous configuration
 if [ -f $HOME/.jhbuildrc-custom ]; then
