@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# 040-jhbuild-python2.sh
+# 120-jhbuild-python2.sh
 # https://github.com/dehesselle/mibap
 #
 # Install working Python 2 w/SSL.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
-source $SELF_DIR/010-vars.sh
-source $SELF_DIR/020-funcs.sh
+for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### install OpenSSL ############################################################
 

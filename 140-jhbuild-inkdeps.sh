@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# 060-jhbuild-inkdeps.sh
+# 140-jhbuild-inkdeps.sh
 # https://github.com/dehesselle/mibap
 #
 # Install additional dependencies into our jhbuild environment required for
 # building Inkscape.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
-source $SELF_DIR/010-vars.sh
-source $SELF_DIR/020-funcs.sh
+for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### install GNU Scientific Library #############################################
 

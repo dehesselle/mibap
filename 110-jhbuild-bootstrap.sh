@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# 030-jhbuild-bootstrap.sh
+# 110-jhbuild-bootstrap.sh
 # https://github.com/dehesselle/mibap
 #
 # Bootstrap the jhbuild environment.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
-source $SELF_DIR/010-vars.sh
+for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### create ramdisk as workspace ################################################
 

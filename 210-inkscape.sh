@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# 070-inkscape.sh
+# 210-inkscape.sh
 # https://github.com/dehesselle/mibap
 #
 # Finally, build and package Inkscape :-).
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
-source $SELF_DIR/010-vars.sh
-source $SELF_DIR/020-funcs.sh
+for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### build Inkscape #############################################################
 
