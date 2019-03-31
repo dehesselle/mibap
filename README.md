@@ -25,7 +25,7 @@ This repository contains my efforts in regards to building and packaging [Inksca
 Clone this repository to your build machine. Run
 
 ```bash
-./run_everything.sh
+./build_everything.sh
 ```
 
 from inside the cloned repository. This will execute the whole suite of scripts, one after another.
