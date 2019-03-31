@@ -15,8 +15,8 @@ source $SELF_DIR/020-funcs.sh
 # source: <TODO - there is/was a link, but I need to find it again>
 
 jhbuild build \
-  gtkmm3 \
   meta-gtk-osx-bootstrap \
   meta-gtk-osx-freetype \
-  meta-gtk-osx-gtk3
+  meta-gtk-osx-gtk3 \
+  meta-gtk-osx-gtkmm3
 
