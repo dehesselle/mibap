@@ -14,13 +14,12 @@ source $SELF_DIR/020-funcs.sh
 get_source $URL_GSL
 configure_make_makeinstall
 
-### install additional GNOME libraries http client/server library ##############
+### install additional GNOME libraries #########################################
 
 # libsoup - GNOME http client/server library
-# vala - compiler using GObject Type System
 # adwaita-icon-theme - icons used by Inkscape/GTK
 
-jhbuild build adwaita-icon-theme libsoup vala
+jhbuild build adwaita-icon-theme libsoup
 
 ### install Garbage Collector for C/C++ ########################################
 
