@@ -55,7 +55,7 @@ echo "prefix = '$OPT_DIR'" >> $JHBUILDRC
 echo "tarballdir = '$SRC_DIR/download'" >> $JHBUILDRC
 echo "quiet_mode = True" >> $JHBUILDRC    # suppress all build output
 echo "progress_bar = True" >> $JHBUILDRC
-echo "moduleset = $URL_GTK_OSX_MODULESET" >> $JHBUILDRC
+echo "moduleset = '$URL_GTK_OSX_MODULESET'" >> $JHBUILDRC
 
 ### bootstrap jhbuild environment ##############################################
 
