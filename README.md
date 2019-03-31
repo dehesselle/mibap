@@ -6,7 +6,7 @@ This repository contains my efforts in regards to building and packaging [Inksca
 
 - Use a __dedicated, clean macOS installation__ as build machine. "clean" as in "freshly installed + Xcode (full setup)". Nothing more, nothing less.
   - Especially no MacPorts, no Fink, no Homebrew, ... because they could interfere with the build system we're using.
-  - latest macOS 10.13.x / 10.14.x only
+  - macOS 10.13.6 with Xcode 10.1. Other versions might work but haven't been tested.
 - __Do not use your regular Mac__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:
 
     ```bash
@@ -36,21 +36,12 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `Desktop` fo
 
 ### known issues
 
-- On macOS 10.13, step `030` fails during configuration of `expat`. Open a shell (menu option `4`), manually configure via
-
-  ```bash
-  # The prefix is the value of $OPT_DIR (see 010-vars.sh), but $OPT_DIR
-  # is not available in this environment. Set the real value as prefix.
-  ./configure --prefix=/Volumes/WORK/opt
-  ```
-
-  and `exit` the shell. Then continue the build process (menu option `2`).
 - If you're logged in to the desktop (instead of doing everything headless via ssh), you'll probably get a popup asking to install Java. It's triggered by `gettext`'s configuration and can be safely ignored.
-- The build environment set up by `jhbuild` is not version-pinned, i.e. it might pull in newer/other libraries when run again later. This might introduce new problems or even breakage.
 
 ## Status
 
-As of v0.1, a working application bundle of Inkscape can be built. But this is only the starting point. There are still a lot of things missing/left to optimize, this is a work-in-progress.
+As of v0.1, a working application bundle of Inkscape can be built. But this is only the starting point. There are still a lot of things missing/left to optimize, this is a work-in-progress.  
+At some point development in this repository will cease and be continued in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape).
 
 ### History
 
