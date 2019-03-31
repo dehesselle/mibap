@@ -18,8 +18,9 @@ configure_make_makeinstall
 
 # libsoup - GNOME http client/server library
 # vala - compiler using GObject Type System
+# adwaita-icon-theme - icons used by Inkscape/GTK
 
-jhbuild build libsoup vala
+jhbuild build adwaita-icon-theme libsoup vala
 
 ### install Garbage Collector for C/C++ ########################################
 
