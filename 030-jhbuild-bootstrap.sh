@@ -9,7 +9,8 @@ source $SELF_DIR/010-vars.sh
 
 ### create ramdisk as workspace ################################################
 
-export RAMDISK
+# FIXME: ejecting disk is not reliable
+# This part will be reworked soon to make ramdisk usage optional.
 diskutil eject $(diskutil info $RAMDISK | head -n 1 | awk '{ print $3 }')
 diskutil erasevolume HFS+ "$RAMDISK" $(hdiutil attach -nomount ram://$(expr $RAMDISK_SIZE \* 1024 \* 2048))
 
