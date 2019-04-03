@@ -6,7 +6,8 @@
 
 [ -z $FUNCS_INCLUDED ] && FUNCS_INCLUDED=true || return   # include guard
 
-source 010-vars.sh
+SELF_DIR=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd -P)
+source $SELF_DIR/010-vars.sh
 
 ### get repository version string ##############################################
 
