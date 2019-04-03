@@ -48,6 +48,7 @@ URL_FREETYPE=https://download.savannah.gnu.org/releases/freetype/freetype-2.10.0
 URL_GC=https://github.com/ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz
 URL_GDL=https://github.com/GNOME/gdl/archive/GDL_3_28_0.tar.gz
 URL_GSL=http://ftp.fau.de/gnu/gsl/gsl-2.5.tar.gz
+URL_GTK_MAC_BUNDLER=https://gitlab.gnome.org/GNOME/gtk-mac-bundler/-/archive/727793cfae08dec0e1e2621078d53a02ec5f7fb3.tar.gz
 URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape
 URL_GTK_OSX_BUILD_SETUP=$URL_GTK_OSX/gtk-osx-build-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
