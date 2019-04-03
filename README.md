@@ -6,7 +6,9 @@ This repository contains my efforts in regards to building and packaging [Inksca
 
 - Use a __dedicated, clean macOS installation__ as build machine. "clean" as in "freshly installed + Xcode (full setup)". Nothing more, nothing less.
   - Especially no MacPorts, no Fink, no Homebrew, ... because they could interfere with the build system we're using.
-  - macOS 10.13.6 with Xcode 10.1. Other versions might work but haven't been tested.
+  - macOS 10.13.6 with Xcode 10.1.
+    - Other versions might work but haven't been tested.
+    - Apparently, Xcode CLI tools are sufficient. (But no long-term experience yet.)
 - __Do not use your regular Mac__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:
 
     ```bash
@@ -16,8 +18,10 @@ This repository contains my efforts in regards to building and packaging [Inksca
     $HOME/Source
     ```
 
-- __16 GiB RAM__, since we're using a 8 GiB ramdisk to build everything
-  - The Inkscape Git repository gets shallow-cloned. For a full clone, a 10 GiB ramdisk is needed.
+- __16 GiB RAM__, since we're using a 10 GiB ramdisk to build everything.
+  - Using a ramdisk speeds up the process significantly and avoids wearing out your ssd.
+  - You can choose to not use a ramdisk by setting `RAMDISK_ENABLE=false` in `010-vars.sh`.
+  - The build environment takes up ~6.5 GiB, the Inkscape Git repository ~1.8 GiB.
 - somewhat decent __internet connection__ for all the downloads
 
 ## Usage
@@ -37,6 +41,7 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `Desktop` fo
 ### known issues
 
 - If you're logged in to the desktop (instead of doing everything headless via ssh), you'll probably get a popup asking to install Java. It's triggered by `gettext`'s configuration and can be safely ignored.
+  - FIXME: `gettext` can produce an error during checkout. Choose `Rerun phase checkout` and it continues.
 
 ## Status
 

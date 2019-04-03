@@ -1,30 +1,38 @@
 # 010-vars.sh
 # https://github.com/dehesselle/mibap
 #
-# This file contains all the global variables and is meant to be sourced by 
+# This file contains all the global variables and is meant to be sourced by
 # other files.
 
 [ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
 
-#### compilation settings ######################################################
+### source .profile ############################################################
+
+# This is necessary on the first run and after changing directory settings.
+# So, better safe than sorry, and source it.
+
+source $HOME/.profile
+
+### compilation settings #######################################################
 
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
 export MAKEFLAGS="-j $CORES"
 
 ### workspace/build environment paths ##########################################
 
-RAMDISK=WORK   # name of ramdisk
-RAMDISK_SIZE=8   # unit is GiB
-WRK_DIR=/Volumes/$RAMDISK   # path to ramdisk
+WRK_DIR=$HOME/work
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
 TMP_DIR=$OPT_DIR/tmp
 SRC_DIR=$OPT_DIR/src
 LIB_DIR=$OPT_DIR/lib
 
+RAMDISK_ENABLE=true   # mount ramdisk to WRK_DIR
+RAMDISK_SIZE=10   # unit is GiB
+
 ### application bundle paths ###################################################
 
-APP_DIR=$HOME/Desktop/Inkscape.app   # if you want to change this, also change
+APP_DIR=$WRK_DIR/Inkscape.app   # if you want to change this, also change
                                      #   - inkscape.bundle
                                      #   - inkscape.plist
 APP_RES_DIR=$APP_DIR/Contents/Resources

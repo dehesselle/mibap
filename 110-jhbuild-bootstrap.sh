@@ -7,12 +7,14 @@
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
-### create ramdisk as workspace ################################################
+### create our work directory ##################################################
 
-# FIXME: ejecting disk is not reliable
-# This part will be reworked soon to make ramdisk usage optional.
-diskutil eject $(diskutil info $RAMDISK | head -n 1 | awk '{ print $3 }')
-diskutil erasevolume HFS+ "$RAMDISK" $(hdiutil attach -nomount ram://$(expr $RAMDISK_SIZE \* 1024 \* 2048))
+[ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR
+
+# Use a ramdisk to speed up things.
+if $RAMDISK_ENABLE; then
+  create_ramdisk $WRK_DIR $RAMDISK_SIZE
+fi
 
 ### setup path #################################################################
 
