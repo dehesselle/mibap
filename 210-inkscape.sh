@@ -58,7 +58,7 @@ echo 'export INKSCAPE_DATADIR=$bundle_data' >> $APP_EXE_DIR/Inkscape
 echo '$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS' >> $APP_EXE_DIR/Inkscape
 
 # add icon
-cp $SELF_DIR/inkscape.icns $APP_RES_DIR
+curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 
 if [ -z CI ]; then   # running standalone
   # update version information

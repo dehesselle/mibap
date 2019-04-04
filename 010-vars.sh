@@ -62,3 +62,11 @@ URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 # Inkscape Git
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
+# TODO icon in icns format
+# This is the only binary file in the build pipeline and it's roughly 1 MiB in
+# size. I do not want to merge that to Inkscape because it's a temporary
+# workarond: a future version of the build pipeline will generate the icns from
+# an already present png file on-the-fly. But until that's been implemented,
+# download the icns from the original "macOS Inkscape build and package"
+# repository.
+URL_INKSCAPE_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape.icns
