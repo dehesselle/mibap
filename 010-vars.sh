@@ -32,9 +32,7 @@ RAMDISK_SIZE=10   # unit is GiB
 
 ### application bundle paths ###################################################
 
-APP_DIR=$WRK_DIR/Inkscape.app   # if you want to change this, also change
-                                     #   - inkscape.bundle
-                                     #   - inkscape.plist
+APP_DIR=$WRK_DIR/Inkscape.app   # keep in sync with 'inkscape.bundle'
 APP_RES_DIR=$APP_DIR/Contents/Resources
 APP_LIB_DIR=$APP_RES_DIR/lib
 APP_BIN_DIR=$APP_RES_DIR/bin
