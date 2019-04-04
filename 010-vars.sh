@@ -1,15 +1,20 @@
-# 010-vars.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file contains all the global variables and is meant to be sourced by
-# other files.
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 010-vars.sh ###
+# This file contains all the global variables (as in: configuration for the
+# build pipeline) and gets sourced by all the other scripts.
+# If you want to override settings, the suggested way is that you create a
+# `0nn-custom.sh` file and put them there. All files named '0nn-*.sh' get
+# sourced in order of appearance.
 
 [ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
 
 ### source .profile ############################################################
 
 # This is necessary on the first run and after changing directory settings.
-# So, better safe than sorry, and source it.
+# So, we're better safe than sorry and source it.
 
 source $HOME/.profile
 
@@ -27,8 +32,8 @@ TMP_DIR=$OPT_DIR/tmp
 SRC_DIR=$OPT_DIR/src
 LIB_DIR=$OPT_DIR/lib
 
-RAMDISK_ENABLE=true   # mount ramdisk to WRK_DIR
-RAMDISK_SIZE=10   # unit is GiB
+RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
+RAMDISK_SIZE=10       # unit is GiB
 
 ### application bundle paths ###################################################
 

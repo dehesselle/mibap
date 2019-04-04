@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# 130-jhbuild-gtk3.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# Install everything GTK3 required by Inkscape.
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 130-jhbuild-gtk3.sh ###
+# Install GTK3 libraries.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done

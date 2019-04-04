@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# 210-inkscape.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# Finally, build and package Inkscape :-).
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 210-inkscape.sh ###
+# Build Inscape and create an application bundle.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
@@ -11,8 +13,8 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 if [ -z CI ]; then   # running standalone
   cd $SRC_DIR
-  git clone --depth 1 https://gitlab.com/inkscape/inkscape
-  #git clone https://gitlab.com/inkscape/inkscape   # this is a >1.5 GiB download
+  git clone --depth 1 $URL_INKSCAPE
+  #git clone $URL_INKSCAPE   # this is a >1.5 GiB download
   mkdir inkscape_build
   cd inkscape_build
   cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ../inkscape
@@ -45,7 +47,11 @@ install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resourc
 install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Resources/lib/libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 
 # add INKSCAPE_DATADIR to launch script
-# TODO instead of deleting and re-inserting, insert with sed before pattern
+# TODO
+# - instead of deleting and re-inserting, insert with "sed before" pattern
+# - As follow-up to https://gitlab.com/inkscape/inkscape/merge_requests/612,
+#   it should not be necessary to rely on $INKSCAPE_DATADIR. Paths in
+#   'path-prefix.h' are supposed to work. Needs to be looked into with @ede123.
 sed -i '' -e '$d' $APP_EXE_DIR/Inkscape
 sed -i '' -e '$d' $APP_EXE_DIR/Inkscape
 echo 'export INKSCAPE_DATADIR=$bundle_data' >> $APP_EXE_DIR/Inkscape

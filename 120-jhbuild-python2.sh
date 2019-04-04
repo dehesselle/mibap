@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# 120-jhbuild-python2.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# Install working Python 2 w/SSL.
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 120-jhbuild-python2.sh ###
+# Install a current complete release of Python 2 w/SSL.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done

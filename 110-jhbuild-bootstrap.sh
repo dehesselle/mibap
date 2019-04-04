@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# 110-jhbuild-bootstrap.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 110-jhbuild-bootstrap.sh ###
 # Bootstrap the jhbuild environment.
 
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)

@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# 140-jhbuild-inkdeps.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 140-jhbuild-inkdeps.sh ###
 # Install additional dependencies into our jhbuild environment required for
 # building Inkscape.
 

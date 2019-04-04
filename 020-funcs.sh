@@ -1,8 +1,11 @@
-# 020-funcs.sh
-# https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file contains all the global functions and is meant to be sourced by 
-# other files.
+# This file is part of the build pipeline for Inkscape on macOS.
+#
+# ### 020-vars.sh ###
+# This file contains all the functions used by the other scripts. It helps
+# modularizing functionalities and keeping the scripts that do the real work
+# as clean as possible.
 
 [ -z $FUNCS_INCLUDED ] && FUNCS_INCLUDED=true || return   # include guard
 
