@@ -4,24 +4,25 @@ This repository contains my efforts in regards to building and packaging [Inksca
 
 ## Requirements
 
-- Use a __dedicated, clean macOS installation__ as build machine. "clean" as in "freshly installed + Xcode (full setup)". Nothing more, nothing less.
+- Use a __dedicated, clean macOS installation__ as build machine. "clean" as in "freshly installed + Xcode CLI tools". Nothing more, nothing less.
   - Especially no MacPorts, no Fink, no Homebrew, ... because they could interfere with the build system we're using.
   - macOS 10.13.6 with Xcode 10.1.
     - Other versions might work but haven't been tested.
-    - Apparently, Xcode CLI tools are sufficient. (But no long-term experience yet.)
-- __Do not use your regular Mac__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:
+  - A full Xcode installation won't hurt, but is not required.
+- __Use a dedicated user account__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:  
+_(comments based on default configuration)_
 
     ```bash
-    $HOME/.cache
-    $HOME/.local
-    $HOME/.profile
-    $HOME/Source
+    $HOME/.cache       # will be symlinked to $HOME/work/tmp
+    $HOME/.local       # will be symlinked to $HOME/work/opt
+    $HOME/.profile     # will be overwritten
+    $HOME/Source       # will be symlinked to $HOME/work/opt/src
     ```
 
 - __16 GiB RAM__, since we're using a 10 GiB ramdisk to build everything.
   - Using a ramdisk speeds up the process significantly and avoids wearing out your ssd.
-  - You can choose to not use a ramdisk by setting `RAMDISK_ENABLE=false` in `010-vars.sh`.
-  - The build environment takes up ~6.5 GiB, the Inkscape Git repository ~1.8 GiB.
+  - You can choose to not use a ramdisk by overriding `RAMDISK_ENABLE=false` in a e.g. `011-custom.sh` file.
+  - The build environment takes up ~6.5 GiB of disk space, the Inkscape Git repository ~1.8 GiB. Subject to change and YMMV.
 - somewhat decent __internet connection__ for all the downloads
 
 ## Usage
@@ -46,7 +47,7 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `Desktop` fo
 ## Status
 
 As of v0.1, a working application bundle of Inkscape can be built. But this is only the starting point. There are still a lot of things missing/left to optimize, this is a work-in-progress.  
-At some point development in this repository will cease and be continued in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape).
+At some point development in this repository may cease and be continued in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape).
 
 ### History
 
