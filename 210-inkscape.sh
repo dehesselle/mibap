@@ -11,21 +11,20 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### build Inkscape #############################################################
 
-if [ -z CI ]; then   # running standalone
+if [ -z $CI_JOB_ID ]; then   # running standalone
   cd $SRC_DIR
   git clone --depth 1 $URL_INKSCAPE
-  #git clone $URL_INKSCAPE   # this is a >1.5 GiB download
+  #git clone $URL_INKSCAPE   # this is a >1.6 GiB download
   mkdir inkscape_build
   cd inkscape_build
   cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ../inkscape
 else   # running as CI job
-  if [ -d $WRK_DIR/inkscape_build ]; then   # cleanup previous run
-    rm -rf $WRK_DIR/inkscape_build
+  if [ -d $SELF_DIR/../../build ]; then   # cleanup previous run
+    rm -rf $SELF_DIR/../../build
   fi
-  cd $WRK_DIR
-  mkdir $WRK_DIR/inkscape_build
-  cd inkscape_build
-  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF $SELF_DIR/../..
+  mkdir $SELF_DIR/../../build
+  cd $SELF_DIR/../../build
+  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ..
 fi
 
 make
@@ -60,7 +59,7 @@ echo '$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS' >> $APP_EXE_DIR
 # add icon
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 
-if [ -z CI ]; then   # running standalone
+if [ -z $CI_JOB_ID ]; then   # running standalone
   # update version information
   /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '1.0alpha-g$(get_repo_version $SRC_DIR/inkscape)'" $APP_PLIST
   /usr/libexec/PlistBuddy -c "Set CFBundleVersion '1.0alpha-g$(get_repo_version $SRC_DIR/inkscape)'" $APP_PLIST
@@ -73,3 +72,8 @@ fi
 ### create disk image for distribution #########################################
 
 # TODO
+
+if [ ! -z $CI_JOB_ID ]; then   # create build artifcat for CI job
+  cd $WRK_DIR
+  tar c $APP_DIR | xz > $SELF_DIR/../../build/Inkscape.tar.xz
+fi

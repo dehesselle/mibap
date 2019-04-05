@@ -18,10 +18,12 @@
 
 source $HOME/.profile
 
-### compilation settings #######################################################
+### general settings ###########################################################
 
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
 export MAKEFLAGS="-j $CORES"
+
+XZ_OPT=-T0   # use all available cores
 
 ### workspace/build environment paths ##########################################
 
