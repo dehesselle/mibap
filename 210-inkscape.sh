@@ -6,6 +6,8 @@
 # ### 210-inkscape.sh ###
 # Build Inscape and create an application bundle.
 
+set -e
+
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
