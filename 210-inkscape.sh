@@ -38,6 +38,11 @@ install_name_tool -change @rpath/libpoppler-glib.8.dylib $LIB_DIR/libpoppler-gli
 
 ### package Inkscape ###########################################################
 
+if [ ! -z $CI_JOB_ID ]; then   # running as CI job
+  # $SELF_DIR is different between "standalone" and "CI job"
+  cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $SELF_DIR
+fi
+
 cd $SELF_DIR
 jhbuild run gtk-mac-bundler inkscape.bundle
 
