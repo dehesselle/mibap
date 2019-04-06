@@ -16,7 +16,7 @@
 # This is necessary on the first run and after changing directory settings.
 # So, we're better safe than sorry and source it.
 
-source $HOME/.profile
+[ -f $HOME/.profile ] && source $HOME/.profile
 
 ### general settings ###########################################################
 
