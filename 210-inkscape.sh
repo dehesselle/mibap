@@ -6,8 +6,6 @@
 # ### 210-inkscape.sh ###
 # Build Inscape and create an application bundle.
 
-set -e
-
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
@@ -65,6 +63,8 @@ echo '$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS' >> $APP_EXE_DIR
 
 # add icon
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
+
+set -e   # TODO kind of cheap, need better error handling
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
   # update version information
