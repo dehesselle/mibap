@@ -82,5 +82,5 @@ fi
 
 if [ ! -z $CI_JOB_ID ]; then   # create build artifcat for CI job
   cd $WRK_DIR
-  tar c $APP_DIR | xz > $SELF_DIR/../../build/Inkscape.tar.xz
+  tar c $(basename $APP_DIR) | xz > $SELF_DIR/../../build/Inkscape.tar.xz
 fi
