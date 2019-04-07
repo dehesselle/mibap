@@ -2,7 +2,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 010-vars.sh ###
+# ### 020-vars.sh ###
 # This file contains all the global variables (as in: configuration for the
 # build pipeline) and gets sourced by all the other scripts.
 # If you want to override settings, the suggested way is that you create a
@@ -18,33 +18,82 @@
 
 [ -f $HOME/.profile ] && source $HOME/.profile
 
-### general settings ###########################################################
+### multithreading #############################################################
 
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
 export MAKEFLAGS="-j $CORES"
 
 XZ_OPT=-T0   # use all available cores
 
+### ramdisk ####################################################################
+
+RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
+RAMDISK_SIZE=10       # unit is GiB
+
 ### workspace/build environment paths ##########################################
 
-WRK_DIR=$HOME/work
+# The current behavior of selecting a $WRK_DIR:
+#   1. If there IS a pre-existing value (user configuration), use that.
+#     a. If it IS NOT writable, exit with error.
+#   2. If there IS NOT a pre-existing value, try to use $DEFAULT_SYSTEM_WRK_DIR.
+#     a. If it DOES exist and IS writable, continue using that.
+#     b. If it DOES exist and IS NOT writable, exit with error.
+#     c. If it DOES NOT exist, use $DEFAULT_USER_WRK_DIR.
+#
+# The reasoning behind this:
+# In regards to (1), if the user configured a directory, it has to be used. If
+# it can't be used, exit with error (as a user would expect).
+# In regards to (2), using an arbitrary system-level location like
+# $DEFAULT_SYSTEM_WRK_DIR is considered optional as in "you have to opt-in"
+# (and not mandatory at all). You can tell us that you "opted-in" by creating
+# that directory beforehand and ensuring it's writable (2a). Than it's going to
+# be used. (I don't like writing scripts that write to arbitrary locations on
+# their own. Also, that would require 'sudo' permission.)
+# If $DEFAULT_SYSTEM_WRK_DIR does not exist, it means that you did not
+# "opt-in" (2c) and we're going to use the user-based default location,
+# $DEFAULT_USER_WRK_DIR. If $DEFAULT_SYSTEM_WRK_DIR does exist but is not
+# writable, the situation is unclear and we exit in error (2b).
+#
+# But why bother with a $DEFAULT_SYSTEM_WRK_DIR at all? Because that's the only
+# way a pre-built build environment can be used (hard-coded library locations).
+
+if [ -z $WRK_DIR ]; then     # no pre-existing value
+  WRK_DIR=$DEFAULT_SYSTEM_WRK_DIR   # try default first
+
+  if [ -d $WRK_DIR ]; then      # needs to exist
+    if [ ! -w $WRK_DIR ]; then  # and must be writable if we're going to use it
+      echo "directory exists but not writable: $WRK_DIR"
+      exit 1
+    fi
+  else   # use work directory below user's home (writable for sure)
+    WRK_DIR=$DEFAULT_USER_WRK_DIR
+  fi
+fi
+
+if [ $(mkdir -p $WRK_DIR 2>/dev/null; echo $?) -eq 0 ] &&
+   [ -w $WRK_DIR ]; then
+  echo "using build directory: $WRK_DIR"
+else
+  echo "directory not writable: $WRK_DIR"
+  exit 1
+fi
+
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
 TMP_DIR=$OPT_DIR/tmp
 SRC_DIR=$OPT_DIR/src
 LIB_DIR=$OPT_DIR/lib
 
-RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
-RAMDISK_SIZE=10       # unit is GiB
-
 ### application bundle paths ###################################################
 
-APP_DIR=$WRK_DIR/Inkscape.app   # keep in sync with 'inkscape.bundle'
+APP_DIR=$WRK_DIR/Inkscape.app
 APP_RES_DIR=$APP_DIR/Contents/Resources
 APP_LIB_DIR=$APP_RES_DIR/lib
 APP_BIN_DIR=$APP_RES_DIR/bin
 APP_EXE_DIR=$APP_DIR/Contents/MacOS
 APP_PLIST=$APP_DIR/Contents/Info.plist
+
+export APP_PARENT_DIR=$(dirname $APP_DIR)   # used by 'inkscape.bundle'
 
 ### downlad URLs ###############################################################
 

@@ -2,7 +2,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 020-vars.sh ###
+# ### 030-funcs.sh ###
 # This file contains all the functions used by the other scripts. It helps
 # modularizing functionalities and keeping the scripts that do the real work
 # as clean as possible.
