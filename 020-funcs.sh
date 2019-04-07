@@ -6,11 +6,12 @@
 # This file contains all the functions used by the other scripts. It helps
 # modularizing functionalities and keeping the scripts that do the real work
 # as clean as possible.
+# This file does not include the "vars" files it requires itself (on purpose,
+# for flexibility reasons), the script that wants to use these functions
+# needs to do that. The suggest way is to always source all the "0nn-*.sh"
+# files in order.
 
 [ -z $FUNCS_INCLUDED ] && FUNCS_INCLUDED=true || return   # include guard
-
-SELF_DIR=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd -P)
-source $SELF_DIR/010-vars.sh
 
 ### get repository version string ##############################################
 
