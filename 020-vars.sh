@@ -30,6 +30,18 @@ XZ_OPT=-T0   # use all available cores
 RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
 RAMDISK_SIZE=10       # unit is GiB
 
+### try to use pre-built build environment #####################################
+
+# In order to just download and extract a pre-built build environment
+#   - it has to be enabled here ('PREBUILT_BUILDENV_ENABLE=true')
+#   - you have to use $DEFAULT_SYSTEM_WRK_DIR as your $WRK_DIR
+#     (see commentary in the section below for explanation)
+#
+# It does not hurt to have it enabled by default, because if it cannot be
+# used, it won't be used and doesn't cause errors.
+
+PREBUILT_BUILDENV_ENABLE=true
+
 ### workspace/build environment paths ##########################################
 
 # The current behavior of selecting a $WRK_DIR:
@@ -112,7 +124,13 @@ URL_LIBSOUP=https://ftp.gnome.org/pub/GNOME/sources/libsoup/2.65/libsoup-2.65.92
 URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
-# Inkscape Git
+
+# pre-built build environment (based on https://github.com/dehesselle/mibap v0.4)
+# TODO Find another place to host this? 
+# (if so, also change download procedure in 'create_buildenv.sh')
+URL_PREBUILT_BUILDENV=https://drive.google.com/open?id=1h8UTVTe45mYG5bZFupsd_TNNqs5wZt_w
+
+# Inkscape Git repository
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # TODO icon in icns format
 # This is the only binary file in the build pipeline and it's roughly 1 MiB in

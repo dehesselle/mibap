@@ -99,3 +99,25 @@ function create_ramdisk
   fi
 }
 
+### download big file from Google drive ########################################
+
+# source: https://stackoverflow.com/a/38937732
+
+function gdrive_download
+{
+  local url=$1   # e.g. https://drive.google.com/open?id=123456abcdef
+  local out=$2   # filename (optional)
+
+  [[ $url =~ id=(.+) ]] && id=${BASH_REMATCH[1]}   # extract id
+
+  url="https://drive.google.com/uc?export=download"
+  local cookie=$(mktemp)
+  # we're not using $filename right now
+  local filename="$(curl -sc $cookie "${url}&id=${id}" |
+    grep -o '="uc-name.*</span>' |
+    sed 's/.*">//;s/<.a> .*//')"
+  local confirm="$(awk '/_warning_/ {print $NF}' $cookie)"
+  [ ! -z $out ] && filename=$out   # use specified filename if given
+  curl -Lb $cookie "${url}&confirm=${confirm}&id=${id}" -o $filename
+}
+

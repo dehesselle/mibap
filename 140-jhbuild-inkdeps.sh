@@ -53,7 +53,6 @@ cmake_make_makeinstall -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
 
 get_source $URL_GTK_MAC_BUNDLER
 make install
-cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $SELF_DIR
 
 ### install double-conversion ##################################################
 
