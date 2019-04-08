@@ -23,8 +23,8 @@ fi
 # WARNING: Operations like this are the reason that you're supposed to use
 # a dedicated machine for building. This script does not care for your
 # data.
-echo "export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin" > ~/.profile
-source ~/.profile
+echo "export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin" > $HOME/.profile
+source $HOME/.profile
 
 ### setup directories for jhbuild ##############################################
 
@@ -35,10 +35,10 @@ mkdir -p $SRC_DIR/download     # downloaded tarballs
 # WARNING: Operations like this are the reason that you're supposed to use
 # a dedicated machine for building. This script does not care for your
 # data.
-rm -rf ~/.cache ~/.local ~/Source   # remove remnants of previous run
-ln -sf $TMP_DIR ~/.cache   # link to our workspace
-ln -sf $OPT_DIR ~/.local   # link to our workspace
-ln -sf $SRC_DIR ~/Source   # link to our workspace
+rm -rf $HOME/.cache $HOME/.local $HOME/Source   # remove remnants of previous run
+ln -sf $TMP_DIR $HOME/.cache   # link to our workspace
+ln -sf $OPT_DIR $HOME/.local   # link to our workspace
+ln -sf $SRC_DIR $HOME/Source   # link to our workspace
 
 ### install and configure jhbuild ##############################################
 
