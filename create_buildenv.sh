@@ -18,10 +18,7 @@ if $PREBUILT_BUILDENV_ENABLE &&
   if $RAMDISK_ENABLE; then
     create_ramdisk $WRK_DIR $RAMDISK_SIZE
   fi
-  cd $WRK_DIR
-  gdrive_download $URL_PREBUILT_BUILDENV
-  tar xJf mibap*.tar.xz
-  rm mibap*.tar.xz
+  get_source $URL_PREBUILT_BUILDENV $WRK_DIR
 else  # we need to build from scratch
   for script in $SELF_DIR/1??-*.sh; do
     $script

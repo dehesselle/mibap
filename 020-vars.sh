@@ -125,10 +125,8 @@ URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 
-# pre-built build environment (based on https://github.com/dehesselle/mibap v0.4)
-# TODO Find another place to host this? 
-# (if so, also change download procedure in 'create_buildenv.sh')
-URL_PREBUILT_BUILDENV=https://drive.google.com/open?id=1h8UTVTe45mYG5bZFupsd_TNNqs5wZt_w
+# pre-built build environment
+URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.4/mibap_v0.4.tar.xz
 
 # Inkscape Git repository
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
@@ -140,3 +138,4 @@ URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # download the icns from the original "macOS Inkscape build and package"
 # repository.
 URL_INKSCAPE_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape.icns
+

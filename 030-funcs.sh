@@ -43,9 +43,13 @@ function get_comp_flag
 function get_source
 {
   local url=$1
-  local log=$TMP_DIR/$FUNCNAME.log
+  local target_dir=$2   # optional argument, defaults to $SRC_DIR
 
-  cd $SRC_DIR
+  [ ! -d $TMP_DIR ] && mkdir -p $TMP_DIR
+  local log=$(mktemp $TMP_DIR/$FUNCNAME.XXXX)
+  [ -z $target_dir ] && target_dir=$SRC_DIR
+
+  cd $target_dir
 
   # This downloads a file and pipes it directly into tar (file is not saved
   # to disk) to extract it. Output is saved temporarily to determine
@@ -97,27 +101,5 @@ function create_ramdisk
     newfs_hfs -v "RAMDISK" $device
     mount -o noatime,nobrowse -t hfs $device $dir
   fi
-}
-
-### download big file from Google drive ########################################
-
-# source: https://stackoverflow.com/a/38937732
-
-function gdrive_download
-{
-  local url=$1   # e.g. https://drive.google.com/open?id=123456abcdef
-  local out=$2   # filename (optional)
-
-  [[ $url =~ id=(.+) ]] && id=${BASH_REMATCH[1]}   # extract id
-
-  url="https://drive.google.com/uc?export=download"
-  local cookie=$(mktemp)
-  # we're not using $filename right now
-  local filename="$(curl -sc $cookie "${url}&id=${id}" |
-    grep -o '="uc-name.*</span>' |
-    sed 's/.*">//;s/<.a> .*//')"
-  local confirm="$(awk '/_warning_/ {print $NF}' $cookie)"
-  [ ! -z $out ] && filename=$out   # use specified filename if given
-  curl -Lb $cookie "${url}&confirm=${confirm}&id=${id}" -o $filename
 }
 
