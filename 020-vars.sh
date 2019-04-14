@@ -90,19 +90,19 @@ else
   exit 1
 fi
 
-OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
-TMP_DIR=$OPT_DIR/tmp
-SRC_DIR=$OPT_DIR/src
 LIB_DIR=$OPT_DIR/lib
+OPT_DIR=$WRK_DIR/opt
+SRC_DIR=$OPT_DIR/src
+TMP_DIR=$OPT_DIR/tmp
 
 ### application bundle paths ###################################################
 
 APP_DIR=$WRK_DIR/Inkscape.app
 APP_RES_DIR=$APP_DIR/Contents/Resources
-APP_LIB_DIR=$APP_RES_DIR/lib
 APP_BIN_DIR=$APP_RES_DIR/bin
 APP_EXE_DIR=$APP_DIR/Contents/MacOS
+APP_LIB_DIR=$APP_RES_DIR/lib
 APP_PLIST=$APP_DIR/Contents/Info.plist
 
 export APP_PARENT_DIR=$(dirname $APP_DIR)   # used by 'inkscape.bundle'
@@ -119,15 +119,6 @@ URL_GTK_MAC_BUNDLER=https://gitlab.gnome.org/GNOME/gtk-mac-bundler/-/archive/727
 URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape
 URL_GTK_OSX_BUILD_SETUP=$URL_GTK_OSX/gtk-osx-build-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
-URL_LIBPSL=https://github.com/rockdaboot/libpsl/releases/download/libpsl-0.20.2/libpsl-0.20.2.tar.gz
-URL_LIBSOUP=https://ftp.gnome.org/pub/GNOME/sources/libsoup/2.65/libsoup-2.65.92.tar.xz
-URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
-URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
-URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
-
-# pre-built build environment
-URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.4/mibap_v0.4.tar.xz
-
 # Inkscape Git repository
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # TODO icon in icns format
@@ -138,4 +129,11 @@ URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # download the icns from the original "macOS Inkscape build and package"
 # repository.
 URL_INKSCAPE_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape.icns
+URL_LIBPSL=https://github.com/rockdaboot/libpsl/releases/download/libpsl-0.20.2/libpsl-0.20.2.tar.gz
+URL_LIBSOUP=https://ftp.gnome.org/pub/GNOME/sources/libsoup/2.65/libsoup-2.65.92.tar.xz
+URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
+URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
+URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
+# pre-built build environment
+URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.4/mibap_v0.4.tar.xz
 
