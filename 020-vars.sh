@@ -90,9 +90,9 @@ else
   exit 1
 fi
 
+OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
 LIB_DIR=$OPT_DIR/lib
-OPT_DIR=$WRK_DIR/opt
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
 
