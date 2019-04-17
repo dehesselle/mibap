@@ -48,16 +48,19 @@ install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resourc
 install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resources/lib/libpoppler.85.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Resources/lib/libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 
-# add INKSCAPE_DATADIR to launch script
-# TODO
-# - instead of deleting and re-inserting, insert with "sed before" pattern
-# - As follow-up to https://gitlab.com/inkscape/inkscape/merge_requests/612,
-#   it should not be necessary to rely on $INKSCAPE_DATADIR. Paths in
-#   'path-prefix.h' are supposed to work. Needs to be looked into with @ede123.
-sed -i '' -e '$d' $APP_EXE_DIR/Inkscape
-sed -i '' -e '$d' $APP_EXE_DIR/Inkscape
-echo 'export INKSCAPE_DATADIR=$bundle_data' >> $APP_EXE_DIR/Inkscape
-echo '$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS' >> $APP_EXE_DIR/Inkscape
+# patch the launch script
+# TODO: as follow-up to https://gitlab.com/inkscape/inkscape/merge_requests/612,
+# it should not be necessary to rely on $INKSCAPE_DATADIR. Paths in
+# 'path-prefix.h' are supposed to work. Needs to be looked into with @ede123.
+
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_DATADIR=$bundle_data'
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_data/locale'
+
+# copy locales
+# TODO: probably best to copy all locales from all linked libraries
+copy_locale inkscape.mo
+copy_locale gtk-mac-integration.mo
+copy_locale gtk30-properties.mo
 
 # add icon
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS

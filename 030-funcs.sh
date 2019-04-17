@@ -103,3 +103,36 @@ function create_ramdisk
   fi
 }
 
+### insert line into a textfile ################################################
+
+# insert_before [filename] '[insert before this pattern]' '[line to insert]'
+
+function insert_before 
+{
+  local file=$1
+  local pattern=$2
+  local line=$3
+
+  local file_tmp=$(mktemp)
+  awk "/${pattern}/{print \"$line\"}1" $file > $file_tmp
+  cat $file_tmp > $file   # we don't 'mv' to preserve permissions
+  rm $file_tmp
+}
+
+### copy locale file to application bundle #####################################
+
+function copy_locale
+{
+  local filename=$1
+
+  local original_dir=$(pwd)
+
+  cd $OPT_DIR/share/locale
+  for file in $(find . -name "$filename"); do
+    mkdir -p $APP_RES_DIR/share/locale/$(dirname $file)
+    cp $file $APP_RES_DIR/share/locale/$file
+  done
+
+  cd $original_dir
+}
+
