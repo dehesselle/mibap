@@ -56,12 +56,6 @@ install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Res
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_DATADIR=$bundle_data'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_data/locale'
 
-# copy locales
-# TODO: probably best to copy all locales from all linked libraries
-copy_locale inkscape.mo
-copy_locale gtk-mac-integration.mo
-copy_locale gtk30-properties.mo
-
 # add icon
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 

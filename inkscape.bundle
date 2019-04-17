@@ -85,7 +85,12 @@
   <translations  name="gtk30">
     ${prefix}/share/locale
   </translations>
-
+  <translations  name="gtk30-properties">
+    ${prefix}/share/locale
+  </translations>
+  <translations  name="inkscape">
+    ${prefix}/share/locale
+  </translations>
 
   <!-- Data to copy in, usually Glade/UI files, images, sounds files
        etc. The destination inside the bundle can be specified if the
@@ -106,9 +111,11 @@
   <data>
     ${prefix}/share/icons
   </data>
-
   <data>
     ${prefix}/share/inkscape
+  </data>
+  <data>
+    ${prefix}/share/glib-2.0
   </data>
 
   <!-- Copy icons. Note that the .icns file is an Apple format which

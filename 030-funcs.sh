@@ -119,20 +119,3 @@ function insert_before
   rm $file_tmp
 }
 
-### copy locale file to application bundle #####################################
-
-function copy_locale
-{
-  local filename=$1
-
-  local original_dir=$(pwd)
-
-  cd $OPT_DIR/share/locale
-  for file in $(find . -name "$filename"); do
-    mkdir -p $APP_RES_DIR/share/locale/$(dirname $file)
-    cp $file $APP_RES_DIR/share/locale/$file
-  done
-
-  cd $original_dir
-}
-
