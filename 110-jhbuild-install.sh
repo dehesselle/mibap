@@ -37,10 +37,10 @@ mkdir -p $SRC_DIR/download     # downloaded tarballs
 # WARNING: Operations like this are the reason that you're supposed to use
 # a dedicated machine for building. This script does not care for your
 # data.
-rm -rf $HOME/.cache $HOME/.local $HOME/Source
+rm -rf $HOME/.cache
+rm -rf $HOME/.local
 ln -sf $TMP_DIR $HOME/.cache   # link to our workspace
 ln -sf $OPT_DIR $HOME/.local   # link to our workspace
-ln -sf $SRC_DIR $HOME/Source   # link to our workspace
 
 ### install and configure jhbuild ##############################################
 
@@ -49,6 +49,7 @@ rm $HOME/.jhbuild*
 
 # install jhbuild
 cd $WRK_DIR
+export SRC_DIR   # used as '$SOURCE' inside jhbuild
 bash <(curl -s $URL_GTK_OSX_BUILD_SETUP)   # run jhbuild setup script
 
 # configure jhbuild
