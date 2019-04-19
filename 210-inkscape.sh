@@ -11,11 +11,13 @@
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
+set -e
+
 ### build Inkscape #############################################################
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
   cd $SRC_DIR
-  git clone --depth 1 $URL_INKSCAPE
+  git clone --depth 10 $URL_INKSCAPE
   #git clone $URL_INKSCAPE   # this is a >1.6 GiB download
   mkdir inkscape_build
   cd inkscape_build
@@ -61,16 +63,14 @@ insert_before $APP_EXE_DIR/Inkscape 'export XDG_CONFIG_DIRS' '\
 export XDG_DATA_HOME=$HOME/Library/Application Support/Inkscape/data\
 export XDG_CONFIG_HOME=$HOME/Library/Application Support/Inkscape/config\
 export XDG_CACHE_HOME=$HOME/Library/Application Support/Inkscape/cache\
-mkdir -p "$XDG_DATA_HOME\
-mkdir -p "$XDG_CONFIG_HOME\
-mkdir -p "$XDG_CACHE_HOME\
+mkdir -p $XDG_DATA_HOME\
+mkdir -p $XDG_CONFIG_HOME\
+mkdir -p $XDG_CACHE_HOME\
 '
 
 # add icon
 # TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
-
-set -e   # TODO kind of cheap, need better error handling
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
   # update version information
