@@ -40,9 +40,11 @@ install_name_tool -change @rpath/libpoppler-glib.8.dylib $LIB_DIR/libpoppler-gli
 
 ### package Inkscape ###########################################################
 
+rm -rf $ARTIFACT_DIR/*   # cleanup previous run
+export  ARTIFACT_DIR     # referenced in 'inkscape.bundle'
+
 cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $SELF_DIR
 cd $SELF_DIR
-export ARTIFACT_DIR   # referenced in 'inkscape.bundle'
 jhbuild run gtk-mac-bundler inkscape.bundle
 
 # patch library locations
