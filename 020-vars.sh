@@ -136,5 +136,5 @@ URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 # pre-built build environment
-URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.4/mibap_v0.4.tar.xz
+URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.6/mibap_v0.6.tar.xz
 
