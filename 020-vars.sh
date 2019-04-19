@@ -98,14 +98,15 @@ TMP_DIR=$OPT_DIR/tmp
 
 ### application bundle paths ###################################################
 
-APP_DIR=$WRK_DIR/Inkscape.app
+ARTIFACT_DIR=$WRK_DIR/artifact   # artifacts from CI pipeline/target dir for
+mkdir -p $ARTIFACT_DIR           # app; also referenced in 'inkscape.bundle'
+
+APP_DIR=$ARTIFACT_DIR/Inkscape.app
 APP_RES_DIR=$APP_DIR/Contents/Resources
 APP_BIN_DIR=$APP_RES_DIR/bin
 APP_EXE_DIR=$APP_DIR/Contents/MacOS
 APP_LIB_DIR=$APP_RES_DIR/lib
 APP_PLIST=$APP_DIR/Contents/Info.plist
-
-export APP_PARENT_DIR=$(dirname $APP_DIR)   # used by 'inkscape.bundle'
 
 ### downlad URLs ###############################################################
 
