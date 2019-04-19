@@ -56,7 +56,18 @@ install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Res
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_DATADIR=$bundle_data'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_data/locale'
 
+# add XDG paths
+insert_before $APP_EXE_DIR/Inkscape 'export XDG_CONFIG_DIRS' '\
+export XDG_DATA_HOME=$HOME/Library/Application Support/Inkscape/data\
+export XDG_CONFIG_HOME=$HOME/Library/Application Support/Inkscape/config\
+export XDG_CACHE_HOME=$HOME/Library/Application Support/Inkscape/cache\
+mkdir -p "$XDG_DATA_HOME\
+mkdir -p "$XDG_CONFIG_HOME\
+mkdir -p "$XDG_CACHE_HOME\
+'
+
 # add icon
+# TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 
 set -e   # TODO kind of cheap, need better error handling
