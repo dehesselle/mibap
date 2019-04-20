@@ -3,8 +3,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 130-jhbuild-python2.sh ###
-# Install a current complete release of Python 2 w/SSL.
+# ### 130-jhbuild-python.sh ###
+# Install Python 2 and 3.
 
 ### load settings and functions ################################################
 
@@ -33,3 +33,12 @@ cd $SRC_DIR
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 jhbuild run python get-pip.py
 jhbuild run pip install six   # required for a package in meta-gtk-osx-bootstrap
+
+### install Python 3 ###########################################################
+
+# For some reason the 'install' fails (since '--enable-framework') when
+# python3 is pulled in as dependency. If we install it separately,
+# it installs fine. And we need the framework-version to bundle it with
+# Inkscape later.
+
+jhbuild build python3
