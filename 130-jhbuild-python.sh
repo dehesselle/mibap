@@ -36,16 +36,20 @@ jhbuild run pip install six   # required for a package in meta-gtk-osx-bootstrap
 
 ### install Python 3 ###########################################################
 
-# For some reason the 'install' fails (since '--enable-framework') when
-# python3 is pulled in as dependency. If we install it separately,
-# it installs fine. And we need the framework-version to bundle it with
-# Inkscape later.
+# FIXME: For some reason the 'install' fails (since '--enable-framework') when
+# Python 3 is built non-interactively.
+# Needs fixing ASAP.
+
+echo "error: sorry, Python 3 installation is broken"
+echo "run 'jhbuild build python3' manually"
+
+exit 1
 
 jhbuild build python3
 
 # make library link path relative
-install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin python3.6
-install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin python3.6m
+install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6
+install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6m
 
 # replace hard-coded interpreter path with environment lookup
 PYTHON_BIN_DIR=$OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin
