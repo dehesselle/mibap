@@ -74,14 +74,12 @@ mkdir -p $XDG_CACHE_HOME\
 # add Python paths
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_bin:$PATH'
 
-# TODO a very poor man's copy job
-cd $OPT_DIR
-tar cpf $WRK_DIR/frameworks.tar Frameworks
-cd $APP_CON_DIR
-tar xpf $WRK_DIR/frameworks.tar
-rm $WRK_DIR/frameworks.tar
+mkdir -p $APP_BIN_DIR
+cd $APP_BIN_DIR
+ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
 
-cd $SELF_DIR
+# copy Python framework to app bundle
+rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
 
 # add icon
 # TODO: create from Inkscape assets on-the-fly
