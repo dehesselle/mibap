@@ -81,6 +81,12 @@ ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
 # copy Python framework to app bundle
 rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
 
+# patch python library location
+chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
+install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
+# patch python app inside framework
+install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
+
 # add icon
 # TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
