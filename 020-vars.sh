@@ -101,11 +101,12 @@ TMP_DIR=$OPT_DIR/tmp
 ARTIFACT_DIR=$WRK_DIR/artifacts   # artifacts from CI pipeline/target dir for
 
 APP_DIR=$ARTIFACT_DIR/Inkscape.app
-APP_RES_DIR=$APP_DIR/Contents/Resources
+APP_CON_DIR=$APP_DIR/Contents
+APP_RES_DIR=$APP_CON/Resources
 APP_BIN_DIR=$APP_RES_DIR/bin
-APP_EXE_DIR=$APP_DIR/Contents/MacOS
+APP_EXE_DIR=$APP_CON/MacOS
 APP_LIB_DIR=$APP_RES_DIR/lib
-APP_PLIST=$APP_DIR/Contents/Info.plist
+APP_PLIST=$APP_CON/Info.plist
 
 ### downlad URLs ###############################################################
 

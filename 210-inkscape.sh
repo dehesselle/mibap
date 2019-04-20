@@ -71,6 +71,18 @@ mkdir -p $XDG_CONFIG_HOME\
 mkdir -p $XDG_CACHE_HOME\
 '
 
+# add Python paths
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_bin:$PATH'
+
+# TODO a very poor man's copy job
+cd $OPT_DIR
+tar cpf $WRK_DIR/frameworks.tar Frameworks
+cd $APP_CON_DIR
+tar xpf $WRK_DIR/frameworks.tar
+rm $WRK_DIR/frameworks.tar
+
+cd $SELF_DIR
+
 # add icon
 # TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
