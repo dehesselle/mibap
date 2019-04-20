@@ -39,14 +39,17 @@ from inside the cloned repository. This will execute the whole suite of scripts,
 
 All the action takes place inside the ramdisk. A few locations do have to be redirected/symlinked to the ramdisk (that is what the above warning "...these scripts will delete and overwrite your data..." is about) and your `.profile` just gets overwritten to set `PATH` and nothing more. The good thing about this is the painless re-executability and keeping the host OS clean (mostly clean - a few configuration files below `$HOME` do remain) - just throw away the ramdisk and start over.
 
-Once the whole process finishes, you'll find `Inkscape.app` in your `/work/artifacts` or `$HOME/work/artifcats` folder, depending on your configuration.
+Once the whole process finishes, you'll find `Inkscape.app` in your `/work/artifacts` or `$HOME/work/artifacts` folder, depending on your configuration.
 
 ### known issues
 
+- ⚠ Building Python 3 is currently broken and this breaks the whole `create_buildenv.sh` script. Will be fixed ASAP.
 - If you're logged in to the desktop (instead of doing everything headless via ssh), you'll probably get a popup asking to install Java. It's triggered by `gettext`'s configuration (and at least one other package) and can be safely ignored.
 - `gettext` can produce an error during checkout. Choose `Rerun phase checkout` and it continues.
 
 ## Status
+
+⚠ See issues - `create_buildenv.sh` currently broken due to issue building Python 3.
 
 This project is still a work-in-progress with regular merges to Inkscape master (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape).
 
