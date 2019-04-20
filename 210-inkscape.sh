@@ -17,8 +17,8 @@ set -e
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
   cd $SRC_DIR
-  git clone --depth 10 $URL_INKSCAPE
-  #git clone $URL_INKSCAPE   # this is a >1.6 GiB download
+  git clone --recurse-submodules --depth 10 $URL_INKSCAPE
+  #git clone --recurse-submodules $URL_INKSCAPE   # this is a >1.6 GiB download
   mkdir inkscape_build
   cd inkscape_build
   cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ../inkscape
