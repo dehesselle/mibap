@@ -55,9 +55,9 @@ install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Pyth
 PYTHON_BIN_DIR=$OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/2to3-3.6
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/easy_install-3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/idle-3.6
+sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/idle3.6
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pip3
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pip3.6
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pydoc3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pydoc3.6m-config
+sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/python3.6m-config
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pyvenv-3.6
