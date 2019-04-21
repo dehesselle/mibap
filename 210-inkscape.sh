@@ -53,6 +53,9 @@ install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resourc
 install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resources/lib/libpoppler.85.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Resources/lib/libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 
+install_name_tool -change @executable_path/../Resources/lib/libcrypto.1.1.dylib @loader_path/libcrypto.1.1.dylib $APP_LIB_DIR/libssl.1.1.dylib
+
+
 # patch the launch script
 # TODO: as follow-up to https://gitlab.com/inkscape/inkscape/merge_requests/612,
 # it should not be necessary to rely on $INKSCAPE_DATADIR. Paths in
@@ -86,6 +89,9 @@ chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
 install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
 # patch python app inside framework
 install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
+
+install_name_tool -change $LIB_DIR/libssl.1.1.dylib @loader_path/../../../../../../../Resources/lib/libssl.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
+install_name_tool -change $LIB_DIR/libcrypto.1.1.dylib @loader_path/../../../../../../../Resources/lib/libcrypto.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
 
 # add icon
 # TODO: create from Inkscape assets on-the-fly
