@@ -27,8 +27,6 @@ SELF_NAME=$(basename $0)
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
 export MAKEFLAGS="-j $CORES"
 
-XZ_OPT=-T0   # use all available cores
-
 ### ramdisk ####################################################################
 
 RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
