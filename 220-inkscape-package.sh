@@ -39,7 +39,7 @@ install_name_tool -change @executable_path/../Resources/lib/libcrypto.1.1.dylib 
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_DATADIR=$bundle_data'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_data/locale'
 
-# add XDG paths
+# add XDG paths to use native locations on macOS
 insert_before $APP_EXE_DIR/Inkscape 'export XDG_CONFIG_DIRS' '\
 export XDG_DATA_HOME=\"$HOME/Library/Application Support/Inkscape/data\"\
 export XDG_CONFIG_HOME=\"$HOME/Library/Application Support/Inkscape/config\"\
@@ -59,12 +59,12 @@ ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
 # copy Python framework to app bundle
 rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
 
-# patch python library location
+# patch Python library: make paths relative
 chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
 install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
-# patch python app inside framework
+# patch Python app (inside framework): make paths relative
 install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
-
+# patch Python dynamic SSL loader: make paths relative
 install_name_tool -change $LIB_DIR/libssl.1.1.dylib @loader_path/../../../../../../../Resources/lib/libssl.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
 install_name_tool -change $LIB_DIR/libcrypto.1.1.dylib @loader_path/../../../../../../../Resources/lib/libcrypto.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
 
