@@ -49,25 +49,6 @@ mkdir -p $XDG_CONFIG_HOME\
 mkdir -p $XDG_CACHE_HOME\
 '
 
-# add Python paths
-insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_bin:$PATH'
-
-mkdir -p $APP_BIN_DIR
-cd $APP_BIN_DIR
-ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
-
-# copy Python framework to app bundle
-rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
-
-# patch Python library: make paths relative
-chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
-install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
-# patch Python app (inside framework): make paths relative
-install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
-# patch Python dynamic SSL loader: make paths relative
-install_name_tool -change $LIB_DIR/libssl.1.1.dylib @loader_path/../../../../../../../Resources/lib/libssl.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
-install_name_tool -change $LIB_DIR/libcrypto.1.1.dylib @loader_path/../../../../../../../Resources/lib/libcrypto.1.1.dylib $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload/_ssl*.so
-
 # add icon
 # TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
@@ -82,11 +63,40 @@ else   # running as CI job
   /usr/libexec/PlistBuddy -c "Set CFBundleVersion '1.0alpha-g$(get_repo_version $SELF_DIR)'" $APP_PLIST
 fi
 
-### create disk image for distribution #########################################
+### copy Python.framework ######################################################
 
-# TODO
+# This section deals with bundling Python.framework into the application
+# and making it portable.
 
-if [ ! -z $CI_JOB_ID ]; then   # create build artifcat for CI job
-  cd $WRK_DIR
-  mv $ARTIFACT_DIR $SELF_DIR/../../build
-fi
+# Link Python executable version-less for the extensions to find it.
+# This will shadow the system's Python interpreter for Inkscape.
+mkdir -p $APP_BIN_DIR
+cd $APP_BIN_DIR
+ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
+# add '$APP_BIN_DIR' to paths
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_bin:$PATH'
+
+# Copy Python framework to app bundle
+rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
+
+P36_DIR=$APP_CON_DIR/Frameworks/Python.framework/Versions/3.6
+
+# patch various binaries and libraries to use relative library locations
+# main library
+chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
+install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib $P36_DIR/Python
+# Python.app inside the framework
+install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
+# dynamic loader for SSL libraries
+install_name_tool -change $LIB_DIR/libssl.1.1.dylib @loader_path/../../../../../../../Resources/lib/libssl.1.1.dylib $P36_DIR/lib/python3.6/lib-dynload/_ssl*.so
+install_name_tool -change $LIB_DIR/libcrypto.1.1.dylib @loader_path/../../../../../../../Resources/lib/libcrypto.1.1.dylib $P36_DIR/lib/python3.6/lib-dynload/_ssl*.so
+
+### install Python packages ####################################################
+
+# Install Python packages required by default Inkscape extensions.
+
+export PATH=$P36_DIR/bin:$PATH   # use Python interpreter from inside the app
+
+$P36_DIR/bin/pip3 install lxml
+$P36_DIR/bin/pip3 install numpy
+
