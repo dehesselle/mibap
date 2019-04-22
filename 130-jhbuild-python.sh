@@ -24,7 +24,7 @@ ln -sf /etc/ssl $OPT_DIR/etc   # link system config to our OpenSSL
 ### install Python 2 ###########################################################
 
 # Some packages complain about non-exiting development headers when you rely
-# solely on the macOS-provided Python installation. This also enables 
+# solely on the macOS-provided Python installation. This also enables
 # system-wide installations of packages without permission issues.
 
 jhbuild build python
@@ -36,23 +36,19 @@ jhbuild run pip install six   # required for a package in meta-gtk-osx-bootstrap
 
 ### install Python 3 ###########################################################
 
-# FIXME: For some reason the 'install' fails (since '--enable-framework') when
-# Python 3 is built non-interactively.
-# Needs fixing ASAP.
+# Since enabling the Framework build ('--enable-framework'), 'install' fails
+# on multi-threaded build ('$MAKEFLAGS')
 
-echo "error: sorry, Python 3 installation is broken"
-echo "run 'jhbuild build python3' manually"
-
-exit 1
+unset MAKEFLAGS   # 'install' step would fail otherwise
 
 jhbuild build python3
 
-# make library link path relative
+# make library link paths relative
 install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6
 install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6m
 install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../../Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Resources/Python.app/Contents/MacOS/Python
 
-# replace hard-coded interpreter path with environment lookup
+# replace hard-coded interpreter path in shebang with an environment lookup
 PYTHON_BIN_DIR=$OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/2to3-3.6
 sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/easy_install-3.6
