@@ -32,7 +32,7 @@ _(comments based on default configuration)_
 Clone this repository to your build machine. Run
 
 ```bash
-./build_everything.sh
+./build_all.sh
 ```
 
 from inside the cloned repository. This will execute the whole suite of scripts, one after another.

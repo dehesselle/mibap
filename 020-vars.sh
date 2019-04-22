@@ -7,7 +7,7 @@
 # build pipeline) and gets sourced by all the other scripts.
 # If you want to override settings, the suggested way is that you create a
 # `0nn-custom.sh` file and put them there. All files named '0nn-*.sh' get
-# sourced in order of appearance.
+# sourced in numerical order.
 
 [ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
 
@@ -17,6 +17,10 @@
 # So, we're better safe than sorry and source it.
 
 [ -f $HOME/.profile ] && source $HOME/.profile
+
+### name #######################################################################
+
+SELF_NAME=$(basename $0)
 
 ### multithreading #############################################################
 
@@ -30,17 +34,17 @@ XZ_OPT=-T0   # use all available cores
 RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
 RAMDISK_SIZE=10       # unit is GiB
 
-### try to use pre-built build environment #####################################
+### try to use pre-built toolset ###############################################
 
-# In order to just download and extract a pre-built build environment
-#   - it has to be enabled here ('PREBUILT_BUILDENV_ENABLE=true')
+# In order to just download and extract a pre-built toolset
+#   - it has to be enabled ('TOOLSET_CACHE_ENABLE=true')
 #   - you have to use $DEFAULT_SYSTEM_WRK_DIR as your $WRK_DIR
 #     (see commentary in the section below for explanation)
 #
 # It does not hurt to have it enabled by default, because if it cannot be
 # used, it won't be used and doesn't cause errors.
 
-PREBUILT_BUILDENV_ENABLE=true
+TOOLSET_CACHE_ENABLE=true
 
 ### workspace/build environment paths ##########################################
 
@@ -72,8 +76,8 @@ PREBUILT_BUILDENV_ENABLE=true
 if [ -z $WRK_DIR ]; then     # no pre-existing value
   WRK_DIR=$DEFAULT_SYSTEM_WRK_DIR   # try default first
 
-  if [ -d $WRK_DIR ]; then      # needs to exist
-    if [ ! -w $WRK_DIR ]; then  # and must be writable if we're going to use it
+  if [ -d $WRK_DIR ]; then      # needs to exist and
+    if [ ! -w $WRK_DIR ]; then  # must be writable
       echo "directory exists but not writable: $WRK_DIR"
       exit 1
     fi
@@ -96,9 +100,14 @@ LIB_DIR=$OPT_DIR/lib
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
 
-### application bundle paths ###################################################
+### artifact path ##############################################################
 
-ARTIFACT_DIR=$WRK_DIR/artifacts   # artifacts from CI pipeline/target dir for
+# This is the location where the final product - like application bundle or
+# diskimage (no intermediate programs/libraries/...) - is created in.
+
+ARTIFACT_DIR=$WRK_DIR/artifacts
+
+### application bundle paths ###################################################
 
 APP_DIR=$ARTIFACT_DIR/Inkscape.app
 APP_CON_DIR=$APP_DIR/Contents
@@ -109,6 +118,9 @@ APP_LIB_DIR=$APP_RES_DIR/lib
 APP_PLIST=$APP_CON_DIR/Info.plist
 
 ### downlad URLs ###############################################################
+
+# These are the versioned URLs of Inkscape dependencies that are not part of
+# any JHBuild moduleset. (They are candidates for a custom Inkscape moduleset.)
 
 URL_BOOST=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 URL_DOUBLE_CONVERSION=https://github.com/google/double-conversion/archive/v3.1.4.tar.gz
@@ -135,6 +147,6 @@ URL_LIBSOUP=https://ftp.gnome.org/pub/GNOME/sources/libsoup/2.65/libsoup-2.65.92
 URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
-# pre-built build environment
-URL_PREBUILT_BUILDENV=https://github.com/dehesselle/mibap/releases/download/v0.6/mibap_v0.6.tar.xz
+# A pre-built version of the complete toolset.
+URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.7/mibap_v0.7.tar.xz
 
