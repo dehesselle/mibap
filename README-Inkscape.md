@@ -60,9 +60,9 @@ This will run all the `nnn-*.sh` scripts consecutively.
 ```yaml
 buildmacos:
   before_script:
-    - packaging/macos/create_buildenv.sh
+    - packaging/macos/build_toolset.sh
   script:
-    - packaging/macos/210-inkscape.sh
+    - packaging/macos/build_inkscape.sh
 ```
 
 ## Status
