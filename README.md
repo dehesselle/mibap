@@ -48,8 +48,11 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `/work/artif
 
 ## Status
 
-This project is still a work-in-progress with regular merges to Inkscape master (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape).
+This project is still a work-in-progress with regular merges to Inkscape master (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape)).
 
 ### History
 
 If you're interested in how this all started, checkout a version below `v0.7` and take a look at `DIARY.md` which served as readme in the beginning. Also, older (now discarded) scripts can be found checking out the `legacy` tag.
+
+## License
+[GPL](LICENSE)
