@@ -80,6 +80,10 @@
   <binary>
     ${prefix}/lib/libssl.1.1.dylib
   </binary>
+  <!-- fontconfig binaries -->
+  <binary>
+    ${prefix}/bin/fc-*
+  </binary>
   <!-- Translation filenames, one for each program or library that you
        want to copy in to the bundle. The "dest" attribute is
        optional, as usual. Bundler will find all translations of that
@@ -107,9 +111,14 @@
   <!-- Copy in the themes data. You may want to trim this to save space
        in your bundle. -->
   <data>
-    ${prefix}/share/themes
+    ${prefix}/etc/fonts
   </data>
-
+  <data>
+    ${prefix}/share/fontconfig
+  </data>
+  <data>
+    ${prefix}/share/glib-2.0
+  </data>
   <data>
     ${prefix}/share/icons
   </data>
@@ -117,7 +126,7 @@
     ${prefix}/share/inkscape
   </data>
   <data>
-    ${prefix}/share/glib-2.0
+    ${prefix}/share/themes
   </data>
 
   <!-- Copy icons. Note that the .icns file is an Apple format which

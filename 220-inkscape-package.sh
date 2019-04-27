@@ -100,3 +100,14 @@ export PATH=$P36_DIR/bin:$PATH   # use Python interpreter from inside the app
 $P36_DIR/bin/pip3 install lxml
 $P36_DIR/bin/pip3 install numpy
 
+### fontconfig #################################################################
+
+cd $APP_ETC_DIR/fonts/conf.d
+
+for file in ./*.conf; do
+  ln -sf ../../../share/fontconfig/conf.avail/$(basename $file)
+done
+
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export FONTCONFIG_FILE=$bundle_res/etc/fonts/fonts.conf'
+
+#FIXME: set fontconfig cache path
