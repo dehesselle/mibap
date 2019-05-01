@@ -111,3 +111,8 @@ done
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export FONTCONFIG_FILE=$bundle_res/etc/fonts/fonts.conf'
 
 #FIXME: set fontconfig cache path
+
+### GIO modules path ###########################################################
+
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export GIO_MODULE_DIR=$bundle_lib/gio/modules'
+
