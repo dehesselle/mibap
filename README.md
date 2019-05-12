@@ -48,7 +48,7 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `/work/artif
 
 ## Status
 
-This project is still a work-in-progress with regular merges to Inkscape master (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape)).
+This project is still a work-in-progress (hence 0.x version) with regular merges to Inkscape master (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape)).
 
 ### History
 
