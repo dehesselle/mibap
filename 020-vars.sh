@@ -30,7 +30,7 @@ export MAKEFLAGS="-j $CORES"
 ### ramdisk ####################################################################
 
 RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
-RAMDISK_SIZE=10       # unit is GiB
+RAMDISK_SIZE=9        # unit is GiB
 
 ### try to use pre-built toolset ###############################################
 
