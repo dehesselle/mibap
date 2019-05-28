@@ -107,3 +107,8 @@ cmake_make_makeinstall
 get_source $URL_POTRACE
 configure_make_makeinstall --with-libpotrace
 
+### install OpenMP #############################################################
+
+get_source $URL_OPENMP
+cmake_make_makeinstall
+

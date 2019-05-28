@@ -21,14 +21,14 @@ if [ -z $CI_JOB_ID ]; then   # running standalone
   #git clone --recurse-submodules $URL_INKSCAPE   # this is a >1.6 GiB download
   mkdir inkscape_build
   cd inkscape_build
-  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ../inkscape
+  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR ../inkscape
 else   # running as CI job
   if [ -d $SELF_DIR/../../build ]; then   # cleanup previous run
     rm -rf $SELF_DIR/../../build
   fi
   mkdir $SELF_DIR/../../build
   cd $SELF_DIR/../../build
-  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR -DWITH_OPENMP=OFF ..
+  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR ..
 fi
 
 make
