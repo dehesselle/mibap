@@ -58,7 +58,7 @@ cmake_make_makeinstall
 ### install libyaml ############################################################
 
 get_source $URL_LIBYAML
-cmake_make_makeinstall
+cmake_make_makeinstall -DBUILD_SHARED_LIBS=ON
 
 ### install CppUnit ############################################################
 
