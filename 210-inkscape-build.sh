@@ -15,21 +15,32 @@ set -e
 
 ### build Inkscape #############################################################
 
+INKSCAPE_SRC_DIR=..
+
 if [ -z $CI_JOB_ID ]; then   # running standalone
   cd $SRC_DIR
   git clone --recurse-submodules --depth 10 $URL_INKSCAPE
   #git clone --recurse-submodules $URL_INKSCAPE   # this is a >1.6 GiB download
   mkdir inkscape_build
   cd inkscape_build
-  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR ../inkscape
+  INKSCAPE_SRC_DIR=$INKSCAPE_SRC_DIR/inkscape
 else   # running as CI job
   if [ -d $SELF_DIR/../../build ]; then   # cleanup previous run
     rm -rf $SELF_DIR/../../build
   fi
   mkdir $SELF_DIR/../../build
   cd $SELF_DIR/../../build
-  cmake -DCMAKE_PREFIX_PATH=$OPT_DIR -DCMAKE_INSTALL_PREFIX=$OPT_DIR ..
 fi
+
+cmake \
+  -DCMAKE_PREFIX_PATH=$OPT_DIR \
+  -DCMAKE_INSTALL_PREFIX=$OPT_DIR \
+  -DOpenMP_CXX_FLAGS="-Xpreprocessor -fopenmp" \
+  -DOpenMP_C_FLAGS="-Xpreprocessor -fopenmp" \
+  -DOpenMP_CXX_LIB_NAMES="omp" \
+  -DOpenMP_C_LIB_NAMES="omp" \
+  -DOpenMP_omp_LIBRARY=$LIB_DIR/libomp.dylib \
+  $INKSCAPE_SRC_DIR
 
 make
 make install
