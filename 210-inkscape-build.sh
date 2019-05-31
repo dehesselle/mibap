@@ -32,11 +32,16 @@ else   # running as CI job
   cd $SELF_DIR/../../build
 fi
 
+# All the settings for OpenMP are to trigger the detection during 'cmake'.
+# Experimenting with a "Hello World"-style example shows that linking with
+# '-lomp' would suffice, no '-fopenmp' required.
+# TODO further investigation into required flags
+
 cmake \
   -DCMAKE_PREFIX_PATH=$OPT_DIR \
   -DCMAKE_INSTALL_PREFIX=$OPT_DIR \
-  -DOpenMP_CXX_FLAGS="-Xpreprocessor -fopenmp" \
-  -DOpenMP_C_FLAGS="-Xpreprocessor -fopenmp" \
+  -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \
+  -DOpenMP_C_FLAGS="-Xclang -fopenmp" \
   -DOpenMP_CXX_LIB_NAMES="omp" \
   -DOpenMP_C_LIB_NAMES="omp" \
   -DOpenMP_omp_LIBRARY=$LIB_DIR/libomp.dylib \
@@ -51,10 +56,10 @@ install_name_tool -change @rpath/libpoppler.85.dylib $LIB_DIR/libpoppler.85.dyli
 install_name_tool -change @rpath/libpoppler-glib.8.dylib $LIB_DIR/libpoppler-glib.8.dylib $BIN_DIR/inkscape
 install_name_tool -change @rpath/libpoppler.85.dylib $LIB_DIR/libpoppler.85.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
 install_name_tool -change @rpath/libpoppler-glib.8.dylib $LIB_DIR/libpoppler-glib.8.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
-#   libyaml
+#   LibYAML
 install_name_tool -change @rpath/libyaml.dylib $LIB_DIR/libyaml.dylib $BIN_DIR/inkscape
 install_name_tool -change @rpath/libyaml.dylib $LIB_DIR/libyaml.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
-#   openmp
+#   OpenMP
 install_name_tool -change @rpath/libomp.dylib $LIB_DIR/libomp.dylib $BIN_DIR/inkscape
 install_name_tool -change @rpath/libomp.dylib $LIB_DIR/libomp.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
 
