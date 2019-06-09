@@ -66,9 +66,8 @@ fi
 ### copy Python.framework ######################################################
 
 # This section deals with bundling Python.framework into the application.
-
-get_source $URL_PYTHON3
-rsync -a $OPT_DIR/Frameworks $APP_CON_DIR   # copy to app bundle
+mkdir $APP_CON_DIR/Frameworks
+get_source $URL_PYTHON3 $APP_CON_DIR/Frameworks
 
 # add it to '$PATH'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
@@ -80,8 +79,8 @@ insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frame
 # use Python interpreter from Python.framework
 export PATH=$APP_CON_DIR/Frameworks/Python.framework/Versions/Current/bin:$PATH
 
-pip3 install --install-options="--prefix=$APP_RES_DIR" --ignore-installed lxml=4.3.3
-pip3 install --install-options="--prefix=$APP_RES_DIR" --ignore-installed numpy=1.16.4
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed lxml==4.3.3
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==1.16.4
 
 # add it to '$PYTHONPATH'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PYTHONPATH=$PYTHONPATH:$APP_LIB_DIR/python3.6'
