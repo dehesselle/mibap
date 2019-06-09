@@ -65,40 +65,26 @@ fi
 
 ### copy Python.framework ######################################################
 
-# This section deals with bundling Python.framework into the application
-# and making it portable.
+# This section deals with bundling Python.framework into the application.
 
-# Link Python executable version-less for the extensions to find it.
-# This will shadow the system's Python interpreter for Inkscape.
-mkdir -p $APP_BIN_DIR
-cd $APP_BIN_DIR
-ln -s ../../Frameworks/Python.framework/Versions/3.6/bin/python3.6 python
-# add '$APP_BIN_DIR' to paths
-insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_bin:$PATH'
+get_source $URL_PYTHON3
+rsync -a $OPT_DIR/Frameworks $APP_CON_DIR   # copy to app bundle
 
-# Copy Python framework to app bundle
-rsync -a $OPT_DIR/Frameworks $APP_CON_DIR
-
-P36_DIR=$APP_CON_DIR/Frameworks/Python.framework/Versions/3.6
-
-# patch various binaries and libraries to use relative library locations
-# main library
-chmod 644 $APP_CON_DIR/Frameworks/Python.framework/Versions/3.6/Python
-install_name_tool -change $LIB_DIR/libintl.9.dylib @loader_path/../../../../Resources/lib/libintl.9.dylib $P36_DIR/Python
-# Python.app inside the framework
-install_name_tool -change $LIB_DIR/libintl.9.dylib @executable_path/../../../../../../../../Resources/lib/libintl.9.dylib  $APP_CON_DIR/Frameworks/Python.framework/Resources/Python.app/Contents/MacOS/Python
-# dynamic loader for SSL libraries
-install_name_tool -change $LIB_DIR/libssl.1.1.dylib @loader_path/../../../../../../../Resources/lib/libssl.1.1.dylib $P36_DIR/lib/python3.6/lib-dynload/_ssl*.so
-install_name_tool -change $LIB_DIR/libcrypto.1.1.dylib @loader_path/../../../../../../../Resources/lib/libcrypto.1.1.dylib $P36_DIR/lib/python3.6/lib-dynload/_ssl*.so
+# add it to '$PATH'
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
 
 ### install Python packages ####################################################
 
 # Install Python packages required by default Inkscape extensions.
 
-export PATH=$P36_DIR/bin:$PATH   # use Python interpreter from inside the app
+# use Python interpreter from Python.framework
+export PATH=$APP_CON_DIR/Frameworks/Python.framework/Versions/Current/bin:$PATH
 
-$P36_DIR/bin/pip3 install lxml
-$P36_DIR/bin/pip3 install numpy
+pip3 install --install-options="--prefix=$APP_RES_DIR" --ignore-installed lxml=4.3.3
+pip3 install --install-options="--prefix=$APP_RES_DIR" --ignore-installed numpy=1.16.4
+
+# add it to '$PYTHONPATH'
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PYTHONPATH=$PYTHONPATH:$APP_LIB_DIR/python3.6'
 
 ### fontconfig #################################################################
 

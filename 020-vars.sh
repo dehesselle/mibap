@@ -155,6 +155,7 @@ URL_OPENMP=https://github.com/llvm/llvm-project/releases/download/llvmorg-7.1.0/
 URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.1b.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
+URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.1/py368_framework_1.tar.xz
 # A pre-built version of the complete toolset.
 URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.10/mibap_v0.10.tar.xz
 

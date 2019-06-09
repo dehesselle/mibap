@@ -34,27 +34,3 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 jhbuild run python get-pip.py
 jhbuild run pip install six   # required for a package in meta-gtk-osx-bootstrap
 
-### install Python 3 ###########################################################
-
-# Since enabling the Framework build ('--enable-framework'), 'install' fails
-# on multi-threaded build ('$MAKEFLAGS')
-
-unset MAKEFLAGS   # 'install' step would fail otherwise
-
-jhbuild build python3
-
-# make library link paths relative
-install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6
-install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../Versions/3.6/Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin/python3.6m
-install_name_tool -change $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Python @executable_path/../../../../Python $OPT_DIR/Frameworks/Python.framework/Versions/3.6/Resources/Python.app/Contents/MacOS/Python
-
-# replace hard-coded interpreter path in shebang with an environment lookup
-PYTHON_BIN_DIR=$OPT_DIR/Frameworks/Python.framework/Versions/3.6/bin
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/2to3-3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/easy_install-3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/idle3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pip3
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pip3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pydoc3.6
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/python3.6m-config
-sed -i "" "1s/.*/#!\/usr\/bin\/env python3.6/" $PYTHON_BIN_DIR/pyvenv-3.6
