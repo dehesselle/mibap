@@ -24,6 +24,7 @@ jhbuild run gtk-mac-bundler inkscape.bundle
 
 # patch library locations
 install_name_tool -change @rpath/libinkscape_base.dylib @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib $APP_EXE_DIR/Inkscape-bin
+
 install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resources/lib/libpoppler.85.dylib $APP_LIB_DIR/libpoppler-glib.8.dylib
 install_name_tool -change @rpath/libpoppler.85.dylib @executable_path/../Resources/lib/libpoppler.85.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Resources/lib/libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
@@ -82,8 +83,18 @@ export PATH=$APP_CON_DIR/Frameworks/Python.framework/Versions/Current/bin:$PATH
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed lxml==4.3.3
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==1.16.4
 
+install_name_tool -change $LIB_DIR/libxml2.2.dylib @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
+install_name_tool -change $LIB_DIR/libz.1.dylib @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
+
+install_name_tool -change $LIB_DIR/libxml2.2.dylib @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
+install_name_tool -change $LIB_DIR/libz.1.dylib @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
+
+# libxml2 is called from Python modules as well, so paths need to be "more universal"
+install_name_tool -change @executable_path/../Resources/lib/libz.1.dylib @loader_path/libz.1.dylib $APP_LIB_DIR/libxml2.2.dylib
+install_name_tool -change @executable_path/../Resources/lib/liblzma.5.dylib @loader_path/liblzma.5.dylib $APP_LIB_DIR/libxml2.2.dylib
+
 # add it to '$PYTHONPATH'
-insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PYTHONPATH=$PYTHONPATH:$APP_LIB_DIR/python3.6'
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PYTHONPATH=$PYTHONPATH:$bundle_lib/python3.6/site-packages'
 
 ### fontconfig #################################################################
 
