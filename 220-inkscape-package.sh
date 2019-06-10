@@ -32,17 +32,17 @@ install_name_tool -change @rpath/libpoppler-glib.8.dylib @executable_path/../Res
 install_name_tool -change @executable_path/../Resources/lib/libcrypto.1.1.dylib @loader_path/libcrypto.1.1.dylib $APP_LIB_DIR/libssl.1.1.dylib
 
 
-# patch the launch script
+# set Inkscape's data directory via environment variables
 # TODO: as follow-up to https://gitlab.com/inkscape/inkscape/merge_requests/612,
 # it should not be necessary to rely on $INKSCAPE_DATADIR. Paths in
-# 'path-prefix.h' are supposed to work. Needs to be looked into with @ede123.
+# 'path-prefix.h' are supposed to work. Needs to be looked into.
 
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_DATADIR=$bundle_data'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_data/locale'
 
 # add XDG paths to use native locations on macOS
 insert_before $APP_EXE_DIR/Inkscape 'export XDG_CONFIG_DIRS' '\
-export XDG_DATA_HOME=\"$HOME/Library/Application Support/Inkscape/data\"\
+export XDG_DATA_HOME=\"$HOME/Library/Application\\ Support/Inkscape/data\"\
 export XDG_CONFIG_HOME=\"$HOME/Library/Application Support/Inkscape/config\"\
 export XDG_CACHE_HOME=\"$HOME/Library/Application Support/Inkscape/cache\"\
 mkdir -p $XDG_DATA_HOME\
@@ -64,11 +64,12 @@ else   # running as CI job
   /usr/libexec/PlistBuddy -c "Set CFBundleVersion '1.0alpha2-g$(get_repo_version $SELF_DIR)'" $APP_PLIST
 fi
 
-### copy Python.framework ######################################################
+### download Python.framework ##################################################
 
 # This section deals with bundling Python.framework into the application.
-mkdir $APP_CON_DIR/Frameworks
-get_source $URL_PYTHON3 $APP_CON_DIR/Frameworks
+
+mkdir $APP_FRA_DIR
+get_source $URL_PYTHON3 $APP_FRA_DIR
 
 # add it to '$PATH'
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
@@ -76,9 +77,11 @@ insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frame
 ### install Python packages ####################################################
 
 # Install Python packages required by default Inkscape extensions.
+#  - lxml
+#  - numpy
 
 # use Python interpreter from Python.framework
-export PATH=$APP_CON_DIR/Frameworks/Python.framework/Versions/Current/bin:$PATH
+export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed lxml==4.3.3
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==1.16.4
@@ -93,8 +96,33 @@ install_name_tool -change $LIB_DIR/libz.1.dylib @loader_path/../../../libz.1.dyl
 install_name_tool -change @executable_path/../Resources/lib/libz.1.dylib @loader_path/libz.1.dylib $APP_LIB_DIR/libxml2.2.dylib
 install_name_tool -change @executable_path/../Resources/lib/liblzma.5.dylib @loader_path/liblzma.5.dylib $APP_LIB_DIR/libxml2.2.dylib
 
-# add it to '$PYTHONPATH'
-insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PYTHONPATH=$PYTHONPATH:$bundle_lib/python3.6/site-packages'
+# create '.pth' file to include our site-packages directory
+echo "./../../../../../../../Resources/lib/python3.6/site-packages" > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python3.6/site-packages/inkscape.pth
+
+### set default Python interpreter #############################################
+
+# If no override is present in 'preferences.xml' (see
+# http://wiki.inkscape.org/wiki/index.php/Extension_Interpreters#Selecting_a_specific_interpreter_version_.28via_preferences_file.29
+# ) we set the bundled Python to be the default one.
+
+# Default interpreter is an unversioned environment lookup for 'python', so
+# we prepar to override it.
+mkdir -p $APP_BIN_DIR
+cd $APP_BIN_DIR
+ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python3 python
+
+# add override check to launch script
+insert_before $APP_EXE_DIR/Inkscape '\$EXEC' '\
+INKSCAPE_PREFERENCES=$HOME/Library/Application\\ Support/Inkscape/config/inkscape/preferences.xml\
+if [ -f $INKSCAPE_PREFERENCES ]; then   # Has Inkscape been launched before?\
+  PYTHON_INTERPRETER=$\(xmllint --xpath '\''string\(//inkscape/group[@id=\"extensions\"]/@python-interpreter\)'\'' $INKSCAPE_PREFERENCES\)\
+  if [ -z $PYTHON_INTERPRETER ]\; then   # No override for Python interpreter?\
+    export PATH=$bundle_bin:$PATH        # make bundled Python default one\
+  fi\
+else                                     # Inkscape has not been launched before\
+  export PATH=$bundle_bin:$PATH          # make bundled Python default one\
+fi\
+'
 
 ### fontconfig #################################################################
 
