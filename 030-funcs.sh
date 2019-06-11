@@ -22,6 +22,27 @@ function get_repo_version
   echo $(git -C $repo log --pretty=format:'%h' -n 1)
 }
 
+### get Inkscape version from CMakeLists.txt ###################################
+
+function get_inkscape_version
+{
+  local file=$SRC_DIR/inkscape/CMakeLists.txt
+  local ver_major=$(grep INKSCAPE_VERSION_MAJOR $file | head -n 1 | awk '{ print $2+0 }')
+  local ver_minor=$(grep INKSCAPE_VERSION_MINOR $file | head -n 1 | awk '{ print $2+0 }')
+  local ver_patch=$(grep INKSCAPE_VERSION_PATCH $file | head -n 1 | awk '{ print $2+0 }')
+  local ver_suffix=$(grep INKSCAPE_VERSION_SUFFIX $file | head -n 1 | awk '{ print $2 }')
+  
+  ver_suffix=${ver_suffix%\"}   # remove "double quote and everything after" from end
+  ver_suffix=${ver_suffix#\"}   # remove "double quote" from beginning
+ 
+  # If there is a suffix, add the dot to it. Otherwise the suffix stays an
+  # empty string and resolves to "nothing" down below (as intended in that
+  # case).
+  [ ${#ver_suffix} -gt 0 ] && ver_suffix=.$ver_suffix
+
+  echo $ver_major.$ver_minor.$ver_patch$ver_suffix
+}
+
 ### get compression flag by filename extension #################################
 
 function get_comp_flag
