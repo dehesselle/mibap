@@ -100,7 +100,7 @@ pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==
 
 ### install Python package: Pycairo ############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed pycairo=1.18.1
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed pycairo==1.18.1
 
 # patch '_cairo'
 relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.6/site-packages/cairo/_cairo.cpython-36m-darwin.so
@@ -114,7 +114,7 @@ relocate_dependency @loader_path/libz.1.dylib $APP_LIB_DIR/libcairo.2.dylib
 
 ### install Python package: PyGObject ##########################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed PyGObject=3.32.1
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed PyGObject==3.32.1
 
 # patch '_gi'
 relocate_dependency @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
@@ -168,6 +168,10 @@ relocate_dependency @loader_path/libz.1.dylib $APP_LIB_DIR/libcairo-gobject.2.dy
 relocate_dependency @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
 relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
 relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+
+# patch libgmodule-2.0.0.dylib
+relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgmodule-2.0.0.dylib
+relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgmodule-2.0.0.dylib
 
 ### set default Python interpreter #############################################
 
