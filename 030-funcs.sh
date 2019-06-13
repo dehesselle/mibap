@@ -32,7 +32,7 @@ function get_inkscape_version
   local ver_patch=$(grep INKSCAPE_VERSION_PATCH $file | head -n 1 | awk '{ print $2+0 }')
   local ver_suffix=$(grep INKSCAPE_VERSION_SUFFIX $file | head -n 1 | awk '{ print $2 }')
   
-  ver_suffix=${ver_suffix%\"}   # remove "double quote and everything after" from end
+  ver_suffix=${ver_suffix%\"*}   # remove "double quote and everything after" from end
   ver_suffix=${ver_suffix#\"}   # remove "double quote" from beginning
  
   # If there is a suffix, add the dot to it. Otherwise the suffix stays an
