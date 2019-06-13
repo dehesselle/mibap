@@ -64,40 +64,110 @@ else   # running as CI job
   /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $SELF_DIR))'" $APP_PLIST
 fi
 
-### download Python.framework ##################################################
+### bundle Python.framework ####################################################
 
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-get_source $URL_PYTHON3 $APP_FRA_DIR
+get_source $URL_PYTHON3 $APP_FRA_DIR   # download a pre-built Python.framework
 
-# add it to '$PATH'
+# add it to '$PATH' in launch script
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
-
-### install Python packages ####################################################
-
-# Install Python packages required by default Inkscape extensions.
-#  - lxml
-#  - numpy
-
-# use Python interpreter from Python.framework
+# add it to '$PATH' here and now (for package installation below)
 export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
+# create '.pth' file inside Framework to include our site-packages directory
+echo "./../../../../../../../Resources/lib/python3.6/site-packages" > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python3.6/site-packages/inkscape.pth
+
+### install Python package: lxml ###############################################
+
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed lxml==4.3.3
+
+# patch 'etree'
+relocate_library @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
+# patch 'objectify'
+relocate_library @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
+
+# patch libxml2.dylib to use '@loader_path' to find neighbouring libraries
+relocate_library @loader_path/libz.1.dylib $APP_LIB_DIR/libxml2.2.dylib
+relocate_library @loader_path/liblzma.5.dylib $APP_LIB_DIR/libxml2.2.dylib
+
+### install Python package: NumPy ##############################################
+
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==1.16.4
 
-install_name_tool -change $LIB_DIR/libxml2.2.dylib @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
-install_name_tool -change $LIB_DIR/libz.1.dylib @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/etree.cpython-36m-darwin.so
+### install Python package: Pycairo ############################################
 
-install_name_tool -change $LIB_DIR/libxml2.2.dylib @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
-install_name_tool -change $LIB_DIR/libz.1.dylib @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.6/site-packages/lxml/objectify.cpython-36m-darwin.so
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed pycairo=1.18.1
 
-# libxml2 is called from Python modules as well, so paths need to be "more universal"
-install_name_tool -change @executable_path/../Resources/lib/libz.1.dylib @loader_path/libz.1.dylib $APP_LIB_DIR/libxml2.2.dylib
-install_name_tool -change @executable_path/../Resources/lib/liblzma.5.dylib @loader_path/liblzma.5.dylib $APP_LIB_DIR/libxml2.2.dylib
+# patch '_cairo'
+relocate_library @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.6/site-packages/cairo/_cairo.cpython-36m-darwin.so
 
-# create '.pth' file to include our site-packages directory
-echo "./../../../../../../../Resources/lib/python3.6/site-packages" > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python3.6/site-packages/inkscape.pth
+# patch libcairo.2.dylib to use '@loader_path' to find neighbouring libraries
+relocate_library @loader_path/libpixman-1.0.dylib $APP_LIB_DIR/libcairo.2.dylib
+relocate_library @loader_path/libfontconfig.1.dylib $APP_LIB_DIR/libcairo.2.dylib
+relocate_library @loader_path/libfreetype.6.dylib $APP_LIB_DIR/libcairo.2.dylib
+relocate_library @loader_path/libpng16.16.dylib $APP_LIB_DIR/libcairo.2.dylib
+relocate_library @loader_path/libz.1.dylib $APP_LIB_DIR/libcairo.2.dylib
+
+### install Python package: PyGObject ##########################################
+
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed PyGObject=3.32.1
+
+# patch '_gi'
+relocate_library @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libintl.9.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgio-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgobject-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgirepository-1.0.1.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libffi.6.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi.cpython-36m-darwin.so
+
+# patch libglib-2.0.0.dylib to find neighbouring libraries
+relocate_library @loader_path/libintl.9.dylib $APP_LIB_DIR/libglib-2.0.0.dylib
+
+# patch libgio-2.0.0.dylib to find neighbouring libraries
+relocate_library @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+relocate_library @loader_path/libffi.6.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+relocate_library @loader_path/libgmodule-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+relocate_library @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+relocate_library @loader_path/libz.1.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+relocate_library @loader_path/libintl.9.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
+
+# patch libgobject-2.0.0.dylib to find neighbouring libraries
+relocate_library @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
+relocate_library @loader_path/libffi.6.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
+relocate_library @loader_path/libintl.9.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
+
+# patch libgirepository-1.0.1.dylib to find neighbouring libraries
+relocate_library @loader_path/libgmodule-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+relocate_library @loader_path/libgio-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+relocate_library @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+relocate_library @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+relocate_library @loader_path/libintl.9.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+relocate_library @loader_path/libffi.6.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
+
+# patch '_gi_cairo'
+relocate_library @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libintl.9.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgio-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgobject-2.0.0.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libgirepository-1.0.1.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libffi.6.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+relocate_library @loader_path/../../../libcairo-gobject.2.dylib $APP_LIB_DIR/python3.6/site-packages/gi/_gi_cairo.cpython-36m-darwin.so
+
+# patch libcairo-gobject.2.dylib
+relocate_library @loader_path/libcairo.2.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libpixman-1.0.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libfontconfig.1.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libfreetype.6.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libpng16.16.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libz.1.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
+relocate_library @loader_path/libintl.9.dylib $APP_LIB_DIR/libcairo-gobject.2.dylib
 
 ### set default Python interpreter #############################################
 

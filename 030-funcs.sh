@@ -140,3 +140,16 @@ function insert_before
   rm $file_tmp
 }
 
+### relocate a library dependency ##############################################
+
+function relocate_dependency
+{
+  local target=$1    # fully qualified path and library name to new location
+  local library=$2   # library where 'source' get changed to 'target'
+
+  local source_lib=${target##*/}   # get library filename from target location
+  local source=$(otool -L $library | grep $source_lib | awk '{ print $1 }')
+
+  install_name_tool -change $source $target $library
+}
+
