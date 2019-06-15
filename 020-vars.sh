@@ -31,7 +31,14 @@ export MAKEFLAGS="-j $CORES"
 
 # Using 10.13 SDK it's not safe to go lower than 10.12.
 # https://smallhacks.wordpress.com/2018/11/11/how-to-support-old-osx-version-with-a-recent-xcode
-export MACOSX_DEPLOYMENT_TARGET=10.12   # minimum version macOS Sierra
+# Using 10.9 SDK actually requires haven that SDK available.
+export MACOSX_DEPLOYMENT_TARGET=10.9   # minimum version Mavericks
+
+FLAG_MMACOSXVERSIONMIN="-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
+
+export CFLAGS="$CFLAGS $FLAG_MMACOSXVERSIONMIN"
+export CXXFLAGS="$CXXFLAGS $FLAG_MMACOSXVERSIONMIN"
+export CPPFLAGS="$CPPFLAGS $FLAG_MMACOSXVERSIONMIN"
 
 ### ramdisk ####################################################################
 
