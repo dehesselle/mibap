@@ -11,16 +11,6 @@
 SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
-### install OpenSSL ############################################################
-
-# Build OpenSSL as dedicated step because we need to link our system
-# configuration and certs (/etc/ssl) to it. Otherwise https downloads
-# will fail with certification validation issues.
-
-jhbuild build openssl
-mkdir -p $OPT_DIR/etc
-ln -sf /etc/ssl $OPT_DIR/etc   # link system config to our OpenSSL
-
 ### install Python 2 ###########################################################
 
 # Some packages complain about non-exiting development headers when you rely
