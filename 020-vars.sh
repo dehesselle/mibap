@@ -120,6 +120,8 @@ TMP_DIR=$OPT_DIR/tmp
 
 [ -z $CI_JOB_ID ] && INK_DIR=$SRC_DIR/inkscape || INK_DIR=$SELF_DIR/../..
 
+INK_DIR=$(cd $INK_DIR; pwd -P)   # make sure this path is canoncial
+
 ### artifact path ##############################################################
 
 # This is the location where the final product - like application bundle or
