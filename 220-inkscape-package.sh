@@ -69,8 +69,10 @@ fi
 
 # This section deals with bundling Python.framework into the application.
 
+save_file $URL_PYTHON3   # download a pre-built Python.framework
+
 mkdir $APP_FRA_DIR
-get_source $URL_PYTHON3 $APP_FRA_DIR   # download a pre-built Python.framework
+get_source file://$SRC_DIR/$(basename $URL_PYTHON3) $APP_FRA_DIR
 
 # add it to '$PATH' in launch script
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
