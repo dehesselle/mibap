@@ -546,7 +546,7 @@
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.graphics-design</string>
     <key>LSMinimumSystemVersion</key>
-    <string>10.13</string>
+    <string>10.11</string>
     <key>GtkOSXLaunchScriptFile</key>
     <string>gtk_launcher.py</string>
     <key>NSHighResolutionCapable</key>

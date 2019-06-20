@@ -29,10 +29,12 @@ export MAKEFLAGS="-j $CORES"
 
 ### target OS version ##########################################################
 
-# Using 10.13 SDK it's not safe to go lower than 10.12.
-# https://smallhacks.wordpress.com/2018/11/11/how-to-support-old-osx-version-with-a-recent-xcode
-# Using 10.9 SDK actually requires haven that SDK available.
-export MACOSX_DEPLOYMENT_TARGET=10.9   # minimum version Mavericks
+# There are a lot of ways to appraoch this. I recommend:
+#   - OS X El Capitan (10.11)
+#   - Xcode 8.2.1 (latest Xcode to support 10.11) for its clang 8.x
+#   - MacOSX10.11.sdk from Xcode 7.3.1
+
+export MACOSX_DEPLOYMENT_TARGET=10.11   # minimum version Mavericks
 
 FLAG_MMACOSXVERSIONMIN="-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
 
@@ -137,6 +139,7 @@ APP_PLIST=$APP_CON_DIR/Info.plist
 
 URL_BOOST=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 URL_CPPUNIT=https://dev-www.libreoffice.org/src/cppunit-1.14.0.tar.gz
+URL_CURL_CACERT=https://curl.haxx.se/ca/cacert.pem
 URL_DOUBLE_CONVERSION=https://github.com/google/double-conversion/archive/v3.1.4.tar.gz
 URL_FREETYPE=https://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.bz2
 URL_GC=https://github.com/ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz
@@ -167,7 +170,7 @@ URL_LIBWPG=https://netcologne.dl.sourceforge.net/project/libwpg/libwpg/libwpg-0.
 URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENMP=https://github.com/llvm/llvm-project/releases/download/llvmorg-7.1.0/openmp-7.1.0.src.tar.xz
 # use OpenSSL version as in gtk-osx moduleset
-URL_OPENSSL=https://www.openssl.org/source/openssl-1.1.0g.tar.gz
+URL_OPENSSL=https://www.openssl.org/source/old/1.1.0/openssl-1.1.0g.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
 URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.3/py368_framework_3.tar.xz

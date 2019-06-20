@@ -13,17 +13,14 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### install OpenSSL ############################################################
 
-# We install OpenSSL first so this version gets used instead of the much
-# older one belonging to 10.9 SDK.
+# We install OpenSSL first so this version gets used instead instead of the
+# system one. (El Capitan uses 0.98)
 
 get_source $URL_OPENSSL
-
 ./config --prefix=$OPT_DIR --openssldir=$OPT_DIR/etc/ssl $FLAG_MMACOSXVERSIONMIN
-make
-make install_sw
+make_makeinstall
 
-mkdir -p $OPT_DIR/etc
-ln -sf /etc/ssl $OPT_DIR/etc   # link system config to our OpenSSL
+curl -o $OPT_DIR/etc/ssl/cert.pem $URL_CURL_CACERT
 
 ### bootstrap jhbuild environment ##############################################
 
