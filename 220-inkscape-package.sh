@@ -53,17 +53,18 @@ mkdir -p $XDG_CACHE_HOME\
 # TODO: create from Inkscape assets on-the-fly
 curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 
-if [ -z $CI_JOB_ID ]; then   # running standalone
-  # update version information
-  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $SRC_DIR/inkscape))'" $APP_PLIST
-  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $SRC_DIR/inkscape))'" $APP_PLIST
-else   # running as CI job
-  # update version information
-  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $SELF_DIR))'" $APP_PLIST
-  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $SELF_DIR))'" $APP_PLIST
-fi
+# update Inkscape version information
+/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
+/usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
 
+# update minimum OS version
 /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$MACOSX_DEPLOYMENT_TARGET'" $APP_PLIST
+
+### generate application icon ##################################################
+
+jhbuild run pip3 install cairocffi cairosvg
+
+jhbuild run DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png 
 
 ### bundle Python.framework ####################################################
 

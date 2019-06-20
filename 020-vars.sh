@@ -21,6 +21,7 @@
 ### name #######################################################################
 
 SELF_NAME=$(basename $0)
+SELF_DIR=$(cd $(dirname "$0"); pwd -P)
 
 ### multithreading #############################################################
 
@@ -112,6 +113,12 @@ BIN_DIR=$OPT_DIR/bin
 LIB_DIR=$OPT_DIR/lib
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
+
+### Inkscape Git repository directory ##########################################
+
+# Location is different when run as GitLab CI job.
+
+[ -z $CI_JOB_ID ] && INK_DIR=$SRC_DIR/inkscape || INK_DIR=$SELF_DIR/../..
 
 ### artifact path ##############################################################
 
