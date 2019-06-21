@@ -161,14 +161,6 @@ URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
 URL_IMAGEMAGICK=https://github.com/ImageMagick/ImageMagick6/archive/6.9.7-10.tar.gz
 # Inkscape Git repository
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
-# TODO icon in icns format
-# This is the only binary file in the build pipeline and it's roughly 1 MiB in
-# size. I do not want to merge that to Inkscape because it's a temporary
-# workarond: a future version of the build pipeline will generate the icns from
-# an already present png file on-the-fly. But until that's been implemented,
-# download the icns from the original "macOS Inkscape build and package"
-# repository.
-URL_INKSCAPE_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape.icns
 URL_LCMS2=https://netcologne.dl.sourceforge.net/project/lcms/lcms/2.9/lcms2-2.9.tar.gz
 URL_LIBCDR=https://github.com/LibreOffice/libcdr/archive/libcdr-0.1.5.tar.gz
 URL_LIBPSL=https://github.com/rockdaboot/libpsl/releases/download/libpsl-0.20.2/libpsl-0.20.2.tar.gz
@@ -180,6 +172,7 @@ URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENMP=https://github.com/llvm/llvm-project/releases/download/llvmorg-7.1.0/openmp-7.1.0.src.tar.xz
 # use OpenSSL version as in gtk-osx moduleset
 URL_OPENSSL=https://www.openssl.org/source/old/1.1.0/openssl-1.1.0g.tar.gz
+URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
 URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.4/py368_framework_4.tar.xz

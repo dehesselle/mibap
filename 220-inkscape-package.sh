@@ -49,10 +49,6 @@ mkdir -p $XDG_CONFIG_HOME\
 mkdir -p $XDG_CACHE_HOME\
 '
 
-# add icon
-# TODO: create from Inkscape assets on-the-fly
-curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
-
 # update Inkscape version information
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
 /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
@@ -62,9 +58,17 @@ curl -L -o $APP_RES_DIR/inkscape.icns $URL_INKSCAPE_ICNS
 
 ### generate application icon ##################################################
 
+# svg to png
+
 jhbuild run pip3 install cairocffi cairosvg
 
-jhbuild run DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png 
+jhbuild run DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png $INK_DIR/share/branding/inkscape.svg
+
+# png to icns
+
+get_source $URL_PNG2ICNS
+./png2icns.sh $SRC_DIR/inkscape.png
+mv inkscape.icns $APP_RES_DIR
 
 ### bundle Python.framework ####################################################
 
