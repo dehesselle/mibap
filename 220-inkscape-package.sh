@@ -62,7 +62,10 @@ mkdir -p $XDG_CACHE_HOME\
 
 jhbuild run pip3 install cairocffi cairosvg
 
-jhbuild run DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png $INK_DIR/share/branding/inkscape.svg
+(
+  export DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib
+  jhbuild run cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png $INK_DIR/share/branding/inkscape.svg
+)
 
 # png to icns
 
