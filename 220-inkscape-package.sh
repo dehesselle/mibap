@@ -60,7 +60,8 @@ mkdir -p $XDG_CACHE_HOME\
 
 # svg to png
 
-jhbuild run pip3 install cairocffi cairosvg
+jhbuild run pip3 install cairosvg==2.4.0
+jhbuild run pip3 install cairocffi==1.0.2
 
 (
   export DYLD_FALLBACK_LIBRARY_PATH=/work/opt/lib
