@@ -118,9 +118,12 @@ TMP_DIR=$OPT_DIR/tmp
 
 # Location is different when run as GitLab CI job.
 
-[ -z $CI_JOB_ID ] && INK_DIR=$SRC_DIR/inkscape || INK_DIR=$SELF_DIR/../..
-
-INK_DIR=$(cd $INK_DIR; pwd -P)   # make sure this path is canoncial
+if [ -z $CI_JOB_ID ]; then
+  INK_DIR=$SRC_DIR/inkscape
+else
+  INK_DIR=$SELF_DIR/../..
+  INK_DIR=$(cd $INK_DIR; pwd -P)   # make path canoncial
+fi
 
 ### artifact path ##############################################################
 
