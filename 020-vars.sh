@@ -30,12 +30,12 @@ export MAKEFLAGS="-j $CORES"
 
 ### target OS version ##########################################################
 
-# There are a lot of ways to appraoch this. I recommend:
+# There are a lot of ways to appraoch this. Recommendation:
 #   - OS X El Capitan (10.11)
 #   - Xcode 8.2.1 (latest Xcode to support 10.11) for its clang 8.x
 #   - MacOSX10.11.sdk from Xcode 7.3.1
 
-export MACOSX_DEPLOYMENT_TARGET=10.11   # minimum version Mavericks
+export MACOSX_DEPLOYMENT_TARGET=10.11   # minimum version El Capitan
 
 FLAG_MMACOSXVERSIONMIN="-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
 
