@@ -26,7 +26,7 @@ function get_repo_version
 
 function get_inkscape_version
 {
-  local file=$SRC_DIR/inkscape/CMakeLists.txt
+  local file=$INK_DIR/CMakeLists.txt
   local ver_major=$(grep INKSCAPE_VERSION_MAJOR $file | head -n 1 | awk '{ print $2+0 }')
   local ver_minor=$(grep INKSCAPE_VERSION_MINOR $file | head -n 1 | awk '{ print $2+0 }')
   local ver_patch=$(grep INKSCAPE_VERSION_PATCH $file | head -n 1 | awk '{ print $2+0 }')
