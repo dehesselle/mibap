@@ -35,11 +35,6 @@ function get_inkscape_version
   ver_suffix=${ver_suffix%\"*}   # remove "double quote and everything after" from end
   ver_suffix=${ver_suffix#\"}   # remove "double quote" from beginning
  
-  # If there is a suffix, add the dot to it. Otherwise the suffix stays an
-  # empty string and resolves to "nothing" down below (as intended in that
-  # case).
-  [ ${#ver_suffix} -gt 0 ] && ver_suffix=.$ver_suffix
-
   echo $ver_major.$ver_minor.$ver_patch$ver_suffix
 }
 
