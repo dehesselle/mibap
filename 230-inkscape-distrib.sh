@@ -15,6 +15,8 @@ set -e
 
 ### create disk image for distribution #########################################
 
+# Update the .json file with our paths.
+
 cp $SELF_DIR/inkscape_dmg.json $SRC_DIR
 
 (
@@ -26,7 +28,10 @@ cp $SELF_DIR/inkscape_dmg.json $SRC_DIR
   sed -i '' "s/PLACEHOLDERPATH/${APP_DIR//\//\\\/}/" $SRC_DIR/inkscape_dmg.json
 )
 
-# create background
+# Create background for development snapshots. This is not meant for
+# official releases, those will be re-packaged manually (they also need
+# to be signed and notarized).
+
 convert -size 560x400 xc:transparent \
   -font Andale-Mono -pointsize 64 -fill black \
   -draw "text 20,60 'Inkscape'" \
@@ -35,13 +40,17 @@ convert -size 560x400 xc:transparent \
   -draw "text 20,240 '$(get_repo_version $INK_DIR)'" \
   $SRC_DIR/inkscape_dmg.png
 
+# create the disk image
+
 (
   cd $SRC_DIR/node-*
   export PATH=$PATH:$(pwd)/bin
   appdmg $SRC_DIR/inkscape_dmg.json $ARTIFACT_DIR/Inkscape.dmg
 )
 
-if [ ! -z $CI_JOB_ID ]; then   # create build artifcat for CI job
+# CI: move disk image to a location accessible for the runner
+
+if [ ! -z $CI_JOB_ID ]; then
   mv $ARTIFACT_DIR $INK_DIR/artifacts
   rm -rf $INK_DIR/artifacts/*.app
 fi
