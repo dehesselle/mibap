@@ -52,6 +52,7 @@ convert -size 560x400 xc:transparent \
 # CI: move disk image to a location accessible for the runner
 
 if [ ! -z $CI_JOB_ID ]; then
+  [ -d $INK_DIR/artifacts ] && rm -rf $INK_DIR/artifacts
   mv $ARTIFACT_DIR $INK_DIR/artifacts
   rm -rf $INK_DIR/artifacts/*.app
 fi
