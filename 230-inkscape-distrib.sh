@@ -35,9 +35,10 @@ cp $SELF_DIR/inkscape_dmg.json $SRC_DIR
 convert -size 560x400 xc:transparent \
   -font Andale-Mono -pointsize 64 -fill black \
   -draw "text 20,60 'Inkscape'" \
-  -draw "text 20,120 'development'" \
-  -draw "text 20,180 'snapshot'" \
-  -draw "text 20,240 '$(get_repo_version $INK_DIR)'" \
+  -draw "text 20,120 '$(get_inkscape_version)'" \
+  -draw "text 20,180 'development'" \
+  -draw "text 20,240 'snapshot'" \
+  -draw "text 20,300 '$(get_repo_version $INK_DIR)'" \
   $SRC_DIR/inkscape_dmg.png
 
 # create the disk image
