@@ -179,7 +179,7 @@ URL_OPENSSL=https://www.openssl.org/source/old/1.1.0/openssl-1.1.0g.tar.gz
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
-URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.4/py368_framework_4.tar.xz
+URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.5/py368_framework_5.tar.xz
 # A pre-built version of the complete toolset.
-URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.11/mibap_v0.11.tar.xz
+URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.13/mibap_v0.13.tar.xz
 
