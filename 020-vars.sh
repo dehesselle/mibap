@@ -152,6 +152,7 @@ APP_PLIST=$APP_CON_DIR/Info.plist
 URL_BOOST=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
 URL_CPPUNIT=https://dev-www.libreoffice.org/src/cppunit-1.14.0.tar.gz
 URL_CURL_CACERT=https://curl.haxx.se/ca/cacert.pem
+URL_CREATEDMG=https://github.com/andreyvit/create-dmg/archive/v1.0.0.5.tar.gz
 URL_DOUBLE_CONVERSION=https://github.com/google/double-conversion/archive/v3.1.4.tar.gz
 URL_FREETYPE=https://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.bz2
 URL_GC=https://github.com/ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz
@@ -171,7 +172,6 @@ URL_LIBREVENGE=https://ayera.dl.sourceforge.net/project/libwpd/librevenge/librev
 URL_LIBSOUP=https://ftp.gnome.org/pub/GNOME/sources/libsoup/2.65/libsoup-2.65.92.tar.xz
 URL_LIBVISIO=https://github.com/LibreOffice/libvisio/archive/libvisio-0.1.6.tar.gz
 URL_LIBWPG=https://netcologne.dl.sourceforge.net/project/libwpg/libwpg/libwpg-0.3.3/libwpg-0.3.3.tar.xz
-URL_NODEJS=https://nodejs.org/dist/v10.16.0/node-v10.16.0-darwin-x64.tar.gz
 URL_OPENJPEG=https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
 URL_OPENMP=https://github.com/llvm/llvm-project/releases/download/llvmorg-7.1.0/openmp-7.1.0.src.tar.xz
 # use OpenSSL version as in gtk-osx moduleset
