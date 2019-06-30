@@ -181,5 +181,5 @@ URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.7
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
 URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py368.5/py368_framework_5.tar.xz
 # A pre-built version of the complete toolset.
-URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.13/mibap_v0.13.tar.xz
+URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.14/mibap_v0.14.tar.xz
 
