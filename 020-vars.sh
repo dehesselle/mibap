@@ -18,10 +18,11 @@
 
 [ -f $HOME/.profile ] && source $HOME/.profile
 
-### name #######################################################################
+### name and directory #########################################################
 
 SELF_NAME=$(basename $0)
-SELF_DIR=$(cd $(dirname "$0"); pwd -P)
+SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
+  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
 
 ### multithreading #############################################################
 
