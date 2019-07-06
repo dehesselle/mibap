@@ -115,6 +115,14 @@ LIB_DIR=$OPT_DIR/lib
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
 
+### set system temporary locations to our TMP_DIR ##############################
+
+mkdir -p $TMP_DIR
+
+export TMP=$TMP_DIR
+export TEMP=$TMP_DIR
+export TMPDIR=$TMP_DIR
+
 ### Inkscape Git repository directory ##########################################
 
 # Location is different when run as GitLab CI job.
