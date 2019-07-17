@@ -61,8 +61,8 @@ mkdir -p $XDG_CACHE_HOME\
 
 # svg to png
 
-jhbuild run pip3 install cairosvg==2.4.0
-jhbuild run pip3 install cairocffi==1.0.2
+jhbuild run pip3 install $PYTHON_CAIROSVG
+jhbuild run pip3 install $PYTHON_CAIROCFFI
 
 (
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
@@ -97,7 +97,7 @@ echo "./../../../../../../../Resources/lib/python3.7/site-packages" > $APP_FRA_D
 (
   export CFLAGS=-I$OPT_DIR/include/libxml2   # This became necessary when switching
   export LDFLAGS=-L/$LIB_DIR                 # from builing on 10.13 to 10.11.
-  pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed lxml==4.3.3
+  pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_LXML
 )
 
 # patch 'etree'
@@ -113,11 +113,11 @@ relocate_dependency @loader_path/liblzma.5.dylib $APP_LIB_DIR/libxml2.2.dylib
 
 ### install Python package: NumPy ##############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed numpy==1.16.4
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_NUMPY
 
 ### install Python package: Pycairo ############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed pycairo==1.18.1
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYCAIRO
 
 # patch '_cairo'
 relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.7/site-packages/cairo/_cairo.cpython-37m-darwin.so
@@ -131,7 +131,7 @@ relocate_dependency @loader_path/libz.1.dylib $APP_LIB_DIR/libcairo.2.dylib
 
 ### install Python package: PyGObject ##########################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed PyGObject==3.32.1
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYGOBJECT
 
 # patch '_gi'
 relocate_dependency @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python3.7/site-packages/gi/_gi.cpython-37m-darwin.so
@@ -192,7 +192,7 @@ relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgmodule-2.0.0.d
 
 ### install Python package: Scour ##############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed scour==0.37
+pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_SCOUR
 
 ### set default Python interpreter #############################################
 
@@ -201,7 +201,7 @@ pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed scour==
 # ) we set the bundled Python to be the default one.
 
 # Default interpreter is an unversioned environment lookup for 'python', so
-# we prepar to override it.
+# we prepare to override it.
 mkdir -p $APP_BIN_DIR
 cd $APP_BIN_DIR
 ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python3 python

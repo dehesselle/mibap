@@ -192,3 +192,13 @@ URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py374.1
 # A pre-built version of the complete toolset.
 URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.14/mibap_v0.14.tar.xz
 
+### Python packages ############################################################
+
+PYTHON_CAIROSVG=cairosvg==2.4.0
+PYTHON_CAIROCFFI=cairocffi==1.0.2
+PYTHON_LXML=lxml==4.3.3
+PYTHON_NUMPY=numpy==1.16.4
+PYTHON_PYCAIRO=pycairo==1.18.1
+PYTHON_PYGOBJECT=PyGObject==3.32.1
+PYTHON_SCOUR=scour==0.37
+
