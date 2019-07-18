@@ -117,11 +117,14 @@ TMP_DIR=$OPT_DIR/tmp
 
 ### set system temporary locations to our TMP_DIR ##############################
 
-mkdir -p $TMP_DIR
-
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
 export TMPDIR=$TMP_DIR
+
+### set jhbuild directories ####################################################
+
+export DEVROOT=$WRK_DIR/gtkosx
+export PIP_CONFIG_DIR=$DEVROOT/pip
 
 ### Inkscape Git repository directory ##########################################
 
@@ -169,7 +172,7 @@ URL_GDL=https://github.com/GNOME/gdl/archive/GDL_3_28_0.tar.gz
 URL_GSL=http://ftp.fau.de/gnu/gsl/gsl-2.5.tar.gz
 URL_GTK_MAC_BUNDLER=https://gitlab.gnome.org/GNOME/gtk-mac-bundler/-/archive/727793cfae08dec0e1e2621078d53a02ec5f7fb3.tar.gz
 URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape
-URL_GTK_OSX_BUILD_SETUP=$URL_GTK_OSX/gtk-osx-build-setup.sh
+URL_GTK_OSX_SETUP=$URL_GTK_OSX/gtk-osx-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
 URL_IMAGEMAGICK=https://github.com/ImageMagick/ImageMagick6/archive/6.9.7-10.tar.gz
 # Inkscape Git repository
@@ -188,7 +191,10 @@ URL_OPENSSL=https://www.openssl.org/source/old/1.1.0/openssl-1.1.0g.tar.gz
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
-URL_PYTHON3=https://github.com/dehesselle/py3framework/releases/download/py374.1/py374_framework_1.tar.xz
+# This is the relocatable framework to be bundled with the app.
+URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py374.1/py374_framework_1.tar.xz
+# This is for the jhbuild toolset only.
+URL_PYTHON3_SRC=https://github.com/dehesselle/py3framework/archive/py369.2.tar.gz
 # A pre-built version of the complete toolset.
 URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.14/mibap_v0.14.tar.xz
 

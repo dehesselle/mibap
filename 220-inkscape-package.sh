@@ -79,10 +79,10 @@ mv inkscape.icns $APP_RES_DIR
 
 # This section deals with bundling Python.framework into the application.
 
-save_file $URL_PYTHON3   # download a pre-built Python.framework
+save_file $URL_PYTHON3_BIN   # download a pre-built Python.framework
 
 mkdir $APP_FRA_DIR
-get_source file://$SRC_DIR/$(basename $URL_PYTHON3) $APP_FRA_DIR
+get_source file://$SRC_DIR/$(basename $URL_PYTHON3_BIN) $APP_FRA_DIR
 
 # add it to '$PATH' in launch script
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
@@ -162,7 +162,6 @@ relocate_dependency @loader_path/libgmodule-2.0.0.dylib $APP_LIB_DIR/libgireposi
 relocate_dependency @loader_path/libgio-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
 relocate_dependency @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
 relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
-relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
 relocate_dependency @loader_path/libffi.6.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
 
 # patch '_gi_cairo'

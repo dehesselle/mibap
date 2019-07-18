@@ -64,6 +64,7 @@ function get_source
   [ ! -d $TMP_DIR ] && mkdir -p $TMP_DIR
   local log=$(mktemp $TMP_DIR/$FUNCNAME.XXXX)
   [ -z $target_dir ] && target_dir=$SRC_DIR
+  [ ! -d $SRC_DIR ] && mkdir -p $SRC_DIR
 
   cd $target_dir
 
