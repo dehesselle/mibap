@@ -29,7 +29,7 @@ bash <(curl -s $URL_GTK_OSX_SETUP)   # run jhbuild setup script
   echo "moduleset = '$URL_GTK_OSX_MODULESET'" >> $JHBUILDRC 
 
   # configure SDK
-  sed -i "" "s/^setup_sdk/#setup_sdk/" $JHBUILDRC   # comment out existing setting
+  sed -i "" "s/^setup_sdk/#setup_sdk/" $JHBUILDRC   # disable existing setting
   echo "setup_sdk(target=\"$MACOSX_DEPLOYMENT_TARGET\")" >> $JHBUILDRC
 )
 

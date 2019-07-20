@@ -4,7 +4,8 @@
 # This file is part of the build pipeline for Inkscape on macOS.
 #
 # ### 120-python3.sh ###
-# Install a dedicated Python 3 for JHBuild.
+# Install a dedicated Python 3 for JHBuild because it fails to install
+# a working Python by itself.
 
 ### load settings and functions ################################################
 
