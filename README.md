@@ -25,12 +25,12 @@ _In some regards it would've been more fair if this section was called "recommen
       ```
 
 - __Use a dedicated user account__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:  
-_(comments based on default configuration)_
+_(based on default configuration)_
 
     ```bash
-    $HOME/.cache       # will be symlinked to $WRK_DIR/tmp
-    $HOME/.local       # will be symlinked to $WRK_DIR/opt
-    $HOME/.profile     # will be overwritten
+    $HOME/.cache               # will be linked to $TMP_DIR
+    $HOME/.config/jhbuildrc*   # will be overwritten
+    $HOME/.profile             # will be overwritten
     ```
 
 - __16 GiB RAM__, since we're using a 9 GiB ramdisk to build everything.
@@ -49,14 +49,21 @@ Clone this repository to your build machine. You can either run all the executab
 
 to have everything run for you. If you are doing this the first time, my advice is to do it manually and step-by-step first to see if you're getting through all of it without errors.
 
-All the action takes place inside the ramdisk. A few locations do have to be redirected/symlinked to the ramdisk (that is what the above warning "...these scripts will delete and overwrite your data..." is about) and your `.profile` just gets overwritten to set `PATH` and nothing more. The good thing about this is the painless re-executability and keeping the host OS clean (mostly clean - a few configuration files below `$HOME` do remain) - just throw away the ramdisk and start over.
+Except for the the few things below `$HOME`, all the action takes place below `$WRK_DIR`. This allows for painless re-executability and keeps the host OS as clean as possible. For example, you can just eject the ramdisk and start over.
 
-Once the whole process finishes, you'll find `Inkscape.app` in your `/work/artifacts` or `$HOME/work/artifacts` folder, depending on your configuration.
+Once the whole process finishes, you'll find `Inkscape.app` in your `$ARTIFACT_DIR`.
 
 ### known issues
 
 - If you're logged in to the desktop (instead of doing everything headless via ssh), you'll get popups asking to install Java. It's triggered by at least `gettext` and `cmake` and can be safely ignored.
 - `gettext` can fail during checkout. I haven't figured out why. Choose `Rerun phase checkout` and it continues.
+- `fontconfig` fails during build. Choose `Start shell`, run
+  
+  ```bash
+  rm .jhbuild-srcdir/src/fcobjshash.h; exit
+  ```
+
+  and then `Rerun phase build`.
 
 ## Status
 
