@@ -17,3 +17,24 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 get_source $URL_CREATEDMG
 
+### install gtk-mac-bundler ####################################################
+
+get_source $URL_GTK_MAC_BUNDLER
+make install
+
+### install svg to pgn convertor ###############################################
+
+jhbuild run pip3 install $PYTHON_CAIROSVG
+jhbuild run pip3 install $PYTHON_CAIROCFFI
+
+### install png to icns converter ##############################################
+
+get_source $URL_PNG2ICNS
+ln -s png2icns.sh $BIN_DIR
+
+### downlaod a pre-built Python.framework ######################################
+
+# This will be bundled with the application.
+
+save_file $URL_PYTHON3_BIN
+

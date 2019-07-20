@@ -61,9 +61,6 @@ mkdir -p $XDG_CACHE_HOME\
 
 # svg to png
 
-jhbuild run pip3 install $PYTHON_CAIROSVG
-jhbuild run pip3 install $PYTHON_CAIROCFFI
-
 (
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
   jhbuild run cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png $INK_DIR/share/branding/inkscape.svg
@@ -71,15 +68,13 @@ jhbuild run pip3 install $PYTHON_CAIROCFFI
 
 # png to icns
 
-get_source $URL_PNG2ICNS
-./png2icns.sh $SRC_DIR/inkscape.png
+cd $SRC_DIR   # png2icns.sh outputs to current directory
+png2icns.sh inkscape.png
 mv inkscape.icns $APP_RES_DIR
 
 ### bundle Python.framework ####################################################
 
 # This section deals with bundling Python.framework into the application.
-
-save_file $URL_PYTHON3_BIN   # download a pre-built Python.framework
 
 mkdir $APP_FRA_DIR
 get_source file://$SRC_DIR/$(basename $URL_PYTHON3_BIN) $APP_FRA_DIR

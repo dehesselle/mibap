@@ -86,11 +86,6 @@ configure_make_makeinstall
 get_source $URL_POPPLER
 cmake_make_makeinstall -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
 
-### install gtk-mac-bundler ####################################################
-
-get_source $URL_GTK_MAC_BUNDLER
-make install
-
 ### install double-conversion ##################################################
 
 # Required by lib2geom.
