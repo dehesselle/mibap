@@ -21,9 +21,12 @@ if $RAMDISK_ENABLE; then
   create_ramdisk $WRK_DIR $RAMDISK_SIZE
 fi
 
-### create temp directory ######################################################
+### create temp directories ####################################################
 
 mkdir -p $TMP_DIR
+
+rm -rf $HOME/.cache
+ln -sf $TMP_DIR $HOME/.cache
 
 ### setup path #################################################################
 
