@@ -190,7 +190,7 @@ URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py3
 # This is for the jhbuild toolset only.
 URL_PYTHON3_SRC=https://github.com/dehesselle/py3framework/archive/py369.2.tar.gz
 # A pre-built version of the complete toolset.
-URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.14/mibap_v0.14.tar.xz
+URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.15/mibap_v0.15.tar.xz
 
 ### Python packages ############################################################
 
