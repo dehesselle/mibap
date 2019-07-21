@@ -17,11 +17,20 @@ set -e
 ### package Inkscape ###########################################################
 
 mkdir -p $ARTIFACT_DIR
-export    ARTIFACT_DIR   # referenced in 'inkscape.bundle'
 
-cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $SELF_DIR
-cd $SELF_DIR
-jhbuild run gtk-mac-bundler inkscape.bundle
+(
+  export ARTIFACT_DIR   # referenced in 'inkscape.bundle'
+
+  BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
+  mkdir -p $BUILD_DIR
+
+  cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $BUILD_DIR
+  cp $SELF_DIR/inkscape.bundle $BUILD_DIR
+  cp $SELF_DIR/inkscape.plist $BUILD_DIR
+
+  cd $BUILD_DIR
+  jhbuild run gtk-mac-bundler inkscape.bundle
+)
 
 # patch library locations
 relocate_dependency @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib $APP_EXE_DIR/Inkscape-bin
