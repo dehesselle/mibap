@@ -30,7 +30,7 @@ else
     $SELF_DIR/110-sysprep.sh
     get_source $URL_TOOLSET_CACHE $WRK_DIR
     mkdir -p $HOME/.config
-    rm $HOME/.config/jhbuild* 2>/dev/null
+    rm -f $HOME/.config/jhbuild*
     ln -sf $DEVCONFIG/jhbuild* $HOME/.config
   else  # we need to build from scratch
     for script in $SELF_DIR/1??-*.sh; do
