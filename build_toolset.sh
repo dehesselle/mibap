@@ -27,7 +27,7 @@ else
     # Until a better solution is found, the ramdisk has to be manually created
     # on the runner and is disabled on CI.
     [ ! -z $CI_JOB_ID ] && RAMDISK_ENABLE=false
-    $SELF_DIR/110-jhbuild-install.sh
+    $SELF_DIR/110-sysprep.sh
     get_source $URL_TOOLSET_CACHE $WRK_DIR
     mkdir -p $HOME/.config
     rm $HOME/.config/jhbuild* 2>/dev/null
