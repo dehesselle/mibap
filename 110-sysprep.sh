@@ -36,5 +36,3 @@ ln -sf $TMP_DIR $HOME/.cache
 echo "export PATH=$DEVROOT/.new_local/bin:$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin" > $HOME/.profile
 echo "export LANG=de_DE.UTF-8" >> $HOME/.profile   # jhbuild complains otherwise
 
-source $HOME/.profile
-
