@@ -8,7 +8,8 @@
 
 ### load settings and functions ################################################
 
-SELF_DIR=$(cd $(dirname "$0"); pwd -P)
+SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
+  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 set -e
@@ -28,6 +29,9 @@ else
     [ ! -z $CI_JOB_ID ] && RAMDISK_ENABLE=false
     $SELF_DIR/110-jhbuild-install.sh
     get_source $URL_TOOLSET_CACHE $WRK_DIR
+    mkdir -p $HOME/.config
+    rm $HOME/.config/jhbuild* 2>/dev/null
+    ln -sf $DEVCONFIG/jhbuild* $HOME/.config
   else  # we need to build from scratch
     for script in $SELF_DIR/1??-*.sh; do
       $script

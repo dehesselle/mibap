@@ -30,6 +30,7 @@ _(based on default configuration)_
     ```bash
     $HOME/.cache               # will be linked to $TMP_DIR
     $HOME/.config/jhbuildrc*   # will be overwritten
+    $HOME/.local               # will be linked to $OPT_DIR
     $HOME/.profile             # will be overwritten
     ```
 

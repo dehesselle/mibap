@@ -123,12 +123,16 @@ export TMPDIR=$TMP_DIR
 
 ### set jhbuild directories ####################################################
 
-export DEVROOT=$WRK_DIR/gtkosx
-export PIP_CONFIG_DIR=$DEVROOT/pip
+export DEVROOT=$WRK_DIR/gtk-osx
+export DEVPREFIX=$DEVROOT/local
+export PYTHONUSERBASE=$DEVPREFIX
+export DEV_SRC_ROOT=$DEVROOT/source
+DEVCONFIG=$DEVROOT/config   # no export because this is a made-up variable
+export PIP_CONFIG_DIR=$DEVCONFIG/pip
 
 ### Inkscape Git repository directory ##########################################
 
-# Location is different when run as GitLab CI job.
+# Location is different when running as GitLab CI job.
 
 if [ -z $CI_JOB_ID ]; then
   INK_DIR=$SRC_DIR/inkscape
