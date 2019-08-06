@@ -173,7 +173,6 @@ relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libglib-2.0.0.dyli
 
 # patch libgio-2.0.0.dylib to find neighbouring libraries
 relocate_dependency @loader_path/libgobject-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
-relocate_dependency @loader_path/libffi.6.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
 relocate_dependency @loader_path/libgmodule-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
 relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
 relocate_dependency @loader_path/libz.1.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
@@ -182,7 +181,6 @@ relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgio-2.0.0.dylib
 # patch libgobject-2.0.0.dylib to find neighbouring libraries
 relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
 relocate_dependency @loader_path/libffi.6.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
-relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgobject-2.0.0.dylib
 
 # patch libgirepository-1.0.1.dylib to find neighbouring libraries
 relocate_dependency @loader_path/libgmodule-2.0.0.dylib $APP_LIB_DIR/libgirepository-1.0.1.dylib
@@ -214,7 +212,6 @@ relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libcairo-gobject.2
 
 # patch libgmodule-2.0.0.dylib
 relocate_dependency @loader_path/libglib-2.0.0.dylib $APP_LIB_DIR/libgmodule-2.0.0.dylib
-relocate_dependency @loader_path/libintl.9.dylib $APP_LIB_DIR/libgmodule-2.0.0.dylib
 
 ### install Python package: pySerial ###########################################
 
