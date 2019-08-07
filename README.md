@@ -48,7 +48,7 @@ Clone this repository to your build machine. You can either run all the executab
 ./build_all.sh
 ```
 
-to have everything run for you. If you are doing this the first time, my advice is to do it manually and step-by-step first to see if you're getting through all of it without errors.
+to have everything run for you. If you are doing this the first time, my advice is to do it manually and step-by-step first to see if you're getting through all of it without errors. Also mind the known issues below!
 
 Except for the the few things below `$HOME`, all the action takes place below `$WRK_DIR`. This allows for painless re-executability and keeps the host OS as clean as possible. For example, you can just eject the ramdisk and start over.
 
@@ -57,14 +57,22 @@ Once the whole process finishes, you'll find `Inkscape.app` in your `$ARTIFACT_D
 ### known issues
 
 - If you're logged in to the desktop (instead of doing everything headless via ssh), you'll get popups asking to install Java. It's triggered by at least `gettext` and `cmake` and can be safely ignored.
-- `gettext` can fail during checkout. I haven't figured out why. Choose `Rerun phase checkout` and it continues.
-- `fontconfig` fails during build. Choose `Start shell`, run
-  
+- `gettext` can fail during checkout. I haven't figured out why. Choose `Rerun phase checkout` (option 1) to continue.
+- `pango` fails during build (as part of `140-jhbuild-gtk3.sh`). Quit the JHBuild error prompt with `[CTRL]+[C]`, run
+
   ```bash
-  rm .jhbuild-srcdir/src/fcobjshash.h; exit
+  export LDFLAGS="-framework CoreFoundation"
+  jhbuild build pango
   ```
 
-  and then `Rerun phase build`.
+  choose `Go to phase "wipe directory and start over"` (option 6) and run
+
+  ```bash
+  unset LDFLAGS
+  ./140-jhbuild-gtk3.sh
+  ```
+
+  to finish that step.
 
 ## Status
 
