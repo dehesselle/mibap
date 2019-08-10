@@ -19,7 +19,8 @@ run_annotated
 
 mkdir -p $ARTIFACT_DIR
 
-(
+( # use subshell to fence temporary variables
+
   export ARTIFACT_DIR   # referenced in 'inkscape.bundle'
 
   BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
@@ -30,29 +31,7 @@ mkdir -p $ARTIFACT_DIR
   cp $SELF_DIR/inkscape.plist $BUILD_DIR
   cd $BUILD_DIR
 
-  # FIXME: I don't like this at all! This is a temporary workaround, retrying
-  # the bundling if it fails up to 5 times.
-
-  set +e
-  RESTART=0
-  while [ $RESTART -lt 6 ]; do
-    jhbuild run gtk-mac-bundler inkscape.bundle
-    RC=$?
-    if [ $RC -eq 0 ]; then
-      break
-    else
-      ((RESTART++))
-      SECONDS=$((RESTART*10))
-      echo "Bundling failed. Restarting in $SECONDS seconds."
-      sleep $SECONDS
-    fi
-  done
-  set -e
-
-  if [ $RC -ne 0 ]; then
-    echo "--- FATAL --- Bundling failed."
-    exit $RC
-  fi
+  jhbuild run gtk-mac-bundler inkscape.bundle
 )
 
 # patch library locations
