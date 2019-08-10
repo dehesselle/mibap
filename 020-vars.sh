@@ -199,10 +199,10 @@ URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.16/mi
 
 PYTHON_CAIROSVG=cairosvg==2.4.0
 PYTHON_CAIROCFFI=cairocffi==1.0.2
-PYTHON_LXML=lxml==4.3.3
-PYTHON_NUMPY=numpy==1.16.4
+PYTHON_LXML=lxml==4.4.0
+PYTHON_NUMPY=numpy==1.17.0
 PYTHON_PYCAIRO=pycairo==1.18.1
-PYTHON_PYGOBJECT=PyGObject==3.32.1
+PYTHON_PYGOBJECT=PyGObject==3.32.2
 PYTHON_SCOUR=scour==0.37
 PYTHON_PYSERIAL=pyserial==3.4
 
