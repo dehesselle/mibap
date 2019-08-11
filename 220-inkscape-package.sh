@@ -15,13 +15,11 @@ set -e
 
 run_annotated
 
-### package Inkscape ###########################################################
+### create application bundle ##################################################
 
 mkdir -p $ARTIFACT_DIR
 
 ( # use subshell to fence temporary variables
-
-  export ARTIFACT_DIR   # referenced in 'inkscape.bundle'
 
   BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
   mkdir -p $BUILD_DIR
@@ -29,12 +27,24 @@ mkdir -p $ARTIFACT_DIR
   cp $SRC_DIR/gtk-mac-bundler*/examples/gtk3-launcher.sh $BUILD_DIR
   cp $SELF_DIR/inkscape.bundle $BUILD_DIR
   cp $SELF_DIR/inkscape.plist $BUILD_DIR
-  cd $BUILD_DIR
 
-  jhbuild run gtk-mac-bundler inkscape.bundle
+  # Due to an undiagnosed instability that only occurs during CI runs (not when
+  # run interactively from the terminal), the following code will be put into
+  # a separate script and be executed via Terminal.app.
+
+  cat <<EOF >$SRC_DIR/run_gtk-mac-bundler.sh
+#!/usr/bin/env bash
+export ARTIFACT_DIR=$ARTIFACT_DIR
+cd $BUILD_DIR
+jhbuild run gtk-mac-bundler inkscape.bundle
+EOF
 )
 
-# patch library locations
+chmod 755 $SRC_DIR/run_gtk-mac-bundler.sh
+run_in_terminal $SRC_DIR/run_gtk-mac-bundler.sh
+
+# Patch library link paths.
+
 relocate_dependency @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib $APP_EXE_DIR/Inkscape-bin
 
 relocate_dependency @loader_path/../libpoppler.85.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
@@ -52,12 +62,12 @@ insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export INKSCAPE_LOCALEDIR=$bundle_
 
 # add XDG paths to use native locations on macOS
 insert_before $APP_EXE_DIR/Inkscape 'export XDG_CONFIG_DIRS' '\
-export XDG_DATA_HOME=\"$HOME/Library/Application\\ Support/Inkscape/data\"\
+export XDG_DATA_HOME=\"$HOME/Library/Application Support/Inkscape/data\"\
 export XDG_CONFIG_HOME=\"$HOME/Library/Application Support/Inkscape/config\"\
 export XDG_CACHE_HOME=\"$HOME/Library/Application Support/Inkscape/cache\"\
-mkdir -p $XDG_DATA_HOME\
-mkdir -p $XDG_CONFIG_HOME\
-mkdir -p $XDG_CACHE_HOME\
+mkdir -p \"$XDG_DATA_HOME\"\
+mkdir -p \"$XDG_CONFIG_HOME\"\
+mkdir -p \"$XDG_CACHE_HOME\"\
 '
 
 # update Inkscape version information
