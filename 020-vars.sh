@@ -192,7 +192,7 @@ URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py3
 # 'Plist' class got removed in 'plistlib' and 'gtk-mac-bundler' needs that.
 URL_PYTHON3_SRC=https://github.com/dehesselle/py3framework/archive/py369.2.tar.gz
 # A pre-built version of the complete toolset.
-URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.16/mibap_v0.16.tar.xz
+URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.17/mibap_v0.17.tar.xz
 
 ### Python packages ############################################################
 
@@ -200,7 +200,7 @@ PYTHON_CAIROSVG=cairosvg==2.4.0
 PYTHON_CAIROCFFI=cairocffi==1.0.2
 PYTHON_DMGBUILD=dmgbuild==1.3.2
 PYTHON_LXML=lxml==4.4.0
-PYTHON_NUMPY=numpy==1.17.0
+PYTHON_NUMPY=numpy==1.16.4   # 1.17.0 breaks (no investigation yet)
 PYTHON_PYCAIRO=pycairo==1.18.1
 PYTHON_PYGOBJECT=PyGObject==3.32.2
 PYTHON_SCOUR=scour==0.37
