@@ -31,21 +31,7 @@ convert -size 560x400 xc:transparent \
   $SRC_DIR/inkscape_dmg.png
 
 # create the disk image
-
-# A few things to note:
-#   - For this script to work, there must be a running desktop session.
-#   - There have been reports of troubles with the Applescript portions
-#     of this script, requiring additional privileges on newer macOS versions.
-#   - The background image in the '.dmg' does not show in OS X El Capitan
-#     (10.11), it has something to do with how the '.DS_Store' is generated.
-
-cd $SRC_DIR/create-dmg*
-./create-dmg \
-  --volname Inkscape \
-  --background $SRC_DIR/inkscape_dmg.png \
-  --icon "Inkscape.app" 390 240 \
-  --icon-size 64 \
-  $TMP_DIR/Inkscape.dmg $ARTIFACT_DIR
+create_dmg $ARTIFACT_DIR/Inkscape.app $TMP_DIR/Inkscape.dmg $SRC_DIR/inkscape_dmg.py
 
 rm -rf $APP_DIR
 mv $TMP_DIR/Inkscape.dmg $ARTIFACT_DIR

@@ -233,3 +233,29 @@ SELF_DIR='$SELF_DIR'\
   exit $?
 }
 
+### create disk image ##########################################################
+
+function create_dmg
+{
+  local app=$1
+  local dmg=$2
+  local cfg=$3
+
+  # set application
+  sed "s/PLACEHOLDERAPPLICATION/${app//\//\\/}/" $SELF_DIR/$(basename $cfg) > $cfg
+  
+  # set disk image icon (if it exists)
+  local icon=$SRC_DIR/$(basename -s .py $cfg).icns
+  if [ -f $icon ]; then
+    sed -i '' "s/PLACEHOLDERICON/${icon//\//\\/}/" $cfg
+  fi
+
+  # set background image (if it exists)
+  local background=$SRC_DIR/$(basename -s .py $cfg).png
+  if [ -f $background ]; then
+    sed -i '' "s/PLACEHOLDERBACKGROUND/${background//\//\\/}/" $cfg
+  fi
+
+  # create disk image
+  dmgbuild -s $cfg "$(basename -s .app $app)" $dmg
+}
