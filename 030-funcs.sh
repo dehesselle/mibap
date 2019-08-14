@@ -18,8 +18,8 @@
 function get_repo_version
 {
   local repo=$1
-  #echo $(git -C $repo describe --tags --dirty)
-  echo $(git -C $repo log --pretty=format:'%h' -n 1)
+  # do it the same way as in CMakeScripts/inkscape-verson.cmake
+  echo $(git -C $repo rev-parse --short HEAD)
 }
 
 ### get Inkscape version from CMakeLists.txt ###################################
@@ -69,8 +69,8 @@ function get_source
   cd $target_dir
 
   # This downloads a file and pipes it directly into tar (file is not saved
-  # to disk) to extract it. Output is saved temporarily to determine
-  # the directory the files have been extracted to.
+  # to disk) to extract it. Output from stderr is saved temporarily to 
+  # determine the directory the files have been extracted to.
   curl -L $url | tar xv$(get_comp_flag $url) 2>$log
   cd $(head -1 $log | awk '{ print $2 }')
   [ $? -eq 0 ] && rm $log || echo "$FUNCNAME: check $log"
@@ -125,6 +125,11 @@ function cmake_make_makeinstall
 
 ### create and mount ramdisk ###################################################
 
+# There is a more common approach to do this using
+#    diskutil eraseVolume HFS+ VolName $(hdiutil attach -nomount ram://<size>)
+# but that always attaches the ramdisk below '/Volumes'.
+# To have full control, we need to do it as follows.
+
 function create_ramdisk
 {
   local dir=$1    # mountpoint
@@ -139,7 +144,8 @@ function create_ramdisk
 
 ### insert line into a textfile ################################################
 
-# insert_before [filename] '[insert before this pattern]' '[line to insert]'
+# usage:
+# insert_before <filename> <insert before this pattern> <line to insert>
 
 function insert_before 
 {
@@ -158,7 +164,7 @@ function insert_before
 function relocate_dependency
 {
   local target=$1    # fully qualified path and library name to new location
-  local library=$2   # library where 'source' get changed to 'target'
+  local library=$2   # library to be modified (change 'source' to 'target'I
 
   local source_lib=${target##*/}   # get library filename from target location
   local source=$(otool -L $library | grep $source_lib | awk '{ print $1 }')
@@ -183,7 +189,7 @@ function relocate_neighbouring_libs
 
 ### 'readlink -f' replacement ##################################################
 
-# This is what the oneliner used to set SELF_DIR is based on.
+# This is what the oneliner setting SELF_DIR (see top of file) is based on.
 
 function readlinkf
 {
@@ -207,16 +213,16 @@ function readlinkf
   echo $(pwd -P)/$file
 }
 
-### run script and echo comments prefixed with three hashes ####################
+### run script and echo comments enclosed by three hashes ######################
 
 # This little magic trick
 #   - reads the current file
 #   - turns every line that matches "### text here ###" into an echo statement
 #     (whatever follows after the last three hashes is ignored)
 #   - adds script name and line number as prefix
-#   - sets background color for that "echo" to blue
-#   - removes the call to run_annotated to avoid recursion
-#   - set SELF_DIR to correct value (piping into bash breaks existing one)
+#   - sets background color for that 'echo' to blue
+#   - removes the call to 'run_annotated' to avoid recursion
+#   - sets SELF_DIR to the correct value (piping into bash breaks it)
 #
 # Known side effects:
 #   - SELF_NAME no longer works (is now "bash")
