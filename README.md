@@ -28,9 +28,9 @@ _In some regards it would've been more fair if this section was called "recommen
 _(based on default configuration)_
 
     ```bash
-    $HOME/.cache               # will be linked to $TMP_DIR
-    $HOME/.config/jhbuildrc*   # will be overwritten
-    $HOME/.local               # will be linked to $OPT_DIR
+    $HOME/.cache               # will be removed, then linked to $TMP_DIR
+    $HOME/.config/jhbuildrc*   # will be removed, then linked to $DEVCONFIG
+    $HOME/.local               # will be removed, then linked to $OPT_DIR
     $HOME/.profile             # will be overwritten
     ```
 
