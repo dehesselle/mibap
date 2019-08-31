@@ -59,7 +59,8 @@ function get_comp_flag
 function get_source
 {
   local url=$1
-  local target_dir=$2   # optional argument, defaults to $SRC_DIR
+  local target_dir=$2   # optional: target directory, defaults to $SRC_DIR
+  local options=$3      # optional: additional options for 'tar'
 
   [ ! -d $TMP_DIR ] && mkdir -p $TMP_DIR
   local log=$(mktemp $TMP_DIR/$FUNCNAME.XXXX)
@@ -71,7 +72,7 @@ function get_source
   # This downloads a file and pipes it directly into tar (file is not saved
   # to disk) to extract it. Output from stderr is saved temporarily to 
   # determine the directory the files have been extracted to.
-  curl -L $url | tar xv$(get_comp_flag $url) 2>$log
+  curl -L $url | tar xv$(get_comp_flag $url) $options 2>$log
   cd $(head -1 $log | awk '{ print $2 }')
   [ $? -eq 0 ] && rm $log || echo "$FUNCNAME: check $log"
 }
