@@ -233,7 +233,7 @@ function run_annotated
 {
   # The newlines in the last 'sed' statement are significant!
 
-  sed 's/\(^### .* ###\).*/echo \-e "\\033[1;44m['$SELF_NAME':$(printf '%03d' $LINENO)] \1\\033[0m"/g' $SELF_DIR/$SELF_NAME | sed 's/^run_annotated/#run_annotated/' | sed '/SELF_DIR=/a\
+  sed 's/\(^### .* ###\).*/echo \-e "\\033[1;44m\\033[1;37m['$SELF_NAME':$(printf '%03d' $LINENO)] \1\\033[0m"/g' $SELF_DIR/$SELF_NAME | sed 's/^run_annotated/#run_annotated/' | sed '/SELF_DIR=/a\
 SELF_DIR='$SELF_DIR'\
 ' | bash
 
