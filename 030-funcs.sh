@@ -160,6 +160,31 @@ function insert_before
   rm $file_tmp
 }
 
+### escape replacement string for sed ##########################################
+
+# Escape slashes, backslashes and ampersands in strings to be used s as
+# replacement strings when using 'sed'. Newlines are not taken into
+# consideartion here.
+# reference: https://stackoverflow.com/a/2705678
+
+function escape_sed
+{
+  local string="$*"
+
+  echo "$string" | sed -e 's/[\/&]/\\&/g'
+}
+
+### replace line that matches pattern ##########################################
+
+function replace_line
+{
+  local file=$1
+  local pattern=$2
+  local replacement=$3
+
+  sed -i '' "s/.*${pattern}.*/$(escape_sed $replacement)/" $file
+}
+
 ### relocate a library dependency ##############################################
 
 function relocate_dependency
@@ -249,18 +274,18 @@ function create_dmg
   local cfg=$3
 
   # set application
-  sed "s/PLACEHOLDERAPPLICATION/${app//\//\\/}/" $SELF_DIR/$(basename $cfg) > $cfg
+  sed "s/PLACEHOLDERAPPLICATION/$(escape_sed $app)/" $SELF_DIR/$(basename $cfg) > $cfg
   
   # set disk image icon (if it exists)
   local icon=$SRC_DIR/$(basename -s .py $cfg).icns
   if [ -f $icon ]; then
-    sed -i '' "s/PLACEHOLDERICON/${icon//\//\\/}/" $cfg
+    sed -i '' "s/PLACEHOLDERICON/$(escape_sed $icon)/" $cfg
   fi
 
   # set background image (if it exists)
   local background=$SRC_DIR/$(basename -s .py $cfg).png
   if [ -f $background ]; then
-    sed -i '' "s/PLACEHOLDERBACKGROUND/${background//\//\\/}/" $cfg
+    sed -i '' "s/PLACEHOLDERBACKGROUND/$(escape_sed $background)/" $cfg
   fi
 
   # create disk image
