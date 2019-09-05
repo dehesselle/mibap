@@ -18,6 +18,7 @@ run_annotated
 
 get_source $URL_PYTHON3_SRC
 
+sed -i "" "/^WRK_DIR/s/.*/WRK_DIR=$(escape_sed $WRK_DIR)/" 020-vars.sh
 sed -i "" '/^FRA_DIR/s/.*/FRA_DIR=$WRK_DIR/' 020-vars.sh
 
 ./110-build.sh

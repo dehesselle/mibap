@@ -44,14 +44,16 @@ export CPPFLAGS="$CPPFLAGS $FLAG_MMACOSXVERSIONMIN"
 
 ### ramdisk ####################################################################
 
-RAMDISK_ENABLE=true   # mount ramdisk to $WRK_DIR
+# 9 GiB to build toolset, 5 GiB when using pre-built toolset
+
+RAMDISK_ENABLE=true   # mount ramdisk to WRK_DIR
 RAMDISK_SIZE=9        # unit is GiB
 
 ### try to use pre-built toolset ###############################################
 
 # In order to just download and extract a pre-built toolset
 #   - it has to be enabled ('TOOLSET_CACHE_ENABLE=true')
-#   - you have to use $DEFAULT_SYSTEM_WRK_DIR as your $WRK_DIR
+#   - you have to use DEFAULT_SYSTEM_WRK_DIR as your WRK_DIR
 #     (see commentary in the section below for explanation)
 #
 # It does not hurt to have it enabled by default, because if it cannot be
@@ -59,51 +61,16 @@ RAMDISK_SIZE=9        # unit is GiB
 
 TOOLSET_CACHE_ENABLE=true
 
-### workspace/build environment paths ##########################################
+### work directory and subdirectories ##########################################
 
-# The current behavior of selecting a $WRK_DIR:
-#   1. If there IS a pre-existing value (user configuration), use that.
-#     a. If it IS NOT writable, exit with error.
-#   2. If there IS NOT a pre-existing value, try to use $DEFAULT_SYSTEM_WRK_DIR.
-#     a. If it DOES exist and IS writable, continue using that.
-#     b. If it DOES exist and IS NOT writable, exit with error.
-#     c. If it DOES NOT exist, use $DEFAULT_USER_WRK_DIR.
-#
-# The reasoning behind this:
-# In regards to (1), if the user configured a directory, it has to be used. If
-# it can't be used, exit with error (as a user would expect).
-# In regards to (2), using an arbitrary system-level location like
-# $DEFAULT_SYSTEM_WRK_DIR is considered optional as in "you have to opt-in"
-# (and not mandatory at all). You can tell us that you "opted-in" by creating
-# that directory beforehand and ensuring it's writable (2a). Then it's going to
-# be used. (I don't like writing scripts that write to arbitrary locations on
-# their own. Also, that would require 'sudo' permission.)
-# If $DEFAULT_SYSTEM_WRK_DIR does not exist, it means that you did not
-# "opt-in" (2c) and we're going to use the user-based default location,
-# $DEFAULT_USER_WRK_DIR. If $DEFAULT_SYSTEM_WRK_DIR does exist but is not
-# writable, the situation is unclear and we exit in error (2b).
-#
-# But why bother with a $DEFAULT_SYSTEM_WRK_DIR at all? Because that's the only
-# way a pre-built build environment can be used (hard-coded library locations).
-
-if [ -z $WRK_DIR ]; then     # no pre-existing value
-  WRK_DIR=$DEFAULT_SYSTEM_WRK_DIR   # try default first
-
-  if [ -d $WRK_DIR ]; then      # needs to exist and
-    if [ ! -w $WRK_DIR ]; then  # must be writable
-      echo "directory exists but not writable: $WRK_DIR"
-      exit 1
-    fi
-  else   # use work directory below user's home (writable for sure)
-    WRK_DIR=$DEFAULT_USER_WRK_DIR
-  fi
-fi
+[ -z $WRK_DIR ] && WRK_DIR=/Users/Shared/work
 
 if [ $(mkdir -p $WRK_DIR 2>/dev/null; echo $?) -eq 0 ] &&
-   [ -w $WRK_DIR ]; then
+   [ -w $WRK_DIR ] &&
+   [ "$(stat -f '%Su' $WRK_DIR)" = "$(whoami)" ] ; then
   echo "using build directory: $WRK_DIR"
 else
-  echo "directory not writable: $WRK_DIR"
+  echo "directory not usable: $WRK_DIR"
   exit 1
 fi
 
@@ -125,7 +92,7 @@ export DEVROOT=$WRK_DIR/gtk-osx
 export DEVPREFIX=$DEVROOT/local
 export PYTHONUSERBASE=$DEVPREFIX
 export DEV_SRC_ROOT=$DEVROOT/source
-DEVCONFIG=$DEVROOT/config   # no export because this is a made-up variable
+DEVCONFIG=$DEVROOT/config   # no export because this is an intermediate variable
 export PIP_CONFIG_DIR=$DEVCONFIG/pip
 
 ### Inkscape Git repository directory ##########################################
