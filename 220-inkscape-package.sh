@@ -213,3 +213,15 @@ cp $SELF_DIR/fonts.conf $APP_ETC_DIR/fonts
 # (https://developer.gnome.org/gio//2.52/running-gio-apps.html)
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export GIO_MODULE_DIR=$bundle_lib/gio/modules'
 
+### fix messages in GTK launch script ##########################################
+
+# Some parts of the GTK launch script cause unnecessary messages.
+
+# silence "does not exist" message
+replace_line $APP_EXE_DIR/Inkscape AppleCollationOrder \
+  'APPLECOLLATION=$(defaults read .GlobalPreferences AppleCollationOrder 2>/dev/null)'
+
+# add quotes so test does not complain to missing (because empty) argument
+replace_line $APP_EXE_DIR/Inkscape '-a -n $APPLECOLLATION;' \
+  'if test -z ${LANG} -a -n "$APPLECOLLATION"; then'
+
