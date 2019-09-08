@@ -29,18 +29,11 @@ export MAKEFLAGS="-j $CORES"
 
 ### target OS version ##########################################################
 
-# There are a lot of ways to appraoch this. Recommendation:
-#   - OS X El Capitan (10.11)
-#   - Xcode 8.2.1 (latest Xcode to support 10.11) for its clang 8.x
-#   - MacOSX10.11.sdk from Xcode 7.3.1
+# You can build an macOS Mojave 10.14 using Xcode 10.3 using the SDK
+# from OS X Mavericks 10.9 (part of Xcode 6.3).
 
-export MACOSX_DEPLOYMENT_TARGET=10.11   # minimum version El Capitan
-
-FLAG_MMACOSXVERSIONMIN="-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
-
-export CFLAGS="$CFLAGS $FLAG_MMACOSXVERSIONMIN"
-export CXXFLAGS="$CXXFLAGS $FLAG_MMACOSXVERSIONMIN"
-export CPPFLAGS="$CPPFLAGS $FLAG_MMACOSXVERSIONMIN"
+export MACOSX_DEPLOYMENT_TARGET=10.9   # OS X Mavericks
+export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### ramdisk ####################################################################
 
@@ -154,10 +147,10 @@ URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
 # This is the relocatable framework to be bundled with the app.
-URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py374.1/py374_framework_1.tar.xz
-# This is for the jhbuild toolset only. This cannot be updated to 3.7 because
-# 'Plist' class got removed in 'plistlib' and 'gtk-mac-bundler' needs that.
-URL_PYTHON3_SRC=https://github.com/dehesselle/py3framework/archive/py369.2.tar.gz
+URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py374.3/py374_framework_3.tar.xz
+# This is for JHBuild only.
+URL_PYTHON36_SRC=https://github.com/dehesselle/py3framework/archive/py369.3.tar.gz
+URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py369.3/py369_framework_3.tar.xz
 # A pre-built version of the complete toolset.
 URL_TOOLSET_CACHE=https://github.com/dehesselle/mibap/releases/download/v0.17/mibap_v0.17.tar.xz
 
