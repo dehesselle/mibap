@@ -133,13 +133,6 @@ relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python3.
 
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_NUMPY
 
-### install Python package: Pycairo ############################################
-
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYCAIRO
-
-# patch '_cairo'
-relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.7/site-packages/cairo/_cairo.cpython-37m-darwin.so
-
 ### install Python package: PyGObject ##########################################
 
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYGOBJECT
@@ -161,6 +154,14 @@ relocate_dependency @loader_path/../../../libgirepository-1.0.1.dylib $APP_LIB_D
 relocate_dependency @loader_path/../../../libffi.6.dylib $APP_LIB_DIR/python3.7/site-packages/gi/_gi_cairo.cpython-37m-darwin.so
 relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.7/site-packages/gi/_gi_cairo.cpython-37m-darwin.so
 relocate_dependency @loader_path/../../../libcairo-gobject.2.dylib $APP_LIB_DIR/python3.7/site-packages/gi/_gi_cairo.cpython-37m-darwin.so
+
+### install Python package: Pycairo ############################################
+
+# PyGObject pulls in Pycairo, so not going to install again.
+#pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYCAIRO
+
+# patch '_cairo'
+relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python3.7/site-packages/cairo/_cairo.cpython-37m-darwin.so
 
 ### install Python package: pySerial ###########################################
 
