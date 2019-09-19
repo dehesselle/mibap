@@ -104,7 +104,9 @@ get_source file://$SRC_DIR/$(basename $URL_PYTHON3_BIN) $APP_FRA_DIR
 
 # add it to '$PATH' in launch script
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
-# add it to '$PATH' here and now (for package installation below)
+# Add it to '$PATH' here and now (for package installation below). This is an
+# exception: normally we'd not change the global environment but fence it
+# using subshells.
 export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
 # create '.pth' file inside Framework to include our site-packages directory
@@ -170,6 +172,10 @@ pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON
 ### install Python package: Scour ##############################################
 
 pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_SCOUR
+
+### precompile all Python packages #############################################
+
+python3 -m compileall -f $APP_DIR || true
 
 ### set default Python interpreter #############################################
 
