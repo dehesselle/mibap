@@ -121,9 +121,13 @@ echo "./../../../../../../../Resources/lib/python3.7/site-packages" > $APP_FRA_D
 # patch 'etree'
 relocate_dependency @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/etree.cpython-37m-darwin.so
 relocate_dependency @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/etree.cpython-37m-darwin.so
+relocate_dependency @loader_path/../../../libxslt.1.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/etree.cpython-37m-darwin.so
+relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/etree.cpython-37m-darwin.so
 # patch 'objectify'
 relocate_dependency @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/objectify.cpython-37m-darwin.so
 relocate_dependency @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/objectify.cpython-37m-darwin.so
+relocate_dependency @loader_path/../../../libxslt.1.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/objectify.cpython-37m-darwin.so
+relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python3.7/site-packages/lxml/objectify.cpython-37m-darwin.so
 
 ### install Python package: NumPy ##############################################
 
