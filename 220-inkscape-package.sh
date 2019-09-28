@@ -100,10 +100,7 @@ mv inkscape.icns $APP_RES_DIR
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-get_source file://$SRC_DIR/$(basename $URL_PYTHON3_BIN) $APP_FRA_DIR
-
-# remove 'test' folder to save space
-rm -rf $APP_FRA_DIR/Python.framework/Versions/Current/lib/python3.7/test
+get_source file://$SRC_DIR/$(basename $URL_PYTHON3_BIN) $APP_FRA_DIR --exclude='Versions/3.7/lib/python3.7/test/*'
 
 # add it to '$PATH' in launch script
 insert_before $APP_EXE_DIR/Inkscape '\$EXEC' 'export PATH=$bundle_contents/Frameworks/Python.framework/Versions/Current/bin:$PATH'
