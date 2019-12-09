@@ -340,6 +340,11 @@ function echo_info
   echo -e "ℹ️  $*"
 }
 
+function echo_act   # action
+{
+  echo -e "➡️  $*"
+}
+
 ### create a ramdisk and return the device #####################################
 
 function create_ram_device
@@ -361,7 +366,9 @@ function create_ram_device
 function create_dmg_device
 {
   local dmg=$1
-  local device=$(hdiutil attach -nomount $dmg | grep "^/dev/disk" | \
+  local options=$2   # optional arguments for hdiutil
+
+  local device=$(hdiutil attach -nomount $dmg $options | grep "^/dev/disk" | \
       grep "Apple_HFS" | awk '{ print $1 }')
 
   echo $device

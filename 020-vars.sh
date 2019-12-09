@@ -63,7 +63,7 @@ TMP_DIR=$OPT_DIR/tmp
 ### build system version #######################################################
 
 VERSION_WANT=0.24
-VERSION_HAVE=$([ -f $WRK_DIR/version.txt ] && cat $WRK_DIR/version.txt || true)
+VERSION_HAVE=$([ -f $WRK_DIR/version.txt ] && cat $WRK_DIR/version.txt)
 
 ### use our TMP_DIR for everything temporary ###################################
 

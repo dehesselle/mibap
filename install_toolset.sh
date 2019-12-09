@@ -47,22 +47,18 @@ function install
       echo_info "no download required"
     else
       # File not present on disk, we need to download.
-      echo_err "download required"
+      echo_act "download required"
       [ ! -d $REPOSITORY_DIR ] && mkdir -p $REPOSITORY_DIR
       save_file $URL_BUILDSYS $REPOSITORY_DIR
       echo_ok "download successful"
     fi
 
     # mount build system read-only
-    local device=$(create_dmg_device $buildsys_dmg)
+    [ -f $buildsys_dmg.shadow ] && rm $buildsys_dmg.shadow
+    local device=$(create_dmg_device $buildsys_dmg -shadow)
     [ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR
-    mount -o nobrowse,ro -t hfs $device $WRK_DIR
-    echo_ok "read-only buildsystem mounted as $device"
-
-    # union-mount a writable ramdisk to overlay build system
-    device=$(create_ram_device $RAMDISK_SIZE build)
-    mount -o nobrowse,rw,union -t hfs $device $WRK_DIR
-    echo_ok "writable ramdisk overlay mounted as $device"
+    mount -o nobrowse,rw -t hfs $device $WRK_DIR
+    echo_ok "buildsystem mounted as $device"
   fi
 }
 
