@@ -75,10 +75,8 @@ export TMPDIR=$TMP_DIR
 
 export DEVROOT=$WRK_DIR/gtk-osx
 export DEVPREFIX=$DEVROOT/local
-export PYTHONUSERBASE=$DEVPREFIX
 export DEV_SRC_ROOT=$DEVROOT/source
 DEVCONFIG=$DEVROOT/config   # no export because this is an intermediate variable
-export PIP_CONFIG_DIR=$DEVCONFIG/pip
 
 ### Inkscape Git repository directory ##########################################
 
