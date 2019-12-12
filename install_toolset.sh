@@ -34,7 +34,7 @@ function install
       local disk=$(mount | grep $WRK_DIR | tail -n1 | awk '{ print $1 }')
 
       if [ ${#disk} -eq 0 ]; then
-        break                  # nothing to do here
+        break                              # nothing to do here
       else
         diskutil eject $disk > /dev/null   # unmount
         echo_ok "ejected $disk"
@@ -54,11 +54,32 @@ function install
     fi
 
     # mount build system read-only
-    [ -f $buildsys_dmg.shadow ] && rm $buildsys_dmg.shadow
-    local device=$(create_dmg_device $buildsys_dmg -shadow)
+    local device=$(create_dmg_device $buildsys_dmg)
     [ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR
-    mount -o nobrowse,rw -t hfs $device $WRK_DIR
+    mount -o nobrowse,ro -t hfs $device $WRK_DIR
     echo_ok "buildsystem mounted as $device"
+
+    # Sadly, there are some limitations involved with union-mounting:
+    #   - files are not visible to 'ls'
+    #   - you cannot write in a location without having written to its
+    #     parent location
+    #
+    # Shadow-mounting a dmg is not a feasible alternative due to its
+    # bad write-performance.
+
+    # prepare a script for mass-creating directories
+    find $OPT_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
+        -exec echo "mkdir {}" > $WRITABLE_DIR/create_dirs.sh \;
+    chmod 755 $WRITABLE_DIR/create_dirs.sh
+
+    # create writable (ramdisk-) overlay
+    device=$(create_ram_device $RAMDISK_SIZE build)
+    mount -o nobrowse,rw,union -t hfs $device $WRK_DIR
+    echo_ok "writable ramdisk overlay mounted as $device"
+
+    # create all directories inside overlay
+    $WRITABLE_DIR/create_dirs.sh
+    rm $WRITABLE_DIR/create_dirs.sh
   fi
 }
 
