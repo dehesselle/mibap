@@ -50,9 +50,10 @@ fi
 
 ### build system paths  ########################################################
 
-REPOSITORY_DIR=$WRITABLE_DIR/repo  # downloaded build systems (.dmg files)
+REPOSITORY_DIR=$WRITABLE_DIR/repo    # downloaded build systems (.dmg files)
 
-WRK_DIR=$WRITABLE_DIR/1            # directory to mount build system to
+[ -z $WRK_DIR_NAME ] && WRK_DIR_NAME=1   # allow override through configuration
+WRK_DIR=$WRITABLE_DIR/$WRK_DIR_NAME  # directory to mount build system to
 
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
