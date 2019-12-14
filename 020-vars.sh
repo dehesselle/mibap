@@ -23,9 +23,9 @@ export MAKEFLAGS="-j $CORES"
 ### target OS version ##########################################################
 
 # You can build an macOS Mojave 10.14 using Xcode 10.3 using the SDK
-# from OS X Mavericks 10.9 (part of Xcode 6.3).
+# from OS X Yosemite 10.10 (part of Xcode 6.4).
 
-export MACOSX_DEPLOYMENT_TARGET=10.9   # OS X Mavericks
+export MACOSX_DEPLOYMENT_TARGET=10.10   # OS X Yosemite
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### ramdisk ####################################################################
@@ -63,7 +63,7 @@ TMP_DIR=$OPT_DIR/tmp
 
 ### build system version #######################################################
 
-VERSION_WANT=0.24
+VERSION_WANT=0.26
 VERSION_HAVE=$([ -f $WRK_DIR/version.txt ] && cat $WRK_DIR/version.txt)
 
 ### use our TMP_DIR for everything temporary ###################################
