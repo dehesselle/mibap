@@ -72,12 +72,14 @@ export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
 export TMPDIR=$TMP_DIR
 
-### set jhbuild directories ####################################################
+### JHBuild configuration ######################################################
 
 export DEVROOT=$WRK_DIR/gtk-osx
 export DEVPREFIX=$DEVROOT/local
 export DEV_SRC_ROOT=$DEVROOT/source
-DEVCONFIG=$DEVROOT/config   # no export because this is an intermediate variable
+
+export JHBUILDRC=$DEVROOT/jhbuildrc
+export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
 ### Inkscape Git repository directory ##########################################
 

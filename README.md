@@ -18,7 +18,6 @@ _(based on default configuration)_
 
     ```bash
     $HOME/.cache               # will be removed, then linked to $TMP_DIR
-    $HOME/.config/jhbuildrc*   # will be removed, then linked to $DEVCONFIG
     $HOME/.local               # will be removed, then linked to $OPT_DIR
     ```
 

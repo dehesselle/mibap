@@ -86,7 +86,3 @@ function install
 ### main #######################################################################
 
 install
-
-mkdir -p $HOME/.config
-rm -f $HOME/.config/jhbuild*
-ln -sf $DEVCONFIG/jhbuild* $HOME/.config
