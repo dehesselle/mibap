@@ -13,13 +13,7 @@ _These requirements have changed a few times over the course of development. So 
   - OS X Mavericks 10.9 SDK from Xcode 6.4  
     `/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk`
 
-- __Use a dedicated user account__ unless you're prepared that these scripts will delete and overwrite your data in the following locations:  
-_(based on default configuration)_
-
-    ```bash
-    $HOME/.cache               # will be removed, then linked to $TMP_DIR
-    $HOME/.local               # will be removed, then linked to $OPT_DIR
-    ```
+- __Use a dedicated user account__ with no customizations in `.profile`, `.bashrc`, etc.
 
 - __16 GiB RAM__, since we're using a 9 GiB ramdisk to build everything.
   - Using a ramdisk speeds up the process significantly and avoids wearing out your SSD.
