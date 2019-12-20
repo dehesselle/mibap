@@ -28,6 +28,10 @@ export MAKEFLAGS="-j $CORES"
 export MACOSX_DEPLOYMENT_TARGET=10.10   # OS X Yosemite
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
+### build system/toolset version ###############################################
+
+TOOLSET_VERSION=0.27
+
 ### ramdisk ####################################################################
 
 # There are two types of ramdisks:
@@ -40,36 +44,36 @@ OVERLAY_RAMDISK_SIZE=2   # unit is GiB
 
 BUILD_RAMDISK_SIZE=9     # unit is GiB
 
-### the main writable directory where all the action takes place ###############
+### toolset root directory #####################################################
 
-[ -z $WRITABLE_DIR ] && WRITABLE_DIR=/Users/Shared/work
+# This is where all the action takes place below.
 
-if  [ $(mkdir -p $WRITABLE_DIR 2>/dev/null; echo $?) -eq 0 ] &&
-    [ -w $WRITABLE_DIR ] &&
-    [ "$(stat -f '%Su' $WRITABLE_DIR)" = "$(whoami)" ] ; then
-  echo "using build directory: $WRITABLE_DIR"
+[ -z $TOOLSET_ROOT_DIR ] && TOOLSET_ROOT_DIR=/Users/Shared/work
+
+if  [ $(mkdir -p $TOOLSET_ROOT_DIR 2>/dev/null; echo $?) -eq 0 ] &&
+    [ -w $TOOLSET_ROOT_DIR ] &&
+    [ "$(stat -f '%Su' $TOOLSET_ROOT_DIR)" = "$(whoami)" ] ; then
+  :   # nothing to do, everything ok
 else
-  echo "directory not usable: $WRITABLE_DIR"
+  echo "❌ directory not usable (TOOLSET_ROOT_DIR): $TOOLSET_ROOT_DIR"
   exit 1
 fi
 
-### build system paths  ########################################################
+### toolset subdirectories #####################################################
 
-REPOSITORY_DIR=$WRITABLE_DIR/repo    # downloaded build systems (.dmg files)
+TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo  # downloaded build systems (.dmg files)
 
-[ -z $WRK_DIR_NAME ] && WRK_DIR_NAME=1   # allow override through configuration
-WRK_DIR=$WRITABLE_DIR/$WRK_DIR_NAME  # directory to mount build system to
+if [ -z $WRK_DIR_NAME ]; then   # allow to override this
+  WRK_DIR_NAME=$TOOLSET_VERSION
+fi
+
+WRK_DIR=$TOOLSET_ROOT_DIR/$WRK_DIR_NAME  # directory to mount build system to
 
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
 LIB_DIR=$OPT_DIR/lib
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
-
-### build system version #######################################################
-
-VERSION_WANT=0.26
-VERSION_HAVE=$([ -f $WRK_DIR/version.txt ] && cat $WRK_DIR/version.txt)
 
 ### use our TMP_DIR for everything temporary ###################################
 
@@ -79,7 +83,7 @@ export TMPDIR=$TMP_DIR
 export XDG_CACHE_HOME=$TMP_DIR    # avoids creation of ~/.cache
 export XDG_CONFIG_HOME=$TMP_DIR   # avoids creation of ~/.config
 
-### JHBuild configuration ######################################################
+### JHBuild subdirectories and configuration ###################################
 
 export DEVROOT=$WRK_DIR/gtk-osx
 export DEVPREFIX=$DEVROOT/local
@@ -152,7 +156,7 @@ URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py3
 # This is for JHBuild only.
 URL_PYTHON36_SRC=https://github.com/dehesselle/py3framework/archive/py369.3.tar.gz
 URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py369.3/py369_framework_3.tar.xz
-URL_BUILDSYS=https://github.com/dehesselle/mibap/releases/download/v$VERSION_WANT/mibap_v$VERSION_WANT.dmg
+URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
 
 ### Python packages ############################################################
 

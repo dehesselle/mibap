@@ -33,7 +33,7 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
 2. Specify a folder where all the action is going to take place. (Please avoid spaces in paths!)
 
    ```bash
-   echo "WRITABLE_DIR=$HOME/my_build_dir" > 015-customdir.sh
+   echo "TOOLSET_ROOT_DIR=$HOME/my_build_dir" > 015-customdir.sh
    ```
 
 3. Build the toolset.
@@ -48,7 +48,7 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
 
 ℹ️ _If you built the toolset yourself, skip ahead to the next section!_
 
-ℹ️ _Using `/Users/Shared/work` as `WRITABLE_DIR` is mandatory! (This is the default.)_
+ℹ️ _Using `/Users/Shared/work` as `TOOLSET_ROOT_DIR` is mandatory! (This is the default.)_
 
 1. Clone this repository and `cd` into it.
 
