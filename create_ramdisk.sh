@@ -15,5 +15,5 @@ set -e
 
 ### create ramdisk #############################################################
 
-create_ramdisk $WRK_DIR $RAMDISK_SIZE
+create_ramdisk $WRK_DIR $BUILD_RAMDISK_SIZE
 

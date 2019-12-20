@@ -30,10 +30,15 @@ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMEN
 
 ### ramdisk ####################################################################
 
-# A ramdisk is used as writable overlay to a read-only disk image containing
-# the build system.
+# There are two types of ramdisks:
+#   - When using the pre-compiled toolset dmg, only a small writable
+#     overlay is required.
+#   - When building the toolset yourself, a large ramdisk can be (optionally!)
+#     used to speed up the process and avoid wearing out the SSD.
 
-RAMDISK_SIZE=4   # unit is GiB
+OVERLAY_RAMDISK_SIZE=2   # unit is GiB
+
+BUILD_RAMDISK_SIZE=9     # unit is GiB
 
 ### the main writable directory where all the action takes place ###############
 
@@ -166,5 +171,5 @@ PYTHON_PYSERIAL=pyserial==3.4
 # Settings that would otherwise go into '.profile'.
 
 export PATH=$DEVPREFIX/bin:$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
-export LANG=de_DE.UTF-8   # jhbuild complains otherwise   FIXME hard-coded value
+export LANG=de_DE.UTF-8   # jhbuild complains otherwise   FIXME: hard-coded value
 

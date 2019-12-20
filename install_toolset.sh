@@ -73,7 +73,7 @@ function install
     chmod 755 $WRITABLE_DIR/create_dirs.sh
 
     # create writable (ramdisk-) overlay
-    device=$(create_ram_device $RAMDISK_SIZE build)
+    device=$(create_ram_device $OVERLAY_RAMDISK_SIZE build)
     mount -o nobrowse,rw,union -t hfs $device $WRK_DIR
     echo_ok "writable ramdisk overlay mounted as $device"
 
