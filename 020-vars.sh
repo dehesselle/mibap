@@ -22,15 +22,16 @@ export MAKEFLAGS="-j $CORES"
 
 ### target OS version ##########################################################
 
-# You can build an macOS Mojave 10.14 using Xcode 10.3 using the SDK
-# from OS X Yosemite 10.10 (part of Xcode 6.4).
-
-export MACOSX_DEPLOYMENT_TARGET=10.10   # OS X Yosemite
+# You can build an macOS Mojave 10.14 using Xcode 10.3 with the SDK
+# from OS X Mavericks 10.9 (part of Xcode 6.3).
+# Switching to 10.10 SDK is on hold due to GTK 3.24.13 not compiling
+# successfully.
+export MACOSX_DEPLOYMENT_TARGET=10.9   # OS X Mavericks
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################
 
-TOOLSET_VERSION=0.27
+TOOLSET_VERSION=0.28
 
 ### ramdisk ####################################################################
 
