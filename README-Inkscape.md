@@ -4,7 +4,7 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
 
 ## Usage
 
-### Recommendations
+### Requirements
 
 ℹ️ _These tend to change as development progresses (as they already have a few times) and I won't deny that there's usually more than one way to do something, but I can only support what I use myself. So feel free to experiment and deviate, but know that __it is dangerous to go alone! Take this 🗡️.___
 
@@ -82,7 +82,9 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
 
 ## GitLab CI
 
-The intended usage in `.gitlab-ci.yml` is as follows:
+Make sure the runner fulfills the same requirements as listed in the usage section above.
+
+Configure a job in your `.gitlab-ci.yml` as follows:
 
 ```yaml
 buildmacos:

@@ -4,7 +4,7 @@ This repository is the development platform for building and packaging [Inkscape
 
 ## Usage
 
-### Recommendations
+### Requirements
 
 _These tend to change as development progresses (as they already have a few times) and I won't deny that there's usually more than one way to do something, but I can only support what I use myself. So feel free to experiment and deviate, but know that __it is dangerous to go alone! Take this 🗡️.___
 
