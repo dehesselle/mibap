@@ -27,9 +27,9 @@ export MAKEFLAGS="-j $CORES"
 
 # The current setup is
 #   - Xcode 10.3
-#   - OS X Mavericks 10.9 SDK (part of Xcode 6.3)
+#   - OS X Yosemite 10.10 SDK (part of Xcode 6.4)
 #   - macOS Mojave 10.14.
-export MACOSX_DEPLOYMENT_TARGET=10.9   # OS X Mavericks
+export MACOSX_DEPLOYMENT_TARGET=10.10
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################

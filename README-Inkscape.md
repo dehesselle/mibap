@@ -12,7 +12,7 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
   - Make sure there are no remnants from other build environments (e.g. MacPorts, Fink, Homebrew) on your system.
     - Rule of thumb: clear out `/usr/local`.
   - Use macOS Mojave 10.14.6 with Xcode 10.3.
-  - Copy OS X Mavericks 10.9 SDK from Xcode 6.3 to `/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk`.
+  - Copy OS X Yosemite 10.10 SDK from Xcode 6.4 to `/Library/Developer/CommandLineTools/SDKs/MacOSX10.10.sdk`.
 
 - __Use a dedicated user account__ to avoid any interference with the environment (e.g. no custom settings in `.profile`, `.bashrc`, etc.).
 
