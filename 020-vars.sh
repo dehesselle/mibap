@@ -22,10 +22,13 @@ export MAKEFLAGS="-j $CORES"
 
 ### target OS version ##########################################################
 
-# You can build an macOS Mojave 10.14 using Xcode 10.3 with the SDK
-# from OS X Mavericks 10.9 (part of Xcode 6.3).
-# Switching to 10.10 SDK is on hold due to GTK 3.24.13 not compiling
-# successfully.
+# Gtk support policy is to support operating system releases up to 5 years
+# back. See https://gitlab.gnome.org/GNOME/gtk-osx/blob/master/README.md
+
+# The current setup is
+#   - Xcode 10.3
+#   - OS X Mavericks 10.9 SDK (part of Xcode 6.3)
+#   - macOS Mojave 10.14.
 export MACOSX_DEPLOYMENT_TARGET=10.9   # OS X Mavericks
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
@@ -35,21 +38,18 @@ TOOLSET_VERSION=0.29
 
 ### ramdisk ####################################################################
 
-# There are two types of ramdisks:
-#   - When using the pre-compiled toolset dmg, only a small writable
-#     overlay is required.
-#   - When building the toolset yourself, a large ramdisk can be (optionally!)
-#     used to speed up the process and avoid wearing out the SSD.
-
+# Using the toolset dmg, a small writable overlay required.
 OVERLAY_RAMDISK_SIZE=2   # unit is GiB
-
-BUILD_RAMDISK_SIZE=9     # unit is GiB
 
 ### toolset root directory #####################################################
 
-# This is where all the action takes place below.
+# This is the main directory where all the action takes place below. It is
+# one level above WRK_DIR (which in previous releases has been called the
+# main directory) so we can manage and switch between multiple different WRK_DIR
+# versions as required.
 
-[ -z $TOOLSET_ROOT_DIR ] && TOOLSET_ROOT_DIR=/Users/Shared/work
+# Allow this to be overridable or use the default.
+[ -z $TOOLSET_ROOT_DIR ] && TOOLSET_ROOT_DIR=/Users/Shared/work || true
 
 if  [ $(mkdir -p $TOOLSET_ROOT_DIR 2>/dev/null; echo $?) -eq 0 ] &&
     [ -w $TOOLSET_ROOT_DIR ] &&
@@ -60,15 +60,16 @@ else
   exit 1
 fi
 
-### toolset subdirectories #####################################################
+### toolset repository directory ###############################################
 
-TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo  # downloaded build systems (.dmg files)
+# This is where .dmg files with pre-compiled toolsets are downloaded to.
 
-if [ -z $WRK_DIR_NAME ]; then   # allow to override this
-  WRK_DIR_NAME=$TOOLSET_VERSION
-fi
+TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo
 
-WRK_DIR=$TOOLSET_ROOT_DIR/$WRK_DIR_NAME  # directory to mount build system to
+### work directory and subdirectories ##########################################
+
+# Allow this to be overrideable or use version number as default.
+[ -z $WRK_DIR ] && WRK_DIR=$TOOLSET_ROOT_DIR/$TOOLSET_VERSION || true
 
 OPT_DIR=$WRK_DIR/opt
 BIN_DIR=$OPT_DIR/bin
@@ -76,7 +77,7 @@ LIB_DIR=$OPT_DIR/lib
 SRC_DIR=$OPT_DIR/src
 TMP_DIR=$OPT_DIR/tmp
 
-### use our TMP_DIR for everything temporary ###################################
+### use TMP_DIR for everything temporary #######################################
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
@@ -90,7 +91,7 @@ export DEVROOT=$WRK_DIR/gtk-osx
 export DEVPREFIX=$DEVROOT/local
 export DEV_SRC_ROOT=$DEVROOT/source
 
-export JHBUILDRC=$DEVROOT/jhbuildrc
+export JHBUILDRC=$DEVROOT/jhbuildrc   # requires modified gtk-osx-setup.sh
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
 ### Inkscape Git repository directory ##########################################
@@ -121,6 +122,7 @@ APP_BIN_DIR=$APP_RES_DIR/bin
 APP_ETC_DIR=$APP_RES_DIR/etc
 APP_EXE_DIR=$APP_CON_DIR/MacOS
 APP_LIB_DIR=$APP_RES_DIR/lib
+
 APP_PLIST=$APP_CON_DIR/Info.plist
 
 ### download URLs ##############################################################
@@ -157,6 +159,7 @@ URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py3
 # This is for JHBuild only.
 URL_PYTHON36_SRC=https://github.com/dehesselle/py3framework/archive/py369.3.tar.gz
 URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py369.3/py369_framework_3.tar.xz
+# Pre-compiled version of the whole toolset.
 URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
 
 ### Python packages ############################################################
