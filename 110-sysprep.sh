@@ -15,7 +15,7 @@ run_annotated
 
 ### initial information ########################################################
 
-echo_info "TOOLSET_ROOT_DIR = $TOOLSET_ROOT_DIR" 
+echo_info "TOOLSET_ROOT_DIR = $TOOLSET_ROOT_DIR"
 echo_info "WRK_DIR          = $WRK_DIR"
 
 ### create work directory ######################################################
