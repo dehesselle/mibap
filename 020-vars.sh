@@ -134,7 +134,11 @@ URL_BOOST=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar
 URL_CPPUNIT=https://dev-www.libreoffice.org/src/cppunit-1.14.0.tar.gz
 URL_DOUBLE_CONVERSION=https://github.com/google/double-conversion/archive/v3.1.4.tar.gz
 URL_GC=https://github.com/ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz
-URL_GDL=https://github.com/GNOME/gdl/archive/GDL_3_28_0.tar.gz
+
+# This is one commit ahead of GDL_3_34_0.
+# Fixes https://gitlab.gnome.org/GNOME/gdl/issues/2
+URL_GDL=https://gitlab.gnome.org/GNOME/gdl/-/archive/9f11ad3ca8cef85b075419b30036d73648498dfe/gdl-9f11ad3ca8cef85b075419b30036d73648498dfe.tar.gz
+
 URL_GHOSTSCRIPT=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs927/ghostscript-9.27.tar.gz
 URL_GSL=http://ftp.fau.de/gnu/gsl/gsl-2.5.tar.gz
 URL_GTK_MAC_BUNDLER=https://github.com/dehesselle/gtk-mac-bundler/archive/24651a002b029b4703c378dfb368305af4d88752.tar.gz
@@ -153,11 +157,14 @@ URL_OPENMP=https://github.com/llvm/llvm-project/releases/download/llvmorg-7.1.0/
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 URL_POPPLER=https://gitlab.freedesktop.org/poppler/poppler/-/archive/poppler-0.74.0/poppler-poppler-0.74.0.tar.gz
 URL_POTRACE=http://potrace.sourceforge.net/download/1.15/potrace-1.15.tar.gz
+
 # This is the relocatable framework to be bundled with the app.
 URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py374.3/py374_framework_3.tar.xz
-# This is for JHBuild only.
+
+# These two are for JHBuild only (it fails to download and install its own Python).
 URL_PYTHON36_SRC=https://github.com/dehesselle/py3framework/archive/py369.3.tar.gz
 URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py369.3/py369_framework_3.tar.xz
+
 # Pre-compiled version of the whole toolset.
 URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
 
