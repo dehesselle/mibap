@@ -24,12 +24,15 @@ export MAKEFLAGS="-j $CORES"
 
 # Gtk support policy is to support operating system releases up to 5 years
 # back. See https://gitlab.gnome.org/GNOME/gtk-osx/blob/master/README.md
+#
+# gtk 3.24.13 does not builds with 10.10 SDK
+# (undeclared identifier NSWindowCollectionBehaviorFullScreenDisallowsTiling)
 
 # The current setup is
-#   - Xcode 10.3
-#   - OS X Yosemite 10.10 SDK (part of Xcode 6.4)
-#   - macOS Mojave 10.14.
-export MACOSX_DEPLOYMENT_TARGET=10.10
+#   - Xcode 11.3.1
+#   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
+#   - macOS Mojave 10.14.6
+export MACOSX_DEPLOYMENT_TARGET=10.11
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################
