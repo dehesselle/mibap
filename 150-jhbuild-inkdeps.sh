@@ -40,6 +40,7 @@ configure_make_makeinstall
 ### install GNOME Docking Library ##############################################
 
 get_source $URL_GDL
+patch -p1 < $SELF_DIR/gdl_disable_preview_window.patch
 jhbuild run ./autogen.sh
 configure_make_makeinstall
 
