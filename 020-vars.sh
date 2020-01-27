@@ -173,13 +173,13 @@ URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERS
 
 ### Python packages ############################################################
 
-PYTHON_CAIROSVG=cairosvg==2.4.0
-PYTHON_CAIROCFFI=cairocffi==1.0.2
-PYTHON_DMGBUILD=dmgbuild==1.3.2
-PYTHON_LXML=lxml==4.4.0
-PYTHON_NUMPY=numpy==1.16.4   # 1.17.0 breaks (no investigation yet)
-PYTHON_PYCAIRO=pycairo==1.18.1
-PYTHON_PYGOBJECT=PyGObject==3.32.2
+PYTHON_CAIROSVG=cairosvg==2.4.2
+PYTHON_CAIROCFFI=cairocffi==1.1.0
+PYTHON_DMGBUILD=dmgbuild==1.3.3
+PYTHON_LXML=lxml==4.4.2
+PYTHON_NUMPY=numpy==1.18.1
+PYTHON_PYCAIRO=pycairo==1.19.0
+PYTHON_PYGOBJECT=PyGObject==3.34.0
 PYTHON_SCOUR=scour==0.37
 PYTHON_PYSERIAL=pyserial==3.4
 
