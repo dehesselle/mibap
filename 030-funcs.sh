@@ -72,7 +72,7 @@ function get_source
   # This downloads a file and pipes it directly into tar (file is not saved
   # to disk) to extract it. Output from stderr is saved temporarily to
   # determine the directory the files have been extracted to.
-  curl -L $url | tar xv$(get_comp_flag $url) $options 2>$log
+  curl -L $(preferCachedUrl $url) | tar xv$(get_comp_flag $url) $options 2>$log
   cd $(head -1 $log | awk '{ print $2 }')
   [ $? -eq 0 ] && rm $log || echo "$FUNCNAME: check $log"
 }
@@ -372,4 +372,16 @@ function create_dmg_device
       grep "Apple_HFS" | awk '{ print $1 }')
 
   echo $device
+}
+
+### replace URL ################################################################
+
+function preferCachedUrl
+{
+  local url=$1
+
+  # This is a placeholder function you can use to replace URLs with locally
+  # mirrored ones.
+
+  echo $url
 }
