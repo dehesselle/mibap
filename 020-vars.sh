@@ -33,7 +33,7 @@ export SDKROOT=$SDKROOT_DIR/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################
 
-TOOLSET_VERSION=0.31
+TOOLSET_VERSION=0.32
 
 ### ramdisk ####################################################################
 
@@ -81,8 +81,10 @@ TMP_DIR=$OPT_DIR/tmp
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
 export TMPDIR=$TMP_DIR
-export XDG_CACHE_HOME=$TMP_DIR    # avoids creation of ~/.cache
-export XDG_CONFIG_HOME=$TMP_DIR   # avoids creation of ~/.config
+export XDG_CACHE_HOME=$TMP_DIR/xdgcache     # instead ~/.cache
+export XDG_CONFIG_HOME=$TMP_DIR/xdgconfig   # instead ~/.config
+export PIP_CACHE_DIR=$TMP_DIR/pip           # instead ~/Library/Caches/pip
+export PIPENV_CACHE_DIR=$TMP_DIR/pipenv     # instead ~/Library/Caches/pipenv
 
 ### JHBuild subdirectories and configuration ###################################
 
