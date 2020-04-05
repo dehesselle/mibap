@@ -192,11 +192,9 @@ URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 # This is a relocatable Python.framework to be bundled with the app.
 # https://github.com/dehesselle/py3framework
 URL_PYTHON3_BIN=https://github.com/dehesselle/py3framework/releases/download/py376.1/py376_framework_1.tar.xz
-# These two Python 3.6 links are only to setup JHBuild as it fails to download
-# and install its own Python.
-# https://github.com/dehesselle/py3framework
-URL_PYTHON36_SRC=https://github.com/dehesselle/py3framework/archive/py369.3.tar.gz
-URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py369.3/py369_framework_3.tar.xz
+# This Python 3.6 is only to setup JHBuild as it fails to download/install
+# its own Python.
+URL_PYTHON36_BIN=https://github.com/dehesselle/py3framework/releases/download/py3610.1/py3610_framework_1.tar.xz
 # A pre-compiled version of the whole toolset.
 # https://github.com/dehesselle/mibap
 URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
