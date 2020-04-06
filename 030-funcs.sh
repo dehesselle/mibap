@@ -256,10 +256,10 @@ function readlinkf
 
 function run_annotated
 {
-  sed 's/\(^### .* ###\).*/echo \-e "\\033[1;44m\\033[1;37m['$SELF_NAME':$(printf '%03d' $LINENO)] \1\\033[0m"/g' $SELF_DIR/$SELF_NAME |
-    sed 's/^run_annotated/#run_annotated/' |
-    sed 's/^SELF_DIR=.*/SELF_DIR='$(escape_sed $SELF_DIR)'/' |
-    bash
+  source /dev/stdin <<EOF
+$(sed 's/\(^### .* ###\).*/echo \-e "\\033[1;44m\\033[1;37m['$SELF_NAME':$(printf '%03d' $LINENO)] \1\\033[0m"/g' $SELF_DIR/$SELF_NAME |
+   sed 's/^run_annotated/#run_annotated/')
+EOF
 
   exit $?
 }
