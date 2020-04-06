@@ -49,6 +49,6 @@ ln -s $(pwd)/png2icns.sh $BIN_DIR
 
 # This will be bundled with the application.
 
-save_file $URL_PYTHON3_BIN
+save_file $URL_PYTHON
 
 # vim: expandtab:shiftwidth=2:tabstop=2:softtabstop=2 :

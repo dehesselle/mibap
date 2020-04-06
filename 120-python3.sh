@@ -16,6 +16,6 @@ run_annotated
 
 ### install Python 3 ###########################################################
 
-get_source $URL_PYTHON36_BIN $WRK_DIR
+get_source $URL_PYTHON_JHBUILD $WRK_DIR
 
 ln -sf $WRK_DIR/Python.framework/Versions/Current/bin/python3 $BIN_DIR
