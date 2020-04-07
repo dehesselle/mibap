@@ -11,18 +11,17 @@
 SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
-set -e
-
 run_annotated
+
+set -e
 
 ### build Inkscape #############################################################
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
   git clone --recurse-submodules --depth 10 $URL_INKSCAPE $INK_DIR
-  #git clone --recurse-submodules $URL_INKSCAPE $INK_DIR   # >1.6 GiB download
 fi
 
-[ -d $INK_DIR.build ] && rm -rf $INK_DIR.build   # cleanup previous run
+[ -d $INK_DIR.build ] && rm -rf $INK_DIR.build || true  # cleanup previous run
 
 mkdir -p $INK_DIR.build
 cd $INK_DIR.build
@@ -57,4 +56,3 @@ relocate_dependency $LIB_DIR/libpoppler-glib.8.dylib $LIB_DIR/inkscape/libinksca
 
 relocate_dependency $LIB_DIR/libomp.dylib $BIN_DIR/inkscape
 relocate_dependency $LIB_DIR/libomp.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
-
