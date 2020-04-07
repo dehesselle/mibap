@@ -33,6 +33,7 @@ cd $INK_DIR.build
 # TODO further investigation into required flags
 
 cmake \
+  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
   -DCMAKE_PREFIX_PATH=$OPT_DIR \
   -DCMAKE_INSTALL_PREFIX=$OPT_DIR \
   -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \

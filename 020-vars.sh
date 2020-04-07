@@ -59,11 +59,12 @@ else
   exit 1
 fi
 
-### toolset repository directory ###############################################
+### toolset directories ########################################################
 
 # This is where .dmg files with pre-compiled toolsets are downloaded to.
-
 TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo
+# Persistent location for ccache.
+export CCACHE_DIR=$TOOLSET_ROOT_DIR/ccache
 
 ### work directory and subdirectories ##########################################
 
@@ -185,6 +186,8 @@ URL_POTRACE=http://potrace.sourceforge.net/download/1.16/potrace-1.16.tar.gz
 # These are versioned URLs of software that is not a direct dependency but
 # required for building, packaging or similar.
 
+# compiler cache
+URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
 # create application bundle
 # https://github.com/dehesselle/gtk-mac-bundler
 # Forked from https://gitlab.gnome.org/GNOME/gtk-mac-bundler
