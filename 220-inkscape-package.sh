@@ -87,7 +87,7 @@ mv inkscape.icns $APP_RES_DIR
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-get_source file://$SRC_DIR/$(basename $URL_PYTHON) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
+install_source file://$SRC_DIR/$(basename $URL_PYTHON) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
 
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
 ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PY3_MAJOR $APP_BIN_DIR

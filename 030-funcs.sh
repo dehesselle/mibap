@@ -56,7 +56,7 @@ function get_comp_flag
 
 ### download and extract source tarball ########################################
 
-function get_source
+function install_source
 {
   local url=$1
   local target_dir=$2   # optional: target directory, defaults to $SRC_DIR

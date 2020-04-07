@@ -31,7 +31,7 @@ save_file $URL_INKSCAPE_DMG_ICNS
 (
   export GMB_BINDIR=$BIN_DIR
 
-  get_source $URL_GTK_MAC_BUNDLER
+  install_source $URL_GTK_MAC_BUNDLER
   jhbuild run make install
 )
 
@@ -42,7 +42,7 @@ jhbuild run pip3 install $PYTHON_CAIROCFFI
 
 ### install png to icns converter ##############################################
 
-get_source $URL_PNG2ICNS
+install_source $URL_PNG2ICNS
 ln -s $(pwd)/png2icns.sh $BIN_DIR
 
 ### downlaod a pre-built Python.framework ######################################
