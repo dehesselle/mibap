@@ -19,7 +19,7 @@ run_annotated
 # adwaita-icon-theme - icons used by Inkscape/GTK
 # gtkspell3 - GtkSpell spellchecking/highlighting
 # libsoup - GNOME http client/server library
-# lcms2 - little CMS colore engine v2 
+# lcms - little CMS colore engine v2
 
 jhbuild build \
   adwaita-icon-theme \
