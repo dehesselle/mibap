@@ -385,3 +385,20 @@ function preferCachedUrl
 
   echo $url
 }
+
+### install Python package with Python.framework ###############################
+
+function pip_install
+{
+  local package=$1
+
+  local PATH_ORIGINAL=$PATH
+  export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
+  
+  pip3 install \
+    --install-option="--prefix=$APP_RES_DIR" \
+    --ignore-installed \
+    $package
+  
+  export PATH=$PATH_ORIGINAL
+}

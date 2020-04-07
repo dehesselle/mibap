@@ -92,17 +92,12 @@ install_source file://$SRC_DIR/$(basename $URL_PYTHON) $APP_FRA_DIR --exclude="V
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
 ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PY3_MAJOR $APP_BIN_DIR
 
-# Add it to '$PATH' here and now (for package installation below). This is an
-# exception: normally we'd not change the global environment but fence it
-# using subshells.
-export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
-
 # create '.pth' file inside Framework to include our site-packages directory
 echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages" > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages/inkscape.pth
 
 ### install Python package: lxml ###############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_LXML
+pip_install $PYTHON_LXML
 
 # patch 'etree'
 relocate_dependency @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
@@ -117,11 +112,11 @@ relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python$P
 
 ### install Python package: NumPy ##############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_NUMPY
+pip_install $PYTHON_NUMPY
 
 ### install Python package: PyGObject ##########################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYGOBJECT
+pip_install $PYTHON_PYGOBJECT
 
 # patch '_gi'
 relocate_dependency @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
@@ -151,15 +146,15 @@ relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python$P
 
 ### install Python package: pySerial ###########################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYSERIAL
+pip_install $PYTHON_PYSERIAL
 
 ### install Python package: Scour ##############################################
 
-pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_SCOUR
+pip_install $PYTHON_SCOUR
 
 ### precompile all Python packages #############################################
 
-python3 -m compileall -f $APP_DIR || true
+$APP_FRA_DIR/Python.framework/Versions/Current/bin/python$PY3_MAJOR -m compileall -f $APP_DIR || true
 
 ### fontconfig #################################################################
 
