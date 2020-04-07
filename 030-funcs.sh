@@ -18,7 +18,7 @@
 function get_repo_version
 {
   local repo=$1
-  # do it the same way as in CMakeScripts/inkscape-verson.cmake
+  # do it the same way as in CMakeScripts/inkscape-version.cmake
   echo $(git -C $repo rev-parse --short HEAD)
 }
 
@@ -395,7 +395,7 @@ function pip_install
   local PATH_ORIGINAL=$PATH
   export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
   
-  pip3 install \
+  pip$PY3_MAJOR install \
     --install-option="--prefix=$APP_RES_DIR" \
     --ignore-installed \
     $package
