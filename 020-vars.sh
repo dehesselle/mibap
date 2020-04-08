@@ -201,7 +201,7 @@ URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dm
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 # This is a relocatable Python.framework to be bundled with the app.
 # https://github.com/dehesselle/py3framework
-URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_MAJOR$PY3_MINOR$PY3_PATCH/py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_$PY3_BUILD.tar.xz
+URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_$PY3_BUILD.tar.xz
 # This Python 3.6 is only to setup JHBuild as it fails to download/install
 # its own Python.
 URL_PYTHON_JHBUILD=https://github.com/dehesselle/py3framework/releases/download/py3610.1/py3610_framework_1.tar.xz
