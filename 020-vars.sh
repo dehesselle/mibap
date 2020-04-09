@@ -162,7 +162,7 @@ URL_GSL=http://ftp.fau.de/gnu/gsl/gsl-2.6.tar.gz
 URL_GTEST=https://github.com/google/googletest/archive/release-1.10.0.tar.gz
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
-URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x  # FIXME: not tagged
+URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x-2
 URL_GTK_OSX_SETUP=$URL_GTK_OSX/gtk-osx-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
 # https://legacy.imagemagick.org
