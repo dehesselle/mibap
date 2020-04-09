@@ -45,6 +45,7 @@ cmake \
 
 make
 make install
+make tests
 
 ### patch Poppler library locations ############################################
 

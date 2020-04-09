@@ -117,3 +117,8 @@ cmake_make_makeinstall
 
 install_source $URL_GHOSTSCRIPT
 configure_make_makeinstall
+
+### install Google Testing and Mocking Framework ###############################
+
+install_source $URL_GTEST
+cmake_make_makeinstall
