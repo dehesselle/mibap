@@ -15,6 +15,10 @@
 
 SELF_NAME=$(basename $0)
 
+### nesting level when trapping errors #########################################
+
+ERRTRACE_COUNT=0
+
 ### multithreading #############################################################
 
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
