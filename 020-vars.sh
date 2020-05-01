@@ -55,8 +55,7 @@ OVERLAY_RAMDISK_SIZE=2   # unit is GiB
 [ -z $TOOLSET_ROOT_DIR ] && TOOLSET_ROOT_DIR=/Users/Shared/work || true
 
 if  [ $(mkdir -p $TOOLSET_ROOT_DIR 2>/dev/null; echo $?) -eq 0 ] &&
-    [ -w $TOOLSET_ROOT_DIR ] &&
-    [ "$(stat -f '%Su' $TOOLSET_ROOT_DIR)" = "$(whoami)" ] ; then
+    [ -w $TOOLSET_ROOT_DIR ] ; then
   :   # nothing to do, everything ok
 else
   echo "❌ directory not usable (TOOLSET_ROOT_DIR): $TOOLSET_ROOT_DIR"
