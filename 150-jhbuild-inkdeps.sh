@@ -21,13 +21,7 @@ jhbuild build \
   gtkspell3 \
   libsoup
 
-### install boost ##############################################################
-
-install_source $URL_BOOST
-jhbuild run ./bootstrap.sh --without-libraries=python --prefix=$OPT_DIR
-jhbuild run ./b2 -j$CORES -d0 install
-
-### install GNU Scientific Library #############################################
+### install Inkscape dependencies ##############################################
 
 # Part of inkscape module set.
 

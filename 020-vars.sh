@@ -141,11 +141,9 @@ PY3_BUILD=1  # custom framework build number
 
 ### download URLs for dependencies #############################################
 
-# https://www.boost.org TODO: create a wrapper and move boost to inkscape.modules
-URL_BOOST=https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
-URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x-3
+URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x-4
 URL_GTK_OSX_SETUP=$URL_GTK_OSX/gtk-osx-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
 
