@@ -88,6 +88,10 @@ Besides what you may find in the issue tracker:
 
 - If you're logged in to the desktop when building the toolset, you may get multiple popups asking to install Java. They're triggered by at least `gettext` and `cmake` checking for the presence of Java during their configuration stages and can be safely ignored.
 
+- Bootstrapping JHBuild may print a warning on the console:
+
+  > Warning: the environment variable LANG is not set!
+
 ## Status
 
 This project is still a work-in-progress (hence 0.x version) with regular merges to Inkscape (see `packaging/macos` in [Inkscape's repository on GitLab](https://gitlab.com/inkscape/inkscape)).
