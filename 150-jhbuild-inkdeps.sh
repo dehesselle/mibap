@@ -17,7 +17,6 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 # Part of gtk-osx module sets.
 
 jhbuild build \
-  adwaita-icon-theme \
   gtkspell3 \
   libsoup
 
