@@ -15,6 +15,5 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 jhbuild build \
   meta-gtk-osx-bootstrap \
-  meta-gtk-osx-freetype \
   meta-gtk-osx-gtk3 \
   meta-gtk-osx-gtkmm3
