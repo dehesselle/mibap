@@ -27,12 +27,12 @@ export MAKEFLAGS="-j $CORES"
 ### target OS version ##########################################################
 
 # The current build setup is
-#   - Xcode 11.3.1
+#   - Xcode 11.6
 #   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
-#   - macOS Mojave 10.14.6
+#   - macOS Catalina 10.15.6
 
 export MACOSX_DEPLOYMENT_TARGET=10.11
-[ -z $SDKROOT_DIR ] && SDKROOT_DIR=/Library/Developer/CommandLineTools/SDKs
+[ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks
 export SDKROOT=$SDKROOT_DIR/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################
