@@ -11,7 +11,7 @@
 SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
-set -o errtrace
+set -e -o errtrace
 trap 'catch_error "$SELF_NAME" "$LINENO" "$FUNCNAME" "${BASH_COMMAND}" "${?}"' ERR
 
 ### create application bundle ##################################################
@@ -119,19 +119,19 @@ pip_install $PYTHON_PYGOBJECT
 
 # patch '_gi'
 relocate_dependency @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
-relocate_dependency @loader_path/../../../libintl.9.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
+relocate_dependency @loader_path/../../../libintl.8.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgio-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgobject-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgirepository-1.0.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
-relocate_dependency @loader_path/../../../libffi.6.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
+relocate_dependency @loader_path/../../../libffi.7.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 
 # patch '_gi_cairo'
 relocate_dependency @loader_path/../../../libglib-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
-relocate_dependency @loader_path/../../../libintl.9.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
+relocate_dependency @loader_path/../../../libintl.8.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgio-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgobject-2.0.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libgirepository-1.0.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
-relocate_dependency @loader_path/../../../libffi.6.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
+relocate_dependency @loader_path/../../../libffi.7.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 relocate_dependency @loader_path/../../../libcairo-gobject.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so
 
@@ -171,7 +171,6 @@ cp $SELF_DIR/fonts.conf $APP_ETC_DIR/fonts
 
 ### Ghostscript ################################################################
 
-relocate_dependency @executable_path/../lib/libz.1.dylib $APP_BIN_DIR/gs
 relocate_dependency @executable_path/../lib/libfontconfig.1.dylib $APP_BIN_DIR/gs
 relocate_dependency @executable_path/../lib/libfreetype.6.dylib $APP_BIN_DIR/gs
 
