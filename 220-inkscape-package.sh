@@ -26,23 +26,9 @@ mkdir -p $ARTIFACT_DIR
   cp $SELF_DIR/inkscape.bundle $BUILD_DIR
   cp $SELF_DIR/inkscape.plist $BUILD_DIR
 
-  # Due to an undiagnosed instability that only occurs during CI runs (not when
-  # run interactively from the terminal), the following code will be put into
-  # a separate script and be executed via Terminal.app.
-
-  cat <<EOF >$SRC_DIR/run_gtk-mac-bundler.sh
-#!/usr/bin/env bash
-SCRIPT_DIR=$SELF_DIR
-for script in \$SCRIPT_DIR/0??-*.sh; do source \$script; done
-export ARTIFACT_DIR
-BUILD_DIR=$BUILD_DIR
-cd \$BUILD_DIR
-jhbuild run gtk-mac-bundler inkscape.bundle
-EOF
+  export ARTIFACT_DIR   # referenced in inkscape.bundle
+  jhbuild run gtk-mac-bundler inkscape.bundle
 )
-
-chmod 755 $SRC_DIR/run_gtk-mac-bundler.sh
-run_in_terminal $SRC_DIR/run_gtk-mac-bundler.sh
 
 # Rename to get from lowercase to capitalized "i". This works only on
 # case-insensitive filesystems (default on macOS).
