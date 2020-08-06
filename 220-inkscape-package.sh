@@ -123,8 +123,7 @@ relocate_dependency @loader_path/../../../libcairo-gobject.2.dylib $APP_LIB_DIR/
 
 ### install Python package: Pycairo ############################################
 
-# PyGObject pulls in Pycairo, so not going to install again.
-#pip3 install --install-option="--prefix=$APP_RES_DIR" --ignore-installed $PYTHON_PYCAIRO
+# This package got pulled in by PyGObject.
 
 # patch '_cairo'
 relocate_dependency @loader_path/../../../libcairo.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/cairo/_cairo.cpython-$PY3_MAJOR${PY3_MINOR}m-darwin.so

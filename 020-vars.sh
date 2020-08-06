@@ -135,8 +135,8 @@ APP_PLIST=$APP_CON_DIR/Info.plist
 ### bundled Python version #####################################################
 
 PY3_MAJOR=3
-PY3_MINOR=7
-PY3_PATCH=6
+PY3_MINOR=8
+PY3_PATCH=5
 PY3_BUILD=1  # custom framework build number
 
 ### download URLs for dependencies #############################################
@@ -180,14 +180,11 @@ URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERS
 PYTHON_CAIROCFFI=cairocffi==1.1.0
 # https://lxml.de
 # https://github.com/lxml/lxml
-PYTHON_LXML=lxml==4.4.2
-# https://github.com/lxml/lxml
-PYTHON_NUMPY=numpy==1.18.1
-# https://www.cairographics.org/pycairo/
-# https://github.com/pygobject/pycairo
-PYTHON_PYCAIRO=pycairo==1.19.0
+PYTHON_LXML=lxml==4.5.2
+# https://github.com/numpy/numpy
+PYTHON_NUMPY=numpy==1.19.1
 # https://pygobject.readthedocs.io/en/latest/
-PYTHON_PYGOBJECT=PyGObject==3.34.0
+PYTHON_PYGOBJECT=PyGObject==3.36.1
 # https://github.com/scour-project/scour
 PYTHON_SCOUR=scour==0.37
 # https://pyserial.readthedocs.io/en/latest/
