@@ -27,6 +27,7 @@ mkdir -p $ARTIFACT_DIR
   cp $SELF_DIR/inkscape.plist $BUILD_DIR
 
   export ARTIFACT_DIR   # referenced in inkscape.bundle
+  cd $BUILD_DIR
   jhbuild run gtk-mac-bundler inkscape.bundle
 )
 
