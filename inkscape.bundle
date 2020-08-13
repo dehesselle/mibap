@@ -86,9 +86,6 @@
   <binary>
     ${prefix}/lib/gio/modules/*.so
   </binary>
-  <binary>
-    ${prefix}/lib/enchant-2/*.so
-  </binary>
   <!-- GObject Introspection repository manager -->
   <binary>
     ${prefix}/lib/libgirepository-1.0.1.dylib
@@ -129,9 +126,6 @@
 
   <data>
     ${prefix}/etc/fonts
-  </data>
-  <data>
-    ${prefix}/share/enchant
   </data>
   <data>
     ${prefix}/share/fontconfig

@@ -28,7 +28,7 @@ jhbuild build \
   ghostscript \
   google_test \
   gsl \
-  gspell \
+  gtkspell3 \
   imagemagick \
   libcdr \
   openjpeg \

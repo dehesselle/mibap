@@ -37,7 +37,7 @@ export SDKROOT=$SDKROOT_DIR/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
 
 ### build system/toolset version ###############################################
 
-TOOLSET_VERSION=0.37
+TOOLSET_VERSION=0.37-1
 
 ### ramdisk ####################################################################
 
