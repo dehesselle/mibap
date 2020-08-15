@@ -27,7 +27,7 @@ _The following is bound to change as development progresses and I won't deny tha
 1. Clone this repository and `cd` into it.
 
    ```bash
-   git clone https://github.com/dehesselle/mibap
+   git clone --recurse-submodules https://github.com/dehesselle/mibap
    cd mibap
    ```
 
@@ -54,7 +54,7 @@ _The following is bound to change as development progresses and I won't deny tha
 1. Clone this repository and `cd` into it.
 
    ```bash
-   git clone https://github.com/dehesselle/mibap
+   git clone --recurse-submodules https://github.com/dehesselle/mibap
    cd mibap
    ```
 
