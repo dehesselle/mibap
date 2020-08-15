@@ -18,7 +18,6 @@ INCLUDE_DIR=$SELF_DIR/funcs/bash_d
 source $INCLUDE_DIR/1_include_.sh
 include_file echo_.sh
 include_file lib_.sh
-include_file readlinkf.sh
 
 # Include custom functions.
 
