@@ -1,0 +1,3 @@
+[submodule "funcs/bash_d"]
+	path = funcs/bash_d
+	url = https://github.com/dehesselle/bash_d

@@ -13,13 +13,13 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### initial information ########################################################
 
-echo_info "TOOLSET_ROOT_DIR = $TOOLSET_ROOT_DIR"
-echo_info "WRK_DIR          = $WRK_DIR"
+echo_i "TOOLSET_ROOT_DIR = $TOOLSET_ROOT_DIR"
+echo_i "WRK_DIR          = $WRK_DIR"
 
 ### check for presence of SDK ##################################################
 
 if [ ! -d $SDKROOT ]; then
-  echo_err "SDK not found: $SDKROOT"
+  echo_e "SDK not found: $SDKROOT"
   exit 1
 fi
 

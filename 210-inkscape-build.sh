@@ -48,12 +48,21 @@ make tests
 
 ### patch Poppler library locations ############################################
 
-relocate_dependency $LIB_DIR/libpoppler.94.dylib $BIN_DIR/inkscape
-relocate_dependency $LIB_DIR/libpoppler-glib.8.dylib $BIN_DIR/inkscape
-relocate_dependency $LIB_DIR/libpoppler.94.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
-relocate_dependency $LIB_DIR/libpoppler-glib.8.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
+# TODO: is this still necessary?
+
+lib_change_path \
+  $LIB_DIR/libpoppler.94.dylib \
+  $BIN_DIR/inkscape \
+  $LIB_DIR/inkscape/libinkscape_base.dylib
+
+lib_change_path \
+  $LIB_DIR/libpoppler-glib.8.dylib \
+  $BIN_DIR/inkscape \
+  $LIB_DIR/inkscape/libinkscape_base.dylib
 
 ### patch OpenMP library locations #############################################
 
-relocate_dependency $LIB_DIR/libomp.dylib $BIN_DIR/inkscape
-relocate_dependency $LIB_DIR/libomp.dylib $LIB_DIR/inkscape/libinkscape_base.dylib
+lib_change_path \
+  $LIB_DIR/libomp.dylib \
+  $BIN_DIR/inkscape \
+  $LIB_DIR/inkscape/libinkscape_base.dylib
