@@ -3,9 +3,8 @@
 # This file is part of the build pipeline for Inkscape on macOS.
 #
 # ### 030-funcs.sh ###
-# This file contains all the functions used by the other scripts. It helps
-# modularizing functionality and keeping the scripts that do the real work
-# as readable as possible.
+# This file once contained all the functions used by the other scripts to
+# help with modularization. Since then, this file has been split up.
 # This file does not include the "vars" files it requires itself (on purpose,
 # for flexibility reasons), the script that wants to use these functions
 # needs to do that. The suggested way is to always source all the "0nn-*.sh"
@@ -26,4 +25,3 @@ include_file readlinkf.sh
 for func in $SELF_DIR/funcs/*.sh; do
   source $func
 done
-
