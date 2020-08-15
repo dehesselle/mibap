@@ -13,7 +13,7 @@ function save_file
 
   local file=$target_dir/$(basename $url)
   if [ -f $file ]; then
-    echo "$FUNCNAME: file $file exists"
+    echo_w "file $file exists"
   else
     curl -o $file -L $url
   fi

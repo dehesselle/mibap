@@ -22,19 +22,18 @@ function install
   local toolset_dmg=$TOOLSET_REPO_DIR/$(basename $URL_TOOLSET)
 
   if [ -f $toolset_dmg ]; then
-    echo_info "no download required"
+    echo_i "no download required"
   else
     # File not present on disk, we need to download.
-    echo_act "download required"
+    echo_i "download required"
     save_file $URL_TOOLSET $TOOLSET_REPO_DIR
-    echo_ok "download successful"
   fi
 
   # mount build system read-only
   local device=$(create_dmg_device $toolset_dmg)
   [ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR
   mount -o nobrowse,noowners,ro -t hfs $device $WRK_DIR
-  echo_ok "toolset mounted as $device"
+  echo_i "toolset mounted as $device"
 
   # Sadly, there are some limitations involved with union-mounting:
   #   - Files are not visible to 'ls'.
@@ -53,7 +52,7 @@ function install
   # create writable (ramdisk-) overlay
   device=$(create_ram_device $OVERLAY_RAMDISK_SIZE build)
   mount -o nobrowse,rw,union -t hfs $device $WRK_DIR
-  echo_ok "writable ramdisk overlay mounted as $device"
+  echo_i "writable ramdisk overlay mounted as $device"
 
   # create all directories inside overlay
   $TOOLSET_ROOT_DIR/create_dirs.sh

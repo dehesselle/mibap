@@ -26,7 +26,7 @@ function uninstall
         break                              # nothing to do here
       else
         diskutil eject $disk > /dev/null   # unmount
-        echo_ok "ejected $disk"
+        echo_i "ejected $disk"
       fi
     done
 }
