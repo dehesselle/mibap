@@ -58,7 +58,7 @@ if  [ $(mkdir -p $TOOLSET_ROOT_DIR 2>/dev/null; echo $?) -eq 0 ] &&
     [ -w $TOOLSET_ROOT_DIR ] ; then
   :   # nothing to do, everything ok
 else
-  echo "❌ directory not usable (TOOLSET_ROOT_DIR): $TOOLSET_ROOT_DIR"
+  echo "***ERROR*** directory not usable (TOOLSET_ROOT_DIR): $TOOLSET_ROOT_DIR"
   exit 1
 fi
 
