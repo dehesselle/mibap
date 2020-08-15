@@ -25,16 +25,24 @@ fi
 
 ### create work directory ######################################################
 
-[ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR || true
+if [ ! -d $WRK_DIR ]; then
+  mkdir -p $WRK_DIR
+fi
 
 ### create temporary directory #################################################
 
-[ ! -d $TMP_DIR ] && mkdir -p $TMP_DIR || true
+if [ ! -d $TMP_DIR ]; then
+  mkdir -p $TMP_DIR
+fi
 
 ### create binary directory #################################################
 
-[ ! -d $BIN_DIR ] && mkdir -p $BIN_DIR || true
+if [ ! -d $BIN_DIR ]; then
+  mkdir -p $BIN_DIR
+fi
 
 ### create toolset repository directory ########################################
 
-[ ! -d $TOOLSET_REPO_DIR ] && mkdir -p $TOOLSET_REPO_DIR || true
+if [ ! -d $TOOLSET_REPO_DIR ]; then
+  mkdir -p $TOOLSET_REPO_DIR
+fi
