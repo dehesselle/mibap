@@ -185,29 +185,60 @@ function replace_line
   sed -i '' "s/.*${pattern}.*/$(escape_sed $replacement)/" $file
 }
 
-### relocate a library dependency ##############################################
+### change a library link path #################################################
 
-function relocate_dependency
+function lib_change_path
 {
-  local target=$1    # fully qualified path and library name to new location
-  local library=$2   # library to be modified (change 'source' to 'target'I
+  # This is a simple wrapper around install_name_tool to reduce the
+  # number of arguments (like $source does not have to be provided
+  # here as it can be deducted from $target).
+  # Also, the requested change can be applied to multipe binaries
+  # at once since 2-n arguments can be supplied.
+
+  local target=$1         # new path to dynamically linked library
+  local binaries=${*:2}   # binaries to modify
 
   local source_lib=${target##*/}   # get library filename from target location
-  local source=$(otool -L $library | grep $source_lib | awk '{ print $1 }')
 
-  install_name_tool -change $source $target $library
+  for binary in $binaries; do   # won't work with spaces in paths
+    local source=$(otool -L $binary | grep $source_lib | awk '{ print $1 }')
+    install_name_tool -change $source $target $binary
+  done
 }
 
-### relocate all neighbouring libraries in a directory #########################
-
-function relocate_neighbouring_libs
+function lib_change_paths
 {
+  # This is a slightly more advanced wrapper around install_name_tool.
+  # Given a directory $lib_dir that contains the libraries, all libraries
+  # linked in $binary can be changed at once to a specified $target path.
+
+  local target=$1         # new path to dynamically linked library
+  local lib_dir=$2
+  local binaries=${*:3}
+
+  for binary in $binaries; do
+    for linked_lib in $(otool -L $binary | tail -n +3 | awk '{ print $1 }'); do
+      if [ -f $lib_dir/$(basename $linked_lib) ]; then
+        lib_change_path $target/$(basename $linked_lib) $binary
+      fi
+    done
+  done
+}
+
+### change all library links paths in a directory ##############################
+
+function lib_change_siblings
+{
+  # This is a slightly more advanced wrapper around install_name_tool.
+  # All libraries inside a given $dir that are linked to libraries present
+  # in that $dir can be automatically adjusted.
+
   local dir=$1
 
   for lib in $dir/*.dylib; do
     for linked_lib in $(otool -L $lib | tail -n +3 | awk '{ print $1 }'); do
-      if [ -f $APP_LIB_DIR/$(basename $linked_lib) ]; then
-        relocate_dependency @loader_path/$(basename $linked_lib) $lib
+      if [ -f $dir/$(basename $linked_lib) ]; then
+        lib_change_path @loader_path/$(basename $linked_lib) $lib
       fi
     done
   done
