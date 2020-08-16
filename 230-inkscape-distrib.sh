@@ -31,11 +31,6 @@ convert -size 560x400 xc:transparent \
 
 # create the disk image
 
-# Due to an undiagnosed instability that only occurs during CI runs (not when
-# run interactively from the terminal), the following code will be put into
-# a separate script and be executed via Terminal.app.
-# See: https://github.com/al45tair/dmgbuild/pull/11
-
 cp $SELF_DIR/inkscape_dmg.py $SRC_DIR
 
 create_dmg $ARTIFACT_DIR/Inkscape.app $TMP_DIR/Inkscape.dmg $SRC_DIR/inkscape_dmg.py
