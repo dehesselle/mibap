@@ -33,8 +33,8 @@ cd $INK_DIR.build
 
 cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-  -DCMAKE_PREFIX_PATH=$OPT_DIR \
-  -DCMAKE_INSTALL_PREFIX=$OPT_DIR \
+  -DCMAKE_PREFIX_PATH=$WRK_DIR \
+  -DCMAKE_INSTALL_PREFIX=$WRK_DIR \
   -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \
   -DOpenMP_C_FLAGS="-Xclang -fopenmp" \
   -DOpenMP_CXX_LIB_NAMES="omp" \

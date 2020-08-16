@@ -158,7 +158,7 @@ lib_change_paths \
 mkdir $APP_LIB_DIR/girepository-1.0
 
 # remove fully qualified paths from libraries in *.gir files
-for gir in $OPT_DIR/share/gir-1.0/*.gir; do
+for gir in $WRK_DIR/share/gir-1.0/*.gir; do
   sed "s/$(escape_sed $LIB_DIR/)//g" $gir > $SRC_DIR/$(basename $gir)
 done
 

@@ -10,6 +10,7 @@ function save_file
   local target_dir=$2   # optional argument, defaults to $SRC_DIR
 
   [ -z $target_dir ] && target_dir=$SRC_DIR
+  mkdir -p $target_dir
 
   local file=$target_dir/$(basename $url)
   if [ -f $file ]; then

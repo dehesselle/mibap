@@ -70,27 +70,33 @@ export CCACHE_DIR=$TOOLSET_ROOT_DIR/ccache
 # Allow this to be overrideable or use version number as default.
 [ -z $WRK_DIR ] && WRK_DIR=$TOOLSET_ROOT_DIR/$TOOLSET_VERSION || true
 
-OPT_DIR=$WRK_DIR/opt
-BIN_DIR=$OPT_DIR/bin
-LIB_DIR=$OPT_DIR/lib
-SRC_DIR=$OPT_DIR/src
-TMP_DIR=$OPT_DIR/tmp
+BIN_DIR=$WRK_DIR/bin
+ETC_DIR=$WRK_DIR/etc
+LIB_DIR=$WRK_DIR/lib
+SRC_DIR=$WRK_DIR/src
+TMP_DIR=$WRK_DIR/tmp
 
 ### use TMP_DIR for everything temporary #######################################
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
-export TMPDIR=$TMP_DIR
-export XDG_CACHE_HOME=$TMP_DIR      # instead ~/.cache
-export XDG_CONFIG_HOME=$TMP_DIR     # instead ~/.config
-export PIP_CACHE_DIR=$TMP_DIR       # instead ~/Library/Caches/pip
-export PIPENV_CACHE_DIR=$TMP_DIR    # instead ~/Library/Caches/pipenv
+export TMPDIR=$TMP_DIR                # TMPDIR is the common macOS default
+
+### XDG ########################################################################
+
+export XDG_CACHE_HOME=$TMP_DIR/xdg    # instead ~/.cache
+export XDG_CONFIG_HOME=$ETC_DIR/xdg   # instead ~/.config
+
+### pip ########################################################################
+
+export PIP_CACHE_DIR=$TMP_DIR         # instead ~/Library/Caches/pip
+export PIPENV_CACHE_DIR=$TMP_DIR      # instead ~/Library/Caches/pipenv
 
 # TODO: ~/Library/Caches/pip-tools ?
 
 ### JHBuild subdirectories and configuration ###################################
 
-export DEVROOT=$WRK_DIR/gtk-osx
+export DEVROOT=$WRK_DIR/_jhbuild      # prefix/_jhbuild is created anyways
 export DEVPREFIX=$DEVROOT/local
 export DEV_SRC_ROOT=$DEVROOT/source
 

@@ -45,7 +45,7 @@ function install
   # bad write-performance.
 
   # prepare a script for mass-creating directories
-  find $OPT_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
+  find $WRK_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
       -exec echo "mkdir {}" > $TOOLSET_ROOT_DIR/create_dirs.sh \;
   chmod 755 $TOOLSET_ROOT_DIR/create_dirs.sh
 

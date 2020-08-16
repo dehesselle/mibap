@@ -13,17 +13,20 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### local settings #############################################################
 
+# Set these here for JHBuild only.
+
 export PYTHONUSERBASE=$DEVPREFIX
 export PIP_CONFIG_DIR=$DEVROOT/pip
 
-### install and configure jhbuild ##############################################
+### install and configure JHBuild ##############################################
 
-bash <(curl -s $URL_GTK_OSX_SETUP)   # run jhbuild setup script
+bash <(curl -s $URL_GTK_OSX_SETUP)   # run JHBuild setup script
 
 # JHBuild: paths
-echo "checkoutroot = '$SRC_DIR/checkout'" >> $JHBUILDRC_CUSTOM
-echo "prefix = '$OPT_DIR'"                >> $JHBUILDRC_CUSTOM
-echo "tarballdir = '$SRC_DIR/download'"   >> $JHBUILDRC_CUSTOM
+echo "buildroot = '$DEVROOT/build'"        >> $JHBUILDRC_CUSTOM
+echo "checkoutroot = '$DEV_SRC_ROOT'"      >> $JHBUILDRC_CUSTOM
+echo "prefix = '$WRK_DIR'"                 >> $JHBUILDRC_CUSTOM
+echo "tarballdir = '$DEV_SRC_ROOT/pkgs'"   >> $JHBUILDRC_CUSTOM
 
 # JHBuild: console output
 echo "quiet_mode = True"   >> $JHBUILDRC_CUSTOM
