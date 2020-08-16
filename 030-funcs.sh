@@ -14,7 +14,7 @@
 
 # Include common functions from https://github.com/dehesselle/bash_d
 
-INCLUDE_DIR=$SELF_DIR/funcs/bash_d
+INCLUDE_DIR=$SELF_DIR/bash_d
 source $INCLUDE_DIR/1_include_.sh
 include_file echo_.sh
 include_file lib_.sh
