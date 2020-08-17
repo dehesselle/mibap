@@ -20,7 +20,7 @@ function install_source
   # This downloads a file and pipes it directly into tar (file is not saved
   # to disk) to extract it. Output from stderr is saved temporarily to
   # determine the directory the files have been extracted to.
-  curl -L $(redirect_url $url) | tar xv$(get_comp_flag $url) $options 2>$log
+  curl -L $url | tar xv$(get_comp_flag $url) $options 2>$log
   cd $(head -1 $log | awk '{ print $2 }')
   [ $? -eq 0 ] && rm $log || echo "$FUNCNAME: check $log"
 }
