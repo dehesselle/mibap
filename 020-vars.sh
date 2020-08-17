@@ -64,6 +64,8 @@ fi
 TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo
 # Persistent location for ccache.
 export CCACHE_DIR=$TOOLSET_ROOT_DIR/ccache
+# Directory with ccache binaries.
+export CCACHE_BIN_DIR=/opt/ccache/bin
 
 ### work directory and subdirectories ##########################################
 

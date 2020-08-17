@@ -44,6 +44,14 @@ echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\""            >> $JHBUILDRC_CUSTOM
 echo "if \"openssl\" in skip:"    >> $JHBUILDRC_CUSTOM
 echo "  skip.remove(\"openssl\")" >> $JHBUILDRC_CUSTOM
 
+if [ -d $CCACHE_BIN_DIR ]; then
+  echo_o "building with ccache"
+  echo "os.environ[\"CC\"] = \"$CCACHE_BIN_DIR/gcc\""  >> $JHBUILDRC_CUSTOM
+  echo "os.environ[\"CXX\"] = \"$CCACHE_BIN_DIR/g++\"" >> $JHBUILDRC_CUSTOM
+else
+  echo_w "building without ccache (set CCACHE_BIN_DIR)"
+fi
+
 ### bootstrap JHBuild ##########################################################
 
 jhbuild bootstrap-gtk-osx
