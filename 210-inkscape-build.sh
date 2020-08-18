@@ -25,21 +25,10 @@ fi
 mkdir -p $INK_DIR.build
 cd $INK_DIR.build
 
-# about the '-DOpenMP_*' arguments:
-# All the settings for OpenMP are to trigger the detection during 'cmake'.
-# Experimenting with a "Hello World"-style example shows that linking with
-# '-lomp' would suffice, no '-fopenmp' required.
-# TODO further investigation into required flags
-
 cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
   -DCMAKE_PREFIX_PATH=$WRK_DIR \
   -DCMAKE_INSTALL_PREFIX=$WRK_DIR \
-  -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \
-  -DOpenMP_C_FLAGS="-Xclang -fopenmp" \
-  -DOpenMP_CXX_LIB_NAMES="omp" \
-  -DOpenMP_C_LIB_NAMES="omp" \
-  -DOpenMP_omp_LIBRARY=$LIB_DIR/libomp.dylib \
   $INK_DIR
 
 make
