@@ -75,7 +75,9 @@ export CCACHE_BIN_DIR=/opt/ccache/bin
 BIN_DIR=$WRK_DIR/bin
 ETC_DIR=$WRK_DIR/etc
 LIB_DIR=$WRK_DIR/lib
-SRC_DIR=$WRK_DIR/src
+VAR_DIR=$WRK_DIR/var
+PKG_DIR=$VAR_DIR/cache/pkgs
+SRC_DIR=$WRK_DIR/usr/src
 TMP_DIR=$WRK_DIR/tmp
 
 ### use TMP_DIR for everything temporary #######################################
@@ -86,24 +88,22 @@ export TMPDIR=$TMP_DIR                # TMPDIR is the common macOS default
 
 ### XDG ########################################################################
 
-export XDG_CACHE_HOME=$TMP_DIR/xdg    # instead ~/.cache
-export XDG_CONFIG_HOME=$ETC_DIR/xdg   # instead ~/.config
+export XDG_CACHE_HOME=$WRK_DIR/var/cache  # instead ~/.cache
+export XDG_CONFIG_HOME=$ETC_DIR           # instead ~/.config
 
 ### pip ########################################################################
 
-export PIP_CACHE_DIR=$TMP_DIR         # instead ~/Library/Caches/pip
-export PIPENV_CACHE_DIR=$TMP_DIR      # instead ~/Library/Caches/pipenv
+export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip         # instead ~/Library/Caches/pip
+export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv   # instead ~/Library/Caches/pipenv
 
 # TODO: ~/Library/Caches/pip-tools ?
 
-### JHBuild subdirectories and configuration ###################################
+### JHBuild configuration ######################################################
 
-export DEVROOT=$WRK_DIR/_jhbuild      # prefix/_jhbuild is created anyways
-export DEVPREFIX=$DEVROOT/local
-export DEV_SRC_ROOT=$DEVROOT/source
-
-export JHBUILDRC=$DEVROOT/jhbuildrc   # requires modified gtk-osx-setup.sh
+export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
+
+JHBUILD_BUILDROOT=$VAR_DIR/build
 
 ### Inkscape Git repository directory ##########################################
 
@@ -148,7 +148,6 @@ PY3_BUILD=1  # custom framework build number
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
 URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.1.x   # FIXME: unversioned
-URL_GTK_OSX_SETUP=$URL_GTK_OSX/gtk-osx-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/inkscape.modules
 
 ### download URLs for auxiliary software #######################################
@@ -164,6 +163,13 @@ URL_GTK_MAC_BUNDLER=https://github.com/dehesselle/gtk-mac-bundler/archive/f96a9d
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # disk image icon
 URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dmg.icns
+# JHBuild build system
+# https://gitlab.gnome.org/GNOME/jhbuild
+# https://wiki.gnome.org/Projects/Jhbuild/Introduction
+URL_JHBUILD=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/3.36.0/jhbuild-3.36.0.tar.gz
+# Ninja build system
+# https://github.com/ninja-build/ninja
+URL_NINJA=https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
 # convert PNG image to iconset in ICNS format
 # https://github.com/bitboss-ca/png2icns
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
@@ -203,7 +209,10 @@ PYTHON_CAIROSVG=cairosvg==2.4.2
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
 PYTHON_DMGBUILD=dmgbuild==1.3.3
+# Meson build system
+# https://mesonbuild.com
+PYTHON_MESON=meson==0.55.1
 
 ### path #######################################################################
 
-export PATH=$DEVPREFIX/bin:$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin

@@ -25,7 +25,7 @@ jhbuild run pip3 install $PYTHON_DMGBUILD
 # it doesn't work and I have not investigated yet. We use a pre-made image
 # for now.
 
-save_file $URL_INKSCAPE_DMG_ICNS
+download_url $URL_INKSCAPE_DMG_ICNS $SRC_DIR
 
 ### install gtk-mac-bundler ####################################################
 
@@ -50,7 +50,7 @@ ln -s $(pwd)/png2icns.sh $BIN_DIR
 
 # This will be bundled with the application.
 
-save_file $URL_PYTHON
+download_url $URL_PYTHON $PKG_DIR
 
 ### install compiler cache #####################################################
 

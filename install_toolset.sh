@@ -26,7 +26,7 @@ function install
   else
     # File not present on disk, we need to download.
     echo_i "download required"
-    save_file $URL_TOOLSET $TOOLSET_REPO_DIR
+    download_url $URL_TOOLSET $TOOLSET_REPO_DIR
   fi
 
   # mount build system read-only
