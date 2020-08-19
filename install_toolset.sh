@@ -45,9 +45,9 @@ function install
   # bad write-performance.
 
   # prepare a script for mass-creating directories
-  find $VER_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
-      -exec echo "mkdir {}" > $TOOLSET_ROOT_DIR/create_dirs.sh \;
-  chmod 755 $TOOLSET_ROOT_DIR/create_dirs.sh
+  find $VER_DIR -type d ! -path "$VAR_DIR/*" ! -path "$SRC_DIR/*" \
+      -exec echo "mkdir {}" > $WRK_DIR/create_dirs.sh \;
+  chmod 755 $WRK_DIR/create_dirs.sh
 
   # create writable (ramdisk-) overlay
   device=$(create_ram_device $OVERLAY_RAMDISK_SIZE build)
@@ -55,8 +55,8 @@ function install
   echo_i "writable ramdisk overlay mounted as $device"
 
   # create all directories inside overlay
-  $TOOLSET_ROOT_DIR/create_dirs.sh
-  rm $TOOLSET_ROOT_DIR/create_dirs.sh
+  $WRK_DIR/create_dirs.sh
+  rm $WRK_DIR/create_dirs.sh
 }
 
 ### main #######################################################################
