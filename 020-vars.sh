@@ -40,45 +40,42 @@ TOOLSET_VERSION=0.38
 # Using the toolset dmg, a small writable overlay is required.
 OVERLAY_RAMDISK_SIZE=2   # unit is GiB
 
-### toolset root directory #####################################################
+### main work directory ########################################################
 
-# This is the main directory where all the action takes place below. It is
-# one level above WRK_DIR (which in previous releases has been called the
-# main directory) so we can manage and switch between multiple different WRK_DIR
-# versions as required.
+# This is the main directory where all the action takes place below.
 
 # Allow this to be overridable or use the default.
-[ -z $TOOLSET_ROOT_DIR ] && TOOLSET_ROOT_DIR=/Users/Shared/work || true
+[ -z $WRK_DIR ] && WRK_DIR=/Users/Shared/work || true
 
-if  [ $(mkdir -p $TOOLSET_ROOT_DIR 2>/dev/null; echo $?) -eq 0 ] &&
-    [ -w $TOOLSET_ROOT_DIR ] ; then
+if  [ $(mkdir -p $WRK_DIR 2>/dev/null; echo $?) -eq 0 ] &&
+    [ -w $WRK_DIR ] ; then
   :   # nothing to do, everything ok
 else
-  echo "***ERROR*** directory not usable (TOOLSET_ROOT_DIR): $TOOLSET_ROOT_DIR"
+  echo "***ERROR*** WRK_DIR not usable: $WRK_DIR"
   exit 1
 fi
 
 ### toolset directories ########################################################
 
 # This is where .dmg files with pre-compiled toolsets are downloaded to.
-TOOLSET_REPO_DIR=$TOOLSET_ROOT_DIR/repo
+REPO_DIR=$WRK_DIR/repo
 # Persistent location for ccache.
-export CCACHE_DIR=$TOOLSET_ROOT_DIR/ccache
+export CCACHE_DIR=$WRK_DIR/ccache
 # Directory with ccache binaries.
 export CCACHE_BIN_DIR=/opt/ccache/bin
 
 ### work directory and subdirectories ##########################################
 
 # Allow this to be overrideable or use version number as default.
-[ -z $WRK_DIR ] && WRK_DIR=$TOOLSET_ROOT_DIR/$TOOLSET_VERSION || true
+[ -z $VER_DIR ] && VER_DIR=$WRK_DIR/$TOOLSET_VERSION || true
 
-BIN_DIR=$WRK_DIR/bin
-ETC_DIR=$WRK_DIR/etc
-LIB_DIR=$WRK_DIR/lib
-VAR_DIR=$WRK_DIR/var
+BIN_DIR=$VER_DIR/bin
+ETC_DIR=$VER_DIR/etc
+LIB_DIR=$VER_DIR/lib
+VAR_DIR=$VER_DIR/var
 PKG_DIR=$VAR_DIR/cache/pkgs
-SRC_DIR=$WRK_DIR/usr/src
-TMP_DIR=$WRK_DIR/tmp
+SRC_DIR=$VER_DIR/usr/src
+TMP_DIR=$VER_DIR/tmp
 
 ### use TMP_DIR for everything temporary #######################################
 
@@ -88,7 +85,7 @@ export TMPDIR=$TMP_DIR                # TMPDIR is the common macOS default
 
 ### XDG ########################################################################
 
-export XDG_CACHE_HOME=$WRK_DIR/var/cache  # instead ~/.cache
+export XDG_CACHE_HOME=$VER_DIR/var/cache  # instead ~/.cache
 export XDG_CONFIG_HOME=$ETC_DIR           # instead ~/.config
 
 ### pip ########################################################################
@@ -121,7 +118,7 @@ fi
 # This is the location where the final product - like application bundle or
 # diskimage (no intermediate programs/libraries/...) - is created in.
 
-ARTIFACT_DIR=$WRK_DIR/artifacts
+ARTIFACT_DIR=$VER_DIR/artifacts
 
 ### application bundle paths ###################################################
 

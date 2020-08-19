@@ -8,6 +8,6 @@ function configure_make_makeinstall
 {
   local flags="$*"
 
-  jhbuild run ./configure --prefix=$WRK_DIR $flags
+  jhbuild run ./configure --prefix=$VER_DIR $flags
   make_makeinstall
 }

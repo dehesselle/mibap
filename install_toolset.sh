@@ -19,20 +19,20 @@ set -e
 
 function install
 {
-  local toolset_dmg=$TOOLSET_REPO_DIR/$(basename $URL_TOOLSET)
+  local toolset_dmg=$REPO_DIR/$(basename $URL_TOOLSET)
 
   if [ -f $toolset_dmg ]; then
     echo_i "no download required"
   else
     # File not present on disk, we need to download.
     echo_i "download required"
-    download_url $URL_TOOLSET $TOOLSET_REPO_DIR
+    download_url $URL_TOOLSET $REPO_DIR
   fi
 
   # mount build system read-only
   local device=$(create_dmg_device $toolset_dmg)
-  [ ! -d $WRK_DIR ] && mkdir -p $WRK_DIR
-  mount -o nobrowse,noowners,ro -t hfs $device $WRK_DIR
+  [ ! -d $VER_DIR ] && mkdir -p $VER_DIR
+  mount -o nobrowse,noowners,ro -t hfs $device $VER_DIR
   echo_i "toolset mounted as $device"
 
   # Sadly, there are some limitations involved with union-mounting:
@@ -45,13 +45,13 @@ function install
   # bad write-performance.
 
   # prepare a script for mass-creating directories
-  find $WRK_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
+  find $VER_DIR -type d ! -path "$TMP_DIR/*" ! -path "$SRC_DIR/*" \
       -exec echo "mkdir {}" > $TOOLSET_ROOT_DIR/create_dirs.sh \;
   chmod 755 $TOOLSET_ROOT_DIR/create_dirs.sh
 
   # create writable (ramdisk-) overlay
   device=$(create_ram_device $OVERLAY_RAMDISK_SIZE build)
-  mount -o nobrowse,rw,union -t hfs $device $WRK_DIR
+  mount -o nobrowse,rw,union -t hfs $device $VER_DIR
   echo_i "writable ramdisk overlay mounted as $device"
 
   # create all directories inside overlay

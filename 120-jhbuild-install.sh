@@ -62,7 +62,7 @@ download_url $URL_GTK_OSX/jhbuildrc-gtk-osx-custom-example \
 # JHBuild: paths
 echo "buildroot = '$JHBUILD_BUILDROOT'" >> $JHBUILDRC_CUSTOM
 echo "checkoutroot = '$SRC_DIR'"        >> $JHBUILDRC_CUSTOM
-echo "prefix = '$WRK_DIR'"              >> $JHBUILDRC_CUSTOM
+echo "prefix = '$VER_DIR'"              >> $JHBUILDRC_CUSTOM
 echo "tarballdir = '$PKG_DIR'"          >> $JHBUILDRC_CUSTOM
 
 # JHBuild: console output

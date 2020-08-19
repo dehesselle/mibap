@@ -13,8 +13,8 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### initial information ########################################################
 
-echo_i "TOOLSET_ROOT_DIR = $TOOLSET_ROOT_DIR"
-echo_i "WRK_DIR          = $WRK_DIR"
+echo_i "WRK_DIR = $WRK_DIR"
+echo_i "VER_DIR = $VER_DIR"
 
 ### check for presence of SDK ##################################################
 
@@ -23,10 +23,10 @@ if [ ! -d $SDKROOT ]; then
   exit 1
 fi
 
-### create work directory ######################################################
+### create version directory ###################################################
 
-if [ ! -d $WRK_DIR ]; then
-  mkdir -p $WRK_DIR
+if [ ! -d $VER_DIR ]; then
+  mkdir -p $VER_DIR
 fi
 
 ### create temporary directory #################################################
@@ -43,6 +43,6 @@ fi
 
 ### create toolset repository directory ########################################
 
-if [ ! -d $TOOLSET_REPO_DIR ]; then
-  mkdir -p $TOOLSET_REPO_DIR
+if [ ! -d $REPO_DIR ]; then
+  mkdir -p $REPO_DIR
 fi

@@ -10,6 +10,6 @@ function cmake_make_makeinstall
 
   mkdir builddir
   cd builddir
-  jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$WRK_DIR $flags ..
+  jhbuild run cmake -DCMAKE_INSTALL_PREFIX=$VER_DIR $flags ..
   make_makeinstall
 }
