@@ -38,7 +38,7 @@ TOOLSET_VERSION=0.38
 ### ramdisk ####################################################################
 
 # Using the toolset dmg, a small writable overlay is required.
-OVERLAY_RAMDISK_SIZE=2   # unit is GiB
+OVERLAY_RAMDISK_SIZE=3   # unit is GiB
 
 ### main work directory ########################################################
 

@@ -68,7 +68,7 @@ This folder contains the scripts that make up the build pipeline for Inkscape on
 
    - download a disk image (about 1.6 GiB) to `/Users/Shared/work/repo`
    - mount the (read only) disk image to `/Users/Shared/work/$TOOLSET_VERSION`
-   - union-mount a ramdisk (2 GiB) to `/Users/Shared/work/$TOOLSET_VERSION`
+   - union-mount a ramdisk (3 GiB) to `/Users/Shared/work/$TOOLSET_VERSION`
 
    The mounted volumes won't show up in the Finder but you can see them using `diskutil`. Use `uninstall_toolset.sh` to eject them (`repo` will not be deleted though).
 

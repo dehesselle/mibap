@@ -68,7 +68,7 @@ _The following is bound to change as development progresses and I won't deny tha
 
    - download a disk image (about 1.6 GiB) to `/Users/Shared/work/repo`
    - mount the (read only) disk image to `/Users/Shared/work/$TOOLSET_VERSION`
-   - union-mount a ramdisk (2 GiB) to `/Users/Shared/work/$TOOLSET_VERSION`
+   - union-mount a ramdisk (3 GiB) to `/Users/Shared/work/$TOOLSET_VERSION`
 
    The mounted volumes won't show up in the Finder but you can see them using `diskutil`. Use `uninstall_toolset.sh` to eject them (`repo` will not be deleted though).
 

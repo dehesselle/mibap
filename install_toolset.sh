@@ -47,6 +47,7 @@ function install
   # prepare a script for mass-creating directories
   find $VER_DIR -type d ! -path "$VAR_DIR/*" ! -path "$SRC_DIR/*" \
       -exec echo "mkdir {}" > $WRK_DIR/create_dirs.sh \;
+  sed -i "" "1d" $WRK_DIR/create_dirs.sh   # remove first line ("file exists")
   chmod 755 $WRK_DIR/create_dirs.sh
 
   # create writable (ramdisk-) overlay
