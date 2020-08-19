@@ -144,7 +144,7 @@ PY3_BUILD=1  # custom framework build number
 
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
-URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.1.x   # FIXME: unversioned
+URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.1.x-1
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/inkscape.modules
 
 ### download URLs for auxiliary software #######################################
