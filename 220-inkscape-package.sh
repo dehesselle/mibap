@@ -40,9 +40,11 @@ mv $APP_DIR.tmp $APP_DIR
 # Patch library link paths.
 
 relocate_dependency @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib $APP_EXE_DIR/inkscape
+relocate_dependency @executable_path/../Resources/lib/lib2geom.1.0.0.dylib $APP_EXE_DIR/inkscape
 
 relocate_dependency @loader_path/../libpoppler.94.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 relocate_dependency @loader_path/../libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
+relocate_dependency @loader_path/../lib2geom.1.0.0.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 
 relocate_neighbouring_libs $APP_LIB_DIR
 
