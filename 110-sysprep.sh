@@ -34,15 +34,3 @@ fi
 if [ ! -d $TMP_DIR ]; then
   mkdir -p $TMP_DIR
 fi
-
-### create binary directory #################################################
-
-if [ ! -d $BIN_DIR ]; then
-  mkdir -p $BIN_DIR
-fi
-
-### create toolset repository directory ########################################
-
-if [ ! -d $REPO_DIR ]; then
-  mkdir -p $REPO_DIR
-fi

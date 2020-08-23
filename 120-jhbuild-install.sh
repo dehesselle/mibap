@@ -16,6 +16,8 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 install_source $URL_JHBUILD
 JHBUILD_DIR=$(pwd)
 
+mkdir $BIN_DIR
+
 # Create 'jhbuild' executable. This code has been adapted from
 # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
 

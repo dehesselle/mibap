@@ -13,7 +13,7 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### bootstrap JHBuild ##########################################################
 
-mkdir -p $PKG_DIR $SRC_DIR $XDG_CACHE_HOME
+mkdir -p $PKG_DIR $XDG_CACHE_HOME
 
 # Basic bootstrapping.
 jhbuild bootstrap-gtk-osx
