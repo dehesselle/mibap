@@ -13,7 +13,8 @@ SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
   cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
 for script in $SELF_DIR/0??-*.sh; do source $script; done
 
-set -e
+include_file error_.sh
+error_trace_enable
 
 ### install toolset ############################################################
 
@@ -29,9 +30,11 @@ function install
     download_url $URL_TOOLSET $REPO_DIR
   fi
 
-  # mount build system read-only
+  # mount build system
   local device=$(create_dmg_device $toolset_dmg)
-  [ ! -d $VER_DIR ] && mkdir -p $VER_DIR
+  if [ ! -d $VER_DIR ]; then
+    mkdir -p $VER_DIR
+  fi
   mount -o nobrowse,noowners,ro -t hfs $device $VER_DIR
   echo_i "toolset mounted as $device"
 
@@ -62,5 +65,4 @@ function install
 
 ### main #######################################################################
 
-$SELF_DIR/110-sysprep.sh
 install
