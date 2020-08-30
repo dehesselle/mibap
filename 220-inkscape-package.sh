@@ -87,12 +87,7 @@ echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-pack
 
 ### install Python package: lxml ###############################################
 
-# We have to build it ourselves since the wheel has been built with an SDK
-# lower than 10.9, breaking notarization for
-#   - etree.cpython-38-darwin.so
-#   - objectify.cpython-38-darwin.so
-
-pip_install $PYTHON_LXML "--no-binary :all:"
+pip_install $PYTHON_LXML
 
 lib_change_paths \
   @loader_path/../../.. \
