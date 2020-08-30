@@ -103,16 +103,10 @@ pip_install $PYTHON_NUMPY
 
 pip_install $PYTHON_PYGOBJECT
 
-# patch '_gi'
 lib_change_paths \
   @loader_path/../../.. \
   $APP_LIB_DIR \
   $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
-
-# patch '_gi_cairo'
-lib_change_paths \
-  @loader_path/../../.. \
-  $APP_LIB_DIR \
   $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
 
 ### install Python package: Pycairo ############################################
