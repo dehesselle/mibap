@@ -40,11 +40,9 @@ mv $APP_DIR.tmp $APP_DIR
 # Patch library link paths.
 
 relocate_dependency @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib $APP_EXE_DIR/inkscape
-relocate_dependency @executable_path/../Resources/lib/lib2geom.1.0.0.dylib $APP_EXE_DIR/inkscape
 
 relocate_dependency @loader_path/../libpoppler.94.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 relocate_dependency @loader_path/../libpoppler-glib.8.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
-relocate_dependency @loader_path/../lib2geom.1.0.0.dylib $APP_LIB_DIR/inkscape/libinkscape_base.dylib
 
 relocate_neighbouring_libs $APP_LIB_DIR
 
@@ -86,6 +84,17 @@ echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-pack
 ### install Python package: lxml ###############################################
 
 pip_install $PYTHON_LXML
+
+# patch 'etree'
+relocate_dependency @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libxslt.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+# patch 'objectify'
+relocate_dependency @loader_path/../../../libxml2.2.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/objectify.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libz.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/objectify.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libxslt.1.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/objectify.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+relocate_dependency @loader_path/../../../libexslt.0.dylib $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/objectify.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
 
 ### install Python package: NumPy ##############################################
 

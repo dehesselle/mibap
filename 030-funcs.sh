@@ -47,8 +47,9 @@ function get_comp_flag
   local extension=${file##*.}
 
   case $extension in
-    gz) echo "z"  ;;
     bz2) echo "j" ;;
+    gz) echo "z"  ;;
+    tgz) echo "z" ;;
     xz) echo "J"  ;;
     *) echo "ERROR unknown extension $extension"
   esac
