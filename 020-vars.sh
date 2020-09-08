@@ -139,7 +139,7 @@ APP_PLIST=$APP_CON_DIR/Info.plist
 PY3_MAJOR=3
 PY3_MINOR=8
 PY3_PATCH=5
-PY3_BUILD=ink1   # custom build
+PY3_BUILD=2   # custom build
 
 ### download URLs for dependencies #############################################
 
@@ -173,7 +173,7 @@ URL_NINJA=https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-ma
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
 # This is a relocatable Python.framework to be bundled with the app.
 # https://github.com/dehesselle/py3framework
-URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_$PY3_BUILD.tar.xz
+URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_${PY3_BUILD}i.tar.xz
 # A pre-compiled version of the whole toolset.
 # https://github.com/dehesselle/mibap
 URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
