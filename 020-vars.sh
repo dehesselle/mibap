@@ -23,17 +23,17 @@ export MAKEFLAGS="-j $CORES"
 ### target OS version ##########################################################
 
 # The current build setup is
-#   - Xcode 11.6
+#   - Xcode 11.7
 #   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
 #   - macOS Catalina 10.15.6
 
-export MACOSX_DEPLOYMENT_TARGET=10.11
+SDK_VERSION=10.11
 [ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks
-export SDKROOT=$SDKROOT_DIR/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
+export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VERSION.sdk
 
 ### build system/toolset version ###############################################
 
-TOOLSET_VERSION=0.40
+TOOLSET_VERSION=0.41
 
 ### ramdisk ####################################################################
 
@@ -71,6 +71,7 @@ export CCACHE_BIN_DIR=/opt/ccache/bin
 
 BIN_DIR=$VER_DIR/bin
 ETC_DIR=$VER_DIR/etc
+INC_DIR=$VER_DIR/include
 LIB_DIR=$VER_DIR/lib
 VAR_DIR=$VER_DIR/var
 PKG_DIR=$VAR_DIR/cache/pkgs
@@ -187,7 +188,7 @@ PYTHON_CAIROCFFI=cairocffi==1.1.0
 # https://lxml.de
 # https://github.com/lxml/lxml
 PYTHON_LXML_SRC=https://lxml.de/files/lxml-4.5.2.tgz
-PYTHON_LXML=$PKG_DIR/$(basename -s .tgz $PYTHON_LXML_SRC)-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_${MACOSX_DEPLOYMENT_TARGET/./_}_x86_64.whl
+PYTHON_LXML=$PKG_DIR/$(basename -s .tgz $PYTHON_LXML_SRC)-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_${SDK_VERSION/./_}_x86_64.whl
 # https://github.com/numpy/numpy
 PYTHON_NUMPY=numpy==1.19.1
 # https://pygobject.readthedocs.io/en/latest/

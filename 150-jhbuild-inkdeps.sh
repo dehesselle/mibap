@@ -47,6 +47,6 @@ jhbuild run pip3 install wheel
 
 install_source $PYTHON_LXML_SRC
 jhbuild run python3 setup.py bdist_wheel \
-  --plat-name macosx_${MACOSX_DEPLOYMENT_TARGET/./_}_x86_64 \
+  --plat-name macosx_${SDK_VERSION/./_}_x86_64 \
   --bdist-dir $TMP_DIR/lxml \
   --dist-dir $PKG_DIR
