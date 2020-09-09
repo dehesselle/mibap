@@ -187,8 +187,8 @@ URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERS
 PYTHON_CAIROCFFI=cairocffi==1.1.0
 # https://lxml.de
 # https://github.com/lxml/lxml
-PYTHON_LXML_SRC=https://lxml.de/files/lxml-4.5.2.tgz
-PYTHON_LXML=$PKG_DIR/$(basename -s .tgz $PYTHON_LXML_SRC)-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_${SDK_VERSION/./_}_x86_64.whl
+# https://github.com/dehesselle/py3framework
+PYTHON_LXML=$(dirname $URL_PYTHON)/lxml-4.5.2-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_10_9_x86_64.whl
 # https://github.com/numpy/numpy
 PYTHON_NUMPY=numpy==1.19.1
 # https://pygobject.readthedocs.io/en/latest/
