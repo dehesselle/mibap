@@ -51,7 +51,7 @@ relocate_neighbouring_libs $APP_LIB_DIR
 /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
 
 # update minimum system version according to deployment target
-/usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$MACOSX_DEPLOYMENT_TARGET'" $APP_PLIST
+/usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VERSION'" $APP_PLIST
 
 ### generate application icon ##################################################
 
