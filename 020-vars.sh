@@ -50,6 +50,7 @@ fi
 
 # Repository for downloaded toolset .dmg files.
 REPO_DIR=$WRK_DIR/repo
+
 # Location for ccache.
 export CCACHE_DIR=$WRK_DIR/ccache
 
@@ -141,32 +142,42 @@ py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_${PY3_BUILD}i.tar.xz
 # https://cairocffi.readthedocs.io/en/stable/
 # https://github.com/Kozea/cairocffi
 PYTHON_CAIROCFFI=cairocffi==1.1.0
+
 # https://lxml.de
 # https://github.com/lxml/lxml
 # https://github.com/dehesselle/py3framework
 PYTHON_LXML=$(dirname $URL_PYTHON)/lxml-4.5.2-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_10_9_x86_64.whl
+
 # https://github.com/numpy/numpy
 PYTHON_NUMPY=numpy==1.19.1
+
 # https://pygobject.readthedocs.io/en/latest/
 PYTHON_PYGOBJECT=PyGObject==3.36.1
+
 # https://github.com/scour-project/scour
 PYTHON_SCOUR=scour==0.37
+
 # https://pyserial.readthedocs.io/en/latest/
 # https://github.com/pyserial/pyserial
 PYTHON_PYSERIAL=pyserial==3.4
 
 ### Python: auxiliary packages #################################################
 
-# The following Python packages are required for the build system (meson)
-# and the packaging process (all others).
+# The following Python packages are required for the build system.
 
 # convert SVG to PNG
 # https://cairosvg.org
 PYTHON_CAIROSVG=cairosvg==2.4.2
+
+# Mozilla Root Certificates
+# https://pypi.org/project/certifi
+PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
+
 # create DMG
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
 PYTHON_DMGBUILD=dmgbuild==1.3.3
+
 # Meson build system
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
@@ -184,10 +195,9 @@ URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7
 # https://github.com/dehesselle/gtk-mac-bundler
 # Forked from https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 URL_GTK_MAC_BUNDLER=https://github.com/dehesselle/gtk-mac-bundler/archive/f96a9daf2236814af7ace7a2fa91bbfb4f077779.tar.gz
-
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
-URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.1.x-2
+URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/develop
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/inkscape.modules
 
 # Inkscapge Git repo (for standalone/non-CI builds)
@@ -198,7 +208,8 @@ URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dm
 # JHBuild build system
 # https://gitlab.gnome.org/GNOME/jhbuild
 # https://wiki.gnome.org/Projects/Jhbuild/Introduction
-URL_JHBUILD=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/3.36.0/jhbuild-3.36.0.tar.gz
+URL_JHBUILD=https://github.com/dehesselle/jhbuild/archive/4b4723aa26950f1b32d80e848bffde63d3e5870f.tar.gz
+
 # Ninja build system
 # https://github.com/ninja-build/ninja
 URL_NINJA=https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
@@ -206,6 +217,7 @@ URL_NINJA=https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-ma
 # convert PNG image to iconset in ICNS format
 # https://github.com/bitboss-ca/png2icns
 URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
+
 # A pre-compiled version of the whole toolset.
 # https://github.com/dehesselle/mibap
 URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg

@@ -25,6 +25,15 @@ ln -s ccache clang++
 ln -s ccache gcc
 ln -s ccache g++
 
+### install Python certifi package #############################################
+
+# Without this, JHBuild won't be able to access https links later because
+# Apple's Python won't be able to validate certificates.
+
+SITE_PACKAGES_DIR=$LIB_DIR/python3.7/site-packages
+mkdir -p $SITE_PACKAGES_DIR
+pip3 install --ignore-installed --target=$SITE_PACKAGES_DIR certifi
+
 ### install JHBuild ############################################################
 
 install_source $URL_JHBUILD
@@ -34,14 +43,12 @@ JHBUILD_DIR=$(pwd)
 # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
 
 cat <<EOF > "$BIN_DIR/jhbuild"
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys
 import os
-# Python 3
-#import builtins
-import __builtin__
+import builtins
 
 sys.path.insert(0, '$JHBUILD_DIR')
 pkgdatadir = None
@@ -49,13 +56,9 @@ datadir = None
 import jhbuild
 srcdir = os.path.abspath(os.path.join(os.path.dirname(jhbuild.__file__), '..'))
 
-# Python 3
-#builtins.__dict__['PKGDATADIR'] = pkgdatadir
-#builtins.__dict__['DATADIR'] = datadir
-#builtins.__dict__['SRCDIR'] = srcdir
-__builtin__.__dict__['PKGDATADIR'] = pkgdatadir
-__builtin__.__dict__['DATADIR'] = datadir
-__builtin__.__dict__['SRCDIR'] = srcdir
+builtins.__dict__['PKGDATADIR'] = pkgdatadir
+builtins.__dict__['DATADIR'] = datadir
+builtins.__dict__['SRCDIR'] = srcdir
 
 import jhbuild.main
 jhbuild.main.main(sys.argv[1:])
@@ -118,3 +121,9 @@ echo "os.environ[\"OBJCFLAGS\"] = \"-I$SDKROOT/usr/include -isysroot $SDKROOT\""
 echo "os.environ[\"CC\"] = \"$BIN_DIR/gcc\""   >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\"" >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""  >> $JHBUILDRC_CUSTOM
+
+# certificates for https
+echo "os.environ[\"SSL_CERT_FILE\"] = \"$LIB_DIR/python3.7/site-packages/certifi/cacert.pem\"" \
+    >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \"$LIB_DIR/python3.7/site-packages/certifi/cacert.pem\"" \
+    >> $JHBUILDRC_CUSTOM
