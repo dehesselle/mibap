@@ -14,12 +14,23 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 include_file error_.sh
 error_trace_enable
 
+### install ccache #############################################################
+
+install_source $URL_CCACHE
+./configure --prefix=$VER_DIR
+make
+make install
+
+cd $BIN_DIR
+ln -s ccache clang
+ln -s ccache clang++
+ln -s ccache gcc
+ln -s ccache g++
+
 ### install JHBuild ############################################################
 
 install_source $URL_JHBUILD
 JHBUILD_DIR=$(pwd)
-
-mkdir $BIN_DIR
 
 # Create 'jhbuild' executable. This code has been adapted from
 # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
@@ -109,11 +120,7 @@ echo "os.environ[\"LDFLAGS\"] = \"-L$LIB_DIR -L$SDKROOT/usr/lib -isysroot $SDKRO
 echo "os.environ[\"OBJCFLAGS\"] = \"-I$SDKROOT/usr/include -isysroot $SDKROOT\"" \
     >> $JHBUILDRC_CUSTOM
 
-# optional: use ccache if available
-# (But it's not as effective here as it is for building Inkscape.)
-if [ -d $CCACHE_BIN_DIR ]; then
-  echo_i "JHBuild will use ccache"
-  echo "os.environ[\"CC\"] = \"$CCACHE_BIN_DIR/gcc\""   >> $JHBUILDRC_CUSTOM
-  echo "os.environ[\"OBJC\"] = \"$CCACHE_BIN_DIR/gcc\"" >> $JHBUILDRC_CUSTOM
-  echo "os.environ[\"CXX\"] = \"$CCACHE_BIN_DIR/g++\""  >> $JHBUILDRC_CUSTOM
-fi
+# enable ccache
+echo "os.environ[\"CC\"] = \"$BIN_DIR/gcc\""   >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\"" >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""  >> $JHBUILDRC_CUSTOM
