@@ -178,7 +178,7 @@ PYTHON_MESON=meson==0.55.1
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
-URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
+URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz
 
 # create application bundle
 # https://github.com/dehesselle/gtk-mac-bundler
