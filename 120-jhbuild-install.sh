@@ -17,9 +17,7 @@ error_trace_enable
 ### install ccache #############################################################
 
 install_source $URL_CCACHE
-./configure --prefix=$VER_DIR
-make
-make install
+configure_make_makeinstall
 
 cd $BIN_DIR
 ln -s ccache clang
