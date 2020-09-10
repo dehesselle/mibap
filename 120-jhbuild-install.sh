@@ -91,10 +91,6 @@ sed -i "" "s/^setup_sdk/#setup_sdk/"           $JHBUILDRC_CUSTOM
 echo "setup_sdk(target=\"$SDK_VERSION\")"   >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\"" >> $JHBUILDRC_CUSTOM
 
-# TODO: I have forgotten why this is here
-echo "if \"openssl\" in skip:"    >> $JHBUILDRC_CUSTOM
-echo "  skip.remove(\"openssl\")" >> $JHBUILDRC_CUSTOM
-
 # Remove harmful settings in regards to the target platform:
 #   - MACOSX_DEPLOYMENT_TARGET
 #   - -mmacosx-version-min
