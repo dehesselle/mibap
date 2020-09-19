@@ -68,13 +68,9 @@ chmod 755 $BIN_DIR/jhbuild
 
 ### configure JHBuild ##########################################################
 
-download_url $URL_GTK_OSX/jhbuildrc-gtk-osx \
-  $(dirname $JHBUILDRC) \
-  $(basename $JHBUILDRC)
-
-download_url $URL_GTK_OSX/jhbuildrc-gtk-osx-custom-example \
-  $(dirname $JHBUILDRC_CUSTOM) \
-  $(basename $JHBUILDRC_CUSTOM)
+mkdir -p $(dirname $JHBUILDRC)
+cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC)        $JHBUILDRC
+cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC_CUSTOM) $JHBUILDRC_CUSTOM
 
 # basic directory layout
 echo "buildroot = '$JHBUILD_BUILDROOT'" >> $JHBUILDRC_CUSTOM
@@ -86,8 +82,8 @@ echo "tarballdir = '$PKG_DIR'"          >> $JHBUILDRC_CUSTOM
 echo "quiet_mode = True"   >> $JHBUILDRC_CUSTOM
 echo "progress_bar = True" >> $JHBUILDRC_CUSTOM
 
-# use custom moduleset
-echo "moduleset = '$URL_GTK_OSX_MODULESET'" >> $JHBUILDRC_CUSTOM
+# set moduleset
+echo "moduleset = '$URL_JHBUILD_MODULESET'" >> $JHBUILDRC_CUSTOM
 
 # set macOS SDK
 sed -i "" "s/^setup_sdk/#setup_sdk/"           $JHBUILDRC_CUSTOM

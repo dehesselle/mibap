@@ -1,0 +1,11 @@
+--- a/configure
++++ b/configure
+@@ -8180,7 +8180,7 @@
+       if ! test -d "$LIBTIFFCONFDIR" ; then
+         mkdir "$LIBTIFFCONFDIR"
+       fi
+-      cd "$LIBTIFFCONFDIR" && "$absolute_source_path/$LIBTIFFDIR/configure" --disable-jbig --disable-lzma --disable-zstd --disable-webp $SUBCONFIG_OPTS
++      cd "$LIBTIFFCONFDIR" && "$LIBTIFFDIR/configure" --disable-jbig --disable-lzma --disable-zstd --disable-webp $SUBCONFIG_OPTS
+       status=$?
+       if test $status -ne 0 ; then
+         as_fn_error $status "libtiff configure script failed" "$LINENO" 5

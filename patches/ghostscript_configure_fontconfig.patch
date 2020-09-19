@@ -1,0 +1,11 @@
+--- a/configure
++++ b/configure
+@@ -7048,7 +7048,7 @@
+                         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+ $as_echo "yes" >&6; }
+                         FONTCONFIG_CFLAGS="$CFLAGS `$PKGCONFIG --cflags fontconfig`"
+-                        FONTCONFIG_LIBS="`$PKGCONFIG --libs-only-l fontconfig`"
++                        FONTCONFIG_LIBS="`$PKGCONFIG --libs fontconfig`"
+                         HAVE_FONTCONFIG=-DHAVE_FONTCONFIG
+                 else
+                         { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
