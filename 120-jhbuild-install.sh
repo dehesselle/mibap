@@ -71,10 +71,10 @@ cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC)        $JHBUILDRC
 cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC_CUSTOM) $JHBUILDRC_CUSTOM
 
 # basic directory layout
-echo "buildroot = '$JHBUILD_BUILDROOT'" >> $JHBUILDRC_CUSTOM
-echo "checkoutroot = '$SRC_DIR'"        >> $JHBUILDRC_CUSTOM
-echo "prefix = '$VER_DIR'"              >> $JHBUILDRC_CUSTOM
-echo "tarballdir = '$PKG_DIR'"          >> $JHBUILDRC_CUSTOM
+echo "buildroot = '$BLD_DIR'"    >> $JHBUILDRC_CUSTOM
+echo "checkoutroot = '$SRC_DIR'" >> $JHBUILDRC_CUSTOM
+echo "prefix = '$VER_DIR'"       >> $JHBUILDRC_CUSTOM
+echo "tarballdir = '$PKG_DIR'"   >> $JHBUILDRC_CUSTOM
 
 # run quietly with minimal output
 echo "quiet_mode = True"   >> $JHBUILDRC_CUSTOM

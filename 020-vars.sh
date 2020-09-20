@@ -62,6 +62,7 @@ ETC_DIR=$VER_DIR/etc
 INC_DIR=$VER_DIR/include
 LIB_DIR=$VER_DIR/lib
 VAR_DIR=$VER_DIR/var
+BLD_DIR=$VAR_DIR/build
 PKG_DIR=$VAR_DIR/cache/pkgs
 SRC_DIR=$VER_DIR/usr/src
 TMP_DIR=$VER_DIR/tmp
@@ -104,9 +105,7 @@ APP_PLIST=$APP_CON_DIR/Info.plist
 export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
-JHBUILD_BUILDROOT=$VAR_DIR/build
-
-### Inkscape Git repository directory ##########################################
+### Inkscape source and build directories ######################################
 
 # Location differs between running standalone and GitLab CI job.
 
@@ -116,6 +115,8 @@ else
   INK_DIR=$SELF_DIR/../..   # SELF_DIR needs to be set by the sourcing script
   INK_DIR=$(cd $INK_DIR; pwd -P)   # make path canoncial
 fi
+
+INK_BUILD_DIR=$BLD_DIR/$(basename $INK_DIR)
 
 ### Python #####################################################################
 
