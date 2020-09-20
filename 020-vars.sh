@@ -13,7 +13,7 @@
 
 ### build system: version ######################################################
 
-TOOLSET_VERSION=0.42
+TOOLSET_VERSION=0.43
 
 ### build system: target OS version ############################################
 
@@ -206,8 +206,6 @@ URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dm
 # https://gitlab.gnome.org/GNOME/jhbuild
 # https://wiki.gnome.org/Projects/Jhbuild/Introduction
 URL_JHBUILD=https://github.com/dehesselle/jhbuild/archive/4b4723aa26950f1b32d80e848bffde63d3e5870f.tar.gz
-# custom moduleset (based on https://gitlab.gnome.org/GNOME/gtk-osx)
-URL_JHBUILD_MODULESET=https://raw.githubusercontent.com/dehesselle/mibap/v0.42/jhbuild/inkscape.modules
 
 # Ninja build system
 # https://github.com/ninja-build/ninja

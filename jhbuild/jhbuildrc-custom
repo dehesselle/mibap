@@ -12,8 +12,8 @@
 # You can set the default setup here.
 #
 # _gtk_osx_default_build = "fw-10.4"
-# 
-# or set things up with an environment variable: 
+#
+# or set things up with an environment variable:
 
 _jhb = os.environ.get("JHB")
 if _jhb is None:
@@ -109,7 +109,7 @@ if _jhb is None:
 
 #  Set up a particular target and SDK: For default operation, set the
 # architecture and SDK for the native machine:
-setup_sdk()
+# setup_sdk()
 
 # Comment out the previous and uncomment this one to build for all
 # systems running SnowLeopard and later:
@@ -122,7 +122,7 @@ setup_sdk()
 # or simply  add to them:
 #
 # append_autogenargs("libglade", "--enable-static")
-# 
+#
 # Note that in either case the args will be added *after* the args in
 # the module's autogenargs attribute.
 #
@@ -150,3 +150,7 @@ setup_sdk()
 
 
 # And more...
+use_local_modulesets = True
+moduleset = "inkscape.modules"
+quiet_mode = True
+progress_bar = True

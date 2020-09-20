@@ -70,21 +70,16 @@ mkdir -p $(dirname $JHBUILDRC)
 cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC)        $JHBUILDRC
 cp $SELF_DIR/jhbuild/$(basename $JHBUILDRC_CUSTOM) $JHBUILDRC_CUSTOM
 
+# set moduleset directory
+echo "modulesets_dir = '$SELF_DIR/jhbuild'" >> $JHBUILDRC_CUSTOM
+
 # basic directory layout
 echo "buildroot = '$BLD_DIR'"    >> $JHBUILDRC_CUSTOM
 echo "checkoutroot = '$SRC_DIR'" >> $JHBUILDRC_CUSTOM
 echo "prefix = '$VER_DIR'"       >> $JHBUILDRC_CUSTOM
 echo "tarballdir = '$PKG_DIR'"   >> $JHBUILDRC_CUSTOM
 
-# run quietly with minimal output
-echo "quiet_mode = True"   >> $JHBUILDRC_CUSTOM
-echo "progress_bar = True" >> $JHBUILDRC_CUSTOM
-
-# set moduleset
-echo "moduleset = '$URL_JHBUILD_MODULESET'" >> $JHBUILDRC_CUSTOM
-
 # set macOS SDK
-sed -i "" "s/^setup_sdk/#setup_sdk/"           $JHBUILDRC_CUSTOM
 echo "setup_sdk(target=\"$SDK_VERSION\")"   >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\"" >> $JHBUILDRC_CUSTOM
 
