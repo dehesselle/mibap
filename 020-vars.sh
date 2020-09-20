@@ -27,7 +27,7 @@ export MAKEFLAGS="-j $CORES"
 ### target OS version ##########################################################
 
 # The current build setup is
-#   - Xcode 11.7
+#   - Xcode 12
 #   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
 #   - macOS Catalina 10.15.6
 
@@ -37,7 +37,7 @@ export SDKROOT=$SDKROOT_DIR/MacOSX${SDK_VERSION}.sdk
 
 ### build system/toolset version ###############################################
 
-TOOLSET_VERSION=0.37.4
+TOOLSET_VERSION=0.37.5
 
 ### ramdisk ####################################################################
 
@@ -144,7 +144,7 @@ PY3_BUILD=2  # custom framework build number
 
 # https://github.com/dehesselle/gtk-osx
 # Forked from https://gitlab.gnome.org/GNOME/gtk-osx
-URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x-8
+URL_GTK_OSX=https://raw.githubusercontent.com/dehesselle/gtk-osx/inkscape-1.0.x-9
 URL_GTK_OSX_SETUP=$URL_GTK_OSX/gtk-osx-setup.sh
 URL_GTK_OSX_MODULESET=$URL_GTK_OSX/modulesets-stable/gtk-osx.modules
 
