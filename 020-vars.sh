@@ -18,7 +18,7 @@ TOOLSET_VERSION=0.42
 ### build system: target OS version ############################################
 
 # The current build setup is
-#   - Xcode 11.7
+#   - Xcode 12
 #   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
 #   - macOS Catalina 10.15.6
 

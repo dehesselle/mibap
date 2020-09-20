@@ -94,7 +94,10 @@
   </autotools>
 
   <!-- Gnome Docking Library https://gitlab.gnome.org/GNOME/gdl -->
-  <autotools id="gdl" autogen-sh="autogen.sh">
+  <!--   Xcode 12 errors out on implicit function declarations, so we need to
+         ignore them.
+   -->
+  <autotools id="gdl" autogen-sh='autogen.sh CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'>
     <branch module="gdl/-/archive/20935bab3a4cec350ad7b938a6a1ca566810e67c/gdl-20935bab3a4cec350ad7b938a6a1ca566810e67c.tar.gz"
             version="20935bab3a4cec350ad7b938a6a1ca566810e67c"
             hash="sha256:37707c7e9beda15e344f323a6b6dc97e371ce9a987f2165844694f5541045e7d"
