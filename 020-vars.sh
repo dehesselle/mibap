@@ -74,8 +74,8 @@ export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
 
 ### versioned directories: XDG #################################################
 
-export XDG_CACHE_HOME=$VER_DIR/var/cache  # instead ~/.cache
-export XDG_CONFIG_HOME=$ETC_DIR           # instead ~/.config
+export XDG_CACHE_HOME=$VAR_DIR/cache  # instead ~/.cache
+export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 
 ### versioned directories: pip #################################################
 
