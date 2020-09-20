@@ -30,9 +30,7 @@ ln -s ccache g++
 # Without this, JHBuild won't be able to access https links later because
 # Apple's Python won't be able to validate certificates.
 
-SITE_PACKAGES_DIR=$LIB_DIR/python3.7/site-packages
-mkdir -p $SITE_PACKAGES_DIR
-pip3 install --ignore-installed --target=$SITE_PACKAGES_DIR certifi
+pip3 install --ignore-installed --target=$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages certifi
 
 ### install JHBuild ############################################################
 
@@ -119,7 +117,7 @@ echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\"" >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""  >> $JHBUILDRC_CUSTOM
 
 # certificates for https
-echo "os.environ[\"SSL_CERT_FILE\"] = \"$LIB_DIR/python3.7/site-packages/certifi/cacert.pem\"" \
+echo "os.environ[\"SSL_CERT_FILE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
     >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \"$LIB_DIR/python3.7/site-packages/certifi/cacert.pem\"" \
+echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
     >> $JHBUILDRC_CUSTOM
