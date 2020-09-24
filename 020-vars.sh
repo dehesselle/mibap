@@ -13,7 +13,7 @@
 
 ### build system: version ######################################################
 
-TOOLSET_VERSION=0.43
+TOOLSET_VERSION=0.44
 
 ### build system: target OS version ############################################
 
