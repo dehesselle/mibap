@@ -168,14 +168,6 @@ done
 # directory below '$HOME/Library/Application Support/Inkscape'.
 cp $SELF_DIR/fonts.conf $APP_ETC_DIR/fonts
 
-### Ghostscript ################################################################
-
-# patch gs
-lib_change_paths \
-  @executable_path/../lib \
-  $APP_LIB_DIR \
-  $APP_BIN_DIR/gs
-
 ### create GObject introspection repository ####################################
 
 mkdir $APP_LIB_DIR/girepository-1.0

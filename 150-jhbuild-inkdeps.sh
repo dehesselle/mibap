@@ -16,7 +16,6 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 jhbuild build \
   bdwgc \
   doubleconversion \
-  ghostscript \
   googletest \
   gsl \
   gspell \

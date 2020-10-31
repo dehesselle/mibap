@@ -114,35 +114,6 @@
     </dependencies>
   </autotools>
 
-  <!-- Ghostscript https://www.ghostscript.com -->
-  <autotools
-    id="ghostscript"
-    autogen-sh="configure">
-    <branch
-      module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/ghostscript-9.52.tar.xz"
-      version="9.52"
-      hash="sha256:57442acf8b46453a9b5fc6fec738fbbb7e13a3d3e00f1aaaa0975529bc203c7c"
-      repo="github">
-      <patch
-        file="ghostscript_configure_libtiff.patch"
-        strip="1"/>
-      <patch
-        file="ghostscript_configure_fontconfig.patch"
-        strip="1"/>
-      <!--  required on Catalina 10.15.4, XCode 11.4.1
-            not required on Mojave 10.14.6, XCode 11.3.1
-      -->
-      <patch
-        file="ghostscript_link_cupsimage.patch"
-        strip="1"/>
-    </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
-  </autotools>
-
   <!-- Google Testing and Mocking Framework https://github.com/google/googletest -->
   <cmake
     id="googletest">
@@ -161,14 +132,17 @@
     </dependencies>
   </cmake>
 
-  <!-- GNU Scientific Library https://www.gnu.org/software/gsl -->
+  <!-- GNU Scientific Library https://www.gnu.org/software/gsl
+
+       We stick to version 1.9 as this is the last one licensed under GPLv2.
+  -->
   <autotools
     id="gsl"
-    autogen-sh="configure">
+    autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'>
     <branch
-      module="gsl/gsl-2.6.tar.gz"
-      version="2.6"
-      hash="sha256:b782339fc7a38fe17689cb39966c4d821236c28018b6593ddb6fd59ee40786a8"
+      module="gsl/gsl-1.9.tar.gz"
+      version="1.9"
+      hash="sha256:fcd1c6784997c2312d922d107fcb30462f5be4335ebdfa8e1e0e07568c962250"
       repo="gnu">
     </branch>
     <dependencies>
