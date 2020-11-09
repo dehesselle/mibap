@@ -166,6 +166,11 @@ PYTHON_PYSERIAL=pyserial==3.4
 
 # The following Python packages are required for the build system.
 
+# binary plist parser/generator
+# appears to be a silent dependency of dmgbuild
+# https://pypi.org/project/biplist/
+PYTHON_BIPLIST=biplist==1.0.3
+
 # convert SVG to PNG
 # https://cairosvg.org
 PYTHON_CAIROSVG=cairosvg==2.4.2
@@ -177,7 +182,7 @@ PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
 # create DMG
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
-PYTHON_DMGBUILD=dmgbuild==1.3.3
+PYTHON_DMGBUILD=dmgbuild==1.4.2
 
 # Meson build system
 # https://mesonbuild.com
