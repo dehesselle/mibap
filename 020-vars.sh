@@ -202,10 +202,10 @@ URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 # disk image icon
 URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dmg.icns
 
-# JHBuild build system
+# JHBuild build system (3.38.0+ from master branch because of specific patch)
 # https://gitlab.gnome.org/GNOME/jhbuild
 # https://wiki.gnome.org/Projects/Jhbuild/Introduction
-URL_JHBUILD=https://github.com/dehesselle/jhbuild/archive/4b4723aa26950f1b32d80e848bffde63d3e5870f.tar.gz
+URL_JHBUILD=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/a896cbf404461cab979fa3cd1c83ddf158efe83b/jhbuild-a896cbf404461cab979fa3cd1c83ddf158efe83b.tar.bz2
 
 # Ninja build system
 # https://github.com/ninja-build/ninja
