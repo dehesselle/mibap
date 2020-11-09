@@ -88,6 +88,7 @@ mkdir $APP_FRA_DIR
 install_source file://$PKG_DIR/$(basename $URL_PYTHON) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
 
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
+mkdir -p $APP_BIN_DIR
 ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PY3_MAJOR $APP_BIN_DIR
 
 # create '.pth' file inside Framework to include our site-packages directory
