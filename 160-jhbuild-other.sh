@@ -18,15 +18,8 @@ error_trace_enable
 ### install disk image creator #################################################
 
 jhbuild run pip3 install $PYTHON_BIPLIST
+jhbuild run pip3 install $PYTHON_PYOBJC_FRAMEWORK_QUARTZ    # for badge icon
 jhbuild run pip3 install $PYTHON_DMGBUILD
-
-### download icon for disk image ###############################################
-
-# dmgbuild offers to generate a badged version of the disk image icon, but
-# it doesn't work and I have not investigated yet. We use a pre-made image
-# for now.
-
-download_url $URL_INKSCAPE_DMG_ICNS $SRC_DIR
 
 ### install gtk-mac-bundler ####################################################
 

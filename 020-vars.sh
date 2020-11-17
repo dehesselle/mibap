@@ -13,7 +13,7 @@
 
 ### build system: version ######################################################
 
-TOOLSET_VERSION=0.45
+TOOLSET_VERSION=0.46
 
 ### build system: target OS version ############################################
 
@@ -188,6 +188,11 @@ PYTHON_DMGBUILD=dmgbuild==1.4.2
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
 
+# Wrappers for Quartz related frameworks
+# This is a dependency for dmgbuild to make badge icons work.
+# https://pypi.org/project/pyobjc-framework-Quartz/
+PYTHON_PYOBJC_FRAMEWORK_QUARTZ=pyobjc-framework-Quartz==6.2.2
+
 ### download URLs ##############################################################
 
 # Every required piece of software for building, packaging etc. that doesn't
@@ -204,8 +209,6 @@ URL_GTK_MAC_BUNDLER=https://github.com/dehesselle/gtk-mac-bundler/archive/f96a9d
 
 # Inkscapge Git repo (for standalone/non-CI builds)
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
-# disk image icon
-URL_INKSCAPE_DMG_ICNS=https://github.com/dehesselle/mibap/raw/master/inkscape_dmg.icns
 
 # JHBuild build system (3.38.0+ from master branch because of specific patch)
 # https://gitlab.gnome.org/GNOME/jhbuild
