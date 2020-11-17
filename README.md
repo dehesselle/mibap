@@ -15,7 +15,7 @@ _The following is bound to change as development progresses and I won't deny tha
 
 - There are __version recommendations__.
   - macOS Catalina 10.15.7
-  - Xcode 12.0.1
+  - Xcode 12.2
   - OS X El Capitan 10.11 SDK from Xcode 7.3.1 (expected in `/opt/sdks/MacOSX10.11.sdk`, see `SDKROOT_DIR` in `020-vars.sh`)
 
 - A somewhat decent __internet connection__ for all the downloads.
