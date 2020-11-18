@@ -23,7 +23,7 @@ TOOLSET_VERSION=0.46
 #   - macOS Catalina 10.15.7
 
 SDK_VERSION=10.11
-# Allow this to be ovefrrideable or use the default.
+# Allow this to be overrideable or use the default.
 [ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks
 export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VERSION.sdk
 
@@ -32,7 +32,7 @@ export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VERSION.sdk
 # This is the main directory where all the action takes place below.
 
 # Allow this to be overridable or use the default.
-# Purpose of the default choice is to have guaranteed writable location
+# Purpose of the default choice is to have a guaranteed writable location
 # that is present on every macOS installation.
 [ -z $WRK_DIR ] && WRK_DIR=/Users/Shared/work || true
 
@@ -167,7 +167,7 @@ PYTHON_PYSERIAL=pyserial==3.4
 # The following Python packages are required for the build system.
 
 # binary plist parser/generator
-# appears to be a silent dependency of dmgbuild
+# This is a dependency of dmgbuild.
 # https://pypi.org/project/biplist/
 PYTHON_BIPLIST=biplist==1.0.3
 
@@ -189,7 +189,7 @@ PYTHON_DMGBUILD=dmgbuild==1.4.2
 PYTHON_MESON=meson==0.55.1
 
 # Wrappers for Quartz related frameworks
-# This is a dependency for dmgbuild to make badge icons work.
+# This is a dependency of dmgbuild to make badge icons work.
 # https://pypi.org/project/pyobjc-framework-Quartz/
 PYTHON_PYOBJC_FRAMEWORK_QUARTZ=pyobjc-framework-Quartz==6.2.2
 
