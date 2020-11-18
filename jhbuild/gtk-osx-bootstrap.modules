@@ -53,7 +53,7 @@
     <branch version="4.1.0" module="libtiff/tiff-4.1.0.tar.gz"
 	    hash="sha156:5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 	    repo="libtiff">
-	<patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/tiff-nohtml.patch" strip="1" />
+	<patch file="tiff-nohtml.patch" strip="1" />
     </branch>
     <dependencies>
       <dep package="libjpeg"/>
@@ -89,7 +89,7 @@
   <autotools id="itstool" autogen-sh="configure">
     <branch module="itstool/itstool-2.0.6.tar.bz2" version="2.0.6n"
             repo="itstool">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/itstool-config-python.patch" strip="1"/>
+      <patch file="itstool-config-python.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libxml2"/>
@@ -140,7 +140,7 @@
 
   <autotools id="ragel" autogen-sh='autoreconf'>
     <branch repo="ragel" module="ragel-6.10.tar.gz" version="6.10">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/ragel-6.9-setiosflags.patch" strip="1"/>
+      <patch file="ragel-6.9-setiosflags.patch" strip="1"/>
     </branch>
   </autotools>
 

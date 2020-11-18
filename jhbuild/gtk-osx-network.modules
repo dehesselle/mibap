@@ -74,7 +74,7 @@
     <branch repo="gnutls" version="3.6.12"
             hash="sha256:bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b"
             module="gcrypt/gnutls/v3.6/gnutls-3.6.12.tar.xz">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gnutls-yes-weak-imports.patch" strip="1"/>
+      <patch file="gnutls-yes-weak-imports.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libunistring"/>
@@ -151,11 +151,11 @@
              autogenargs="--enable-quartz-target --with-gtk=2.0 --disable-webkit2 --disable-credential-storage --disable-geolocation --disable-video --disable-web-audio CXXFLAGS='-stdlib=libc++'">
 
     <branch repo="webkit.org" module="webkitgtk-2.4.11.tar.xz" version="2.4.11">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-140167-disable-netscape-api.patch" strip="1"/>
+      <patch file="webkit-140167-disable-netscape-api.patch" strip="1"/>
       <!-- This patch can be commented out for XCode >= 6.3, but does no harm if
       it's left in -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-133293-cfi-clang-failure.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/WebKit-2.4.11-fixups.patch" strip="1"/>
+      <patch file="webkit-133293-cfi-clang-failure.patch" strip="1"/>
+      <patch file="WebKit-2.4.11-fixups.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libwebp"/>
@@ -175,11 +175,11 @@
              autogenargs="--enable-quartz-target --with-gtk=3.0 --disable-webkit2 --disable-credential-storage --disable-geolocation --disable-video --disable-web-audio CXXFLAGS='-stdlib=libc++'"
              makeargs="-j1" >
     <branch repo="webkit.org" module="webkitgtk-2.4.11.tar.xz" version="2.4.11">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-140167-disable-netscape-api.patch" strip="1"/>
+      <patch file="webkit-140167-disable-netscape-api.patch" strip="1"/>
       <!-- This patch can be commented out for XCode >= 6.3, but does no harm if
       it's left in -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-133293-cfi-clang-failure.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/WebKit-2.4.11-fixups.patch" strip="1"/>
+      <patch file="webkit-133293-cfi-clang-failure.patch" strip="1"/>
+      <patch file="WebKit-2.4.11-fixups.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libwebp"/>
@@ -213,10 +213,10 @@
   <cmake id="webkit2gtk3"
          cmakeargs='-DPORT=GTK -DENABLE_X11_TARGET=OFF -DENABLE_QUARTZ_TARGET=ON -DENABLE_INTROSPECTION=OFF  -DENABLE_OPENGL=OFF -DENABLE_PLUGIN_PROCESS_GTK2=OFF -DENABLE_VIDEO=OFF -DENABLE_WEB_AUDIO=OFF -DENABLE_GEOLOCATION=OFF -DUSE_LIBNOTIFY=OFF -DUSE_LIBHYPHEN=OFF -DUSE_LIBSECRET=OFF -DENABLE_TOUCH_EVENTS=OFF -DCMAKE_CXX_FLAGS="-stdlib=libc++"'>
     <branch repo="webkit.org" module="webkitgtk-2.16.6.tar.xz" version="2.16.6">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/Webkit-2.16-build-without-OpenGL.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/Webkit-2.16-Fix-some-includes.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-2.16-No-stringview-lifetime.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/webkit-2.16-main-thread.patch" strip="1"/>
+      <patch file="Webkit-2.16-build-without-OpenGL.patch" strip="1"/>
+      <patch file="Webkit-2.16-Fix-some-includes.patch" strip="1"/>
+      <patch file="webkit-2.16-No-stringview-lifetime.patch" strip="1"/>
+      <patch file="webkit-2.16-main-thread.patch" strip="1"/>
 
     </branch>
     <dependencies>

@@ -57,7 +57,7 @@
 
     <branch module="berkeley-db/db-4.8.30.NC.tar.gz" version="4.8.30"
         repo="oracle" >
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/atomic.patch" strip='1'/>
+      <patch file="atomic.patch" strip='1'/>
     </branch>
   </autotools>
 
@@ -72,7 +72,7 @@
 
     <branch module="berkeley-db/db-4.8.30.NC.tar.gz" version="4.8.30"
         repo="oracle" >
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/atomic.patch" strip='1'/>
+      <patch file="atomic.patch" strip='1'/>
     </branch>
   </autotools>
 
@@ -82,7 +82,7 @@
                module="2.7.17/Python-2.7.17.tgz" version="2.7.17"
                hash="sha256:f22059d09cdf9625e0a7284d24a13062044f5bf59d93a7f3382190dfa94cecde">
   <!-- related to https://bugs.python.org/issue11445 -->
-  <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/python-ldflags.patch" strip="1"/>
+  <patch file="python-ldflags.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package='readline'/>
@@ -142,7 +142,7 @@
     <branch version="2.28.7" module="pygobject/2.28/pygobject-2.28.7.tar.xz"
             hash="sha256:bb9d25a3442ca7511385a7c01b057492095c263784ef31231ffe589d83a96a5a">
       <!-- remove all references to the missing gdestktopappinfo -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/pygobject-gdesktopappinfo-missing.patch"
+      <patch file="pygobject-gdesktopappinfo-missing.patch"
                      strip="1"/>
     </branch>
     <dependencies>
@@ -170,8 +170,8 @@
 	     autogenargs="CFLAGS=&quot;$CFLAGS -xobjective-c&quot; lt_cv_sys_global_symbol_pipe=&quot;'sed -n -e '\''s/^.*[ ]\([BCDEGRST][BCDEGRST]*\)[ ][ ]*_\([_A-Za-z][_A-Za-z0-9]*\)$/\1 _\2 \2/p'\'' | sed '\''/ __gnu_lto/d'\'''&quot;">
     <branch version="2.24.0" module="pygtk/2.24/pygtk-2.24.0.tar.bz2"
             hash="sha256:cd1c1ea265bd63ff669e92a2d3c2a88eb26bcd9e5363e0f82c896e649f206912">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/pygtk-libtool.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/pygtk-pango1.4x.patch" strip="1"/>
+      <patch file="pygtk-libtool.patch" strip="1"/>
+      <patch file="pygtk-pango1.4x.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="pygobject"/>

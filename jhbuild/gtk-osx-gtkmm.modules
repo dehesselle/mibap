@@ -34,7 +34,7 @@
     <branch module="cairomm-1.13.1.tar.gz" version="1.13.1"
 	    hash="sha1:63cd9eab40686f368a8edd3e6912ac18b3048ecf"
             repo="cairographics">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/cairomm-Bug-100894-Cairomm-compile-failure-if-no-cairo-ft.patch" strip="1"/>
+      <patch file="cairomm-Bug-100894-Cairomm-compile-failure-if-no-cairo-ft.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="cairo"/>

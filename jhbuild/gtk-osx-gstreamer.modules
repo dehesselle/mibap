@@ -17,7 +17,7 @@
     <branch repo="sourceforge" version="2.8.6"
             module="faac/faad2-src/faad2-2.8.0/faad2-2.8.6.tar.gz"
             hash="sha256:654977adbf62eb81f4fca00152aca58ce3b6dd157181b9edd7bed687a7c73f21">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/faad2-2.7-ac-config-headers.patch" strip="1"/>
+      <patch file="faad2-2.7-ac-config-headers.patch" strip="1"/>
     </branch>
   </autotools>
 

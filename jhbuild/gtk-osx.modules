@@ -107,7 +107,7 @@
     <branch module="gobject-introspection/1.64/gobject-introspection-1.64.1.tar.xz"
             version="1.64.1"
             hash="sha256:80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/girscanner-objc.patch" strip="1"/>
+      <patch file="girscanner-objc.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -164,7 +164,7 @@
   <meson id="gdk-pixbuf" mesonargs="-Dx11=false -Dman=false">
     <branch module="gdk-pixbuf/2.40/gdk-pixbuf-2.40.0.tar.xz" version="2.40.0"
             hash="sha256:1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gdk-pixbuf-loader-name.patch" strip="1"/>
+      <patch file="gdk-pixbuf-loader-name.patch" strip="1"/>
     </branch>
     <after>
       <dep package="pango"/>
@@ -176,16 +176,16 @@
              autogenargs="--with-gdktarget=quartz --enable-quartz-relocation --disable-introspection --disable-visibility">
     <branch module="gtk+/2.24/gtk+-2.24.32.tar.xz" version="2.24.32"
             hash="sha256:b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e">
-      <!--patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/0004-Bug-571582-GtkSelection-implementation-for-quartz.patch" strip="1"/-->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/0008-Implement-GtkDragSourceOwner-pasteboardChangedOwner.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/0006-Bug-658722-Drag-and-Drop-sometimes-stops-working.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk+-2-m4-creation.patch" strip="1"/>
+      <!--patch file="0004-Bug-571582-GtkSelection-implementation-for-quartz.patch" strip="1"/-->
+      <patch file="0008-Implement-GtkDragSourceOwner-pasteboardChangedOwner.patch" strip="1"/>
+      <patch file="0006-Bug-658722-Drag-and-Drop-sometimes-stops-working.patch" strip="1"/>
+      <patch file="gtk+-2-m4-creation.patch" strip="1"/>
       <!-- upstream bug https://bugzilla.gnome.org/show_bug.cgi?id=767091 -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk-gimp-dnd-bug767091.patch" strip="1"/>
+      <patch file="gtk-gimp-dnd-bug767091.patch" strip="1"/>
       <!-- upstream bug: https://gitlab.gnome.org/GNOME/gtk/issues/529 -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/0001-Bug-743717-Crashes-on-clipboard-operation-influence-.patch" strip="1"/>
+      <patch file="0001-Bug-743717-Crashes-on-clipboard-operation-influence-.patch" strip="1"/>
       <!-- upstream bug: https://gitlab.gnome.org/GNOME/gtk/issues/580 -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gdkimage.patch" strip="1"/>
+      <patch file="gdkimage.patch" strip="1"/>
    </branch>
     <dependencies>
       <dep package="glib"/>
@@ -217,12 +217,12 @@
              autogenargs="--enable-quartz-backend --enable-quartz-relocation">
     <branch module="gtk+/3.14/gtk+-3.14.15.tar.xz" version="3.14.15"
             hash="sha256:3ac87659112ced9e5ee5bd55d055faa881aafd040f26ca40b0d8ba0fa6509c83">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/0001-Bug-707945-GTK2-Quartz-typeahead-find-in-GtkTreeView.patch" strip="1"/>
+      <patch file="0001-Bug-707945-GTK2-Quartz-typeahead-find-in-GtkTreeView.patch" strip="1"/>
       <!-- https://bugzilla.gnome.org/show_bug.cgi?id=763779 -->
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk-quartz-fix-pixelated-image-surfaces-in-retina-hidpi-.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk3-14-get-scale-factor.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk-3.14-stylecontext-unnecessary-assert.patch" strip="1"/>
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gtk-3.14-GDesktopAppInfo-not-implemented-on-Mac.patch" strip="1"/>
+      <patch file="gtk-quartz-fix-pixelated-image-surfaces-in-retina-hidpi-.patch" strip="1"/>
+      <patch file="gtk3-14-get-scale-factor.patch" strip="1"/>
+      <patch file="gtk-3.14-stylecontext-unnecessary-assert.patch" strip="1"/>
+      <patch file="gtk-3.14-GDesktopAppInfo-not-implemented-on-Mac.patch" strip="1"/>
    </branch>
     <dependencies>
       <dep package="glib"/>
@@ -275,7 +275,7 @@
     <branch module="cairo-1.16.0.tar.xz"  version="1.16.0"
             repo="cairographics"
             hash="sha1:00e81842ae5e81bb0343108884eb5205be0eac14">
-      <patch file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/cairo-freetype-font-variations.patch" strip="1"/>
+      <patch file="cairo-freetype-font-variations.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="pixman"/>

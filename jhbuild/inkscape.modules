@@ -112,7 +112,7 @@
             version="20935bab3a4cec350ad7b938a6a1ca566810e67c"
             hash="sha256:37707c7e9beda15e344f323a6b6dc97e371ce9a987f2165844694f5541045e7d"
             repo="gnome_gitlab">
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gdl_disable_preview_window.patch"
+      <patch  file="gdl_disable_preview_window.patch"
               strip="1"/>
     </branch>
     <dependencies>
@@ -127,14 +127,14 @@
             version="9.52"
             hash="sha256:57442acf8b46453a9b5fc6fec738fbbb7e13a3d3e00f1aaaa0975529bc203c7c"
             repo="github">
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/ghostscript_configure_libtiff.patch"
+      <patch  file="ghostscript_configure_libtiff.patch"
               strip="1"/>
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/ghostscript_configure_fontconfig.patch"
+      <patch  file="ghostscript_configure_fontconfig.patch"
               strip="1"/>
       <!--  required on Catalina 10.15.4, XCode 11.4.1
             not required on Mojave 10.14.6, XCode 11.3.1
       -->
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/ghostscript_link_cupsimage.patch"
+      <patch  file="ghostscript_link_cupsimage.patch"
               strip="1"/>
     </branch>
     <dependencies>
@@ -189,7 +189,7 @@
             version="1.8.3"
             hash="sha256:5ae514dd0216be069176accf6d0049d6a01cfa6a50df4bc06be85f7080b62de8"
             repo="gnome_ftp">
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/gspell_makefile_objc.patch"
+      <patch  file="gspell_makefile_objc.patch"
               strip="1"/>
     </branch>
     <dependencies>
@@ -209,7 +209,7 @@
             hash="sha256:f5ba5d21d14850cb6cd800213f3357f852a6ca2920fb394aa23ace528b93d74f"
             repo="github"
             checkoutdir="imagemagick">
-      <patch  file="https://raw.githubusercontent.com/dehesselle/mibap/v0.42/patches/imagemagick_configure_pango.patch"
+      <patch  file="imagemagick_configure_pango.patch"
               strip="1"/>
     </branch>
     <dependencies>
