@@ -14,13 +14,6 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 
 ### install Inkscape dependencies ##############################################
 
-# Part of gtk-osx module sets.
-
-jhbuild build \
-  libsoup
-
-# Part of inkscape module set.
-
 jhbuild build \
   boehm_gc \
   double_conversion \
@@ -31,6 +24,7 @@ jhbuild build \
   gspell \
   imagemagick \
   libcdr \
+  libsoup \
   openjpeg \
   openmp \
   poppler \
