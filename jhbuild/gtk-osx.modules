@@ -74,17 +74,6 @@
     </after>
   </metamodule>
 
-  <metamodule id="meta-gtk-osx-gtk3.14">
-    <dependencies>
-      <dep package="gtk+-3.14"/>
-      <dep package="gtk-mac-integration"/>
-      <dep package="adwaita-icon-theme"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-    </after>
-  </metamodule>
-
   <meson id="glib" mesonargs="-Dinternal_pcre=true -Dlibmount=disabled">
     <branch module="glib/2.64/glib-2.64.2.tar.xz"  version="2.64.2"
             hash="sha256:9a2f21ed8f13b9303399de13a0252b7cbcede593d26971378ec6cb90e87f2277">
@@ -213,30 +202,6 @@
     </dependencies>
   </meson>
 
-  <autotools id="gtk+-3.14" autogen-sh="autogen.sh"
-             autogenargs="--enable-quartz-backend --enable-quartz-relocation">
-    <branch module="gtk+/3.14/gtk+-3.14.15.tar.xz" version="3.14.15"
-            hash="sha256:3ac87659112ced9e5ee5bd55d055faa881aafd040f26ca40b0d8ba0fa6509c83">
-      <patch file="0001-Bug-707945-GTK2-Quartz-typeahead-find-in-GtkTreeView.patch" strip="1"/>
-      <!-- https://bugzilla.gnome.org/show_bug.cgi?id=763779 -->
-      <patch file="gtk-quartz-fix-pixelated-image-surfaces-in-retina-hidpi-.patch" strip="1"/>
-      <patch file="gtk3-14-get-scale-factor.patch" strip="1"/>
-      <patch file="gtk-3.14-stylecontext-unnecessary-assert.patch" strip="1"/>
-      <patch file="gtk-3.14-GDesktopAppInfo-not-implemented-on-Mac.patch" strip="1"/>
-   </branch>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="pango"/>
-      <dep package="atk"/>
-      <dep package="cairo"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-    </after>
-  </autotools>
-
   <autotools id="gtk+-3.0" autogen-sh="autogen.sh"
              autogenargs="--enable-quartz-backend --enable-quartz-relocation">
     <branch module="gtk+/3.24/gtk+-3.24.20.tar.xz" version="3.24.20"
@@ -297,7 +262,6 @@
     <after>
       <dep package="gtk+"/>
       <dep package="gtk+-3.0"/>
-      <dep package="gtk+-3.14"/>
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </autotools>
@@ -332,7 +296,6 @@
 <!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
       <dep package="gtk+"/>
       <dep package="gtk+-3.0"/>
-      <dep package="gtk+-3.14"/>
     </after>
   </autotools>
 

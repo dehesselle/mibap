@@ -33,7 +33,6 @@
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-gtk3"/>
-      <dep package="meta-gtk-osx-gtk3.14"/>
     </after>
   </metamodule>
 
@@ -45,7 +44,6 @@
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-gtk3"/>
-      <dep package="meta-gtk-osx-gtk3.14"/>
     </after>
   </metamodule>
 
@@ -127,7 +125,6 @@
       <dep package="python3"/>
       <dep package="python"/>
       <dep package="meta-gtk-osx-gtk3"/>
-      <dep package="meta-gtk-osx-gtk3.14"/>
       <dep package="meta-gtk-osx-core"/>
     </after>
   </meson>
