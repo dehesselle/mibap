@@ -14,17 +14,6 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 include_file error_.sh
 error_trace_enable
 
-### install ccache #############################################################
-
-install_source $URL_CCACHE
-configure_make_makeinstall
-
-cd $BIN_DIR
-ln -s ccache clang
-ln -s ccache clang++
-ln -s ccache gcc
-ln -s ccache g++
-
 ### install Python certifi package #############################################
 
 # Without this, JHBuild won't be able to access https links later because

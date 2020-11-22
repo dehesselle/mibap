@@ -35,6 +35,17 @@ if [ ! -d $TMP_DIR ]; then
   mkdir -p $TMP_DIR
 fi
 
+### install ccache #############################################################
+
+install_source $URL_CCACHE
+configure_make_makeinstall
+
+cd $BIN_DIR
+ln -s ccache clang
+ln -s ccache clang++
+ln -s ccache gcc
+ln -s ccache g++
+
 ### install Rust ###############################################################
 
 install_source $URL_RUSTUP
