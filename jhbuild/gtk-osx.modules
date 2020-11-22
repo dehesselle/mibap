@@ -302,26 +302,31 @@
     </after>
   </autotools>
 
-  <!-- Keep this at version 3.33.92 as all newer versions produce broken png
-       icons. https://gitlab.com/inkscape/inkscape/-/issues/1893
-  -->
   <autotools id="adwaita-icon-theme" autogen-sh="configure">
-    <branch module="adwaita-icon-theme/3.33/adwaita-icon-theme-3.33.92.tar.xz"
-            version="3.33.92" hash="sha256:bf041ecf7d9bf02267b83efa5f500431a98ad17f3dc85a5421d21c245f943c63"/>
+    <branch module="adwaita-icon-theme/3.38/adwaita-icon-theme-3.38.0.tar.xz"
+            version="3.38.0" hash="sha256:6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97"/>
     <dependencies>
       <dep package="librsvg"/>
     </dependencies>
   </autotools>
 
-  <!-- librsvg is converting to the Rust language. This requires
-       substantial infrastructure that's resistant to installing with
-       jhbuild, so we'll freeze at the 2.40 branch. -->
-  <autotools id="librsvg" autogenargs="--disable-Bsymbolic">
-    <branch module="librsvg/2.40/librsvg-2.40.17.tar.xz" version="2.40.17"
-	    hash="sha256:e6f6c5cbecc405bb945c7cd15061276035ae3173bbb3bb25e8a916779c7f69cc"/>
+  <!-- librsvg > 2.40 requires Rust to build, but due to its custom setup
+       procedure, Rust cannot be installed by JHBuild at this point. Although
+       it breaks this moduleset if Rust isn't provided by outside means
+       (which is highly undesireable!), it has become necessary to do it this
+       way as older versions of librsvg already started causing troubles
+       for other packages, namely adwaite-icon-theme
+       (https://gitlab.com/inkscape/inkscape/-/issues/1893#note_424933627).
+  -->
+  <autotools id="librsvg" autogen-sh='configure LDFLAGS="$LDFLAGS -lobjc"'>
+    <branch module="librsvg/2.50/librsvg-2.50.2.tar.xz" version="2.50.2"
+	    hash="sha256:6211f271ce4cd44a7318190d36712e9cea384a933d3e3570004edeb210a056d3"/>
     <dependencies>
       <dep package="libcroco"/>
       <dep package="meta-gtk-osx-freetype"/>
+      <!--     This package does not exist yet!
+      <dep package="rust"/>
+      -->
     </dependencies>
     <after>
 <!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
