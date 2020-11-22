@@ -34,3 +34,10 @@ fi
 if [ ! -d $TMP_DIR ]; then
   mkdir -p $TMP_DIR
 fi
+
+### install Rust ###############################################################
+
+install_source $URL_RUSTUP
+./rustup-init.sh -y --no-modify-path
+rustup toolchain install $RUST_VERSION
+rustup default $RUST_VERSION
