@@ -137,20 +137,6 @@ URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/\
 py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/\
 py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_${PY3_BUILD}i.tar.xz
 
-### Rust #######################################################################
-
-# Rust is required to build some dependencies (e.g. librsvg).
-
-export RUSTUP_HOME=$OPT_DIR/rustup
-export CARGO_HOME=$OPT_DIR/cargo
-
-# Rust installer
-# https://www.rust-lang.org
-# https://rustup.rs
-URL_RUSTUP=https://github.com/rust-lang/rustup/archive/1.22.1.tar.gz
-
-RUST_VERSION=1.48.0
-
 ### Python: packages for Inkscape ##############################################
 
 # The following Python packages are bundled with Inkscape.
@@ -253,7 +239,7 @@ SELF_NAME=$(basename $0)   # used by scripts that source this one
 
 ### path #######################################################################
 
-export PATH=$BIN_DIR:$CARGO_HOME/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 
 ### ramdisk ####################################################################
 

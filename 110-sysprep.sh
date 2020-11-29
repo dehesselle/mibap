@@ -45,10 +45,3 @@ ln -s ccache clang
 ln -s ccache clang++
 ln -s ccache gcc
 ln -s ccache g++
-
-### install Rust ###############################################################
-
-install_source $URL_RUSTUP
-./rustup-init.sh -y --no-modify-path
-rustup toolchain install $RUST_VERSION
-rustup default $RUST_VERSION
