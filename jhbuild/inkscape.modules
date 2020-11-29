@@ -151,7 +151,8 @@
       version="1.10.0"
       hash="sha256:9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb"
       repo="github"
-      checkoutdir="google_test">
+      checkoutdir="googletest-1.10.0"
+      rename-tarball="googletest-1.10.0.tar.gz">
     </branch>
     <dependencies>
       <!-- TODO
