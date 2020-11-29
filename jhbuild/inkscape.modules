@@ -64,7 +64,8 @@
       version="3.1.5"
       hash="sha256:a63ecb93182134ba4293fd5f22d6e08ca417caafa244afaa751cbfddf6415b13"
       repo="github"
-      checkoutdir="double_conversion">
+      checkoutdir="doubleconversion-3.1.5"
+      rename-tarball="doubleconversion-3.1.5.tar.gz">
     </branch>
   </cmake>
 
@@ -234,7 +235,8 @@
       version="6.9.10-89"
       hash="sha256:f5ba5d21d14850cb6cd800213f3357f852a6ca2920fb394aa23ace528b93d74f"
       repo="github"
-      checkoutdir="imagemagick">
+      checkoutdir="imagemagick-6.9.10-89"
+      rename-tarball="imagemagick-6.9.10-89.tar.gz">
       <patch
         file="imagemagick_configure_pango.patch"
         strip="1"/>
@@ -288,7 +290,8 @@
       version="2.3.1"
       hash="sha256:63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9"
       repo="github"
-      checkoutdir="openjpeg">
+      checkoutdir="openjpeg-2.3.1"
+      rename-tarball="openjpeg-2.3.1.tar.gz">
     </branch>
     <dependencies>
       <!-- TODO
