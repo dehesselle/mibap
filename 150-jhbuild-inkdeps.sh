@@ -15,11 +15,11 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 ### install Inkscape dependencies ##############################################
 
 jhbuild build \
-  boehm_gc \
-  double_conversion \
+  bdwgc \
+  doubleconversion \
   gdl \
   ghostscript \
-  google_test \
+  googletest \
   gsl \
   gspell \
   imagemagick \
