@@ -17,7 +17,6 @@ for script in $SELF_DIR/0??-*.sh; do source $script; done
 jhbuild build \
   bdwgc \
   doubleconversion \
-  gdl \
   ghostscript \
   googletest \
   gsl \

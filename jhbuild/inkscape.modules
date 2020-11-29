@@ -113,28 +113,6 @@
     </dependencies>
   </autotools>
 
-  <!-- Gnome Docking Library https://gitlab.gnome.org/GNOME/gdl
-
-       Xcode 12 errors out on implicit function declarations, so we need to
-      ignore them.
-  -->
-  <autotools
-    id="gdl"
-    autogen-sh='autogen.sh CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'>
-    <branch
-      module="gdl/-/archive/20935bab3a4cec350ad7b938a6a1ca566810e67c/gdl-20935bab3a4cec350ad7b938a6a1ca566810e67c.tar.gz"
-      version="20935bab3a4cec350ad7b938a6a1ca566810e67c"
-      hash="sha256:37707c7e9beda15e344f323a6b6dc97e371ce9a987f2165844694f5541045e7d"
-      repo="gnome_gitlab">
-      <patch
-        file="gdl_disable_preview_window.patch"
-        strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="gnome-common"/>
-    </dependencies>
-  </autotools>
-
   <!-- Ghostscript https://www.ghostscript.com -->
   <autotools
     id="ghostscript"
@@ -162,16 +140,6 @@
       <dep package="package-name"/>
       -->
     </dependencies>
-  </autotools>
-
-  <!-- Gnome common stuff -->
-  <autotools
-    id="gnome-common">
-    <branch
-      module="gnome-common/3.18/gnome-common-3.18.0.tar.xz"
-      version="3.18.0"
-      hash="sha256:22569e370ae755e04527b76328befc4c73b62bfd4a572499fde116b8318af8cf"
-      repo="gnome_ftp"/>
   </autotools>
 
   <!-- Google Testing and Mocking Framework https://github.com/google/googletest -->
