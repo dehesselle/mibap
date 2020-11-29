@@ -61,12 +61,15 @@ BIN_DIR=$VER_DIR/bin
 ETC_DIR=$VER_DIR/etc
 INC_DIR=$VER_DIR/include
 LIB_DIR=$VER_DIR/lib
-OPT_DIR=$VER_DIR/opt
 VAR_DIR=$VER_DIR/var
 BLD_DIR=$VAR_DIR/build
 PKG_DIR=$VAR_DIR/cache/pkgs
 SRC_DIR=$VER_DIR/usr/src
 TMP_DIR=$VER_DIR/tmp
+
+### versioned directories: home ################################################
+
+export HOME=$VER_DIR/home
 
 ### versioned directories: temporary ###########################################
 

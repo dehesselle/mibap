@@ -105,3 +105,6 @@ echo "os.environ[\"SSL_CERT_FILE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/sit
     >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
     >> $JHBUILDRC_CUSTOM
+
+# user home directory
+echo "os.environ[\"HOME\"] = \"$HOME\"" >> $JHBUILDRC_CUSTOM

@@ -23,17 +23,11 @@ if [ ! -d $SDKROOT ]; then
   exit 1
 fi
 
-### create version directory ###################################################
+### create directories #########################################################
 
-if [ ! -d $VER_DIR ]; then
-  mkdir -p $VER_DIR
-fi
-
-### create temporary directory #################################################
-
-if [ ! -d $TMP_DIR ]; then
-  mkdir -p $TMP_DIR
-fi
+for dir in $VER_DIR $TMP_DIR $HOME; do
+  mkdir -p $dir
+done
 
 ### install ccache #############################################################
 
