@@ -203,11 +203,6 @@ PYTHON_PYOBJC_FRAMEWORK_QUARTZ=pyobjc-framework-Quartz==6.2.2
 # https://github.com/ccache/ccache
 URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz
 
-# create application bundle
-# https://github.com/dehesselle/gtk-mac-bundler
-# Forked from https://gitlab.gnome.org/GNOME/gtk-mac-bundler
-URL_GTK_MAC_BUNDLER=https://github.com/dehesselle/gtk-mac-bundler/archive/f96a9daf2236814af7ace7a2fa91bbfb4f077779.tar.gz
-
 # Inkscapge Git repo (for standalone/non-CI builds)
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 

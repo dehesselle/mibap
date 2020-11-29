@@ -23,12 +23,7 @@ jhbuild run pip3 install $PYTHON_DMGBUILD
 
 ### install gtk-mac-bundler ####################################################
 
-(
-  export GMB_BINDIR=$BIN_DIR
-
-  install_source $URL_GTK_MAC_BUNDLER
-  jhbuild run make install
-)
+jhbuild build gtkmacbundler
 
 ### install svg to png convertor ###############################################
 

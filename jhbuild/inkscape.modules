@@ -201,6 +201,30 @@
     </dependencies>
   </autotools>
 
+  <!-- GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
+
+       This is a hackish way of installing GTK Mac Bundler with JHBuild.
+       The patch supplies a mocked configure script that's only interested in
+       taking the prefix and patching the Makefile accordingly. Skipping
+       installation means that JHBuild will (re-)install this everytime
+       it gets pulled in.
+   -->
+  <autotools  id="gtkmacbundler"
+              autogen-sh="configure"
+              supports-non-srcdir-builds="no"
+              makeargs="&amp;&amp; make install"
+              skip-install="yes">
+    <branch module="gtk-mac-bundler/-/archive/3770bb6c27a913dc39dbcc98fe175a53df92700c/gtk-mac-bundler-3770bb6c27a913dc39dbcc98fe175a53df92700c.tar.bz2"
+            version="3770bb6c"
+            hash="sha256:79703fbcb7ffcad3617316d41fa6169e9f3bced040b2a231fd0d158e9f7edfde"
+            repo="gnome_gitlab"
+            checkoutdir="gtk-mac-bundler_3770bb6c"
+            rename-tarball="gtk-mac-bundler_3770bb6c.tar.bz2">
+      <patch  file="gtk-mac-bundler_configure.patch"
+              strip="1"/>
+    </branch>
+  </autotools>
+
   <!-- ImageMagick 6 https://legacy.imagemagick.org -->
   <autotools  id="imagemagick"
               autogen-sh="configure">
