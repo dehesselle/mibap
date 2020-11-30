@@ -183,19 +183,24 @@ PYTHON_CAIROSVG=cairosvg==2.4.2
 # https://pypi.org/project/certifi
 PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
 
-# create DMG
+# create disk image (incl. dependencies)
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
-PYTHON_DMGBUILD=dmgbuild==1.4.2
+# dependencies:
+# - biplist: binary plist parser/generator
+# - pyobjc-*: framework wrappers; pinned to 6.2.2 as 7.0 includes fixes for
+#   Big Sur (dyld cache) that break on Catalina
+PYTHON_DMGBUILD="\
+  biplist==1.0.3\
+  pyobjc-core==6.2.2\
+  pyobjc-framework-Cocoa==6.2.2\
+  pyobjc-framework-Quartz==6.2.2\
+  dmgbuild==1.4.2\
+"
 
 # Meson build system
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
-
-# Wrappers for Quartz related frameworks
-# This is a dependency of dmgbuild to make badge icons work.
-# https://pypi.org/project/pyobjc-framework-Quartz/
-PYTHON_PYOBJC_FRAMEWORK_QUARTZ=pyobjc-framework-Quartz==6.2.2
 
 ### download URLs ##############################################################
 

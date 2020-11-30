@@ -17,8 +17,6 @@ error_trace_enable
 
 ### install disk image creator #################################################
 
-jhbuild run pip3 install $PYTHON_BIPLIST
-jhbuild run pip3 install $PYTHON_PYOBJC_FRAMEWORK_QUARTZ    # for badge icon
 jhbuild run pip3 install $PYTHON_DMGBUILD
 
 ### install gtk-mac-bundler ####################################################
