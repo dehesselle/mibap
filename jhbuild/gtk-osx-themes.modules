@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="ftp.gnome.org" default="yes"
-              href="http://ftp.gnome.org/pub/GNOME/sources/"/>
+              href="https://ftp.fau.de/gnome/sources/"/>
   <repository type="git" name="git.gnome.org"
               href="https://gitlab.gnome.org/GNOME"/>
   <repository type="tarball" name="sourceforge"

@@ -5,7 +5,7 @@
   <repository name="bintray"      type="tarball" href="https://dl.bintray.com/"/>
   <repository name="freedesktop"  type="tarball" href="https://gitlab.freedesktop.org/"/>
   <repository name="github"       type="tarball" href="https://github.com/"/>
-  <repository name="gnome_ftp"    type="tarball" href="http://ftp.gnome.org/pub/GNOME/sources/"/>
+  <repository name="gnome_ftp"    type="tarball" href="https://ftp.fau.de/gnome/sources/"/>
   <repository name="gnome_gitlab" type="tarball" href="https://gitlab.gnome.org/GNOME/"/>
   <repository name="gnu"          type="tarball" href="http://ftp.halifax.rwth-aachen.de/gnu/"/>
   <repository name="libreoffice"  type="tarball" href="https://dev-www.libreoffice.org/src/"/>
