@@ -6,10 +6,9 @@
 # ### 120-jhbuild-install.sh ###
 # Install and configure JHBuild.
 
-### load global settings and functions #########################################
+### settings and functions #####################################################
 
-SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
-for script in $SELF_DIR/0??-*.sh; do source $script; done
+for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
 include_file error_.sh
 error_trace_enable
@@ -19,7 +18,10 @@ error_trace_enable
 # Without this, JHBuild won't be able to access https links later because
 # Apple's Python won't be able to validate certificates.
 
-pip3 install --ignore-installed --target=$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages certifi
+pip3 install \
+  --ignore-installed \
+  --target=$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages \
+  $PYTHON_CERTIFI
 
 ### install JHBuild ############################################################
 

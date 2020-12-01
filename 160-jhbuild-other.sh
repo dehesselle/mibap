@@ -7,10 +7,9 @@
 # Install additional components that are not direct dependencies, like tools
 # required for packaging.
 
-### load settings and functions ################################################
+### settings and functions #####################################################
 
-SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
-for script in $SELF_DIR/0??-*.sh; do source $script; done
+for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
 include_file error_.sh
 error_trace_enable

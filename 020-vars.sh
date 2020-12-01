@@ -11,6 +11,12 @@
 
 [ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
 
+### source directory ###########################################################
+
+# The script magic here is is a replacement for GNU's "readlink -f".
+SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
+  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
+
 ### build system: version ######################################################
 
 TOOLSET_VERSION=0.46
