@@ -50,15 +50,10 @@ else
   exit 1
 fi
 
-### unversioned/persistent directories #########################################
-
-# These directories are meant to be persistent between builds.
+### unversioned directories: toolset repository ################################
 
 # Repository for downloaded toolset .dmg files.
 REPO_DIR=$WRK_DIR/repo
-
-# Location for ccache.
-export CCACHE_DIR=$WRK_DIR/ccache
 
 ### versioned directories ######################################################
 
@@ -213,10 +208,6 @@ PYTHON_MESON=meson==0.55.1
 # Every required piece of software for building, packaging etc. that doesn't
 # have its own section ends up here.
 
-# https://ccache.dev
-# https://github.com/ccache/ccache
-URL_CCACHE=https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz
-
 # Inkscapge Git repo (for standalone/non-CI builds)
 URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
 
@@ -242,9 +233,15 @@ URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERS
 CORES=$(sysctl -n hw.ncpu)   # use all available cores
 export MAKEFLAGS="-j $CORES"
 
-### name #######################################################################
+### compiler cache #############################################################
 
-SELF_NAME=$(basename $0)   # used by scripts that source this one
+export CCACHE_DIR=$WRK_DIR/ccache
+CCACHE_SIZE=3.0G
+
+# https://ccache.dev
+# https://github.com/ccache/ccache
+CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
+v3.7.11/ccache-3.7.11.tar.xz
 
 ### path #######################################################################
 

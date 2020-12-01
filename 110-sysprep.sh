@@ -30,7 +30,7 @@ done
 
 ### install ccache #############################################################
 
-install_source $URL_CCACHE
+install_source $CCACHE_URL
 configure_make_makeinstall
 
 cd $BIN_DIR
@@ -38,3 +38,5 @@ ln -s ccache clang
 ln -s ccache clang++
 ln -s ccache gcc
 ln -s ccache g++
+
+configure_ccache $CCACHE_SIZE  # create directory and config file

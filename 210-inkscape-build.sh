@@ -16,6 +16,10 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
+### ccache configuration #######################################################
+
+configure_ccache
+
 ### build Inkscape #############################################################
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
