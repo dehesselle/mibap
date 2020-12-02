@@ -22,5 +22,5 @@ jhbuild build python3
 jhbuild run pip3 install $PYTHON_MESON
 
 # Install Ninja build systems.
-download_url $URL_NINJA $PKG_DIR
-unzip -d $BIN_DIR $PKG_DIR/$(basename $URL_NINJA)
+download_url $NINJA_URL $PKG_DIR
+unzip -d $BIN_DIR $PKG_DIR/$(basename $NINJA_URL)

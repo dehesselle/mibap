@@ -25,7 +25,7 @@ pip3 install \
 
 ### install JHBuild ############################################################
 
-install_source $URL_JHBUILD
+install_source $JHBUILD_URL
 JHBUILD_DIR=$(pwd)
 
 # Create 'jhbuild' executable. This code has been adapted from
@@ -71,7 +71,7 @@ echo "prefix = '$VER_DIR'"       >> $JHBUILDRC_CUSTOM
 echo "tarballdir = '$PKG_DIR'"   >> $JHBUILDRC_CUSTOM
 
 # set macOS SDK
-echo "setup_sdk(target=\"$SDK_VERSION\")"   >> $JHBUILDRC_CUSTOM
+echo "setup_sdk(target=\"$SDK_VER\")"   >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\"" >> $JHBUILDRC_CUSTOM
 
 # Remove harmful settings in regards to the target platform:

@@ -11,53 +11,56 @@
 
 [ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
 
-### source directory ###########################################################
+### this toolset ###############################################################
 
-# The script magic here is is a replacement for GNU's "readlink -f".
-SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
-  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
+TOOLSET_VER=0.46   # main version number; root of our directory layout
 
-### build system: version ######################################################
+# A disk image containing a built version of the whole toolset.
+# https://github.com/dehesselle/mibap
+TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
+v$TOOLSET_VER/mibap_v$TOOLSET_VER.dmg
 
-TOOLSET_VERSION=0.46
+TOOLSET_REPO_DIR=$WRK_DIR/repo  # where toolset dmg are downloaded and kept
 
-### build system: target OS version ############################################
+TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
+
+### target OS version ##########################################################
 
 # The current build setup is
 #   - Xcode 12.2
 #   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
 #   - macOS Catalina 10.15.7
 
-SDK_VERSION=10.11
+SDK_VER=10.11
 # Allow this to be overrideable or use the default.
-[ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks
-export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VERSION.sdk
+[ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks || true
+export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VER.sdk
 
-### main work directory ########################################################
+### multithreading #############################################################
+
+CORES=$(sysctl -n hw.ncpu)   # use all available cores
+export MAKEFLAGS="-j $CORES"
+
+### directories: self ##########################################################
+
+# The fully qualified directory name in canonicalized form.
+
+# The script magic here is is a replacement for GNU's "readlink -f".
+SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
+  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
+
+### directories: work ##########################################################
 
 # This is the main directory where all the action takes place below.
 
 # Allow this to be overridable or use the default.
-# Purpose of the default choice is to have a guaranteed writable location
+# The default is below /Users/Shared as this is a guaranteed writable location
 # that is present on every macOS installation.
 [ -z $WRK_DIR ] && WRK_DIR=/Users/Shared/work || true
 
-if  [ $(mkdir -p $WRK_DIR 2>/dev/null; echo $?) -eq 0 ] &&
-    [ -w $WRK_DIR ] ; then
-  :   # ok: WRK_DIR has been created or was already there and is writable
-else
-  echo "***ERROR*** WRK_DIR not usable: $WRK_DIR"
-  exit 1
-fi
+### directories: FSH-like tree below version number ############################
 
-### unversioned directories: toolset repository ################################
-
-# Repository for downloaded toolset .dmg files.
-REPO_DIR=$WRK_DIR/repo
-
-### versioned directories ######################################################
-
-VER_DIR=$WRK_DIR/$TOOLSET_VERSION
+VER_DIR=$WRK_DIR/$TOOLSET_VER
 BIN_DIR=$VER_DIR/bin
 ETC_DIR=$VER_DIR/etc
 INC_DIR=$VER_DIR/include
@@ -68,30 +71,27 @@ PKG_DIR=$VAR_DIR/cache/pkgs
 SRC_DIR=$VER_DIR/usr/src
 TMP_DIR=$VER_DIR/tmp
 
-### versioned directories: home ################################################
+export HOME=$VER_DIR/home   # yes, we redirect the user's home!
 
-export HOME=$VER_DIR/home
-
-### versioned directories: temporary ###########################################
+### directories: temporary locations ###########################################
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
 export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
 
-### versioned directories: XDG #################################################
+### directories: XDG ###########################################################
 
 export XDG_CACHE_HOME=$VAR_DIR/cache  # instead ~/.cache
 export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 
-### versioned directories: pip #################################################
+### directories: pip ###########################################################
 
 export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
 export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
-### versioned directories: artifact and application bundle paths ###############
+### directories: application bundle layout #####################################
 
-# This is the location where the final product - like application bundle or
-# diskimage (no intermediate programs/libraries/...) - is created in.
+# parent directory of the application bundle
 ARTIFACT_DIR=$VER_DIR/artifacts
 
 APP_DIR=$ARTIFACT_DIR/Inkscape.app
@@ -103,17 +103,9 @@ APP_ETC_DIR=$APP_RES_DIR/etc
 APP_EXE_DIR=$APP_CON_DIR/MacOS
 APP_LIB_DIR=$APP_RES_DIR/lib
 
-APP_PLIST=$APP_CON_DIR/Info.plist
-
-### versioned directories: JHBuild configuration ###############################
-
-export JHBUILDRC=$ETC_DIR/jhbuildrc
-export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
-
-### Inkscape source and build directories ######################################
+### directories: Inkscape source and build #####################################
 
 # Location differs between running standalone and GitLab CI job.
-
 if [ -z $CI_JOB_ID ]; then
   INK_DIR=$SRC_DIR/inkscape
 else
@@ -122,6 +114,26 @@ else
 fi
 
 INK_BUILD_DIR=$BLD_DIR/$(basename $INK_DIR)
+
+# Inkscapge Git repo (for standalone/non-CI builds)
+INK_URL=https://gitlab.com/inkscape/inkscape
+
+### directories: set path ######################################################
+
+export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
+
+### JHBuild ####################################################################
+
+# configuration files
+export JHBUILDRC=$ETC_DIR/jhbuildrc
+export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
+
+# JHBuild build system (3.38.0+ from master branch because of specific patch)
+# https://gitlab.gnome.org/GNOME/jhbuild
+# https://wiki.gnome.org/Projects/Jhbuild/Introduction
+JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
+JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
+jhbuild-$JHBUILD_VER.tar.bz2
 
 ### Python #####################################################################
 
@@ -137,7 +149,7 @@ PY3_BUILD=2   # custom build, see URL section below
 # lowercase 'i' at the end of the URL, hinting at a "customized for Inkscape"
 # version of the framework.
 # https://github.com/dehesselle/py3framework
-URL_PYTHON=https://github.com/dehesselle/py3framework/releases/download/\
+PY3_URL=https://github.com/dehesselle/py3framework/releases/download/\
 py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/\
 py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_${PY3_BUILD}i.tar.xz
 
@@ -152,7 +164,8 @@ PYTHON_CAIROCFFI=cairocffi==1.1.0
 # https://lxml.de
 # https://github.com/lxml/lxml
 # https://github.com/dehesselle/py3framework
-PYTHON_LXML=$(dirname $URL_PYTHON)/lxml-4.5.2-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_10_9_x86_64.whl
+PYTHON_LXML=$(dirname $PY3_URL)/lxml-4.5.2-\
+cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_10_9_x86_64.whl
 
 # https://github.com/numpy/numpy
 PYTHON_NUMPY=numpy==1.19.1
@@ -203,36 +216,6 @@ PYTHON_DMGBUILD="\
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
 
-### download URLs ##############################################################
-
-# Every required piece of software for building, packaging etc. that doesn't
-# have its own section ends up here.
-
-# Inkscapge Git repo (for standalone/non-CI builds)
-URL_INKSCAPE=https://gitlab.com/inkscape/inkscape
-
-# JHBuild build system (3.38.0+ from master branch because of specific patch)
-# https://gitlab.gnome.org/GNOME/jhbuild
-# https://wiki.gnome.org/Projects/Jhbuild/Introduction
-URL_JHBUILD=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/a896cbf404461cab979fa3cd1c83ddf158efe83b/jhbuild-a896cbf404461cab979fa3cd1c83ddf158efe83b.tar.bz2
-
-# Ninja build system
-# https://github.com/ninja-build/ninja
-URL_NINJA=https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
-
-# convert PNG image to iconset in ICNS format
-# https://github.com/bitboss-ca/png2icns
-URL_PNG2ICNS=https://github.com/bitboss-ca/png2icns/archive/v0.1.tar.gz
-
-# A pre-compiled version of the whole toolset.
-# https://github.com/dehesselle/mibap
-URL_TOOLSET=https://github.com/dehesselle/mibap/releases/download/v$TOOLSET_VERSION/mibap_v$TOOLSET_VERSION.dmg
-
-### multithreading #############################################################
-
-CORES=$(sysctl -n hw.ncpu)   # use all available cores
-export MAKEFLAGS="-j $CORES"
-
 ### compiler cache #############################################################
 
 export CCACHE_DIR=$WRK_DIR/ccache
@@ -240,14 +223,23 @@ CCACHE_SIZE=3.0G
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
+CCACHE_VER=3.7.11
 CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
-v3.7.11/ccache-3.7.11.tar.xz
+v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
 
-### path #######################################################################
+### auxiliary software #########################################################
 
-export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
+# Every required piece of software for building, packaging etc. that doesn't
+# have its own section ends up here.
 
-### ramdisk ####################################################################
+# Ninja build system
+# https://github.com/ninja-build/ninja
+NINJA_VER=1.8.2
+NINJA_URL=https://github.com/ninja-build/ninja/releases/download/v$NINJA_VER/\
+ninja-mac.zip
 
-# Using the toolset dmg, a small writable overlay is required.
-OVERLAY_RAMDISK_SIZE=3   # unit is GiB
+# convert PNG image to iconset in ICNS format
+# https://github.com/bitboss-ca/png2icns
+PNG2ICNS_VER=0.1
+PNG2ICNS_URL=https://github.com/bitboss-ca/png2icns/archive/\
+v$PNG2ICNS_VER.tar.gz

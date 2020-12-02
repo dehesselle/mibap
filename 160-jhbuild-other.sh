@@ -29,14 +29,14 @@ jhbuild run pip3 install $PYTHON_CAIROCFFI
 
 ### install png to icns converter ##############################################
 
-install_source $URL_PNG2ICNS
+install_source $PNG2ICNS_URL
 ln -s $(pwd)/png2icns.sh $BIN_DIR
 
 ### downlaod a pre-built Python.framework ######################################
 
 # This will be bundled with the application.
 
-download_url $URL_PYTHON $PKG_DIR
+download_url $PY3_URL $PKG_DIR
 
 ################################################################################
 

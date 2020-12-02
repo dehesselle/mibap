@@ -67,8 +67,8 @@ _The following is bound to change as development progresses and I won't deny tha
    This will
 
    - download a disk image (about 1.6 GiB) to `/Users/Shared/work/repo`
-   - mount the (read only) disk image to `/Users/Shared/work/$TOOLSET_VERSION`
-   - union-mount a ramdisk (3 GiB) to `/Users/Shared/work/$TOOLSET_VERSION`
+   - mount the (read only) disk image to `/Users/Shared/work/$TOOLSET_VER`
+   - union-mount a ramdisk (3 GiB) to `/Users/Shared/work/$TOOLSET_VER`
 
    The mounted volumes won't show up in the Finder but you can see them using `diskutil`. Use `uninstall_toolset.sh` to eject them (`repo` will not be deleted though).
 
@@ -80,7 +80,7 @@ _The following is bound to change as development progresses and I won't deny tha
    ./build_inkscape.sh
    ```
 
-   Ultimately this will produce `/Users/Shared/work/$TOOLSET_VERSION/artifacts/Inkscape.dmg`.
+   Ultimately this will produce `/Users/Shared/work/$TOOLSET_VER/artifacts/Inkscape.dmg`.
 
 ## known issues
 

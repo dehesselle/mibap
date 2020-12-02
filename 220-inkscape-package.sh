@@ -57,12 +57,17 @@ lib_change_path \
 
 lib_change_siblings $APP_LIB_DIR
 
-# update Inkscape version information
-/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
-/usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $APP_PLIST
+( # use subshell to fence temporary variables
 
-# update minimum system version according to deployment target
-/usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VERSION'" $APP_PLIST
+  PLIST=$APP_CON_DIR/Info.plist
+
+  # update Inkscape version information
+  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $PLIST
+  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $PLIST
+
+  # update minimum system version according to deployment target
+  /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VER'" $PLIST
+)
 
 ### generate application icon ##################################################
 
@@ -84,7 +89,7 @@ mv inkscape.icns $APP_RES_DIR
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-install_source file://$PKG_DIR/$(basename $URL_PYTHON) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
+install_source file://$PKG_DIR/$(basename $PY3_URL) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
 
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
 mkdir -p $APP_BIN_DIR

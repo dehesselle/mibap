@@ -23,7 +23,7 @@ configure_ccache
 ### build Inkscape #############################################################
 
 if [ -z $CI_JOB_ID ]; then   # running standalone
-  git clone --recurse-submodules --depth 10 $URL_INKSCAPE $INK_DIR
+  git clone --recurse-submodules --depth 10 $INK_URL $INK_DIR
 fi
 
 if [ -d $INK_BUILD_DIR ]; then   # cleanup previous run
