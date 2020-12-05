@@ -18,6 +18,8 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
+TOOLSET_REPO_DIR=$WRK_DIR/repo  # where toolset dmg are downloaded and kept
+
 ### install toolset ############################################################
 
 function install

@@ -20,8 +20,6 @@ TOOLSET_VER=0.46   # main version number; root of our directory layout
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
 v$TOOLSET_VER/mibap_v$TOOLSET_VER.dmg
 
-TOOLSET_REPO_DIR=$WRK_DIR/repo  # where toolset dmg are downloaded and kept
-
 TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
 ### target OS version ##########################################################
