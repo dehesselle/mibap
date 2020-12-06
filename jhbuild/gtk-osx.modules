@@ -32,8 +32,6 @@
 
        - gtk-osx-python.modules: self explaining.
        - gtk-osx-gtkmm.modules: self explaining.
-       - gtk-osx-javascript.modules: GJS, associated tools, and the Mozilla JS
-         library it depends on.
        - gtk-osx-gstreamer.modules: self explaining.
        - gtk-osx-themes.modules: self explaining.
        - gtk-osx-network.modules: The network/crypto stack and various
@@ -44,26 +42,14 @@
   -->
 
   <include href="gtk-osx-bootstrap.modules"/>
-  <include href="gtk-osx-gstreamer.modules"/>
   <include href="gtk-osx-gtkmm.modules"/>
-  <include href="gtk-osx-javascript.modules"/>
   <include href="gtk-osx-network.modules"/>
   <include href="gtk-osx-python.modules"/>
   <include href="gtk-osx-random.modules"/>
   <include href="gtk-osx-themes.modules"/>
   <include href="gtk-osx-unsupported.modules"/>
 
-  <metamodule id="meta-gtk-osx-core">
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="gtk-mac-integration"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-    </after>
-  </metamodule>
-
-  <metamodule id="meta-gtk-osx-gtk3">
+   <metamodule id="meta-gtk-osx-gtk3">
     <dependencies>
       <dep package="gtk+-3.0"/>
       <dep package="gtk-mac-integration"/>
@@ -161,33 +147,6 @@
     </after>
   </meson>
 
-  <autotools id="gtk+" autogen-sh="autoreconf"
-             autogenargs="--with-gdktarget=quartz --enable-quartz-relocation --disable-introspection --disable-visibility">
-    <branch module="gtk+/2.24/gtk+-2.24.32.tar.xz" version="2.24.32"
-            hash="sha256:b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e">
-      <!--patch file="0004-Bug-571582-GtkSelection-implementation-for-quartz.patch" strip="1"/-->
-      <patch file="0008-Implement-GtkDragSourceOwner-pasteboardChangedOwner.patch" strip="1"/>
-      <patch file="0006-Bug-658722-Drag-and-Drop-sometimes-stops-working.patch" strip="1"/>
-      <patch file="gtk+-2-m4-creation.patch" strip="1"/>
-      <!-- upstream bug https://bugzilla.gnome.org/show_bug.cgi?id=767091 -->
-      <patch file="gtk-gimp-dnd-bug767091.patch" strip="1"/>
-      <!-- upstream bug: https://gitlab.gnome.org/GNOME/gtk/issues/529 -->
-      <patch file="0001-Bug-743717-Crashes-on-clipboard-operation-influence-.patch" strip="1"/>
-      <!-- upstream bug: https://gitlab.gnome.org/GNOME/gtk/issues/580 -->
-      <patch file="gdkimage.patch" strip="1"/>
-   </branch>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="pango"/>
-      <dep package="atk"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-    </after>
-  </autotools>
-
   <autotools id="xorg-util-macros">
     <branch repo="freedesktop" version="1.19.2"
             module="xorg/individual/util/util-macros-1.19.2.tar.bz2"/>
@@ -261,7 +220,6 @@
     <dependencies>
     </dependencies>
     <after>
-      <dep package="gtk+"/>
       <dep package="gtk+-3.0"/>
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
@@ -304,7 +262,6 @@
     </dependencies>
     <after>
 <!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
-      <dep package="gtk+"/>
       <dep package="gtk+-3.0"/>
     </after>
   </autotools>
