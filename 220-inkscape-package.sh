@@ -60,10 +60,12 @@ lib_change_siblings $APP_LIB_DIR
 ( # use subshell to fence temporary variables
 
   PLIST=$APP_CON_DIR/Info.plist
+  IV=$(get_inkscape_version)
+  RV=$(get_repo_version $INK_DIR)
 
   # update Inkscape version information
-  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $PLIST
-  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$(get_inkscape_version) ($(get_repo_version $INK_DIR))'" $PLIST
+  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$IV ($RV))'" $PLIST
+  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$IV ($RV)'" $PLIST
 
   # update minimum system version according to deployment target
   /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VER'" $PLIST
@@ -75,7 +77,8 @@ lib_change_siblings $APP_LIB_DIR
 
 (
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
-  jhbuild run cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png $INK_DIR/share/branding/inkscape.svg
+  jhbuild run cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png \
+    $INK_DIR/share/branding/inkscape.svg
 )
 
 # png to icns
@@ -89,14 +92,16 @@ mv inkscape.icns $APP_RES_DIR
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-install_source file://$PKG_DIR/$(basename $PY3_URL) $APP_FRA_DIR --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
+install_source file://$PKG_DIR/$(basename $PY3_URL) $APP_FRA_DIR \
+  --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
 
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
 mkdir -p $APP_BIN_DIR
 ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PY3_MAJOR $APP_BIN_DIR
 
 # create '.pth' file inside Framework to include our site-packages directory
-echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages" > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages/inkscape.pth
+echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages" \
+  > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages/inkscape.pth
 
 ### install Python package: lxml ###############################################
 
@@ -136,7 +141,8 @@ lib_change_paths \
 ### install Python package: pySerial ###########################################
 
 pip_install $PYTHON_PYSERIAL
-find $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/serial -type f -name "*.pyc" -exec rm {} \;
+find $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/serial \
+  -type f -name "*.pyc" -exec rm {} \;
 rm $APP_BIN_DIR/miniterm.*
 
 ### install Python package: Scour ##############################################
@@ -181,5 +187,6 @@ done
 
 # compile *.gir into *.typelib files
 for gir in $SRC_DIR/*.gir; do
-  jhbuild run g-ir-compiler -o $APP_LIB_DIR/girepository-1.0/$(basename -s .gir $gir).typelib $gir
+  jhbuild run g-ir-compiler \
+    -o $APP_LIB_DIR/girepository-1.0/$(basename -s .gir $gir).typelib $gir
 done

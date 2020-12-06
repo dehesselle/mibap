@@ -71,7 +71,7 @@ echo "prefix = '$VER_DIR'"       >> $JHBUILDRC_CUSTOM
 echo "tarballdir = '$PKG_DIR'"   >> $JHBUILDRC_CUSTOM
 
 # set macOS SDK
-echo "setup_sdk(target=\"$SDK_VER\")"   >> $JHBUILDRC_CUSTOM
+echo "setup_sdk(target=\"$SDK_VER\")"       >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\"" >> $JHBUILDRC_CUSTOM
 
 # Remove harmful settings in regards to the target platform:
@@ -84,18 +84,18 @@ echo "os.environ[\"SDKROOT\"]=\"$SDKROOT\"" >> $JHBUILDRC_CUSTOM
 #       cmdsize 16
 #       version 10.11
 #           sdk n/a          < - - - notarized app won't load this library
-echo "os.environ.pop(\"MACOSX_DEPLOYMENT_TARGET\")" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"CFLAGS\"] = \"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\"" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"CPPFLAGS\"] = \"-I$INC_DIR -I$SDKROOT/usr/include -isysroot $SDKROOT\"" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"CXXFLAGS\"] = \"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\"" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"LDFLAGS\"] = \"-L$LIB_DIR -L$SDKROOT/usr/lib -isysroot $SDKROOT -Wl,-headerpad_max_install_names\"" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"OBJCFLAGS\"] = \"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\"" \
-    >> $JHBUILDRC_CUSTOM
+echo "os.environ.pop(\"MACOSX_DEPLOYMENT_TARGET\")"       >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"CFLAGS\"] = \
+\"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\""        >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"CPPFLAGS\"] = \
+\"-I$INC_DIR -I$SDKROOT/usr/include -isysroot $SDKROOT\"" >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"CXXFLAGS\"] = \
+\"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\""        >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"LDFLAGS\"] = \
+\"-L$LIB_DIR -L$SDKROOT/usr/lib -isysroot $SDKROOT \
+-Wl,-headerpad_max_install_names\""                       >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"OBJCFLAGS\"] = \
+\"-O2 -I$SDKROOT/usr/include -isysroot $SDKROOT\""        >> $JHBUILDRC_CUSTOM
 
 # enable ccache
 echo "os.environ[\"CC\"] = \"$BIN_DIR/gcc\""   >> $JHBUILDRC_CUSTOM
@@ -103,10 +103,12 @@ echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\"" >> $JHBUILDRC_CUSTOM
 echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""  >> $JHBUILDRC_CUSTOM
 
 # certificates for https
-echo "os.environ[\"SSL_CERT_FILE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
-    >> $JHBUILDRC_CUSTOM
-echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
-    >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"SSL_CERT_FILE\"] = \
+\"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
+  >> $JHBUILDRC_CUSTOM
+echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \
+\"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
+  >> $JHBUILDRC_CUSTOM
 
 # user home directory
 echo "os.environ[\"HOME\"] = \"$HOME\"" >> $JHBUILDRC_CUSTOM

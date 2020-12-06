@@ -22,16 +22,16 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 function uninstall
 {
-    while : ; do   # unmount everything (in reverse order)
-      local disk=$(mount | grep $VER_DIR | tail -n1 | awk '{ print $1 }')
+  while : ; do   # unmount everything (in reverse order)
+    local disk=$(mount | grep $VER_DIR | tail -n1 | awk '{ print $1 }')
 
-      if [ ${#disk} -eq 0 ]; then
-        break                              # nothing to do here
-      else
-        diskutil eject $disk > /dev/null   # unmount
-        echo_i "ejected $disk"
-      fi
-    done
+    if [ ${#disk} -eq 0 ]; then
+      break                              # nothing to do here
+    else
+      diskutil eject $disk > /dev/null   # unmount
+      echo_i "ejected $disk"
+    fi
+  done
 }
 
 ### main #######################################################################
