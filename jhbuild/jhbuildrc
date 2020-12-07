@@ -86,7 +86,7 @@ class _cmd_bootstrap_gtk_osx(jhbuild.commands.base.cmd_build):
                                           moduleset + '.modules'))):
             config.moduleset = moduleset
         else:
-            config.moduleset = 'https://raw.githubusercontent.com/dehesselle/mibap/v0.42/jhbuild/bootstrap.modules'
+            config.moduleset = 'https://raw.githubusercontent.com/dehesselle/mibap/master/jhbuild/bootstrap.modules'
 
         args = ['meta-bootstrap']
 
@@ -127,12 +127,8 @@ def osx_ver():
     vernum = exp.match(vstring)
     _osx_version = float(vernum.group(1)) - 4.0
     _target = '10.%d' % int(_osx_version)
-    
-    is_arm = _popen("uname -v").endswith("RELEASE_ARM64_T8020")
-    if is_arm:
-        _default_arch = "arm64"
-    else:
-        _default_arch = "x86_64"
+
+    _default_arch = _popen("uname -m")
 
 # Determine the XCode Version:
 def xcode_ver():
@@ -391,14 +387,14 @@ def setup_sdk(target=_target, sdk_version=None, architectures=[_default_arch]):
 # Moduleset to use. You can override this in .jhbuildrc-custom or on
 # the command line.
 #
-moduleset = 'https://raw.githubusercontent.com/dehesselle/mibap/v0.42/jhbuild/gtk-osx.modules'
+moduleset = 'https://raw.githubusercontent.com/dehesselle/mibap/master/jhbuild/inkscape.modules'
 use_local_modulesets = False
 modulesets_dir = ""
 
 # A list of the modules to build. You can override this in
 # .jhbuildrc-custom or on the command line.
 #
-modules = [ 'meta-gtk-osx-bootstrap' ]
+modules = [ 'meta-gtk-osx-bootstrap', 'meta-gtk-osx-core' ]
 
 # A list of modules to skip.
 #
@@ -494,7 +490,7 @@ alwaysautogen = True
 
 module_cmakeargs["freetype"] = '-DCMAKE_INSTALL_NAME_DIR="' + os.path.join(prefix, 'lib') + '"'
 module_cmakeargs["freetype-no-harfbuzz"] = '-DCMAKE_INSTALL_NAME_DIR="' + os.path.join(prefix, 'lib') + '"'
-
+module_cmakeargs["webkit2gtk3"] = '-DCMAKE_INSTALL_NAME_DIR="' + os.path.join(prefix, 'lib') + '"'
 
 # Check and warn if jhbuild is started from within jhbuild, since that
 # will mess up environment variables, especially if different build
@@ -614,8 +610,8 @@ if 'python3' in modules or 'meta-gtk-osx-python3' in modules:
     os.environ['PYTHON'] = os.path.join(prefix, 'bin', 'python3')
     module_extra_env['pkg-config'] = {'PYTHON':sys.executable}
 else:
-    _python_ver = sys.version_info.major * 10 + sys.version_info.minor
-    _python_install_path = os.path.join(prefix, 'lib', str(_python_ver),
+    _python_ver = str(sys.version_info.major) + '.' + str(sys.version_info.minor)
+    _python_install_path = os.path.join(prefix, 'lib', 'python' + _python_ver,
                                         'site-packages')
     append_autogenargs('libxml2',
                        '--with-python-install-dir=' + _python_install_path)
