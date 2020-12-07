@@ -9,6 +9,12 @@
   <repository type="tarball" name="cairographics"
               href="http://cairographics.org/releases/"/>
 
+  <metamodule id="meta-gtk-osx-gtkmm">
+    <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </metamodule>
+
   <metamodule id="meta-gtk-osx-gtkmm3">
     <dependencies>
       <dep package="gtkmm3"/>

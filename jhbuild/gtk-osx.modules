@@ -12,6 +12,8 @@
               href="https://ftp.gnu.org/gnu/"/>
   <repository type="tarball" name="freedesktop"
               href="ftp://ftp.freedesktop.org/pub/"/>
+  <repository type="tarball" name="fontconfig"
+	      href="http://www.freedesktop.org/software/fontconfig/release/"/>
   <repository type="git" name="github" href="git://github.com/"/>
   <repository type="tarball" name="github-tarball" href="https://github.com/"/>
   <repository type="system" name="system"/>
@@ -49,6 +51,11 @@
   <include href="gtk-osx-themes.modules"/>
   <include href="gtk-osx-unsupported.modules"/>
 
+  <!-- Dummy meson module to shut up a jhbuild warning. -->
+  <systemmodule id="meson">
+    <branch repo="system"/>
+  </systemmodule>
+
    <metamodule id="meta-gtk-osx-gtk3">
     <dependencies>
       <dep package="gtk+-3.0"/>
@@ -61,14 +68,38 @@
   </metamodule>
 
   <meson id="glib" mesonargs="-Dinternal_pcre=true -Dlibmount=disabled">
-    <branch module="glib/2.64/glib-2.64.2.tar.xz"  version="2.64.2"
-            hash="sha256:9a2f21ed8f13b9303399de13a0252b7cbcede593d26971378ec6cb90e87f2277">
+    <branch module="glib/2.66/glib-2.66.0.tar.xz"  version="2.66.0"
+            hash="sha256:c5a66bf143065648c135da4c943d2ac23cce15690fc91c358013b2889111156c">
     </branch>
     <dependencies>
         <dep package="libffi"/>
     </dependencies>
+  </meson>
+
+  <!-- To build Freetype *with* harfbuzz requires harfbuzz to be built
+       with freetype so we first have to build it *without* harfbuzz,
+       then build harfbuzz without cairo because cairo requires
+       harfbuzz. -->
+  <cmake id="freetype-no-harfbuzz" cmakeargs="-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE -DCMAKE_DISABLE_FIND_PACKAGE_BZip2=TRUE -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release">
+    <branch module="freetype/freetype-2.10.2.tar.gz" version="2.10.2"
+            repo="sourceforge"/>
+    <dependencies>
+      <dep package="zlib"/>
+    </dependencies>
+  </cmake>
+
+  <meson id="harfbuzz-no-cairo" mesonargs="-Dcoretext=enabled -Ddocs=disabled">
+    <branch repo="github-tarball" version="2.7.1"
+            module="harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz" 
+            hash="sha256:e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569">
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="freetype-no-harfbuzz"/>
+    </dependencies>
     <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
+      <dep package="icu"/>
+      <dep package="icu55"/>
     </after>
   </meson>
 
@@ -78,16 +109,79 @@
             repo="github-tarball" version="3.3"/>
   </autotools>
 
+  <cmake id="freetype" cmakeargs="-DCMAKE_DISABLE_FIND_PACKAGE_BZip2=TRUE -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release">
+    <branch module="freetype/freetype-2.10.2.tar.gz" version="2.10.2"
+            repo="sourceforge"/>
+    <dependencies>
+      <dep package="harfbuzz-no-cairo"/>
+      <dep package="zlib"/>
+    </dependencies>
+  </cmake>
+
+  <autotools id="fontconfig" autogen-sh="configure"
+             autogenargs="--disable-docs --with-default-fonts=/System/Library/Fonts --with-add-fonts=/Library/Fonts --with-cache-dir=home">
+    <branch repo="fontconfig" version="2.13.1"
+            module="fontconfig-2.13.1.tar.bz2"/>
+    <dependencies>
+      <dep package="freetype"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pixman" autogenargs="--disable-gtk --disable-mmx"
+             autogen-sh="configure">
+    <branch version="0.40.0" module="pixman-0.40.0.tar.gz"
+            repo="cairographics"
+            hash="sha512:063776e132f5d59a6d3f94497da41d6fc1c7dca0d269149c78247f0e0d7f520a25208d908cf5e421d1564889a91da44267b12d61c0bd7934cd54261729a7de5f">
+    </branch>
+    <after>
+      <dep package="meta-gtk-osx-bootstrap"/>
+    </after>
+  </autotools>
+
+  <!-- cairo doesn't really need fontconfig, but if Pango finds
+       freetype it insists that it has to have fontconfig too and that
+       they are both built into cairo. -->
+  <autotools id="cairo"  autogen-sh="autoreconf"
+             autogenargs="--enable-pdf --enable-quartz --disable-xlib --without-x">
+    <branch module="cairo-1.16.0.tar.xz"  version="1.16.0"
+            repo="cairographics"
+            hash="sha1:00e81842ae5e81bb0343108884eb5205be0eac14">
+      <patch file="cairo-freetype-font-variations.patch" strip="1"/>
+      <patch file="cairo-image-refcount.patch" strip="1"/>
+      <patch file="cairo_pdf_add_missing_flush.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="pixman"/>
+      <dep package="meta-gtk-osx-bootstrap"/>
+      <dep package="harfbuzz-no-cairo"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </autotools>
+
   <meson id="gobject-introspection">
     <branch module="gobject-introspection/1.64/gobject-introspection-1.64.1.tar.xz"
             version="1.64.1"
             hash="sha256:80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7">
-      <patch file="girscanner-objc.patch" strip="1"/>
+      <patch file="https://gitlab.gnome.org/GNOME/gtk-osx/raw/master/patches/girscanner-objc.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
+    </dependencies>
+    <after>
       <dep package='python3'/>
+    </after>
+  </meson>
+
+  <meson id="harfbuzz" mesonargs="-Dcoretext=enabled -Ddocs=disabled">
+    <branch repo="github-tarball" version="2.7.1"
+            module="harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz" 
+            hash="sha256:e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569">
+    </branch>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
     </dependencies>
   </meson>
 
@@ -114,12 +208,11 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
-      <dep package="fribidi"/>
       <dep package="harfbuzz"/>
+      <dep package="fribidi"/>
      </dependencies>
     <after>
       <dep package="gobject-introspection"/>
-      <dep package="meta-gtk-osx-freetype"/>
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </meson>
@@ -161,6 +254,12 @@
     </dependencies>
   </meson>
 
+  <!-- GTK 3
+
+       - 3.24.20 is the last release that builds against 10.11.
+       - Building on Big Sur requires at least 3.24.23
+         https://gitlab.gnome.org/GNOME/gtk-osx/-/commit/ba5af596153d1dc237d225a26c358879a099800b
+  -->
   <autotools id="gtk+-3.0" autogen-sh="autogen.sh"
              autogenargs="--enable-quartz-backend --enable-quartz-relocation">
     <branch module="gtk+/3.24/gtk+-3.24.20.tar.xz" version="3.24.20"
@@ -170,6 +269,7 @@
       <dep package="glib"/>
       <dep package="pango"/>
       <dep package="atk"/>
+      <dep package="cairo"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gobject-introspection"/>
       <dep package="libepoxy"/>
@@ -179,37 +279,7 @@
     </after>
   </autotools>
 
-  <autotools id="pixman" autogenargs="--disable-gtk --disable-mmx"
-             autogen-sh="configure">
-    <branch version="0.40.0" module="pixman-0.40.0.tar.gz"
-            repo="cairographics"
-            hash="sha512:063776e132f5d59a6d3f94497da41d6fc1c7dca0d269149c78247f0e0d7f520a25208d908cf5e421d1564889a91da44267b12d61c0bd7934cd54261729a7de5f">
-    </branch>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-    </after>
-  </autotools>
 
-  <!-- Cairo will automatically enable freetype and fontconfig if
-       meta-gtk-osx-freetype is built, so packages which require
-       cairoft or cairofc should have meta-gtk-osx-freetype as a
-       dependency. -->
-  <autotools id="cairo"  autogen-sh="autoreconf"
-             autogenargs="--enable-pdf --enable-quartz --disable-xlib --without-x">
-    <branch module="cairo-1.16.0.tar.xz"  version="1.16.0"
-            repo="cairographics"
-            hash="sha1:00e81842ae5e81bb0343108884eb5205be0eac14">
-      <patch file="cairo-freetype-font-variations.patch" strip="1"/>
-      <patch file="cairo_pdf_add_missing_flush.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="pixman"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-      <dep package="meta-gtk-osx-freetype"/>
-    </after>
-  </autotools>
 
   <autotools id="gtk-mac-integration" autogen-sh="configure"
              autogenargs="--disable-python">
@@ -272,4 +342,7 @@
 	    hash="sha256:767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4"/>
   </autotools>
  
+  <!-- Null metamodule, provided so as not to break modules that use it. -->
+  <metamodule id="meta-gtk-osx-freetype" />
+
 </moduleset>
