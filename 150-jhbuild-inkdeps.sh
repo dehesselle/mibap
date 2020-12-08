@@ -14,7 +14,7 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 ### install Inkscape dependencies ##############################################
 
 jhbuild build \
-  bdwgc \
+  bdw-gc \
   doubleconversion \
   googletest \
   gsl \

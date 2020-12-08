@@ -13,17 +13,7 @@
   <repository name="gnutls" type="tarball" href="https://www.gnupg.org/ftp/"/>
   <repository name="webm" type="tarball"
               href="http://downloads.webmproject.org/releases/"/>
-  <repository name="webkit.org" type="tarball"
-              href="http://www.webkitgtk.org/releases/"/>
   <repository type="tarball" name="github-tarball" href="https://github.com/"/>
-
-  <!-- Builds latest stable version of WebKitGTK for GTK 3.x -->
-  <metamodule id="meta-gtk-osx-webkit-gtk3">
-    <dependencies>
-      <dep package="meta-gtk-osx-gtk3"/>
-      <dep package="webkit2gtk3"/>
-    </dependencies>
-  </metamodule>
 
   <!-- of the many arguments such as prefix and libdir that jhbuild might pass
   to configure, openssl only understands prefix, and only with =. -->
@@ -111,16 +101,4 @@
       <dep package="vala"/>
     </dependencies>
   </meson>
-
-  <autotools id="libwebp" autogen-sh="configure"  autogenargs="--enable-libwebpmux --enable-libwebpdecoder">
-    <branch repo="webm" module="webp/libwebp-1.0.0.tar.gz" version="1.0.0"/>
-  </autotools>
-
-  <autotools id="icu55" autogen-sh="source/configure"
-             autogenargs="--enable-rpath"
-             makeargs='CFLAGS="$CFLAGS -DU_CHARSET_IS_UTF8=1 -DU_USING_ICU_NAMESPACE=0"'>
-    <branch repo="github-tarball" version="55.2" checkoutdir="icu"
-            module="unicode-org/icu/releases/download/release-55-2/icu4c-55_2-src.tgz"
-            hash="sha256:eda2aa9f9c787748a2e2d310590720ca8bcc6252adf6b4cfb03b65bef9d66759"/>
-  </autotools>
 </moduleset>

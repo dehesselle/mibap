@@ -36,9 +36,7 @@
        - gtk-osx-gtkmm.modules: self explaining.
        - gtk-osx-gstreamer.modules: self explaining.
        - gtk-osx-themes.modules: self explaining.
-       - gtk-osx-network.modules: The network/crypto stack and various
-         configurations of WebKit.
-
+       - gtk-osx-network.modules: The network/crypto stack.
        - gtk-osx-random.modules: "random stuff", has apps for testing GTK+.
        - gtk-osx-unsupported.modules: more testing stuff, competely unsupported.
   -->
@@ -99,7 +97,6 @@
     </dependencies>
     <after>
       <dep package="icu"/>
-      <dep package="icu55"/>
     </after>
   </meson>
 
