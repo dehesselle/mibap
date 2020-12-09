@@ -85,12 +85,4 @@
     </after>
   </autotools>
 
-  <autotools id="pygtk-extras" autogen-sh="configure">
-    <branch module="gnome-python-extras/2.25/gnome-python-extras-2.25.3.tar.bz2"
-	    version="2.25.3"/>
-    <dependencies>
-      <dep package="gtkspell"/>
-    </dependencies>
-  </autotools>
-
 </moduleset>

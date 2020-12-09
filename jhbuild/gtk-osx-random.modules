@@ -127,39 +127,6 @@
 	    repo="github-tarball" checkoutdir="hunspell-1.6.1"/>
   </autotools>
 
-  <autotools id="enchant" autogen-sh="configure"
-             autogenargs="--with-myspell-dir=/Library/Dictionaries">
-    <branch module="1.6.0/enchant-1.6.0.tar.gz" version="1.6.0"
-            repo="abisource/enchant">
-      <patch file="enchant-gsize.patch"
-             strip="1"/>
-      <patch file="enchant-env.patch"
-             strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gtkspell" autogen-sh="configure">
-    <branch module="gtkspell/gtkspell-2.0.16.tar.gz" repo="sourceforge"
-	    version="2.0.16"/>
-    <dependencies>
-      <dep package="enchant"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gtkspell3" autogen-sh="configure" autogenargs="--enable-vala=no">
-    <branch module="gtkspell/gtkspell3-3.0.9.tar.xz" repo="sourceforge"
-            version="3.0.9">
-      <patch file="0001-Enable-use-of-XDG_DATA_DIRS-for-locating-iso-code-fi.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="enchant"/>
-      <dep package="iso-codes"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libgsf" autogenargs="--without-python">
     <branch  module="libgsf/1.14/libgsf-1.14.41.tar.xz" version="1.14.41"
 	     hash="sha256:150b98586a1021d5c49b3d4d065d0aa3e3674ae31db131af5372499d2d3f08d3">

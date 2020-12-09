@@ -16,10 +16,6 @@
   <!--
           - Dependencies marked with TODO have not been investigated yet.
             Maybe there are no dependencies or maybe they need to be added.
-
-          - enchant v2.x collides with the enchant package from gtk-osx
-            module set. Breaks gtkspell3. Once migration to gspell happens,
-            this will turn into a non-issue.
   -->
 
   <!-- boost C++ libraries https://www.boost.org
