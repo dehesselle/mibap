@@ -198,7 +198,7 @@
       version="0.1.6"
       hash="sha256:1a3bbed08cea213eadddf5b54333cc1defcf1acc81b8c9efa431f6491ed646f4"
       repo="github"
-      checkoutdir="libcdr">
+      checkoutdir="libcdr-0.1.6">
     </branch>
     <dependencies>
       <dep package="boost"/>
@@ -250,7 +250,7 @@
       version="11.0.0"
       hash="sha256:2d704df8ca67b77d6d94ebf79621b0f773d5648963dd19e0f78efef4404b684c"
       repo="github"
-      checkoutdir="openmp">
+      checkoutdir="openmp-11.0.0">
     </branch>
     <dependencies>
       <!-- TODO
