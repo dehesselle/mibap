@@ -182,11 +182,6 @@ PYTHON_PYSERIAL=pyserial==3.4
 
 # The following Python packages are required for the build system.
 
-# binary plist parser/generator
-# This is a dependency of dmgbuild.
-# https://pypi.org/project/biplist/
-PYTHON_BIPLIST=biplist==1.0.3
-
 # convert SVG to PNG
 # https://cairosvg.org
 PYTHON_CAIROSVG=cairosvg==2.4.2
