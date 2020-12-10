@@ -9,6 +9,7 @@
   <repository name="gnome_gitlab" type="tarball" href="https://gitlab.gnome.org/GNOME/"/>
   <repository name="gnu"          type="tarball" href="http://ftp.halifax.rwth-aachen.de/gnu/"/>
   <repository name="libreoffice"  type="tarball" href="https://dev-www.libreoffice.org/src/"/>
+  <repository name="poppler"      type="tarball" href="https://poppler.freedesktop.org/"/>
   <repository name="sourceforge"  type="tarball" href="https://netcologne.dl.sourceforge.net/project/"/>
 
   <include href="gtk-osx.modules"/>
@@ -33,9 +34,9 @@
     skip-install="yes"
     supports-non-srcdir-builds="no">
     <branch
-      module="boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2"
-      version="1.72.0"
-      hash="sha256:59c9b274bc451cf91a9ba1dd2c7fdcaf5d60b1b3aa83f2c9fa143417cc660722"
+      module="boostorg/release/1.74.0/source/boost_1_74_0.tar.bz2"
+      version="1.74.0"
+      hash="sha256:83bfc1507731a0906e387fc28b7ef5417d591429e51e788417fe9ff025e116b1"
       repo="bintray">
     </branch>
   </autotools>
@@ -53,26 +54,14 @@
     </branch>
   </cmake>
 
-  <!-- C/C++ compiler cache https://ccache.dev -->
-  <autotools
-    id="ccache"
-    autogen-sh="configure">
-    <branch
-      module="ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz"
-      version="3.7.9"
-      hash="sha256:f893da7543bfb9172bd55e603fcbdfcd83e6def176a28689c13235695b4cf44b"
-      repo="github">
-    </branch>
-  </autotools>
-
   <!-- cppunit test framework https://www.freedesktop.org/wiki/Software/cppunit/ -->
   <autotools
     id="cppunit"
     autogen-sh="configure">
     <branch
-      module="cppunit-1.14.0.tar.gz"
-      version="1.14.0"
-      hash="sha256:3d569869d27b48860210c758c4f313082103a5e58219a7669b52bfd29d674780"
+      module="cppunit-1.15.1.tar.gz"
+      version="1.15.1"
+      hash="sha256:89c5c6665337f56fd2db36bc3805a5619709d51fb136e51937072f63fcc717a7"
       repo="libreoffice">
     </branch>
     <dependencies>
@@ -88,9 +77,9 @@
     autogen-sh="configure"
     autogenargs="--with-applespell --enable-relocatable">
     <branch
-      module="AbiWord/enchant/releases/download/v2.2.8/enchant-2.2.8.tar.gz"
-      version="2.2.8"
-      hash="sha256:c7b5e2853f0dd0b1aafea2f9e071941affeec3a76df8e3f6d67a718c89293555"
+      module="AbiWord/enchant/releases/download/v2.2.13/enchant-2.2.13.tar.gz"
+      version="2.2.13"
+      hash="sha256:eab9f90d79039133660029616e2a684644bd524be5dc43340d4cfc3fb3c68a20"
       repo="github">
     </branch>
     <dependencies>
@@ -129,11 +118,6 @@
       hash="sha256:fcd1c6784997c2312d922d107fcb30462f5be4335ebdfa8e1e0e07568c962250"
       repo="gnu">
     </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
   </autotools>
 
   <!-- Spell checking for GTK https://wiki.gnome.org/Projects/gspell -->
@@ -141,9 +125,9 @@
     id="gspell"
     autogen-sh="autoreconf">
     <branch
-      module="gspell/1.8/gspell-1.8.3.tar.xz"
-      version="1.8.3"
-      hash="sha256:5ae514dd0216be069176accf6d0049d6a01cfa6a50df4bc06be85f7080b62de8"
+      module="gspell/1.9/gspell-1.9.1.tar.xz"
+      version="1.9.1"
+      hash="sha256:dcbb769dfdde8e3c0a8ed3102ce7e661abbf7ddf85df08b29915e92cd723abdd"
       repo="gnome_ftp">
       <patch
         file="gspell_makefile_objc.patch"
@@ -190,18 +174,17 @@
     id="imagemagick"
     autogen-sh="configure">
     <branch
-      module="ImageMagick/ImageMagick6/archive/6.9.10-89.tar.gz"
-      version="6.9.10-89"
-      hash="sha256:f5ba5d21d14850cb6cd800213f3357f852a6ca2920fb394aa23ace528b93d74f"
+      module="ImageMagick/ImageMagick6/archive/6.9.11-22.tar.gz"
+      version="6.9.11-22"
+      hash="sha256:1dd6efedc624738bc38a27611b509c299fc958dc6138370abd34864c0af8cfa0"
       repo="github"
-      checkoutdir="imagemagick-6.9.10-89"
-      rename-tarball="imagemagick-6.9.10-89.tar.gz">
+      checkoutdir="imagemagick-6.9.11-22"
+      rename-tarball="imagemagick-6.9.11-22.tar.gz">
       <patch
         file="imagemagick_configure_pango.patch"
         strip="1"/>
     </branch>
     <dependencies>
-      <!-- TODO -->
       <dep package="pango"/>
     </dependencies>
   </autotools>
@@ -211,9 +194,9 @@
     id="libcdr"
     autogen-sh="autoreconf">
     <branch
-      module="LibreOffice/libcdr/archive/libcdr-0.1.5.tar.gz"
-      version="0.1.5"
-      hash="sha256:55589010d2f063b95eec53c802127fa25c516210a7086d57baa5ae9156986bc0"
+      module="LibreOffice/libcdr/archive/libcdr-0.1.6.tar.gz"
+      version="0.1.6"
+      hash="sha256:1a3bbed08cea213eadddf5b54333cc1defcf1acc81b8c9efa431f6491ed646f4"
       repo="github"
       checkoutdir="libcdr">
     </branch>
@@ -263,9 +246,9 @@
   <cmake
     id="openmp">
     <branch
-      module="llvm/llvm-project/releases/download/llvmorg-9.0.1/openmp-9.0.1.src.tar.xz"
-      version="9.0.1"
-      hash="sha256:5c94060f846f965698574d9ce22975c0e9f04c9b14088c3af5f03870af75cace"
+      module="llvm/llvm-project/releases/download/llvmorg-11.0.0/openmp-11.0.0.src.tar.xz"
+      version="11.0.0"
+      hash="sha256:2d704df8ca67b77d6d94ebf79621b0f773d5648963dd19e0f78efef4404b684c"
       repo="github"
       checkoutdir="openmp">
     </branch>
@@ -281,10 +264,10 @@
     id="poppler"
     cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON">
     <branch
-      module="poppler/poppler/-/archive/poppler-0.84.0/poppler-poppler-0.84.0.tar.gz"
-      version="0.84.0"
-      hash="sha256:b74cdc5354f74bbf581eb0c3bbbdffa1c12159c17da4bb02f0fc90349112ac68"
-      repo="freedesktop">
+      module="poppler-20.12.1.tar.xz"
+      version="20.12.1"
+      hash="sha256:d0aa2586c0a4296c775f0d2045f28bb95a694113fc995f95350faa12930f7b35"
+      repo="poppler">
     </branch>
     <dependencies>
       <!-- TODO
