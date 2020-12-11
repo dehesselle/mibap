@@ -224,6 +224,26 @@
     </dependencies>
   </autotools>
 
+  <!-- Reading/Converting Visio files https://github.com/LibreOffice/libvisio -->
+  <autotools
+    id="libvisio"
+    autogen-sh="autoreconf">
+    <branch
+      module="LibreOffice/libvisio/archive/libvisio-0.1.7.tar.gz"
+      version="0.1.7"
+      hash="sha256:68b8a0b45e39b6ba154fe79169f2887cc19f6ee2b82f287b4b625c70294aff27"
+      repo="github"
+      checkoutdir="libvisio-0.1.7">
+    </branch>
+    <dependencies>
+      <dep package="boost"/>
+      <dep package="icu"/>
+      <dep package="librevenge"/>
+      <dep package="libxml2"/>
+      <dep package="zlib"/>
+    </dependencies>
+  </autotools>
+
   <!-- OpenJPEG https://github.com/uclouvain/openjpeg -->
   <cmake
     id="openjpeg">

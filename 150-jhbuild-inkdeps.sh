@@ -22,6 +22,7 @@ jhbuild build \
   imagemagick \
   libcdr \
   libsoup \
+  libvisio \
   openjpeg \
   openmp \
   poppler \
