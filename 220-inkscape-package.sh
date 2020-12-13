@@ -87,6 +87,10 @@ cd $SRC_DIR   # png2icns.sh outputs to current directory
 png2icns.sh inkscape.png
 mv inkscape.icns $APP_RES_DIR
 
+### add file type icons ########################################################
+
+cp $INK_DIR/packaging/macos/resources/*.icns $APP_RES_DIR
+
 ### bundle Python.framework ####################################################
 
 # This section deals with bundling Python.framework into the application.
