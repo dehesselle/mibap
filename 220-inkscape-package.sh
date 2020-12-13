@@ -77,8 +77,8 @@ lib_change_siblings $APP_LIB_DIR
 
 (
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
-  jhbuild run cairosvg -f png -s 8 -o $SRC_DIR/inkscape.png \
-    $INK_DIR/share/branding/inkscape.svg
+  jhbuild run cairosvg -f png -s 1 -o $SRC_DIR/inkscape.png \
+    $INK_DIR/share/branding/inkscape-mac.svg
 )
 
 # png to icns
