@@ -18,7 +18,7 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 ### ccache configuration #######################################################
 
-configure_ccache
+configure_ccache $CCACHE_SIZE  # create directory and config file
 
 ### build Inkscape #############################################################
 
