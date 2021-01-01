@@ -200,7 +200,7 @@ PYTHON_CAIROSVG=cairosvg==2.4.2
 # create DMG
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
-PYTHON_DMGBUILD=dmgbuild==1.3.3
+PYTHON_DMGBUILD="biplist==1.0.3 dmgbuild==1.4.2"
 
 ### path #######################################################################
 
