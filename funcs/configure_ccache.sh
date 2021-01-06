@@ -8,12 +8,10 @@ function configure_ccache
 {
   local size=$1
 
-  if [ ! -d $CCACHE_DIR ]; then
-    mkdir -p $CCACHE_DIR
+  mkdir -p $CCACHE_DIR
 
-    cat <<EOF > "$CCACHE_DIR/ccache.conf"
+  cat <<EOF > "$CCACHE_DIR/ccache.conf"
 max_size = $size
 hash_dir = false
 EOF
-  fi
 }

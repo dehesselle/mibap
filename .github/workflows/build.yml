@@ -1,0 +1,107 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of https://github.com/dehesselle/mibap
+
+name: build
+on: push
+
+jobs:
+  mibap:
+    runs-on: macos-10.15
+    env:
+      WRK_DIR: /Users/Shared/work
+      CCACHE_DIR: /Users/Shared/work/ccache
+    steps:
+
+    ### pre-build ##############################################################
+
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: create timestamp
+      id: time
+      uses: nanzm/get-time-action@v1.1
+      with:
+        format: "YYYY-MM-DD-HH-mm-ss"
+
+    - name: populate CCACHE_DIR
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.CCACHE_DIR }}
+        key: ccache-${{ steps.time.outputs.time }}
+        restore-keys: ccache-
+
+    # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
+    # no official public download available from Apple and I don't trust 3rd
+    # party sources (e.g. "phracker"), so I'm enabling this job to download
+    # a compressed tarball that contains the SDK.
+    # In order to use this, you need to setup a repository secret named
+    # SDK_DOWNLOAD_URL and give a link to a .tar.xz file.
+    - name: install macOS SDK
+      env:
+        SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+      if: env.SDK_DOWNLOAD_URL != null
+      run:  |
+            mkdir -p $WRK_DIR
+            curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+            echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+
+    # GitHub does not provide a clean macOS installation. We need to move the
+    # pre-installed components out of the way so we don't pick them up by
+    # accident.
+    - name: disable /usr/local
+      run:  |
+            cd /usr/local
+            for dir in include lib share; do sudo mv $dir $dir.disabled; done
+
+    ### build ##################################################################
+
+    - name: prepare system
+      run: ./110-sysprep.sh
+
+    - name: install JHBuild
+      run: ./120-jhbuild-install.sh
+
+    - name: bootstrap JHBuild
+      run: ./130-jhbuild-bootstrap.sh
+
+    - name: build GTK3 stack
+      run: ./140-jhbuild-gtk3.sh
+
+    - name: build Inkscape dependencies
+      run: ./150-jhbuild-inkdeps.sh
+
+    - name: install additional components
+      run: ./160-jhbuild-other.sh
+
+    ### post-build ##############################################################
+
+    # Undo what we did before, GitHub actions may depend on these.
+    - name: re-enable /usr/local
+      run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
+
+    # Remove files to push the archive below 2 GiB.
+    - name: strip toolset
+      run:  |
+            source 020-vars.sh
+            rm -rf $BLD_DIR/*
+            find $SRC_DIR -mindepth 1 -maxdepth 1 -type d ! -name jhbuild* ! -name gtk-mac-bundler* ! -name png2icns* -exec rm -rf {} \;
+
+    ### artifact ###############################################################
+
+    - name: create archive
+      run:  |
+            source 020-vars.sh
+            cd $WRK_DIR
+            hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" $WRK_DIR/mibap_v${TOOLSET_VER}_stripped.dmg
+            echo "TOOLSET_VER=$TOOLSET_VER" >> $GITHUB_ENV
+      shell: bash
+
+    - name: upload archive
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inkscape build toolset
+        path: ${{ env.WRK_DIR }}/mibap_v${{ env.TOOLSET_VER }}_stripped.dmg

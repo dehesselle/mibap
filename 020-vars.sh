@@ -29,7 +29,6 @@ TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 if [ -z $SDKROOT ]; then
   SDKROOT=$(xcodebuild -version -sdk macosx Path)
 fi
-
 export SDKROOT
 
 SDK_VER=$(/usr/libexec/PlistBuddy -c "Print \
@@ -218,7 +217,10 @@ PYTHON_MESON=meson==0.55.1
 
 ### compiler cache #############################################################
 
-export CCACHE_DIR=$WRK_DIR/ccache
+if [ -z $CCACHE_DIR ]; then
+  CCACHE_DIR=$WRK_DIR/ccache
+fi
+export CCACHE_DIR
 CCACHE_SIZE=3.0G
 
 # https://ccache.dev
