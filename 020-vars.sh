@@ -13,7 +13,7 @@
 
 ### this toolset ###############################################################
 
-TOOLSET_VER=0.46   # main version number; root of our directory layout
+TOOLSET_VER=0.47   # main version number; root of our directory layout
 
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap
@@ -24,20 +24,27 @@ TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
 ### target OS version ##########################################################
 
-# The current build setup is
-#   - Xcode 12.2
-#   - OS X El Capitan 10.11 SDK (part of Xcode 7.3.1)
-#   - macOS Catalina 10.15.7
+# The recommended build setup as defined in "*_VER_RECOMMENDED" below.
 
-SDK_VER=10.11
-# Allow this to be overrideable or use the default.
-[ -z $SDKROOT_DIR ] && SDKROOT_DIR=/opt/sdks || true
-export SDKROOT=$SDKROOT_DIR/MacOSX$SDK_VER.sdk
+if [ -z $SDKROOT ]; then
+  SDKROOT=$(xcodebuild -version -sdk macosx Path)
+fi
+
+export SDKROOT
+
+SDK_VER=$(/usr/libexec/PlistBuddy -c "Print \
+:DefaultProperties:MACOSX_DEPLOYMENT_TARGET" $SDKROOT/SDKSettings.plist)
+SDK_VER_RECOMMENDED=10.11
+
+XCODE_VER=$(xcodebuild -version | grep Xcode | awk '{ print $2 }')
+XCODE_VER_RECOMMENDED=12.3
+
+MACOS_VER=$(sw_vers | grep ProductVersion | awk '{ print $2 }')
+MACOS_VER_RECOMMENDED=10.15.7
 
 ### multithreading #############################################################
 
-CORES=$(sysctl -n hw.ncpu)   # use all available cores
-export MAKEFLAGS="-j $CORES"
+export MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
 
 ### directories: self ##########################################################
 

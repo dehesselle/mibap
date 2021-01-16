@@ -15,13 +15,6 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 echo_i "WRK_DIR = $WRK_DIR"
 echo_i "VER_DIR = $VER_DIR"
 
-### check for presence of SDK ##################################################
-
-if [ ! -d $SDKROOT ]; then
-  echo_e "SDK not found: $SDKROOT"
-  exit 1
-fi
-
 ### create directories #########################################################
 
 for dir in $VER_DIR $TMP_DIR $HOME; do

@@ -17,5 +17,30 @@ else
   exit 1
 fi
 
-### add more checks here #######################################################
+### check for presence of SDK ##################################################
 
+if [ ! -d $SDKROOT ]; then
+  echo_e "SDK not found: $SDKROOT"
+  exit 1
+fi
+
+### check SDK version ##########################################################
+
+if [ "$SDK_VER" != "$SDK_VER_RECOMMENDED" ]; then
+  echo_w "recommended   SDK version: $SDK_VER_RECOMMENDED"
+  echo_w "       your   SDK version: $SDK_VER"
+fi
+
+### check Xcode version ########################################################
+
+if [ "$XCODE_VER" != "$XCODE_VER_RECOMMENDED" ]; then
+  echo_w "recommended Xcode version: $XCODE_VER_RECOMMENDED"
+  echo_w "       your Xcode version: $XCODE_VER"
+fi
+
+### check macOS version ########################################################
+
+if [ "$MACOS_VER" != "$MACOS_VER_RECOMMENDED" ]; then
+  echo_w "recommended macOS version: $MACOS_VER_RECOMMENDED"
+  echo_w "       your macOS version: $MACOS_VER"
+fi
