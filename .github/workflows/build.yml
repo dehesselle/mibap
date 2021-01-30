@@ -6,7 +6,10 @@ name: build
 on: push
 
 jobs:
-  mibap:
+
+################################################################################
+
+  toolset:
     runs-on: macos-10.15
     env:
       WRK_DIR: /Users/Shared/work
@@ -31,8 +34,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ env.CCACHE_DIR }}
-        key: ccache-${{ steps.time.outputs.time }}
-        restore-keys: ccache-
+        key: ccache-toolset-${{ steps.time.outputs.time }}
+        restore-keys: |
+                      ccache-toolset-
+                      ccache-
 
     # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
     # no official public download available from Apple and I don't trust 3rd
@@ -93,15 +98,112 @@ jobs:
     ### artifact ###############################################################
 
     - name: create archive
+      id: archive
       run:  |
             source 020-vars.sh
             cd $WRK_DIR
             hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" $WRK_DIR/mibap_v${TOOLSET_VER}_stripped.dmg
-            echo "TOOLSET_VER=$TOOLSET_VER" >> $GITHUB_ENV
+            echo "::set-output name=version::$TOOLSET_VER"
       shell: bash
 
     - name: upload archive
       uses: actions/upload-artifact@v2
       with:
         name: Inkscape build toolset
-        path: ${{ env.WRK_DIR }}/mibap_v${{ env.TOOLSET_VER }}_stripped.dmg
+        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg
+
+################################################################################
+
+  inkscape:
+    runs-on: macos-10.15
+    needs: toolset
+    env:
+      WRK_DIR: /Users/Shared/work
+      CCACHE_DIR: /Users/Shared/work/ccache
+    steps:
+
+    ### pre-build ##############################################################
+
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: create timestamp
+      id: time
+      uses: nanzm/get-time-action@v1.1
+      with:
+        format: "YYYY-MM-DD-HH-mm-ss"
+
+    - name: populate CCACHE_DIR
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.CCACHE_DIR }}
+        key: ccache-inkscape-${{ steps.time.outputs.time }}
+        restore-keys: ccache-inkscape-
+
+    # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
+    # no official public download available from Apple and I don't trust 3rd
+    # party sources (e.g. "phracker"), so I'm enabling this job to download
+    # a compressed tarball that contains the SDK.
+    # In order to use this, you need to setup a repository secret named
+    # SDK_DOWNLOAD_URL and give a link to a .tar.xz file.
+    - name: install macOS SDK
+      env:
+        SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+      if: env.SDK_DOWNLOAD_URL != null
+      run:  |
+            mkdir -p $WRK_DIR
+            curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+            echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+
+    - name: download toolset
+      uses: actions/download-artifact@v2
+      with:
+        name: Inkscape build toolset
+        path: ${{ env.WRK_DIR }}/repo
+
+    # GitHub does not provide a clean macOS installation. We need to move the
+    # pre-installed components out of the way so we don't pick them up by
+    # accident.
+    - name: disable /usr/local
+      run:  |
+            cd /usr/local
+            for dir in include lib share; do sudo mv $dir $dir.disabled; done
+
+    - name: install toolset
+      run: ./install_toolset.sh
+
+    ### build ##################################################################
+
+    - name: compile Inkscape
+      run: ./210-inkscape-build.sh
+
+    - name: create application bundle
+      run: ./220-inkscape-package.sh
+
+    - name: create disk image
+      run: ./230-inkscape-distrib.sh
+
+    ### post-build ##############################################################
+
+    - name: move disk image to workspace
+      run:  |
+            source 020-vars.sh
+            mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
+
+    - name: uninstall toolset
+      run: ./uninstall_toolset.sh
+
+    # Undo what we did before, GitHub actions may depend on these.
+    - name: re-enable /usr/local
+      run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
+
+    ### artifact ###############################################################
+
+    - name: upload Inkscape disk image
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inkscape disk image
+        path: ${{ github.workspace }}/Inkscape.dmg
