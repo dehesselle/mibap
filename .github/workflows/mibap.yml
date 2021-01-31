@@ -2,7 +2,7 @@
 #
 # This file is part of https://github.com/dehesselle/mibap
 
-name: build
+name: mibap
 on: push
 
 jobs:

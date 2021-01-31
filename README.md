@@ -1,6 +1,6 @@
 # **m**acOS **I**nkscape **b**uild **a**nd **p**ackage
 
-![build](https://github.com/dehesselle/mibap/workflows/build/badge.svg)
+![build](https://github.com/dehesselle/mibap/workflows/mibap/badge.svg)
 
 This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. That means updates happen here more frequently and in smaller steps than what is pushed (in accumulated/squashed form) to Inkscape's sources ([packaging/macos](https://gitlab.com/inkscape/inkscape/-/tree/master/packaging/macos)).
 
