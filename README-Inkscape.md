@@ -28,7 +28,7 @@ Building Inkscape is a two-step process:
 
 - There are __version recommendations__.
   - macOS Catalina 10.15.7
-  - Xcode 12.4
+  - Xcode 12.3
   - OS X El Capitan 10.11 SDK (from Xcode 7.3.1)
 
 - An __internet connection__ for all the downloads.

@@ -1,5 +1,7 @@
 # **m**acOS **I**nkscape **b**uild **a**nd **p**ackage
 
+![build](https://github.com/dehesselle/mibap/workflows/build/badge.svg)
+
 This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. That means updates happen here more frequently and in smaller steps than what is pushed (in accumulated/squashed form) to Inkscape's sources ([packaging/macos](https://gitlab.com/inkscape/inkscape/-/tree/master/packaging/macos)).
 
 The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild) in conjunction with our own custom moduleset based off [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx). If you have never heard about these two, take a look at [GTK's documentation](https://www.gtk.org/docs/installations/macos/); it is important to understand that this is neither Homebrew nor MacPorts. But don't worry, everything has been automated to the point that you only have to run shell scripts.
@@ -28,7 +30,7 @@ Building Inkscape is a two-step process:
 
 - There are __version recommendations__.
   - macOS Catalina 10.15.7
-  - Xcode 12.4
+  - Xcode 12.3
   - OS X El Capitan 10.11 SDK (from Xcode 7.3.1)
 
 - An __internet connection__ for all the downloads.
