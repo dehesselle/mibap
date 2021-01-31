@@ -66,19 +66,19 @@ jobs:
       run: ./110-sysprep.sh
 
     - name: install JHBuild
-      run: ./120-jhbuild-install.sh
+      run: ./120-jhbuild_install.sh
 
     - name: bootstrap JHBuild
-      run: ./130-jhbuild-bootstrap.sh
+      run: ./130-jhbuild_bootstrap.sh
 
     - name: build GTK3 stack
-      run: ./140-jhbuild-gtk3.sh
+      run: ./140-jhbuild_gtk3.sh
 
     - name: build Inkscape dependencies
-      run: ./150-jhbuild-inkdeps.sh
+      run: ./150-jhbuild_inkdeps.sh
 
     - name: install additional components
-      run: ./160-jhbuild-other.sh
+      run: ./160-jhbuild_other.sh
 
     ### post-build ##############################################################
 
@@ -176,13 +176,13 @@ jobs:
     ### build ##################################################################
 
     - name: compile Inkscape
-      run: ./210-inkscape-build.sh
+      run: ./210-inkscape_build.sh
 
     - name: create application bundle
-      run: ./220-inkscape-package.sh
+      run: ./220-inkscape_package.sh
 
     - name: create disk image
-      run: ./230-inkscape-distrib.sh
+      run: ./230-inkscape_distrib.sh
 
     ### post-build ##############################################################
 

@@ -3,9 +3,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 150-jhbuild-inkdeps.sh ###
-# Install additional dependencies into our jhbuild environment required for
-# building Inkscape.
+# ### 150-jhbuild_inkdeps.sh ###
+# Install Inkscape dependencies (besides GTK3).
 
 ### settings and functions #####################################################
 

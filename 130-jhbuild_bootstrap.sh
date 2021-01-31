@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 130-jhbuild-bootstrap.sh ###
+# ### 130-jhbuild_bootstrap.sh ###
 # Bootstrap the JHBuild environment.
 
 ### settings and functions #####################################################

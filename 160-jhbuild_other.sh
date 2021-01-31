@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 160-jhbuild-other.sh ###
+# ### 160-jhbuild_other.sh ###
 # Install additional components that are not direct dependencies, like tools
 # required for packaging.
 
@@ -37,7 +37,3 @@ ln -s $(pwd)/png2icns.sh $BIN_DIR
 # This will be bundled with the application.
 
 download_url $PY3_URL $PKG_DIR
-
-################################################################################
-
-# vim: expandtab:shiftwidth=2:tabstop=2:softtabstop=2 :

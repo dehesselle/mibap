@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 140-jhbuild-gtk3.sh ###
+# ### 140-jhbuild_gtk3.sh ###
 # Install GTK3 libraries.
 
 ### settings and functions #####################################################

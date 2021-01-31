@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 120-jhbuild-install.sh ###
+# ### 120-jhbuild_install.sh ###
 # Install and configure JHBuild.
 
 ### settings and functions #####################################################

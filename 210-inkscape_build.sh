@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 210-inkscape-build.sh ###
+# ### 210-inkscape_build.sh ###
 # Build Inscape.
 
 ### settings and functions #####################################################

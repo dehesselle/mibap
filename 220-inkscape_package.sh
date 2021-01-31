@@ -3,7 +3,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 220-inkscape-package.sh ###
+# ### 220-inkscape_package.sh ###
 # Create Inkscape application bundle.
 
 ### settings and functions #####################################################
@@ -20,7 +20,7 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 mkdir -p $ARTIFACT_DIR
 
-( # use subshell to fence temporary variables
+( # fence scope
 
   BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
   mkdir -p $BUILD_DIR
@@ -57,7 +57,7 @@ lib_change_path \
 
 lib_change_siblings $APP_LIB_DIR
 
-( # use subshell to fence temporary variables
+( # fence scope
 
   PLIST=$APP_CON_DIR/Info.plist
   IV=$(get_inkscape_version)
@@ -75,7 +75,8 @@ lib_change_siblings $APP_LIB_DIR
 
 # svg to png
 
-(
+( # fence scope
+
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
   jhbuild run cairosvg -f png -s 1 -o $SRC_DIR/inkscape.png \
     $INK_DIR/share/branding/inkscape-mac.svg

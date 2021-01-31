@@ -3,8 +3,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 230-inkscape-distrib.sh ###
-# Get application ready for distribution.
+# ### 230-inkscape_distrib.sh ###
+# Create Inkscape disk image for distribution.
 
 ### settings and functions #####################################################
 
