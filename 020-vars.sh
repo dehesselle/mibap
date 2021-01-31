@@ -55,12 +55,13 @@ SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
 
 ### directories: work ##########################################################
 
-# This is the main directory where all the action takes place below.
+# This is the main directory where all the action takes place below. The
+# default, being directly below /Users/Shared, is guaranteed user-writable
+# and present on every macOS system.
 
-# Allow this to be overridable or use the default.
-# The default is below /Users/Shared as this is a guaranteed writable location
-# that is present on every macOS installation.
-[ -z $WRK_DIR ] && WRK_DIR=/Users/Shared/work || true
+if [ -z $WRK_DIR ]; then
+  WRK_DIR=/Users/Shared/work
+fi
 
 ### directories: FSH-like tree below version number ############################
 
@@ -95,8 +96,7 @@ export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
 ### directories: application bundle layout #####################################
 
-# parent directory of the application bundle
-ARTIFACT_DIR=$VER_DIR/artifacts
+ARTIFACT_DIR=$VER_DIR/artifacts   # parent directory for application bundle
 
 APP_DIR=$ARTIFACT_DIR/Inkscape.app
 APP_CON_DIR=$APP_DIR/Contents
