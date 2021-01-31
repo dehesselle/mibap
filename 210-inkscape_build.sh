@@ -26,12 +26,12 @@ if [ -z $CI_JOB_ID ]; then   # running standalone
   git clone --recurse-submodules --depth 10 $INK_URL $INK_DIR
 fi
 
-if [ -d $INK_BUILD_DIR ]; then   # cleanup previous run
-  rm -rf $INK_BUILD_DIR
+if [ -d $INK_BLD_DIR ]; then   # cleanup previous run
+  rm -rf $INK_BLD_DIR
 fi
 
-mkdir -p $INK_BUILD_DIR
-cd $INK_BUILD_DIR
+mkdir -p $INK_BLD_DIR
+cd $INK_BLD_DIR
 
 cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \

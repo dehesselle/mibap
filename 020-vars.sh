@@ -109,18 +109,19 @@ APP_LIB_DIR=$APP_RES_DIR/lib
 
 ### directories: Inkscape source and build #####################################
 
-# Location differs between running standalone and GitLab CI job.
+# Location differs between running as standalone/GitHub CI and GitLab CI job.
 if [ -z $CI_JOB_ID ]; then
   INK_DIR=$SRC_DIR/inkscape
 else
-  INK_DIR=$SELF_DIR/../..   # SELF_DIR needs to be set by the sourcing script
-  INK_DIR=$(cd $INK_DIR; pwd -P)   # make path canoncial
+  INK_DIR=$(echo $SELF_DIR/../..)   # also make path canoncial
 fi
 
-INK_BUILD_DIR=$BLD_DIR/$(basename $INK_DIR)
+INK_BLD_DIR=$BLD_DIR/$(basename $INK_DIR)
 
-# Inkscapge Git repo (for standalone/non-CI builds)
-INK_URL=https://gitlab.com/inkscape/inkscape
+# Inkscapge Git repository (used in standalone and GitHub CI builds)
+if [ -z $INK_URL ]; then
+  INK_URL=https://gitlab.com/inkscape/inkscape
+fi
 
 ### directories: set path ######################################################
 
