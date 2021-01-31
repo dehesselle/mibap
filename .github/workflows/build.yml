@@ -35,9 +35,7 @@ jobs:
       with:
         path: ${{ env.CCACHE_DIR }}
         key: ccache-toolset-${{ steps.time.outputs.time }}
-        restore-keys: |
-                      ccache-toolset-
-                      ccache-
+        restore-keys: ccache-toolset-
 
     # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
     # no official public download available from Apple and I don't trust 3rd
