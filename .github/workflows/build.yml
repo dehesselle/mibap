@@ -107,7 +107,7 @@ jobs:
     - name: upload archive
       uses: actions/upload-artifact@v2
       with:
-        name: Inkscape build toolset
+        name: Inkscape_build_toolset
         path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg
 
 ################################################################################
@@ -159,7 +159,7 @@ jobs:
     - name: download toolset
       uses: actions/download-artifact@v2
       with:
-        name: Inkscape build toolset
+        name: Inkscape_build_toolset
         path: ${{ env.WRK_DIR }}/repo
 
     # GitHub does not provide a clean macOS installation. We need to move the
@@ -203,5 +203,5 @@ jobs:
     - name: upload Inkscape disk image
       uses: actions/upload-artifact@v2
       with:
-        name: Inkscape disk image
+        name: Inkscape_dmg
         path: ${{ github.workspace }}/Inkscape.dmg
