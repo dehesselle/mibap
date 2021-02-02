@@ -33,11 +33,10 @@ done
 
 configure_ccache $CCACHE_SIZE  # create directory and config file
 
-### log build-relevant versions ################################################
+### log relevant versions to release.log #######################################
 
 mkdir -p $VAR_DIR/log
-echo $MACOS_VER   > $VAR_DIR/log/MACOS_VER.log
-echo $SDK_VER     > $VAR_DIR/log/SDK_VER.log
-echo $TOOLSET_VER > $VAR_DIR/log/TOOLSET_VER.log
-echo $WRK_DIR     > $VAR_DIR/log/WRK_DIR.log
-echo $XCODE_VER   > $VAR_DIR/log/XCODE_VER.log
+
+for var in MACOS_VER SDK_VER TOOLSET_VER WRK_DIR XCODE_VER; do
+  echo "$var = $(eval echo \$$var)" >> $VAR_DIR/log/release.log
+done

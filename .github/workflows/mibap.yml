@@ -205,3 +205,67 @@ jobs:
       with:
         name: Inkscape_dmg
         path: ${{ github.workspace }}/Inkscape.dmg
+
+################################################################################
+
+  release:
+    runs-on: macos-10.15
+    needs: [toolset, inkscape]
+    if: startsWith(github.ref, 'refs/tags/v')
+    env:
+      WRK_DIR: /Users/Shared/work
+    steps:
+
+    ### prepare ################################################################
+
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: download toolset
+      uses: actions/download-artifact@v2
+      with:
+        name: Inkscape_build_toolset
+
+    - name: get toolset version
+      id: toolset
+      run:  |
+            source 020-vars.sh
+            echo "::set-output name=version::$TOOLSET_VER"
+
+    - name: install toolset
+      run: ./install_toolset.sh
+
+    - name: read release log
+      id: release_log
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ${{ env.WRK_DIR }}/${{ steps.toolset.outputs.version }}/var/log/release.log
+
+    - name: uninstall toolset
+      run: ./uninstall_toolset.sh
+
+    ### release ################################################################
+
+    - name: create release
+      id: release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Inkscape build toolset ${{ github.ref }}
+        draft: true
+        prerelease: false
+        body: ${{ steps.release_log.outputs.content }}
+
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: mibap_${{ github.ref }}_stripped.dmg
+        asset_name: mibap_${{ github.ref }}_stripped.dmg
+        asset_content_type: application/octet-stream
