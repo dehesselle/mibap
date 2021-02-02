@@ -17,19 +17,27 @@ echo_i "VER_DIR = $VER_DIR"
 
 ### create directories #########################################################
 
-for dir in $VER_DIR $TMP_DIR $HOME; do
-  mkdir -p $dir
-done
+# The following directories have been redirected so we need to create them.
+
+mkdir -p $HOME
+mkdir -p $TMP_DIR
 
 ### install ccache #############################################################
 
 install_source $CCACHE_URL
 configure_make_makeinstall
 
-cd $BIN_DIR
-ln -s ccache clang
-ln -s ccache clang++
-ln -s ccache gcc
-ln -s ccache g++
+for compiler in clang clang++ gcc g++; do
+  ln -s ccache $BIN_DIR/$compiler
+done
 
 configure_ccache $CCACHE_SIZE  # create directory and config file
+
+### log build-relevant versions ################################################
+
+mkdir -p $VAR_DIR/log
+echo $MACOS_VER   > $VAR_DIR/log/MACOS_VER.log
+echo $SDK_VER     > $VAR_DIR/log/SDK_VER.log
+echo $TOOLSET_VER > $VAR_DIR/log/TOOLSET_VER.log
+echo $WRK_DIR     > $VAR_DIR/log/WRK_DIR.log
+echo $XCODE_VER   > $VAR_DIR/log/XCODE_VER.log
