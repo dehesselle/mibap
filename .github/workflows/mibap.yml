@@ -100,7 +100,9 @@ jobs:
       run:  |
             source 020-vars.sh
             cd $WRK_DIR
-            hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" $WRK_DIR/mibap_v${TOOLSET_VER}_stripped.dmg
+            hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" mibap_v${TOOLSET_VER}_stripped.dmg
+            shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
+            cat $(echo mibap*.sha256)
             echo "::set-output name=version::$TOOLSET_VER"
       shell: bash
 
@@ -109,6 +111,12 @@ jobs:
       with:
         name: Inkscape_build_toolset
         path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg
+
+    - name: upload archive checksum
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inkscape_build_toolset.sha256
+        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg.sha256
 
 ################################################################################
 
@@ -269,3 +277,13 @@ jobs:
         asset_path: mibap_${{ github.ref }}_stripped.dmg
         asset_name: mibap_${{ github.ref }}_stripped.dmg
         asset_content_type: application/octet-stream
+
+    - name: upload release asset checksum
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: mibap_${{ github.ref }}_stripped.dmg.sha256
+        asset_name: mibap_${{ github.ref }}_stripped.dmg.sha256
+        asset_content_type: text/plain
