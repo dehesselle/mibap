@@ -48,18 +48,18 @@ jobs:
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
       if: env.SDK_DOWNLOAD_URL != null
-      run:  |
-            mkdir -p $WRK_DIR
-            curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
-            echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+      run: |
+        mkdir -p $WRK_DIR
+        curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+        echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
     # Download the toolset from official upstream (and not from whereever
     # we're currently running).
     - name: download toolset
-      run:  |
-            source 020-vars.sh
-            mkdir -p $TOOLSET_REPO_DIR
-            curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) $TOOLSET_URL
+      run: |
+        source 020-vars.sh
+        mkdir -p $TOOLSET_REPO_DIR
+        curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) $TOOLSET_URL
 
     # We (ab)use a repository secret to allow passing a custom URL to the
     # workflow. This way you can use this build machinery to compile your fork
@@ -74,9 +74,9 @@ jobs:
     # pre-installed components out of the way so we don't pick them up by
     # accident.
     - name: disable /usr/local
-      run:  |
-            cd /usr/local
-            for dir in include lib share; do sudo mv $dir $dir.disabled; done
+      run: |
+        cd /usr/local
+        for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
     - name: install toolset
       run: ./install_toolset.sh
@@ -95,9 +95,9 @@ jobs:
     ### post-build ##############################################################
 
     - name: move disk image to workspace
-      run:  |
-            source 020-vars.sh
-            mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
+      run: |
+        source 020-vars.sh
+        mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
 
     - name: uninstall toolset
       run: ./uninstall_toolset.sh

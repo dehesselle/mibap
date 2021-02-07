@@ -47,18 +47,18 @@ jobs:
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
       if: env.SDK_DOWNLOAD_URL != null
-      run:  |
-            mkdir -p $WRK_DIR
-            curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
-            echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+      run: |
+        mkdir -p $WRK_DIR
+        curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+        echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
     # GitHub does not provide a clean macOS installation. We need to move the
     # pre-installed components out of the way so we don't pick them up by
     # accident.
     - name: disable /usr/local
-      run:  |
-            cd /usr/local
-            for dir in include lib share; do sudo mv $dir $dir.disabled; done
+      run: |
+        cd /usr/local
+        for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
     ### build ##################################################################
 
@@ -88,22 +88,22 @@ jobs:
 
     # Remove files to push the archive below 2 GiB.
     - name: strip toolset
-      run:  |
-            source 020-vars.sh
-            rm -rf $BLD_DIR/*
-            find $SRC_DIR -mindepth 1 -maxdepth 1 -type d ! -name 'gtk-mac-bundler*' -a ! -name 'jhbuild*' -a ! -name 'png2icns*' -exec rm -rf {} \;
+      run: |
+        source 020-vars.sh
+        rm -rf $BLD_DIR/*
+        find $SRC_DIR -mindepth 1 -maxdepth 1 -type d ! -name 'gtk-mac-bundler*' -a ! -name 'jhbuild*' -a ! -name 'png2icns*' -exec rm -rf {} \;
 
     ### artifact ###############################################################
 
     - name: create archive
       id: archive
-      run:  |
-            source 020-vars.sh
-            cd $WRK_DIR
-            hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" mibap_v${TOOLSET_VER}_stripped.dmg
-            shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
-            cat $(echo mibap*.sha256)
-            echo "::set-output name=version::$TOOLSET_VER"
+      run: |
+        source 020-vars.sh
+        cd $WRK_DIR
+        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" mibap_v${TOOLSET_VER}_stripped.dmg
+        shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
+        cat $(echo mibap*.sha256)
+        echo "::set-output name=version::$TOOLSET_VER"
       shell: bash
 
     - name: upload archive
@@ -159,10 +159,10 @@ jobs:
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
       if: env.SDK_DOWNLOAD_URL != null
-      run:  |
-            mkdir -p $WRK_DIR
-            curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
-            echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+      run: |
+        mkdir -p $WRK_DIR
+        curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+        echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
     - name: download toolset
       uses: actions/download-artifact@v2
@@ -174,9 +174,9 @@ jobs:
     # pre-installed components out of the way so we don't pick them up by
     # accident.
     - name: disable /usr/local
-      run:  |
-            cd /usr/local
-            for dir in include lib share; do sudo mv $dir $dir.disabled; done
+      run: |
+        cd /usr/local
+        for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
     - name: install toolset
       run: ./install_toolset.sh
@@ -195,9 +195,9 @@ jobs:
     ### post-build ##############################################################
 
     - name: move disk image to workspace
-      run:  |
-            source 020-vars.sh
-            mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
+      run: |
+        source 020-vars.sh
+        mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
 
     - name: uninstall toolset
       run: ./uninstall_toolset.sh
@@ -238,9 +238,9 @@ jobs:
 
     - name: get toolset version
       id: toolset
-      run:  |
-            source 020-vars.sh
-            echo "::set-output name=version::$TOOLSET_VER"
+      run: |
+        source 020-vars.sh
+        echo "::set-output name=version::$TOOLSET_VER"
 
     - name: install toolset
       run: ./install_toolset.sh
