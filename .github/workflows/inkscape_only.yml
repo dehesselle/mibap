@@ -11,7 +11,6 @@ jobs:
 
   inkscape:
     runs-on: macos-10.15
-    needs: toolset
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache
@@ -59,7 +58,7 @@ jobs:
       run: |
         source 020-vars.sh
         mkdir -p $TOOLSET_REPO_DIR
-        curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) $TOOLSET_URL
+        curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) -L $TOOLSET_URL
 
     # We (ab)use a repository secret to allow passing a custom URL to the
     # workflow. This way you can use this build machinery to compile your fork

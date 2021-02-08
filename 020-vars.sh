@@ -22,6 +22,8 @@ v$TOOLSET_VER/mibap_v${TOOLSET_VER}_stripped.dmg
 
 TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
+TOOLSET_REPO_DIR=$WRK_DIR/repo  # where toolset dmg are downloaded and kept
+
 ### target OS version ##########################################################
 
 # The recommended build setup as defined in "*_VER_RECOMMENDED" below.
