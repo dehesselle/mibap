@@ -235,6 +235,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: Inkscape_build_toolset
+        path: ${{ env.WRK_DIR }}/repo
+
+    - name: download toolset checksum
+      uses: actions/download-artifact@v2
+      with:
+        name: Inkscape_build_toolset.sha256
+        path: ${{ env.WRK_DIR }}/repo
 
     - name: get toolset version
       id: toolset
@@ -274,8 +281,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: mibap_${{ github.ref }}_stripped.dmg
-        asset_name: mibap_${{ github.ref }}_stripped.dmg
+        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg
+        asset_name: mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg
         asset_content_type: application/octet-stream
 
     - name: upload release asset checksum
@@ -284,6 +291,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: mibap_${{ github.ref }}_stripped.dmg.sha256
-        asset_name: mibap_${{ github.ref }}_stripped.dmg.sha256
+        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg.sha256
+        asset_name: mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg.sha256
         asset_content_type: text/plain
