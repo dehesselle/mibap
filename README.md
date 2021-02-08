@@ -12,23 +12,23 @@ Building Inkscape is a two-step process:
 
 1. Setup a build environment with all the dependencies ("toolset"). There are two options:
 
-   a. Build everything from scratch. This encompasses _a lot_ of libraries and helper tools, therefore this is time consuming and can be error-prone if you don't stick to the requirements/recommendations.
+   a. Build everything from scratch. This encompasses _a lot_ of libraries and helper tools, therefore this is time consuming and can be error-prone if you don't stick to the recommendations.
 
    __or__
 
-   b. Use a precompiled version of the toolset. Comparatively quick and painless, this will download and mount a disk image.
+   b. Use a precompiled version of the toolset. You can practically fast forward to the next step.
 
-1. Build Inkscape.  
-   You can get from source code to disk image in under 5 minutes.
+1. Build Inkscape.
 
-### Requirements
+### Prerequisites
 
 - A __clean environment__ is key.
-  - Make sure there are no remnants from other build environments (e.g. Homebrew, MacPorts, Fink) on your system.
+  - Software and libraries installed via package managers (e.g. Homebrew, MacPorts, Fink) can cause problems depending on their installation directory.
     - Rule of thumb: clear out `/usr/local`.
-  - Use a dedicated user account to avoid any interference with the environment (e.g. no custom settings in `.profile`, `.bashrc`, etc.).
+  - Use a dedicated user account to avoid any interference with the environment.
+    - Rule of thumb: no customizations in dotfiles like `.profile`, `.bashrc` etc.
 
-- There are __version recommendations__.
+- There are __version recommendations__ based on a known working setup.
   - macOS Catalina 10.15.7
   - Xcode 12.3
   - OS X El Capitan 10.11 SDK (from Xcode 7.3.1)
@@ -96,7 +96,7 @@ Time for ☕, this will take a while!
 
    The mounted volumes won't show up in Finder but you can see them using `diskutil list`.
 
-   _Once you're done compiling Inkscape, use `uninstall_toolset.sh` to eject them. This does not delete the contents of `/Users/Shared/work/repo`._
+   Once you're done building Inkscape, use `uninstall_toolset.sh` to eject them. This does not delete the contents of `/Users/Shared/work/repo`.
 
 ### step 2: build Inkscape
 
@@ -114,6 +114,7 @@ Time for ☕, this will take a while!
 ## GitHub CI
 
 Under investigation - GitHub hosted runners do not provide a clean environment as per the requirements above.
+
 ## known issues
 
 Besides what you may find in the issue tracker:
