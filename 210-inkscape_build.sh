@@ -16,9 +16,15 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### ccache configuration #######################################################
+### configure ccache ###########################################################
 
 configure_ccache $CCACHE_SIZE  # create directory and config file
+
+### configure JHBuild ##########################################################
+
+# This allows compiling Inkscape with a different setup than the toolset.
+
+configure_jhbuild
 
 ### build Inkscape #############################################################
 
