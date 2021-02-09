@@ -40,7 +40,7 @@ SDK_VER_RECOMMENDED=10.11
 XCODE_VER=$(xcodebuild -version | grep Xcode | awk '{ print $2 }')
 XCODE_VER_RECOMMENDED=12.3
 
-MACOS_VER=$(sw_vers | grep ProductVersion | awk '{ print $2 }')
+MACOS_VER=$(sw_vers -productVersion)
 MACOS_VER_RECOMMENDED=10.15.7
 
 ### multithreading #############################################################
