@@ -22,7 +22,7 @@ v$TOOLSET_VER/mibap_v${TOOLSET_VER}_stripped.dmg
 
 TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
-TOOLSET_REPO_DIR=$WRK_DIR/repo  # where toolset dmg are downloaded and kept
+TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded and kept
 
 ### target OS version ##########################################################
 
@@ -248,3 +248,9 @@ ninja-mac.zip
 PNG2ICNS_VER=0.1
 PNG2ICNS_URL=https://github.com/bitboss-ca/png2icns/archive/\
 v$PNG2ICNS_VER.tar.gz
+
+### deferred expansion #########################################################
+
+# To keep order in the sections above, some variables need deferred expansion.
+
+TOOLSET_REPO_DIR=$(eval echo $TOOLSET_REPO_DIR)
