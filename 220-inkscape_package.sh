@@ -20,7 +20,7 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 mkdir -p $ARTIFACT_DIR
 
-( # fence scope
+( # run gtk-mac-bundler
 
   BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
   mkdir -p $BUILD_DIR
@@ -35,7 +35,6 @@ mkdir -p $ARTIFACT_DIR
 
 # Rename to get from lowercase to capitalized "i". This works only on
 # case-insensitive filesystems (default on macOS).
-
 mv $APP_DIR $APP_DIR.tmp
 mv $APP_DIR.tmp $APP_DIR
 
@@ -57,7 +56,7 @@ lib_change_path \
 
 lib_change_siblings $APP_LIB_DIR
 
-( # fence scope
+( # update version numbers in property list
 
   PLIST=$APP_CON_DIR/Info.plist
   IV=$(get_inkscape_version)
@@ -73,9 +72,7 @@ lib_change_siblings $APP_LIB_DIR
 
 ### generate application icon ##################################################
 
-# svg to png
-
-( # fence scope
+( # svg to png
 
   export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
   jhbuild run cairosvg -f png -s 1 -o $SRC_DIR/inkscape.png \
@@ -83,7 +80,6 @@ lib_change_siblings $APP_LIB_DIR
 )
 
 # png to icns
-
 cd $SRC_DIR   # png2icns.sh outputs to current directory
 png2icns.sh inkscape.png
 mv inkscape.icns $APP_RES_DIR
