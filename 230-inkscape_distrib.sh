@@ -21,7 +21,6 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 # Create background for development snapshots. This is not meant for
 # official releases, those will be re-packaged manually (they also need
 # to be signed and notarized).
-
 convert -size 560x400 xc:transparent \
   -font Andale-Mono -pointsize 64 -fill black \
   -draw "text 20,60 'Inkscape'" \
@@ -32,17 +31,17 @@ convert -size 560x400 xc:transparent \
   $SRC_DIR/inkscape_dmg.png
 
 # create the disk image
-
 cp $SELF_DIR/inkscape_dmg.py $SRC_DIR
-
 create_dmg $ARTIFACT_DIR/Inkscape.app $TMP_DIR/Inkscape.dmg $SRC_DIR/inkscape_dmg.py
-
 rm -rf $APP_DIR
 mv $TMP_DIR/Inkscape.dmg $ARTIFACT_DIR
 
 # CI: move disk image to a location accessible for the runner
+if $CI_GITLAB; then
+  # Cleanup required for non-ephemeral/persistent runners.
+  if [ -d $INK_DIR/artifacts ]; then
+    rm -rf $INK_DIR/artifacts
+  fi
 
-if [ ! -z $CI_JOB_ID ]; then
-  [ -d $INK_DIR/artifacts ] && rm -rf $INK_DIR/artifacts
   mv $ARTIFACT_DIR $INK_DIR/artifacts
 fi

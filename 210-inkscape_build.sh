@@ -28,12 +28,19 @@ configure_jhbuild
 
 ### build Inkscape #############################################################
 
-if [ -z $CI_JOB_ID ]; then   # running standalone
-  git clone --recurse-submodules --depth 10 $INK_URL $INK_DIR
-fi
+if ! $CI_GITLAB; then     # not running GitLab CI
+  git clone \
+    --branch $INK_BRANCH \
+    --depth 10 \
+    --recurse-submodules \
+    --single-branch \
+    $INK_URL $INK_DIR
 
-if [ -d $INK_BLD_DIR ]; then   # cleanup previous run
-  rm -rf $INK_BLD_DIR
+  # When running locally, we make sure to always produce clean builds,
+  # even when being run consecutively.
+  if ! $CI && [ -d $INK_BLD_DIR ]; then   # Do we need to clean up?
+    rm -rf $INK_BLD_DIR
+  fi
 fi
 
 mkdir -p $INK_BLD_DIR

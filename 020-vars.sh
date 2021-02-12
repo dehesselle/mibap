@@ -47,6 +47,16 @@ MACOS_VER_RECOMMENDED=10.15.7
 
 export MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
 
+### detect CI ##################################################################6
+
+# A variable named 'CI' is being set by both GitLab and GitHub.
+
+if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
+  CI_GITLAB=true
+else
+  CI_GITLAB=false
+fi
+
 ### directories: self ##########################################################
 
 # The fully qualified directory name in canonicalized form.
@@ -111,19 +121,22 @@ APP_LIB_DIR=$APP_RES_DIR/lib
 
 ### directories: Inkscape source and build #####################################
 
-# Location differs between running as standalone/GitHub CI and GitLab CI job.
-if [ -z $CI_JOB_ID ]; then
+if $CI_GITLAB; then   # running GitLab CI
+  INK_DIR=$(echo $SELF_DIR/../..)
+else                  # not running GitLab CI
   INK_DIR=$SRC_DIR/inkscape
-else
-  INK_DIR=$(echo $SELF_DIR/../..)   # also make path canoncial
+
+  # Allow using a custom Inkscape repository and branch.
+  if [ -z $INK_URL ]; then
+    INK_URL=https://gitlab.com/inkscape/inkscape
+
+    if [ -z $INK_BRANCH ]; then
+      INK_BRANCH=master
+    fi
+  fi
 fi
 
 INK_BLD_DIR=$BLD_DIR/$(basename $INK_DIR)
-
-# Inkscapge Git repository (used in standalone and GitHub CI builds)
-if [ -z $INK_URL ]; then
-  INK_URL=https://gitlab.com/inkscape/inkscape
-fi
 
 ### directories: set path ######################################################
 

@@ -43,8 +43,8 @@ function configure_jhbuild
   # user home directory
   echo "os.environ[\"HOME\"] = \"$HOME\"" >> $JHBUILDRC_CUSTOM
 
-  # less noise on the terminal (but breaks on GitHub CI)
-  if [ -z $CI ]; then
+  # less noise on the terminal if not CI
+  if ! $CI; then
     echo "quiet_mode = True"   >> $JHBUILDRC_CUSTOM
     echo "progress_bar = True" >> $JHBUILDRC_CUSTOM
   fi
