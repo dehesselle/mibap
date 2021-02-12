@@ -29,16 +29,26 @@ configure_jhbuild
 ### build Inkscape #############################################################
 
 if ! $CI_GITLAB; then     # not running GitLab CI
-  git clone \
-    --branch $INK_BRANCH \
-    --depth 10 \
-    --recurse-submodules \
-    --single-branch \
-    $INK_URL $INK_DIR
 
-  # When running locally, we make sure to always produce clean builds,
-  # even when being run consecutively.
-  if ! $CI && [ -d $INK_BLD_DIR ]; then   # Do we need to clean up?
+  if [ -d $INK_DIR/.git ]; then   # Already cloned?
+    # Special treatment 1/2 for local builds: Leave it up to the
+    # user if they need a fresh clone. This way we enable makeing changes
+    # to the code and running the build again.
+    echo_w "using existing repository in $INK_DIR"
+    echo_w "Do 'rm -rf $INK_DIR' if you want a fresh clone."
+    sleep 5
+  else
+    git clone \
+      --branch $INK_BRANCH \
+      --depth 10 \
+      --recurse-submodules \
+      --single-branch \
+      $INK_URL $INK_DIR
+  fi
+
+  if ! $CI && [ -d $INK_BLD_DIR ]; then   # Running locally and build exists?
+    # Special treatment 2/2 for local builds: remove the build directory
+    # to ensure clean builds.
     rm -rf $INK_BLD_DIR
   fi
 fi
