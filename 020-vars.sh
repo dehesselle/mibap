@@ -133,10 +133,11 @@ else                  # not running GitLab CI
   # Allow using a custom Inkscape repository and branch.
   if [ -z $INK_URL ]; then
     INK_URL=https://gitlab.com/inkscape/inkscape
+  fi
 
-    if [ -z $INK_BRANCH ]; then
-      INK_BRANCH=master
-    fi
+  # Allow using a custom branch.
+  if [ -z $INK_BRANCH ]; then
+    INK_BRANCH=master
   fi
 fi
 
