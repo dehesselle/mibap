@@ -49,7 +49,11 @@ export MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
 
 ### detect CI ##################################################################6
 
-# A variable named 'CI' is being set by both GitLab and GitHub.
+if [ -z $CI ]; then   # Both GitHub and GitLab set this.
+  CI=false
+else
+  CI=true   # probably redundant, but for completeness sake
+fi
 
 if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
   CI_GITLAB=true
