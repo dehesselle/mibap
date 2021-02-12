@@ -241,7 +241,7 @@ CCACHE_SIZE=3.0G
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
-CCACHE_VER=3.7.11
+CCACHE_VER=3.7.12
 CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
 v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
 
