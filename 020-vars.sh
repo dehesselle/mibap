@@ -64,10 +64,9 @@ fi
 ### directories: self ##########################################################
 
 # The fully qualified directory name in canonicalized form.
+# (We do not have 'readlink -f' on macOS.)
 
-# The script magic here is is a replacement for GNU's "readlink -f".
-SELF_DIR=$(F=$0; while [ ! -z $(readlink $F) ] && F=$(readlink $F); \
-  cd $(dirname $F); F=$(basename $F); [ -L $F ]; do :; done; echo $(pwd -P))
+SELF_DIR=$(dirname $(python3 -c "import os; print(os.path.realpath('$0'))"))
 
 ### directories: work ##########################################################
 
