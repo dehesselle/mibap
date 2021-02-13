@@ -69,12 +69,12 @@ make tests
 ### patch Poppler library locations ############################################
 
 lib_change_path \
-  $LIB_DIR/libpoppler.105.dylib \
+  $LIB_DIR/libpoppler\\..+dylib \
   $BIN_DIR/inkscape \
   $LIB_DIR/inkscape/libinkscape_base.dylib
 
 lib_change_path \
-  $LIB_DIR/libpoppler-glib.8.dylib \
+  $LIB_DIR/libpoppler-glib\\..+dylib \
   $BIN_DIR/inkscape \
   $LIB_DIR/inkscape/libinkscape_base.dylib
 
