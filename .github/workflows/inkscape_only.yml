@@ -5,6 +5,11 @@
 name: inkscape_only
 on: workflow_dispatch
 
+# This workflow is not intended to build (or verify) the toolset but to
+# provide a convenient way of building Inkscape on macOS. By setting repository
+# INK_URL and INK_BRANCH you can instruct this workflow to build your custom
+# fork and branch of Inkscape without having to modify any files.
+
 jobs:
 
 ################################################################################
@@ -29,6 +34,7 @@ jobs:
       with:
         format: "YYYY-MM-DD-HH-mm-ss"
 
+    # Create a new cache, building ontop the most recent old one.
     - name: populate CCACHE_DIR
       id: cache
       uses: actions/cache@v2
@@ -68,6 +74,14 @@ jobs:
         INK_URL: ${{ secrets.INK_URL }}
       if: env.INK_URL != null
       run: echo "INK_URL=$INK_URL" >> $GITHUB_ENV
+
+    # We (ab)use a repository secret to allow passing a custom branch name to
+    # the workflow.
+    - name: use custom branch
+      env:
+        INK_BRANCH: ${{ secrets.INK_BRANCH }}
+      if: env.INK_BRANCH != null
+      run: echo "INK_BRANCH=$INK_BRANCH" >> $GITHUB_ENV
 
     # GitHub does not provide a clean macOS installation. We need to move the
     # pre-installed components out of the way so we don't pick them up by
