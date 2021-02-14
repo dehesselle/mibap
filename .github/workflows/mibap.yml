@@ -5,6 +5,23 @@
 name: mibap
 on: push
 
+# There are 3 jobs in this workflow:
+#
+#   - toolset
+#     Build the toolset that provides all the dependencies to build Inkscape.
+#     This is the main purpose of this workflow.
+#
+#   - inkscape
+#     Build Inkscape with the toolset from the previous job. This is intended
+#     as a test/verification to confirm the toolset's fitness to build Inkscape.
+#     (Proving that it produces an Inkscape that actually runs isn't covered
+#     by this. You need to download the artifact and test it manually.)
+#
+#   - release
+#     If the current commit is tagged with a version number (tag beginning
+#     with lower case "v"), create a release draft and upload the workflow
+#     artifacts.
+
 jobs:
 
 ################################################################################
@@ -29,6 +46,7 @@ jobs:
       with:
         format: "YYYY-MM-DD-HH-mm-ss"
 
+    # Create a new cache, building ontop the most recent old one.
     - name: populate CCACHE_DIR
       id: cache
       uses: actions/cache@v2
@@ -141,6 +159,7 @@ jobs:
       with:
         format: "YYYY-MM-DD-HH-mm-ss"
 
+    # Create a new cache, building ontop the most recent old one.
     - name: populate CCACHE_DIR
       id: cache
       uses: actions/cache@v2
