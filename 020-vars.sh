@@ -161,6 +161,11 @@ jhbuild-$JHBUILD_VER.tar.bz2
 
 ### Python #####################################################################
 
+# The Python version supplied by the system.
+PYTHON_SYS_VER=$(python3 -c \
+  "import sys; print('{0[0]}.{0[1]}'.format(sys.version_info))")
+PYTHON_SYS_VER_RECOMMENDED=3.8
+
 # Inkscape comes bundled with its own Python runtime to make the core
 # extensions work out-of-the-box.
 

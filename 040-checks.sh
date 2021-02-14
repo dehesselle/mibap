@@ -27,20 +27,27 @@ fi
 ### check SDK version ##########################################################
 
 if [ "$SDK_VER" != "$SDK_VER_RECOMMENDED" ]; then
-  echo_w "recommended   SDK version: $SDK_VER_RECOMMENDED"
-  echo_w "       your   SDK version: $SDK_VER"
+  echo_w "recommended    SDK version: $SDK_VER_RECOMMENDED"
+  echo_w "       your    SDK version: $SDK_VER"
 fi
 
 ### check Xcode version ########################################################
 
 if [ "$XCODE_VER" != "$XCODE_VER_RECOMMENDED" ]; then
-  echo_w "recommended Xcode version: $XCODE_VER_RECOMMENDED"
-  echo_w "       your Xcode version: $XCODE_VER"
+  echo_w "recommended  Xcode version: $XCODE_VER_RECOMMENDED"
+  echo_w "       your  Xcode version: $XCODE_VER"
 fi
 
 ### check macOS version ########################################################
 
 if [ "$MACOS_VER" != "$MACOS_VER_RECOMMENDED" ]; then
-  echo_w "recommended macOS version: $MACOS_VER_RECOMMENDED"
-  echo_w "       your macOS version: $MACOS_VER"
+  echo_w "recommended  macOS version: $MACOS_VER_RECOMMENDED"
+  echo_w "       your  macOS version: $MACOS_VER"
+fi
+
+### check Python version #######################################################
+
+if [ "$PYTHON_SYS_VER" != "$PYTHON_SYS_VER_RECOMMENDED" ]; then
+  echo_w "recommended Python version: $PYTHON_SYS_VER_RECOMMENDED"
+  echo_w "       your Python version: $PYTHON_SYS_VER"
 fi

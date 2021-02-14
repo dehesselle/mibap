@@ -18,10 +18,7 @@ error_trace_enable
 # Without this, JHBuild won't be able to access https links later because
 # Apple's Python won't be able to validate certificates.
 
-pip3 install \
-  --ignore-installed \
-  --target=$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages \
-  $PYTHON_CERTIFI
+pip3 install --ignore-installed --prefix $VER_DIR $PYTHON_CERTIFI
 
 ### install JHBuild ############################################################
 
@@ -30,9 +27,13 @@ JHBUILD_DIR=$(pwd)
 
 # Create 'jhbuild' executable. This code has been adapted from
 # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
-
+#
+# This file will use '/usr/bin/python3' instead of the environment lookup
+# '/usr/bin/env python3' because we want to stick with a version for
+# JHBuild regardless of what Python we install later (which would
+# replace that because of PATH within JHBuild environment).
 cat <<EOF > "$BIN_DIR/jhbuild"
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import sys

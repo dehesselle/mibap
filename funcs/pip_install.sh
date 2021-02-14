@@ -13,7 +13,7 @@ function pip_install
   export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
   pip$PY3_MAJOR install \
-    --prefix=$APP_RES_DIR \
+    --prefix $APP_RES_DIR \
     --ignore-installed \
     $options \
     $package
