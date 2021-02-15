@@ -58,8 +58,9 @@ jobs:
         curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
         echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
-    # Download the toolset from official upstream (and not from whereever
-    # we're currently running).
+    # Download for increased verbosity / to make this a dedicated step.
+    # (The 'install_toolset.sh' script below is capable of downloading the
+    # toolset itself.)
     - name: download toolset
       run: |
         source 020-vars.sh
