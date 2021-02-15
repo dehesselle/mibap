@@ -72,12 +72,10 @@ lib_change_siblings $APP_LIB_DIR
 
 ### generate application icon ##################################################
 
-( # svg to png
-
-  export DYLD_FALLBACK_LIBRARY_PATH=$LIB_DIR
-  jhbuild run cairosvg -f png -s 1 -o $SRC_DIR/inkscape.png \
-    $INK_DIR/share/branding/inkscape-mac.svg
-)
+# svg to png
+jhbuild run cairosvg -f png -s 1 \
+  -o $SRC_DIR/inkscape.png \
+  $INK_DIR/share/branding/inkscape-mac.svg
 
 # png to icns
 cd $SRC_DIR   # png2icns.sh outputs to current directory
