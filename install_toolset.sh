@@ -25,10 +25,10 @@ function install
   local toolset_dmg=$TOOLSET_REPO_DIR/$(basename $TOOLSET_URL)
 
   if [ -f $toolset_dmg ]; then
-    echo_i "no download required"
+    echo_i "toolset found: $toolset_dmg"
   else
     # File not present on disk, we need to download.
-    echo_i "download required"
+    echo_i "downloading: $TOOLSET_URL"
     download_url $TOOLSET_URL $TOOLSET_REPO_DIR
   fi
 
