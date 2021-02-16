@@ -12,7 +12,7 @@ function pip_install
   local PATH_ORIGINAL=$PATH
   export PATH=$APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
-  pip$PY3_MAJOR install \
+  pip$PYTHON_INK_VER_MAJOR install \
     --prefix $APP_RES_DIR \
     --ignore-installed \
     $options \

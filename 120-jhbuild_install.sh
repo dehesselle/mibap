@@ -13,14 +13,14 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 include_file error_.sh
 error_trace_enable
 
-### install Python certifi package #############################################
+#-- install Python certifi package ---------------------------------------------
 
 # Without this, JHBuild won't be able to access https links later because
 # Apple's Python won't be able to validate certificates.
 
 pip3 install --ignore-installed --prefix $VER_DIR $PYTHON_CERTIFI
 
-### install JHBuild ############################################################
+#-- install JHBuild ------------------------------------------------------------
 
 install_source $JHBUILD_URL
 JHBUILD_DIR=$(pwd)
@@ -56,6 +56,6 @@ EOF
 
 chmod 755 $BIN_DIR/jhbuild
 
-### configure JHBuild ##########################################################
+#-- configure JHBuild ----------------------------------------------------------
 
 configure_jhbuild

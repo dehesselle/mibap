@@ -12,7 +12,7 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
 set -e   # break if one of the called scripts ends in error
 
-### build toolset ##############################################################
+#-- build toolset --------------------------------------------------------------
 
 function build
 {
@@ -21,7 +21,7 @@ function build
   done
 }
 
-### remove some files ##########################################################
+#-- remove some files ----------------------------------------------------------
 
 # Our way of union-mounting a writable overlay ontop of a readonly filesystem
 # introduces the additional challenge that paths cannot be written to if the
@@ -35,7 +35,7 @@ function remove_files
   rm -rf $TMP_DIR/wheels
 }
 
-### main #######################################################################
+#-- main -----------------------------------------------------------------------
 
 build
 remove_files

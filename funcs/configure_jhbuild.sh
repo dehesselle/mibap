@@ -34,10 +34,10 @@ function configure_jhbuild
 
   # certificates for https
   echo "os.environ[\"SSL_CERT_FILE\"] = \
-  \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
+  \"$LIB_DIR/python$PYTHON_SYS_VER/site-packages/certifi/cacert.pem\"" \
     >> $JHBUILDRC_CUSTOM
   echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \
-  \"$LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/certifi/cacert.pem\"" \
+  \"$LIB_DIR/python$PYTHON_SYS_VER/site-packages/certifi/cacert.pem\"" \
     >> $JHBUILDRC_CUSTOM
 
   # user home directory

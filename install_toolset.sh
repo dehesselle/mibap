@@ -18,7 +18,7 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### install toolset ############################################################
+#-- install toolset ------------------------------------------------------------
 
 function install
 {
@@ -68,6 +68,6 @@ function install
   rm $WRK_DIR/create_dirs.sh
 }
 
-### main #######################################################################
+#-- main -----------------------------------------------------------------------
 
 install

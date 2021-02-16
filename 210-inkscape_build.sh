@@ -16,17 +16,21 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### configure ccache ###########################################################
+### variables ##################################################################
+
+INK_BLD_DIR=$BLD_DIR/$(basename $INK_DIR)
+
+#-- configure ccache -----------------------------------------------------------
 
 configure_ccache $CCACHE_SIZE  # create directory and config file
 
-### configure JHBuild ##########################################################
+#-- configure JHBuild ----------------------------------------------------------
 
 # This allows compiling Inkscape with a different setup than the toolset.
 
 configure_jhbuild
 
-### build Inkscape #############################################################
+#-- build Inkscape -------------------------------------------------------------
 
 if ! $CI_GITLAB; then     # not running GitLab CI
 
@@ -66,7 +70,7 @@ make
 make install
 make tests
 
-### patch Poppler library locations ############################################
+#-- patch Poppler library locations --------------------------------------------
 
 lib_change_path \
   $LIB_DIR/libpoppler\\..+dylib \
@@ -78,7 +82,7 @@ lib_change_path \
   $BIN_DIR/inkscape \
   $LIB_DIR/inkscape/libinkscape_base.dylib
 
-### patch OpenMP library locations #############################################
+#-- patch OpenMP library locations ---------------------------------------------
 
 lib_change_path \
   $LIB_DIR/libomp.dylib \

@@ -18,7 +18,7 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### uninstall toolset ##########################################################
+#-- uninstall toolset ----------------------------------------------------------
 
 function uninstall
 {
@@ -34,6 +34,6 @@ function uninstall
   done
 }
 
-### main #######################################################################
+#-- main -----------------------------------------------------------------------
 
 uninstall

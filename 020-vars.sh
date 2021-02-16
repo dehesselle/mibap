@@ -9,9 +9,7 @@
 # `0nn-custom.sh` file and put them there. All files named '0nn-*.sh' get
 # sourced in numerical order.
 
-[ -z $VARS_INCLUDED ] && VARS_INCLUDED=true || return   # include guard
-
-### this toolset ###############################################################
+#-- this toolset ---------------------------------------------------------------
 
 TOOLSET_VER=0.47   # main version number; root of our directory layout
 
@@ -24,7 +22,7 @@ TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
 TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded and kept
 
-### target OS version ##########################################################
+#-- target OS version ----------------------------------------------------------
 
 # The recommended build setup as defined in "*_VER_RECOMMENDED" below.
 
@@ -43,11 +41,11 @@ XCODE_VER_RECOMMENDED=12.3
 MACOS_VER=$(sw_vers -productVersion)
 MACOS_VER_RECOMMENDED=10.15.7
 
-### multithreading #############################################################
+#-- multithreading -------------------------------------------------------------
 
 export MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
 
-### detect CI ##################################################################6
+#-- detect CI ------------------------------------------------------------------
 
 if [ -z $CI ]; then   # Both GitHub and GitLab set this.
   CI=false
@@ -61,14 +59,14 @@ else
   CI_GITLAB=false
 fi
 
-### directories: self ##########################################################
+#-- directories: self ----------------------------------------------------------
 
 # The fully qualified directory name in canonicalized form.
 # (We do not have 'readlink -f' on macOS.)
 
 SELF_DIR=$(dirname $(python3 -c "import os; print(os.path.realpath('$0'))"))
 
-### directories: work ##########################################################
+#-- directories: work ----------------------------------------------------------
 
 # This is the main directory where all the action takes place below. The
 # default, being directly below /Users/Shared, is guaranteed user-writable
@@ -78,7 +76,7 @@ if [ -z $WRK_DIR ]; then
   WRK_DIR=/Users/Shared/work
 fi
 
-### directories: FSH-like tree below version number ############################
+#-- directories: FSH-like tree below version number ----------------------------
 
 VER_DIR=$WRK_DIR/$TOOLSET_VER
 BIN_DIR=$VER_DIR/bin
@@ -93,23 +91,23 @@ TMP_DIR=$VER_DIR/tmp
 
 export HOME=$VER_DIR/home   # yes, we redirect the user's home!
 
-### directories: temporary locations ###########################################
+#-- directories: temporary locations -------------------------------------------
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
 export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
 
-### directories: XDG ###########################################################
+#-- directories: XDG -----------------------------------------------------------
 
 export XDG_CACHE_HOME=$VAR_DIR/cache  # instead ~/.cache
 export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 
-### directories: pip ###########################################################
+#-- directories: pip -----------------------------------------------------------
 
 export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
 export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
-### directories: application bundle layout #####################################
+#-- directories: application bundle layout -------------------------------------
 
 ARTIFACT_DIR=$VER_DIR/artifacts   # parent directory for application bundle
 
@@ -122,7 +120,7 @@ APP_ETC_DIR=$APP_RES_DIR/etc
 APP_EXE_DIR=$APP_CON_DIR/MacOS
 APP_LIB_DIR=$APP_RES_DIR/lib
 
-### directories: Inkscape source and build #####################################
+#-- directories: Inkscape source and build -------------------------------------
 
 if $CI_GITLAB; then   # running GitLab CI
   INK_DIR=$(echo $SELF_DIR/../..)
@@ -140,13 +138,11 @@ else                  # not running GitLab CI
   fi
 fi
 
-INK_BLD_DIR=$BLD_DIR/$(basename $INK_DIR)
-
-### directories: set path ######################################################
+#-- directories: set path ------------------------------------------------------
 
 export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 
-### JHBuild ####################################################################
+#-- JHBuild --------------------------------------------------------------------
 
 # configuration files
 export JHBUILDRC=$ETC_DIR/jhbuildrc
@@ -159,30 +155,32 @@ JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
-### Python #####################################################################
+#-- Python ---------------------------------------------------------------------
 
-# The Python version supplied by the system.
+# The Python 3 version supplied by the system (technically: Xcode). Will be used
+# to run JHBuild and Meson, as these two are installed before we build
+# Python ourselves. There is no need to use "latest and greatest" here.
 PYTHON_SYS_VER=$(python3 -c \
   "import sys; print('{0[0]}.{0[1]}'.format(sys.version_info))")
 PYTHON_SYS_VER_RECOMMENDED=3.8
 
-# Inkscape comes bundled with its own Python runtime to make the core
-# extensions work out-of-the-box.
+# Inkscape will be bundled with its own (customized) Python 3 runtime to make
+# the core extensions work out-of-the-box. This is independent from the
+# Python running JHBuild (see PYTHON_SYS_xxx above) and also independent
+# from whatever Python version gets built during the various JHBuild steps.
+PYTHON_INK_VER_MAJOR=3
+PYTHON_INK_VER_MINOR=8
+PYTHON_INK_VER_PATCH=5
+PYTHON_INK_VER_BUILD=2
 
-PY3_MAJOR=3
-PY3_MINOR=8
-PY3_PATCH=5
-PY3_BUILD=2   # custom build, see URL section below
+PYTHON_INK_VER=$PYTHON_INK_VER_MAJOR.$PYTHON_INK_VER_MINOR
 
-# This is a relocatable Python.framework to be bundled with the app. Mind the
-# lowercase 'i' at the end of the URL, hinting at a "customized for Inkscape"
-# version of the framework.
 # https://github.com/dehesselle/py3framework
-PY3_URL=https://github.com/dehesselle/py3framework/releases/download/\
-py$PY3_MAJOR$PY3_MINOR$PY3_PATCH.$PY3_BUILD/\
-py$PY3_MAJOR$PY3_MINOR${PY3_PATCH}_framework_${PY3_BUILD}i.tar.xz
+PYTHON_INK_URL=https://github.com/dehesselle/py3framework/releases/download/\
+py${PYTHON_INK_VER/./}$PYTHON_INK_VER_PATCH.$PYTHON_INK_VER_BUILD/\
+py${PYTHON_INK_VER/./}${PYTHON_INK_VER_PATCH}_framework_${PYTHON_INK_VER_BUILD}i.tar.xz
 
-### Python: packages for Inkscape ##############################################
+#-- Python: packages for Inkscape ----------------------------------------------
 
 # The following Python packages are bundled with Inkscape.
 
@@ -193,8 +191,8 @@ PYTHON_CAIROCFFI=cairocffi==1.1.0
 # https://lxml.de
 # https://github.com/lxml/lxml
 # https://github.com/dehesselle/py3framework
-PYTHON_LXML=$(dirname $PY3_URL)/lxml-4.5.2-\
-cp$PY3_MAJOR$PY3_MINOR-cp$PY3_MAJOR$PY3_MINOR-macosx_10_9_x86_64.whl
+PYTHON_LXML=$(dirname $PYTHON_INK_URL)/lxml-4.5.2-\
+cp${PYTHON_INK_VER/./}-cp${PYTHON_INK_VER/./}-macosx_10_9_x86_64.whl
 
 # https://github.com/numpy/numpy
 PYTHON_NUMPY=numpy==1.19.1
@@ -209,7 +207,7 @@ PYTHON_SCOUR=scour==0.37
 # https://github.com/pyserial/pyserial
 PYTHON_PYSERIAL=pyserial==3.4
 
-### Python: auxiliary packages #################################################
+#-- Python: auxiliary packages -------------------------------------------------
 
 # The following Python packages are required for the build system.
 
@@ -240,7 +238,7 @@ PYTHON_DMGBUILD="\
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
 
-### compiler cache #############################################################
+#-- compiler cache -------------------------------------------------------------
 
 if [ -z $CCACHE_DIR ]; then
   CCACHE_DIR=$WRK_DIR/ccache
@@ -254,7 +252,7 @@ CCACHE_VER=3.7.12
 CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
 v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
 
-### auxiliary software #########################################################
+#-- auxiliary software ---------------------------------------------------------
 
 # Every required piece of software for building, packaging etc. that doesn't
 # have its own section ends up here.
@@ -271,7 +269,7 @@ PNG2ICNS_VER=0.1
 PNG2ICNS_URL=https://github.com/bitboss-ca/png2icns/archive/\
 v$PNG2ICNS_VER.tar.gz
 
-### deferred expansion #########################################################
+#-- deferred expansion ---------------------------------------------------------
 
 # To keep order in the sections above, some variables need deferred expansion.
 

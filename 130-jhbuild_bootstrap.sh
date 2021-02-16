@@ -10,7 +10,7 @@
 
 for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
-### bootstrap JHBuild ##########################################################
+#-- bootstrap JHBuild ----------------------------------------------------------
 
 mkdir -p $PKG_DIR $XDG_CACHE_HOME
 

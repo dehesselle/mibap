@@ -12,7 +12,7 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
 set -e   # break if one of the called scripts ends in error
 
-### run scripts to compile and build Inkscape ##################################
+#-- run scripts to compile and build Inkscape ----------------------------------
 
 for script in $SELF_DIR/2??-*.sh; do
   $script

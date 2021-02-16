@@ -10,7 +10,7 @@
 
 for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
-### install GTK3 libraries #####################################################
+#-- install GTK3 libraries -----------------------------------------------------
 
 jhbuild build \
   meta-gtk-osx-bootstrap \

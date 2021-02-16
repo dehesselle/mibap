@@ -14,26 +14,26 @@ for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 include_file error_.sh
 error_trace_enable
 
-### install disk image creator #################################################
+#-- install disk image creator -------------------------------------------------
 
 jhbuild run pip3 install $PYTHON_DMGBUILD
 
-### install gtk-mac-bundler ####################################################
+#-- install gtk-mac-bundler ----------------------------------------------------
 
 jhbuild build gtkmacbundler
 
-### install svg to png convertor ###############################################
+#-- install svg to png convertor -----------------------------------------------
 
 jhbuild run pip3 install $PYTHON_CAIROSVG
 jhbuild run pip3 install $PYTHON_CAIROCFFI
 
-### install png to icns converter ##############################################
+#-- install png to icns converter ----------------------------------------------
 
 install_source $PNG2ICNS_URL
 ln -s $(pwd)/png2icns.sh $BIN_DIR
 
-### downlaod a pre-built Python.framework ######################################
+#-- downlaod a pre-built Python.framework --------------------------------------
 
 # This will be bundled with the application.
 
-download_url $PY3_URL $PKG_DIR
+download_url $PYTHON_INK_URL $PKG_DIR

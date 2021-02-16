@@ -16,7 +16,11 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### create application bundle ##################################################
+### variables ##################################################################
+
+APP_SITE_PKG_DIR=$APP_LIB_DIR/python$PYTHON_INK_VER/site-packages
+
+#-- create application bundle --------------------------------------------------
 
 mkdir -p $ARTIFACT_DIR
 
@@ -70,7 +74,7 @@ lib_change_siblings $APP_LIB_DIR
   /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VER'" $PLIST
 )
 
-### generate application icon ##################################################
+#-- generate application icon --------------------------------------------------
 
 # svg to png
 jhbuild run cairosvg -f png -s 1 \
@@ -82,52 +86,52 @@ cd $SRC_DIR   # png2icns.sh outputs to current directory
 png2icns.sh inkscape.png
 mv inkscape.icns $APP_RES_DIR
 
-### add file type icons ########################################################
+#-- add file type icons --------------------------------------------------------
 
 cp $INK_DIR/packaging/macos/resources/*.icns $APP_RES_DIR
 
-### bundle Python.framework ####################################################
+#-- bundle Python.framework ----------------------------------------------------
 
 # This section deals with bundling Python.framework into the application.
 
 mkdir $APP_FRA_DIR
-install_source file://$PKG_DIR/$(basename $PY3_URL) $APP_FRA_DIR \
-  --exclude="Versions/$PY3_MAJOR.$PY3_MINOR/lib/python$PY3_MAJOR.$PY3_MINOR/test/"'*'
+install_source file://$PKG_DIR/$(basename $PYTHON_INK_URL) $APP_FRA_DIR \
+  --exclude="Versions/$PYTHON_INK_VER/lib/python$PYTHON_INK_VER/test/"'*'
 
 # link it to $APP_BIN_DIR so it'll be in $PATH for the app
 mkdir -p $APP_BIN_DIR
-ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PY3_MAJOR $APP_BIN_DIR
+ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PYTHON_INK_VER_MAJOR $APP_BIN_DIR
 
 # create '.pth' file inside Framework to include our site-packages directory
-echo "./../../../../../../../Resources/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages" \
-  > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python$PY3_MAJOR.$PY3_MINOR/site-packages/inkscape.pth
+echo "./../../../../../../../Resources/lib/python$PYTHON_INK_VER/site-packages" \
+  > $APP_FRA_DIR/Python.framework/Versions/Current/lib/python$PYTHON_INK_VER/site-packages/inkscape.pth
 
-### install Python package: lxml ###############################################
+#-- install Python package: lxml -----------------------------------------------
 
 pip_install $PYTHON_LXML
 
 lib_change_paths \
   @loader_path/../../.. \
   $APP_LIB_DIR \
-  $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/etree.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so \
-  $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/lxml/objectify.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+  $APP_SITE_PKG_DIR/lxml/etree.cpython-${PYTHON_INK_VER/./}-darwin.so \
+  $APP_SITE_PKG_DIR/lxml/objectify.cpython-${PYTHON_INK_VER/./}-darwin.so
 
-### install Python package: NumPy ##############################################
+#-- install Python package: NumPy ----------------------------------------------
 
 pip_install $PYTHON_NUMPY
 rm $APP_BIN_DIR/f2p*
 
-### install Python package: PyGObject ##########################################
+#-- install Python package: PyGObject ------------------------------------------
 
 pip_install $PYTHON_PYGOBJECT
 
 lib_change_paths \
   @loader_path/../../.. \
   $APP_LIB_DIR \
-  $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so \
-  $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/gi/_gi_cairo.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+  $APP_SITE_PKG_DIR/gi/_gi.cpython-${PYTHON_INK_VER/./}-darwin.so \
+  $APP_SITE_PKG_DIR/gi/_gi_cairo.cpython-${PYTHON_INK_VER/./}-darwin.so
 
-### install Python package: Pycairo ############################################
+#-- install Python package: Pycairo --------------------------------------------
 
 # This package got pulled in by PyGObject.
 
@@ -135,25 +139,24 @@ lib_change_paths \
 lib_change_paths \
   @loader_path/../../.. \
   $APP_LIB_DIR \
-  $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/cairo/_cairo.cpython-$PY3_MAJOR${PY3_MINOR}-darwin.so
+  $APP_SITE_PKG_DIR/cairo/_cairo.cpython-${PYTHON_INK_VER/./}-darwin.so
 
-### install Python package: pySerial ###########################################
+#-- install Python package: pySerial -------------------------------------------
 
 pip_install $PYTHON_PYSERIAL
-find $APP_LIB_DIR/python$PY3_MAJOR.$PY3_MINOR/site-packages/serial \
-  -type f -name "*.pyc" -exec rm {} \;
+find $APP_SITE_PKG_DIR/serial -type f -name "*.pyc" -exec rm {} \;
 rm $APP_BIN_DIR/miniterm.*
 
-### install Python package: Scour ##############################################
+#-- install Python package: Scour ----------------------------------------------
 
 pip_install $PYTHON_SCOUR
 rm $APP_BIN_DIR/scour
 
-### remove Python cache files ##################################################
+#-- remove Python cache files --------------------------------------------------
 
 rm -rf $APP_RES_DIR/share/glib-2.0/codegen/__pycache__
 
-### fontconfig #################################################################
+#-- fontconfig -----------------------------------------------------------------
 
 # Mimic the behavior of having all files under 'share' and linking the
 # active ones to 'etc'.
@@ -167,7 +170,7 @@ done
 # directory below '$HOME/Library/Application Support/Inkscape'.
 cp $SELF_DIR/fonts.conf $APP_ETC_DIR/fonts
 
-### create GObject introspection repository ####################################
+#-- create GObject introspection repository ------------------------------------
 
 mkdir $APP_LIB_DIR/girepository-1.0
 

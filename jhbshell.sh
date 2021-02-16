@@ -12,6 +12,6 @@
 
 for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
-### invoke JHBuild shell #######################################################
+#-- invoke JHBuild shell -------------------------------------------------------
 
 jhbuild shell

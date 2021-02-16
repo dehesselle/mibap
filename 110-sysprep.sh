@@ -10,19 +10,19 @@
 
 for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
 
-### initial information ########################################################
+#-- initial information --------------------------------------------------------
 
 echo_i "WRK_DIR = $WRK_DIR"
 echo_i "VER_DIR = $VER_DIR"
 
-### create directories #########################################################
+#-- create directories ---------------------------------------------------------
 
 # The following directories have been redirected so we need to create them.
 
 mkdir -p $HOME
 mkdir -p $TMP_DIR
 
-### install ccache #############################################################
+#-- install ccache -------------------------------------------------------------
 
 install_source $CCACHE_URL
 configure_make_makeinstall
@@ -33,7 +33,7 @@ done
 
 configure_ccache $CCACHE_SIZE  # create directory and config file
 
-### log relevant versions to release.log #######################################
+#-- log relevant versions to release.log ---------------------------------------
 
 mkdir -p $VAR_DIR/log
 

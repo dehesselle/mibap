@@ -16,7 +16,7 @@ error_trace_enable
 
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### create disk image for distribution #########################################
+#-- create disk image for distribution -----------------------------------------
 
 # Create background for development snapshots. This is not meant for
 # official releases, those will be re-packaged manually (they also need
