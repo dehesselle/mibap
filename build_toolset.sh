@@ -8,7 +8,8 @@
 
 ### settings and functions #####################################################
 
-for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
+# shellcheck disable=SC1090 # can't point to a single source here
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
 
 set -e   # break if one of the called scripts ends in error
 
@@ -16,7 +17,7 @@ set -e   # break if one of the called scripts ends in error
 
 function build
 {
-  for script in $SELF_DIR/1??-*.sh; do
+  for script in "$SELF_DIR"/1??-*.sh; do
     $script
   done
 }
@@ -32,7 +33,7 @@ function build
 
 function remove_files
 {
-  rm -rf $TMP_DIR/wheels
+  rm -rf "$TMP_DIR"/wheels
 }
 
 #-- main -----------------------------------------------------------------------

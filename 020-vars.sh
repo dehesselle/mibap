@@ -9,6 +9,22 @@
 # `0nn-custom.sh` file and put them there. All files named '0nn-*.sh' get
 # sourced in numerical order.
 
+### settings and functions #####################################################
+
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+# This script gets sourced by every script that needs it. So we only export
+# variables if we really need to.
+# shellcheck disable=SC2034
+
+# We neither have 'readlink -f' nor 'realpath' on macOS, so we provide our own.
+function realpath
+{
+  local path=$1
+
+  python3 -c "import os; print(os.path.realpath('$path'))"
+}
+
 #-- this toolset ---------------------------------------------------------------
 
 TOOLSET_VER=0.47   # main version number; root of our directory layout
@@ -26,13 +42,13 @@ TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded and kept
 
 # The recommended build setup as defined in "*_VER_RECOMMENDED" below.
 
-if [ -z $SDKROOT ]; then
+if [ -z "$SDKROOT" ]; then
   SDKROOT=$(xcodebuild -version -sdk macosx Path)
 fi
 export SDKROOT
 
 SDK_VER=$(/usr/libexec/PlistBuddy -c "Print \
-:DefaultProperties:MACOSX_DEPLOYMENT_TARGET" $SDKROOT/SDKSettings.plist)
+:DefaultProperties:MACOSX_DEPLOYMENT_TARGET" "$SDKROOT"/SDKSettings.plist)
 SDK_VER_RECOMMENDED=10.11
 
 XCODE_VER=$(xcodebuild -version | grep Xcode | awk '{ print $2 }')
@@ -43,11 +59,12 @@ MACOS_VER_RECOMMENDED=10.15.7
 
 #-- multithreading -------------------------------------------------------------
 
-export MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
+MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
+export MAKEFLAGS
 
 #-- detect CI ------------------------------------------------------------------
 
-if [ -z $CI ]; then   # Both GitHub and GitLab set this.
+if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.
   CI=false
 else
   CI=true   # probably redundant, but for completeness sake
@@ -62,9 +79,8 @@ fi
 #-- directories: self ----------------------------------------------------------
 
 # The fully qualified directory name in canonicalized form.
-# (We do not have 'readlink -f' on macOS.)
 
-SELF_DIR=$(dirname $(python3 -c "import os; print(os.path.realpath('$0'))"))
+SELF_DIR=$(dirname "$(realpath "$0")")
 
 #-- directories: work ----------------------------------------------------------
 
@@ -72,7 +88,7 @@ SELF_DIR=$(dirname $(python3 -c "import os; print(os.path.realpath('$0'))"))
 # default, being directly below /Users/Shared, is guaranteed user-writable
 # and present on every macOS system.
 
-if [ -z $WRK_DIR ]; then
+if [ -z "$WRK_DIR" ]; then
   WRK_DIR=/Users/Shared/work
 fi
 
@@ -123,17 +139,17 @@ APP_LIB_DIR=$APP_RES_DIR/lib
 #-- directories: Inkscape source and build -------------------------------------
 
 if $CI_GITLAB; then   # running GitLab CI
-  INK_DIR=$(echo $SELF_DIR/../..)
+  INK_DIR=$(realpath "$SELF_DIR"/../..)
 else                  # not running GitLab CI
   INK_DIR=$SRC_DIR/inkscape
 
   # Allow using a custom Inkscape repository and branch.
-  if [ -z $INK_URL ]; then
+  if [ -z "$INK_URL" ]; then
     INK_URL=https://gitlab.com/inkscape/inkscape
   fi
 
   # Allow using a custom branch.
-  if [ -z $INK_BRANCH ]; then
+  if [ -z "$INK_BRANCH" ]; then
     INK_BRANCH=master
   fi
 fi
@@ -240,7 +256,7 @@ PYTHON_MESON=meson==0.55.1
 
 #-- compiler cache -------------------------------------------------------------
 
-if [ -z $CCACHE_DIR ]; then
+if [ -z "$CCACHE_DIR" ]; then
   CCACHE_DIR=$WRK_DIR/ccache
 fi
 export CCACHE_DIR

@@ -8,7 +8,8 @@
 
 ### settings and functions #####################################################
 
-for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
+# shellcheck disable=SC1090 # can't point to a single source here
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
 
 include_file error_.sh
 error_trace_enable
@@ -18,11 +19,11 @@ error_trace_enable
 # Without this, JHBuild won't be able to access https links later because
 # Apple's Python won't be able to validate certificates.
 
-pip3 install --ignore-installed --prefix $VER_DIR $PYTHON_CERTIFI
+pip3 install --ignore-installed --prefix "$VER_DIR" "$PYTHON_CERTIFI"
 
 #-- install JHBuild ------------------------------------------------------------
 
-install_source $JHBUILD_URL
+install_source "$JHBUILD_URL"
 JHBUILD_DIR=$(pwd)
 
 # Create 'jhbuild' executable. This code has been adapted from
@@ -54,7 +55,7 @@ import jhbuild.main
 jhbuild.main.main(sys.argv[1:])
 EOF
 
-chmod 755 $BIN_DIR/jhbuild
+chmod 755 "$BIN_DIR"/jhbuild
 
 #-- configure JHBuild ----------------------------------------------------------
 

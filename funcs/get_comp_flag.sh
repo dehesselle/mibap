@@ -2,6 +2,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
 ### get compression flag by filename extension #################################
 
 function get_comp_flag

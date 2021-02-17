@@ -2,6 +2,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
 ### download a file and save to disk ###########################################
 
 function download_url
@@ -10,22 +12,22 @@ function download_url
   local target_dir=$2
   local file=$3   # optional
 
-  if [ -z $target_dir ]; then
+  if [ -z "$target_dir" ]; then
     echo_e "no target directory supplied"
     return 1
   fi
 
-  mkdir -p $target_dir
+  mkdir -p "$target_dir"
 
-  if [ -z $file ]; then
-    file=$target_dir/$(basename $url)
+  if [ -z "$file" ]; then
+    file=$target_dir/$(basename "$url")
   else
     file=$target_dir/$file
   fi
 
-  if [ -f $file ]; then
+  if [ -f "$file" ]; then
     echo_w "file will be overwritten: $file"
   fi
 
-  curl -o $file -L $url
+  curl -o "$file" -L "$url"
 }

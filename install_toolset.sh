@@ -9,37 +9,41 @@
 
 ### settings and functions #####################################################
 
-for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
+# shellcheck disable=SC1090 # can't point to a single source here
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
 
 include_file ansi_.sh
 include_file echo_.sh
 include_file error_.sh
 error_trace_enable
 
+# shellcheck disable=SC2034 # var is from ansi_.sh
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 #-- install toolset ------------------------------------------------------------
 
 function install
 {
-  local toolset_dmg=$TOOLSET_REPO_DIR/$(basename $TOOLSET_URL)
+  local toolset_dmg
+  toolset_dmg=$TOOLSET_REPO_DIR/$(basename "$TOOLSET_URL")
 
-  if [ -f $toolset_dmg ]; then
+  if [ -f "$toolset_dmg" ]; then
     echo_i "toolset found: $toolset_dmg"
   else
     # File not present on disk, we need to download.
     echo_i "downloading: $TOOLSET_URL"
-    download_url $TOOLSET_URL $TOOLSET_REPO_DIR
+    download_url "$TOOLSET_URL" "$TOOLSET_REPO_DIR"
   fi
 
   echo_i "Mounting compressed disk image, this may take some time..."
 
   # mount build system
-  local device=$(create_dmg_device $toolset_dmg)
-  if [ ! -d $VER_DIR ]; then
-    mkdir -p $VER_DIR
+  local device
+  device=$(create_dmg_device "$toolset_dmg")
+  if [ ! -d "$VER_DIR" ]; then
+    mkdir -p "$VER_DIR"
   fi
-  mount -o nobrowse,noowners,ro -t hfs $device $VER_DIR
+  mount -o nobrowse,noowners,ro -t hfs "$device" "$VER_DIR"
   echo_i "toolset mounted as $device"
 
   # Sadly, there are some limitations involved with union-mounting:
@@ -52,20 +56,21 @@ function install
   # bad write-performance.
 
   # prepare a script for mass-creating directories
-  find $VER_DIR -type d ! -path "$VAR_DIR/*" ! -path "$SRC_DIR/*" \
-      -exec echo "mkdir {}" > $WRK_DIR/create_dirs.sh \;
-  echo "mkdir $BLD_DIR" >> $WRK_DIR/create_dirs.sh
-  sed -i "" "1d" $WRK_DIR/create_dirs.sh   # remove first line ("file exists")
-  chmod 755 $WRK_DIR/create_dirs.sh
+  find "$VER_DIR" -type d ! -path "$VAR_DIR/*" ! -path "$SRC_DIR/*" \
+      -exec echo "mkdir {}" \; > "$WRK_DIR"/create_dirs.sh
+  echo "mkdir $BLD_DIR" >> "$WRK_DIR"/create_dirs.sh
+  sed -i "" "1d" "$WRK_DIR"/create_dirs.sh   # remove first line ("file exists")
+  chmod 755 "$WRK_DIR"/create_dirs.sh
 
   # create writable (ramdisk-) overlay
+  # shellcheck disable=SC2086 # it's an integer
   device=$(create_ram_device $TOOLSET_OVERLAY_SIZE build)
-  mount -o nobrowse,rw,union -t hfs $device $VER_DIR
+  mount -o nobrowse,rw,union -t hfs "$device" "$VER_DIR"
   echo_i "writable overlay mounted as $device"
 
   # create all directories inside overlay
-  $WRK_DIR/create_dirs.sh
-  rm $WRK_DIR/create_dirs.sh
+  "$WRK_DIR"/create_dirs.sh
+  rm "$WRK_DIR"/create_dirs.sh
 }
 
 #-- main -----------------------------------------------------------------------

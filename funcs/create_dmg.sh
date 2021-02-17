@@ -2,6 +2,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
 ### create disk image ##########################################################
 
 function create_dmg
@@ -11,20 +13,22 @@ function create_dmg
   local cfg=$3
 
   # set application
-  sed -i '' "s/PLACEHOLDERAPPLICATION/$(escape_sed $app)/" $cfg
+  sed -i '' "s/PLACEHOLDERAPPLICATION/$(escape_sed "$app")/" "$cfg"
 
   # set disk image icon (if it exists)
-  local icon=$SRC_DIR/$(basename -s .py $cfg).icns
-  if [ -f $icon ]; then
-    sed -i '' "s/PLACEHOLDERICON/$(escape_sed $icon)/" $cfg
+  local icon
+  icon=$SRC_DIR/$(basename -s .py "$cfg").icns
+  if [ -f "$icon" ]; then
+    sed -i '' "s/PLACEHOLDERICON/$(escape_sed "$icon")/" "$cfg"
   fi
 
   # set background image (if it exists)
-  local background=$SRC_DIR/$(basename -s .py $cfg).png
-  if [ -f $background ]; then
-    sed -i '' "s/PLACEHOLDERBACKGROUND/$(escape_sed $background)/" $cfg
+  local background
+  background=$SRC_DIR/$(basename -s .py "$cfg").png
+  if [ -f "$background" ]; then
+    sed -i '' "s/PLACEHOLDERBACKGROUND/$(escape_sed "$background")/" "$cfg"
   fi
 
   # create disk image
-  dmgbuild -s $cfg "$(basename -s .app $app)" $dmg
+  dmgbuild -s "$cfg" "$(basename -s .app "$app")" "$dmg"
 }

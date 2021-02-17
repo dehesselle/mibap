@@ -2,6 +2,8 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
 ### escape replacement string for sed ##########################################
 
 # Escape slashes, backslashes and ampersands in strings to be used s as

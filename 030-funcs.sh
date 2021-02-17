@@ -10,17 +10,23 @@
 # needs to do that. The suggested way is to always source all the "0nn-*.sh"
 # files in order.
 
+### settings and functions #####################################################
+
+# shellcheck shell=bash # no shebang as this file is intended to be sourced
+
 #-- include function library ---------------------------------------------------
 
 # https://github.com/dehesselle/bash_d
 
 INCLUDE_DIR=$SELF_DIR/bash_d
-source $INCLUDE_DIR/1_include_.sh
+# shellcheck source=bash_d/1_include_.sh
+source "$INCLUDE_DIR"/1_include_.sh
 include_file echo_.sh
 include_file lib_.sh
 
 #-- include custom functions ---------------------------------------------------
 
-for func in $SELF_DIR/funcs/*.sh; do
-  source $func
+for func in "$SELF_DIR"/funcs/*.sh; do
+  # shellcheck disable=SC1090 # can't point to a single source here
+  source "$func"
 done

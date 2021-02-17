@@ -8,12 +8,14 @@
 
 ### settings and functions #####################################################
 
-for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
+# shellcheck disable=SC1090 # can't point to a single source here
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
 
 include_file ansi_.sh
 include_file error_.sh
 error_trace_enable
 
+# shellcheck disable=SC2034 # var is from ansi_.sh
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 #-- create disk image for distribution -----------------------------------------
@@ -27,21 +29,21 @@ convert -size 560x400 xc:transparent \
   -draw "text 20,120 '$(get_inkscape_version)'" \
   -draw "text 20,180 'development'" \
   -draw "text 20,240 'snapshot'" \
-  -draw "text 20,300 '$(get_repo_version $INK_DIR)'" \
-  $SRC_DIR/inkscape_dmg.png
+  -draw "text 20,300 '$(get_repo_version "$INK_DIR")'" \
+  "$SRC_DIR"/inkscape_dmg.png
 
 # create the disk image
-cp $SELF_DIR/inkscape_dmg.py $SRC_DIR
-create_dmg $ARTIFACT_DIR/Inkscape.app $TMP_DIR/Inkscape.dmg $SRC_DIR/inkscape_dmg.py
-rm -rf $APP_DIR
-mv $TMP_DIR/Inkscape.dmg $ARTIFACT_DIR
+cp "$SELF_DIR"/inkscape_dmg.py "$SRC_DIR"
+create_dmg "$ARTIFACT_DIR"/Inkscape.app "$TMP_DIR"/Inkscape.dmg "$SRC_DIR"/inkscape_dmg.py
+rm -rf "$APP_DIR"
+mv "$TMP_DIR"/Inkscape.dmg "$ARTIFACT_DIR"
 
 # CI: move disk image to a location accessible for the runner
 if $CI_GITLAB; then
   # Cleanup required for non-ephemeral/persistent runners.
-  if [ -d $INK_DIR/artifacts ]; then
-    rm -rf $INK_DIR/artifacts
+  if [ -d "$INK_DIR"/artifacts ]; then
+    rm -rf "$INK_DIR"/artifacts
   fi
 
-  mv $ARTIFACT_DIR $INK_DIR/artifacts
+  mv "$ARTIFACT_DIR" "$INK_DIR"/artifacts
 fi

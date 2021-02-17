@@ -9,13 +9,15 @@
 
 ### settings and functions #####################################################
 
-for script in $(dirname ${BASH_SOURCE[0]})/0??-*.sh; do source $script; done
+# shellcheck disable=SC1090 # can't point to a single source here
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
 
 include_file ansi_.sh
 include_file echo_.sh
 include_file error_.sh
 error_trace_enable
 
+# shellcheck disable=SC2034 # var is from ansi_.sh
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 #-- uninstall toolset ----------------------------------------------------------
@@ -23,12 +25,13 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 function uninstall
 {
   while : ; do   # unmount everything (in reverse order)
-    local disk=$(mount | grep $VER_DIR | tail -n1 | awk '{ print $1 }')
+    local disk
+    disk=$(mount | grep "$VER_DIR" | tail -n1 | awk '{ print $1 }')
 
     if [ ${#disk} -eq 0 ]; then
       break                              # nothing to do here
     else
-      diskutil eject $disk > /dev/null   # unmount
+      diskutil eject "$disk" > /dev/null   # unmount
       echo_i "ejected $disk"
     fi
   done
