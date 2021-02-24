@@ -36,7 +36,7 @@ v$TOOLSET_VER/mibap_v${TOOLSET_VER}_stripped.dmg
 
 TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
-TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded and kept
+TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded to and kept
 
 #-- target OS version ----------------------------------------------------------
 
@@ -173,7 +173,7 @@ jhbuild-$JHBUILD_VER.tar.bz2
 
 #-- Python ---------------------------------------------------------------------
 
-# The Python 3 version supplied by the system (technically: Xcode). Will be used
+# The Python 3 version supplied by the system (technically: Xcode) will be used
 # to run JHBuild and Meson, as these two are installed before we build
 # Python ourselves. There is no need to use "latest and greatest" here.
 PYTHON_SYS_VER=$(python3 -c \
@@ -189,7 +189,7 @@ PYTHON_INK_VER_MINOR=8
 PYTHON_INK_VER_PATCH=5
 PYTHON_INK_VER_BUILD=2
 
-PYTHON_INK_VER=$PYTHON_INK_VER_MAJOR.$PYTHON_INK_VER_MINOR
+PYTHON_INK_VER=$PYTHON_INK_VER_MAJOR.$PYTHON_INK_VER_MINOR  # convenience handle
 
 # https://github.com/dehesselle/py3framework
 PYTHON_INK_URL=https://github.com/dehesselle/py3framework/releases/download/\
