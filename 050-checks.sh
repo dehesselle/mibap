@@ -2,7 +2,7 @@
 #
 # This file is part of the build pipeline for Inkscape on macOS.
 #
-# ### 040-checks.sh ###
+# ### 050-checks.sh ###
 # Check basic prerequisites and break if they're not met.
 
 ### settings and functions #####################################################

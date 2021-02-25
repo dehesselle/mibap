@@ -32,7 +32,7 @@ for compiler in clang clang++ gcc g++; do
   ln -s ccache "$BIN_DIR"/$compiler
 done
 
-configure_ccache "$CCACHE_SIZE"  # create directory and config file
+ccache_configure  # create directory and config file
 
 #-- log relevant versions to release.log ---------------------------------------
 

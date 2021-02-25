@@ -254,20 +254,6 @@ PYTHON_DMGBUILD="\
 # https://mesonbuild.com
 PYTHON_MESON=meson==0.55.1
 
-#-- compiler cache -------------------------------------------------------------
-
-if [ -z "$CCACHE_DIR" ]; then
-  CCACHE_DIR=$WRK_DIR/ccache
-fi
-export CCACHE_DIR
-CCACHE_SIZE=3.0G
-
-# https://ccache.dev
-# https://github.com/ccache/ccache
-CCACHE_VER=3.7.12
-CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
-v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
-
 #-- auxiliary software ---------------------------------------------------------
 
 # Every required piece of software for building, packaging etc. that doesn't

@@ -24,7 +24,7 @@ INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")
 
 #-- configure ccache -----------------------------------------------------------
 
-configure_ccache "$CCACHE_SIZE"  # create directory and config file
+ccache_configure  # create directory and config file
 
 #-- configure JHBuild ----------------------------------------------------------
 
