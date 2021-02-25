@@ -158,19 +158,6 @@ fi
 
 export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 
-#-- JHBuild --------------------------------------------------------------------
-
-# configuration files
-export JHBUILDRC=$ETC_DIR/jhbuildrc
-export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
-
-# JHBuild build system (3.38.0+ from master branch because of specific patch)
-# https://gitlab.gnome.org/GNOME/jhbuild
-# https://wiki.gnome.org/Projects/Jhbuild/Introduction
-JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
-JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
-jhbuild-$JHBUILD_VER.tar.bz2
-
 #-- Python ---------------------------------------------------------------------
 
 # The Python 3 version supplied by the system (technically: Xcode) will be used

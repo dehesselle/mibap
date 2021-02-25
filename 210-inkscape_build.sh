@@ -30,7 +30,7 @@ ccache_configure  # create directory and config file
 
 # This allows compiling Inkscape with a different setup than the toolset.
 
-configure_jhbuild
+jhbuild_configure
 
 #-- build Inkscape -------------------------------------------------------------
 
