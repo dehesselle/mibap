@@ -37,12 +37,14 @@ function install
 
   echo_i "Mounting compressed disk image, this may take some time..."
 
-  # mount build system
-  local device
-  device=$(create_dmg_device "$toolset_dmg")
   if [ ! -d "$VER_DIR" ]; then
     mkdir -p "$VER_DIR"
   fi
+
+  # mount build system
+  local device
+  device=$(hdiutil attach -nomount "$toolset_dmg" | grep "^/dev/disk" |
+    grep "Apple_HFS" | awk '{ print $1 }')
   mount -o nobrowse,noowners,ro -t hfs "$device" "$VER_DIR"
   echo_i "toolset mounted as $device"
 

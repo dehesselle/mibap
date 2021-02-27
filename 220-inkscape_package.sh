@@ -22,7 +22,7 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 ### variables ##################################################################
 
-APP_SITE_PKG_DIR=$APP_LIB_DIR/python$PYTHON_INK_VER/site-packages
+APP_SITEPKG_DIR=$APP_LIB_DIR/python$PYTHON_INK_VER/site-packages
 
 #-- create application bundle --------------------------------------------------
 
@@ -106,28 +106,28 @@ echo "./../../../../../../../Resources/lib/python$PYTHON_INK_VER/site-packages" 
 
 #-- install Python package: lxml -----------------------------------------------
 
-pip_install "$PYTHON_LXML"
+app_pipinstall "$PYTHON_LXML"
 
 lib_change_paths \
   @loader_path/../../.. \
   "$APP_LIB_DIR" \
-  "$APP_SITE_PKG_DIR"/lxml/etree.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
-  "$APP_SITE_PKG_DIR"/lxml/objectify.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$APP_SITEPKG_DIR"/lxml/etree.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
+  "$APP_SITEPKG_DIR"/lxml/objectify.cpython-"${PYTHON_INK_VER/./}"-darwin.so
 
 #-- install Python package: NumPy ----------------------------------------------
 
-pip_install "$PYTHON_NUMPY"
+app_pipinstall "$PYTHON_NUMPY"
 rm "$APP_BIN_DIR"/f2p*
 
 #-- install Python package: PyGObject ------------------------------------------
 
-pip_install "$PYTHON_PYGOBJECT"
+app_pipinstall "$PYTHON_PYGOBJECT"
 
 lib_change_paths \
   @loader_path/../../.. \
   "$APP_LIB_DIR" \
-  "$APP_SITE_PKG_DIR"/gi/_gi.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
-  "$APP_SITE_PKG_DIR"/gi/_gi_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$APP_SITEPKG_DIR"/gi/_gi.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
+  "$APP_SITEPKG_DIR"/gi/_gi_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
 
 #-- install Python package: Pycairo --------------------------------------------
 
@@ -137,17 +137,17 @@ lib_change_paths \
 lib_change_paths \
   @loader_path/../../.. \
   "$APP_LIB_DIR" \
-  "$APP_SITE_PKG_DIR"/cairo/_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$APP_SITEPKG_DIR"/cairo/_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
 
 #-- install Python package: pySerial -------------------------------------------
 
-pip_install "$PYTHON_PYSERIAL"
-find "$APP_SITE_PKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
+app_pipinstall "$PYTHON_PYSERIAL"
+find "$APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
 rm "$APP_BIN_DIR"/miniterm.*
 
 #-- install Python package: Scour ----------------------------------------------
 
-pip_install "$PYTHON_SCOUR"
+app_pipinstall "$PYTHON_SCOUR"
 rm "$APP_BIN_DIR"/scour
 
 #-- remove Python cache files --------------------------------------------------

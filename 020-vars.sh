@@ -123,18 +123,9 @@ export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
 export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
-#-- directories: application bundle layout -------------------------------------
+#-- directories: artifact ------------------------------------------------------
 
 ARTIFACT_DIR=$VER_DIR/artifacts   # parent directory for application bundle
-
-APP_DIR=$ARTIFACT_DIR/Inkscape.app
-APP_CON_DIR=$APP_DIR/Contents
-APP_RES_DIR=$APP_CON_DIR/Resources
-APP_FRA_DIR=$APP_CON_DIR/Frameworks
-APP_BIN_DIR=$APP_RES_DIR/bin
-APP_ETC_DIR=$APP_RES_DIR/etc
-APP_EXE_DIR=$APP_CON_DIR/MacOS
-APP_LIB_DIR=$APP_RES_DIR/lib
 
 #-- directories: Inkscape source and build -------------------------------------
 
