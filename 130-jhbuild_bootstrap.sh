@@ -19,8 +19,7 @@ mkdir -p "$PKG_DIR" "$XDG_CACHE_HOME"
 jhbuild bootstrap-gtk-osx
 
 # Install Meson build system.
-pip3 install --ignore-installed --prefix "$VER_DIR" "$PYTHON_MESON"
+meson_install
 
-# Install Ninja build systems.
-download_url "$NINJA_URL" "$PKG_DIR"
-unzip -d "$BIN_DIR" "$PKG_DIR/$(basename "$NINJA_URL")"
+# Install Ninja build system.
+ninja_install

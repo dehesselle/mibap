@@ -187,10 +187,6 @@ py${PYTHON_INK_VER/./}${PYTHON_INK_VER_PATCH}_framework_${PYTHON_INK_VER_BUILD}i
 
 # The following Python packages are bundled with Inkscape.
 
-# https://cairocffi.readthedocs.io/en/stable/
-# https://github.com/Kozea/cairocffi
-PYTHON_CAIROCFFI=cairocffi==1.1.0
-
 # https://lxml.de
 # https://github.com/lxml/lxml
 # https://github.com/dehesselle/py3framework
@@ -214,49 +210,9 @@ PYTHON_PYSERIAL=pyserial==3.4
 
 # The following Python packages are required for the build system.
 
-# convert SVG to PNG
-# https://cairosvg.org
-PYTHON_CAIROSVG=cairosvg==2.4.2
-
 # Mozilla Root Certificates
 # https://pypi.org/project/certifi
 PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
-
-# create disk image (incl. dependencies)
-# https://dmgbuild.readthedocs.io/en/latest/
-# https://github.com/al45tair/dmgbuild
-# dependencies:
-# - biplist: binary plist parser/generator
-# - pyobjc-*: framework wrappers; pinned to 6.2.2 as 7.0 includes fixes for
-#   Big Sur (dyld cache) that break on Catalina
-PYTHON_DMGBUILD="\
-  biplist==1.0.3\
-  pyobjc-core==6.2.2\
-  pyobjc-framework-Cocoa==6.2.2\
-  pyobjc-framework-Quartz==6.2.2\
-  dmgbuild==1.4.2\
-"
-
-# Meson build system
-# https://mesonbuild.com
-PYTHON_MESON=meson==0.55.1
-
-#-- auxiliary software ---------------------------------------------------------
-
-# Every required piece of software for building, packaging etc. that doesn't
-# have its own section ends up here.
-
-# Ninja build system
-# https://github.com/ninja-build/ninja
-NINJA_VER=1.8.2
-NINJA_URL=https://github.com/ninja-build/ninja/releases/download/v$NINJA_VER/\
-ninja-mac.zip
-
-# convert PNG image to iconset in ICNS format
-# https://github.com/bitboss-ca/png2icns
-PNG2ICNS_VER=0.1
-PNG2ICNS_URL=https://github.com/bitboss-ca/png2icns/archive/\
-v$PNG2ICNS_VER.tar.gz
 
 #-- deferred expansion ---------------------------------------------------------
 

@@ -7,7 +7,7 @@
 
 ### description ################################################################
 
-# This file contains everything related to our usage of ccache.
+# This file contains everything related to setup ccache.
 
 ### variables ##################################################################
 
@@ -33,4 +33,17 @@ function ccache_configure
 max_size = $CCACHE_SIZE
 hash_dir = false
 EOF
+}
+
+function ccache_install
+{
+  install_source "$CCACHE_URL"
+
+  ./configure --prefix="$VER_DIR"
+  make
+  make install
+
+  for compiler in clang clang++ gcc g++; do
+    ln -s ccache "$BIN_DIR"/$compiler
+  done
 }

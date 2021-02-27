@@ -17,24 +17,15 @@ error_trace_enable
 
 #-- install disk image creator -------------------------------------------------
 
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 install $PYTHON_DMGBUILD
+dmgbuild_install
 
 #-- install gtk-mac-bundler ----------------------------------------------------
 
 jhbuild build gtkmacbundler
 
-#-- install svg to png convertor -----------------------------------------------
+#-- install svg to icns convertor ----------------------------------------------
 
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 install $PYTHON_CAIROSVG
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 install $PYTHON_CAIROCFFI
-
-#-- install png to icns converter ----------------------------------------------
-
-install_source "$PNG2ICNS_URL"
-ln -s "$(pwd)"/png2icns.sh "$BIN_DIR"
+svg2icns_install
 
 #-- downlaod a pre-built Python.framework --------------------------------------
 

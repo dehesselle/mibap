@@ -32,11 +32,8 @@ convert -size 560x400 xc:transparent \
   -draw "text 20,300 '$(get_repo_version "$INK_DIR")'" \
   "$SRC_DIR"/inkscape_dmg.png
 
-# create the disk image
-cp "$SELF_DIR"/inkscape_dmg.py "$SRC_DIR"
-create_dmg "$ARTIFACT_DIR"/Inkscape.app "$TMP_DIR"/Inkscape.dmg "$SRC_DIR"/inkscape_dmg.py
-rm -rf "$APP_DIR"
-mv "$TMP_DIR"/Inkscape.dmg "$ARTIFACT_DIR"
+# Create the disk image.
+dmgbuild_run "$ARTIFACT_DIR"/Inkscape.dmg
 
 # CI: move disk image to a location accessible for the runner
 if $CI_GITLAB; then

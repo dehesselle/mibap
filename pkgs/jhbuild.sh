@@ -3,11 +3,10 @@
 ### settings and functions #####################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2034 # globally defined variables here w/o export
 
 ### description ################################################################
 
-# This file contains everything related to our usage of JHBuild.
+# This file contains everything related to setup JHBuild.
 
 ### variables ##################################################################
 

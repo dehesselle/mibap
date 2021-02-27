@@ -25,14 +25,8 @@ mkdir -p "$TMP_DIR"
 
 #-- install ccache -------------------------------------------------------------
 
-install_source "$CCACHE_URL"
-configure_make_makeinstall
-
-for compiler in clang clang++ gcc g++; do
-  ln -s ccache "$BIN_DIR"/$compiler
-done
-
-ccache_configure  # create directory and config file
+ccache_install
+ccache_configure
 
 #-- log relevant versions to release.log ---------------------------------------
 
