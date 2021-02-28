@@ -10,9 +10,11 @@
 # needs to do that. The suggested way is to always source all the "0nn-*.sh"
 # files in order.
 
-### settings and functions #####################################################
+### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
 
 #-- include function library ---------------------------------------------------
 

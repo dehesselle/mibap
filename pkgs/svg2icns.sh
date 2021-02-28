@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-### settings and functions #####################################################
+### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
 # shellcheck disable=SC2164 # we have error trapping that catches bad 'cd'

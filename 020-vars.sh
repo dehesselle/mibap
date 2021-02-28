@@ -25,18 +25,9 @@ function realpath
   python3 -c "import os; print(os.path.realpath('$path'))"
 }
 
-#-- this toolset ---------------------------------------------------------------
+#-- the main version number ----------------------------------------------------
 
-TOOLSET_VER=0.47   # main version number; root of our directory layout
-
-# A disk image containing a built version of the whole toolset.
-# https://github.com/dehesselle/mibap
-TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
-v$TOOLSET_VER/mibap_v${TOOLSET_VER}_stripped.dmg
-
-TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
-
-TOOLSET_REPO_DIR=\$WRK_DIR/repo  # where toolset dmg are downloaded to and kept
+VERSION=0.47
 
 #-- target OS version ----------------------------------------------------------
 
@@ -94,7 +85,7 @@ fi
 
 #-- directories: FSH-like tree below version number ----------------------------
 
-VER_DIR=$WRK_DIR/$TOOLSET_VER
+VER_DIR=$WRK_DIR/$VERSION
 BIN_DIR=$VER_DIR/bin
 ETC_DIR=$VER_DIR/etc
 INC_DIR=$VER_DIR/include
@@ -204,9 +195,3 @@ PYTHON_PYSERIAL=pyserial==3.4
 # Mozilla Root Certificates
 # https://pypi.org/project/certifi
 PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
-
-#-- deferred expansion ---------------------------------------------------------
-
-# To keep order in the sections above, some variables need deferred expansion.
-
-TOOLSET_REPO_DIR=$(eval echo $TOOLSET_REPO_DIR)
