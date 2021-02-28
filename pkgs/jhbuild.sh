@@ -10,7 +10,8 @@
 
 ### variables ##################################################################
 
-# configuration files
+#----------------------------------------------------------------------- JHBuild
+
 export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
@@ -21,10 +22,20 @@ JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
+#--------------------------------------- certificates for Python requests module
+
+# Mozilla Root Certificates
+# https://pypi.org/project/certifi
+JHBUILD_PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
+
 ### functions ##################################################################
 
 function jhbuild_install
 {
+  # Without this, JHBuild won't be able to access https links later because
+  # Apple's Python won't be able to validate certificates.
+  pip3 install --ignore-installed --prefix "$VER_DIR" "$JHBUILD_PYTHON_CERTIFI"
+
   install_source "$JHBUILD_URL"
   JHBUILD_DIR=$(pwd)
 
@@ -94,9 +105,9 @@ function jhbuild_configure
 
     # certificates for https
     echo "os.environ[\"SSL_CERT_FILE\"] = \
-    \"$LIB_DIR/python$PYTHON_SYS_VER/site-packages/certifi/cacert.pem\""
+    \"$LIB_DIR/python$SYS_PYTHON_VER/site-packages/certifi/cacert.pem\""
     echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \
-    \"$LIB_DIR/python$PYTHON_SYS_VER/site-packages/certifi/cacert.pem\""
+    \"$LIB_DIR/python$SYS_PYTHON_VER/site-packages/certifi/cacert.pem\""
 
     # user home directory
     echo "os.environ[\"HOME\"] = \"$HOME\""

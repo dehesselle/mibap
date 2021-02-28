@@ -5,11 +5,13 @@
 # ### 050-checks.sh ###
 # Check basic prerequisites and break if they're not met.
 
-### settings and functions #####################################################
+### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
 
-#-- check if WRK_DIR is usable -------------------------------------------------
+### main #######################################################################
+
+#---------------------------------------------------- check if WRK_DIR is usable
 
 # shellcheck disable=SC2046 # result is integer
 if  [ $(mkdir -p "$WRK_DIR" 2>/dev/null; echo $?) -eq 0 ] &&
@@ -20,37 +22,13 @@ else
   exit 1
 fi
 
-#-- check for presence of SDK --------------------------------------------------
+#----------------------------------------------------- check for presence of SDK
 
 if [ ! -d "$SDKROOT" ]; then
   echo_e "SDK not found: $SDKROOT"
   exit 1
 fi
 
-#-- check SDK version ----------------------------------------------------------
+#------------------------------------------------- check version recommendations
 
-if [ "$SDK_VER" != "$SDK_VER_RECOMMENDED" ]; then
-  echo_w "recommended    SDK version: $SDK_VER_RECOMMENDED"
-  echo_w "       your    SDK version: $SDK_VER"
-fi
-
-#-- check Xcode version --------------------------------------------------------
-
-if [ "$XCODE_VER" != "$XCODE_VER_RECOMMENDED" ]; then
-  echo_w "recommended  Xcode version: $XCODE_VER_RECOMMENDED"
-  echo_w "       your  Xcode version: $XCODE_VER"
-fi
-
-#-- check macOS version --------------------------------------------------------
-
-if [ "$MACOS_VER" != "$MACOS_VER_RECOMMENDED" ]; then
-  echo_w "recommended  macOS version: $MACOS_VER_RECOMMENDED"
-  echo_w "       your  macOS version: $MACOS_VER"
-fi
-
-#-- check Python version -------------------------------------------------------
-
-if [ "$PYTHON_SYS_VER" != "$PYTHON_SYS_VER_RECOMMENDED" ]; then
-  echo_w "recommended Python version: $PYTHON_SYS_VER_RECOMMENDED"
-  echo_w "       your Python version: $PYTHON_SYS_VER"
-fi
+sys_check_recommendations

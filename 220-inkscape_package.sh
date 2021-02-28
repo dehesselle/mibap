@@ -22,7 +22,7 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 ### variables ##################################################################
 
-APP_SITEPKG_DIR=$APP_LIB_DIR/python$PYTHON_INK_VER/site-packages
+INK_APP_SITEPKG_DIR=$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages
 
 #-- create application bundle --------------------------------------------------
 
@@ -43,32 +43,32 @@ mkdir -p "$ARTIFACT_DIR"
 
 # Rename to get from lowercase to capitalized "i". This works only on
 # case-insensitive filesystems (default on macOS).
-mv "$APP_DIR" "$APP_DIR".tmp
-mv "$APP_DIR".tmp "$APP_DIR"
+mv "$INK_APP_DIR" "$INK_APP_DIR".tmp
+mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
 # patch library link paths for lib2geom
 lib_change_path \
   @executable_path/../Resources/lib/lib2geom\\..+dylib \
-  "$APP_LIB_DIR"/inkscape/libinkscape_base.dylib
+  "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.dylib
 
 # patch library link path for libboost_filesystem
 lib_change_path \
   @executable_path/../Resources/lib/libboost_filesystem.dylib \
-  "$APP_LIB_DIR"/inkscape/libinkscape_base.dylib \
-  "$APP_EXE_DIR"/inkscape
+  "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.dylib \
+  "$INK_APP_EXE_DIR"/inkscape
 
 # patch library link path for libinkscape_base
 lib_change_path \
   @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib \
-  "$APP_EXE_DIR"/inkscape
+  "$INK_APP_EXE_DIR"/inkscape
 
-lib_change_siblings "$APP_LIB_DIR"
+lib_change_siblings "$INK_APP_LIB_DIR"
 
 ( # update version numbers in property list
 
-  PLIST=$APP_CON_DIR/Info.plist
-  IV=$(get_inkscape_version)
-  RV=$(get_repo_version "$INK_DIR")
+  PLIST=$INK_APP_CON_DIR/Info.plist
+  IV=$(ink_get_version)
+  RV=$(ink_get_repo_shorthash)
 
   # update Inkscape version information
   /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$IV ($RV)'" "$PLIST"
@@ -80,54 +80,55 @@ lib_change_siblings "$APP_LIB_DIR"
 
 #-- generate application icon --------------------------------------------------
 
-svg2icns "$INK_DIR"/share/branding/inkscape-mac.svg "$APP_RES_DIR"/inkscape.icns
+svg2icns "$INK_DIR"/share/branding/inkscape-mac.svg "$INK_APP_RES_DIR"/inkscape.icns
 
 #-- add file type icons --------------------------------------------------------
 
-cp "$INK_DIR"/packaging/macos/resources/*.icns "$APP_RES_DIR"
+cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 
 #-- bundle Python.framework ----------------------------------------------------
 
 # This section deals with bundling Python.framework into the application.
 
-mkdir "$APP_FRA_DIR"
-install_source file://"$PKG_DIR"/"$(basename "$PYTHON_INK_URL")" "$APP_FRA_DIR" \
-  --exclude="Versions/$PYTHON_INK_VER/lib/python$PYTHON_INK_VER/test/"'*'
+mkdir "$INK_APP_FRA_DIR"
+install_source file://"$PKG_DIR"/"$(basename "$PYTHON_INK_URL")" "$INK_APP_FRA_DIR" \
+  --exclude="Versions/$INK_PYTHON_VER/lib/python$INK_PYTHON_VER/test/"'*'
 
-# link it to $APP_BIN_DIR so it'll be in $PATH for the app
-mkdir -p "$APP_BIN_DIR"
+# link it to $INK_APP_BIN_DIR so it'll be in $PATH for the app
+mkdir -p "$INK_APP_BIN_DIR"
 # shellcheck disable=SC2086 # it's an integer
-ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$PYTHON_INK_VER_MAJOR "$APP_BIN_DIR"
+ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
 
 # create '.pth' file inside Framework to include our site-packages directory
 # shellcheck disable=SC2086 # it's an integer
-echo "./../../../../../../../Resources/lib/python$PYTHON_INK_VER/site-packages" \
-  > "$APP_FRA_DIR"/Python.framework/Versions/Current/lib/python$PYTHON_INK_VER/site-packages/inkscape.pth
+# TODO: remove "./" ?
+echo "./../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
+  > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/python$INK_PYTHON_VER/site-packages/inkscape.pth
 
 #-- install Python package: lxml -----------------------------------------------
 
-app_pipinstall "$PYTHON_LXML"
+ink_pipinstall "$INK_PYTHON_LXML"
 
 lib_change_paths \
   @loader_path/../../.. \
-  "$APP_LIB_DIR" \
-  "$APP_SITEPKG_DIR"/lxml/etree.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
-  "$APP_SITEPKG_DIR"/lxml/objectify.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$INK_APP_LIB_DIR" \
+  "$INK_APP_SITEPKG_DIR"/lxml/etree.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
+  "$INK_APP_SITEPKG_DIR"/lxml/objectify.cpython-"${INK_PYTHON_VER/./}"-darwin.so
 
 #-- install Python package: NumPy ----------------------------------------------
 
-app_pipinstall "$PYTHON_NUMPY"
-rm "$APP_BIN_DIR"/f2p*
+ink_pipinstall "$INK_PYTHON_NUMPY"
+rm "$INK_APP_BIN_DIR"/f2p*
 
 #-- install Python package: PyGObject ------------------------------------------
 
-app_pipinstall "$PYTHON_PYGOBJECT"
+ink_pipinstall "$INK_PYTHON_PYGOBJECT"
 
 lib_change_paths \
   @loader_path/../../.. \
-  "$APP_LIB_DIR" \
-  "$APP_SITEPKG_DIR"/gi/_gi.cpython-"${PYTHON_INK_VER/./}"-darwin.so \
-  "$APP_SITEPKG_DIR"/gi/_gi_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$INK_APP_LIB_DIR" \
+  "$INK_APP_SITEPKG_DIR"/gi/_gi.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
+  "$INK_APP_SITEPKG_DIR"/gi/_gi_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
 
 #-- install Python package: Pycairo --------------------------------------------
 
@@ -136,29 +137,29 @@ lib_change_paths \
 # patch '_cairo'
 lib_change_paths \
   @loader_path/../../.. \
-  "$APP_LIB_DIR" \
-  "$APP_SITEPKG_DIR"/cairo/_cairo.cpython-"${PYTHON_INK_VER/./}"-darwin.so
+  "$INK_APP_LIB_DIR" \
+  "$INK_APP_SITEPKG_DIR"/cairo/_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
 
 #-- install Python package: pySerial -------------------------------------------
 
-app_pipinstall "$PYTHON_PYSERIAL"
-find "$APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
-rm "$APP_BIN_DIR"/miniterm.*
+ink_pipinstall "$INK_PYTHON_PYSERIAL"
+find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
+rm "$INK_APP_BIN_DIR"/miniterm.*
 
 #-- install Python package: Scour ----------------------------------------------
 
-app_pipinstall "$PYTHON_SCOUR"
-rm "$APP_BIN_DIR"/scour
+ink_pipinstall "$INK_PYTHON_SCOUR"
+rm "$INK_APP_BIN_DIR"/scour
 
 #-- remove Python cache files --------------------------------------------------
 
-rm -rf "$APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
+rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
 
 #-- fontconfig -----------------------------------------------------------------
 
 # Mimic the behavior of having all files under 'share' and linking the
 # active ones to 'etc'.
-cd "$APP_ETC_DIR"/fonts/conf.d
+cd "$INK_APP_ETC_DIR"/fonts/conf.d
 
 for file in ./*.conf; do
   ln -sf ../../../share/fontconfig/conf.avail/"$(basename "$file")" .
@@ -166,11 +167,11 @@ done
 
 # Our customized version loses all the non-macOS paths and sets a cache
 # directory below '$HOME/Library/Application Support/Inkscape'.
-cp "$SELF_DIR"/fonts.conf "$APP_ETC_DIR"/fonts
+cp "$SELF_DIR"/fonts.conf "$INK_APP_ETC_DIR"/fonts
 
 #-- create GObject introspection repository ------------------------------------
 
-mkdir "$APP_LIB_DIR"/girepository-1.0
+mkdir "$INK_APP_LIB_DIR"/girepository-1.0
 
 # remove fully qualified paths from libraries in *.gir files
 for gir in "$VER_DIR"/share/gir-1.0/*.gir; do
@@ -180,5 +181,5 @@ done
 # compile *.gir into *.typelib files
 for gir in "$SRC_DIR"/*.gir; do
   jhbuild run g-ir-compiler \
-    -o "$APP_LIB_DIR"/girepository-1.0/"$(basename -s .gir "$gir")".typelib "$gir"
+    -o "$INK_APP_LIB_DIR"/girepository-1.0/"$(basename -s .gir "$gir")".typelib "$gir"
 done

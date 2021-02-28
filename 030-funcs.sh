@@ -24,6 +24,7 @@ INCLUDE_DIR=$SELF_DIR/bash_d
 # shellcheck source=bash_d/1_include_.sh
 source "$INCLUDE_DIR"/1_include_.sh
 include_file echo_.sh
+include_file error_.sh
 include_file lib_.sh
 
 #-- include custom functions ---------------------------------------------------

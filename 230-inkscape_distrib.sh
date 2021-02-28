@@ -26,10 +26,10 @@ ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 convert -size 560x400 xc:transparent \
   -font Andale-Mono -pointsize 64 -fill black \
   -draw "text 20,60 'Inkscape'" \
-  -draw "text 20,120 '$(get_inkscape_version)'" \
+  -draw "text 20,120 '$(ink_get_version)'" \
   -draw "text 20,180 'development'" \
   -draw "text 20,240 'snapshot'" \
-  -draw "text 20,300 '$(get_repo_version "$INK_DIR")'" \
+  -draw "text 20,300 '$(ink_get_repo_shorthash)'" \
   "$SRC_DIR"/inkscape_dmg.png
 
 # Create the disk image.

@@ -44,7 +44,7 @@ function dmgbuild_run
   cp "$SELF_DIR"/"$(basename "$DMGBUILD_CONFIG")" "$SRC_DIR"
 
   # set application
-  sed -i '' "s/PLACEHOLDERAPPLICATION/$(escape_sed "$APP_DIR")/" "$DMGBUILD_CONFIG"
+  sed -i '' "s/PLACEHOLDERAPPLICATION/$(escape_sed "$INK_APP_DIR")/" "$DMGBUILD_CONFIG"
 
   # set disk image icon (if it exists)
   local icon
@@ -62,6 +62,6 @@ function dmgbuild_run
 
   # Create disk image in temporary location and move to targetr location
   # afterwards. This way we can run multiple times without requiring cleanup.
-  dmgbuild -s "$DMGBUILD_CONFIG" "$(basename -s .app "$APP_DIR")" $TMP_DIR/$(basename $dmg_file)
+  dmgbuild -s "$DMGBUILD_CONFIG" "$(basename -s .app "$INK_APP_DIR")" $TMP_DIR/$(basename $dmg_file)
   mv $TMP_DIR/$(basename $dmg_file) $dmg_file
 }
