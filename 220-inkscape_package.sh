@@ -94,7 +94,7 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 mkdir "$INK_APP_FRA_DIR"
 tar -C "$INK_APP_FRA_DIR" \
   --exclude="Versions/$INK_PYTHON_VER/lib/python$INK_PYTHON_VER/test/"'*' \
-  -xf "$PKG_DIR"/"$(basename "$PYTHON_INK_URL")"
+  -xf "$PKG_DIR"/"$(basename "$INK_PYTHON_URL")"
 
 # link it to $INK_APP_BIN_DIR so it'll be in $PATH for the app
 mkdir -p "$INK_APP_BIN_DIR"
@@ -177,7 +177,7 @@ mkdir "$INK_APP_LIB_DIR"/girepository-1.0
 
 # remove fully qualified paths from libraries in *.gir files
 for gir in "$VER_DIR"/share/gir-1.0/*.gir; do
-  sed "s/$(escape_sed "$LIB_DIR"/)//g" "$gir" > "$SRC_DIR"/"$(basename "$gir")"
+  sed "s/$(sed_escape_str "$LIB_DIR"/)//g" "$gir" > "$SRC_DIR"/"$(basename "$gir")"
 done
 
 # compile *.gir into *.typelib files

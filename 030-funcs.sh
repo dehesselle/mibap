@@ -16,7 +16,7 @@
 
 ### includes ###################################################################
 
-#-- include function library ---------------------------------------------------
+#------------------------------------------------ common function library bash_d
 
 # https://github.com/dehesselle/bash_d
 
@@ -26,10 +26,4 @@ source "$INCLUDE_DIR"/1_include_.sh
 include_file echo_.sh
 include_file error_.sh
 include_file lib_.sh
-
-#-- include custom functions ---------------------------------------------------
-
-for func in "$SELF_DIR"/funcs/*.sh; do
-  # shellcheck disable=SC1090 # can't point to a single source here
-  source "$func"
-done
+include_file sed.sh

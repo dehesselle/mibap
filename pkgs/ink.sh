@@ -48,7 +48,7 @@ INK_PYTHON_VER_BUILD=2  # custom build version
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR  # convenience handle
 
 # https://github.com/dehesselle/py3framework
-PYTHON_INK_URL=https://github.com/dehesselle/py3framework/releases/download/\
+INK_PYTHON_URL=https://github.com/dehesselle/py3framework/releases/download/\
 py${INK_PYTHON_VER/./}$INK_PYTHON_VER_PATCH.$INK_PYTHON_VER_BUILD/\
 py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i.tar.xz
 
@@ -58,7 +58,7 @@ py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i
 # https://github.com/lxml/lxml
 # https://github.com/dehesselle/py3framework
 # TODO: check and document why we're using our own build here
-INK_PYTHON_LXML=$(dirname $PYTHON_INK_URL)/lxml-4.5.2-\
+INK_PYTHON_LXML=$(dirname $INK_PYTHON_URL)/lxml-4.5.2-\
 cp${INK_PYTHON_VER/./}-cp${INK_PYTHON_VER/./}-macosx_10_9_x86_64.whl
 
 # https://github.com/numpy/numpy
