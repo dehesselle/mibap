@@ -19,6 +19,9 @@ v$PNG2ICNS_VER.tar.gz
 
 function png2icns_install
 {
-  install_source "$PNG2ICNS_URL"
-  ln -s "$(pwd)"/png2icns.sh "$BIN_DIR"
+  local archive
+  archive=$PKG_DIR/$(basename $PNG2ICNS_URL)
+  curl -o "$archive" -L "$PNG2ICNS_URL"
+  tar -C "$SRC_DIR" -xf "$archive"
+  ln -s "$SRC_DIR"/png2icns-$PNG2ICNS_VER/png2icns.sh "$BIN_DIR"
 }

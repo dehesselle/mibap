@@ -18,9 +18,11 @@ echo_i "VER_DIR = $VER_DIR"
 
 #-- create directories ---------------------------------------------------------
 
-# The following directories have been redirected so we need to create them.
+# We need these directories early on, so we need to create them ourselves.
 
 mkdir -p "$HOME"
+mkdir -p "$PKG_DIR"
+mkdir -p "$SRC_DIR"
 mkdir -p "$TMP_DIR"
 
 #-- install ccache -------------------------------------------------------------

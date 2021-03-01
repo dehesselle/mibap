@@ -36,8 +36,12 @@ function jhbuild_install
   # Apple's Python won't be able to validate certificates.
   pip3 install --ignore-installed --prefix "$VER_DIR" "$JHBUILD_PYTHON_CERTIFI"
 
-  install_source "$JHBUILD_URL"
-  JHBUILD_DIR=$(pwd)
+  # Download JHBuild.
+  local archive
+  archive=$PKG_DIR/$(basename $JHBUILD_URL)
+  curl -o "$archive" -L "$JHBUILD_URL"
+  tar -C "$SRC_DIR" -xf "$archive"
+  JHBUILD_DIR=$SRC_DIR/jhbuild-$JHBUILD_VER
 
   # Create 'jhbuild' executable. This code has been adapted from
   # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh

@@ -90,9 +90,11 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 
 # This section deals with bundling Python.framework into the application.
 
+# extract Python.framework
 mkdir "$INK_APP_FRA_DIR"
-install_source file://"$PKG_DIR"/"$(basename "$PYTHON_INK_URL")" "$INK_APP_FRA_DIR" \
-  --exclude="Versions/$INK_PYTHON_VER/lib/python$INK_PYTHON_VER/test/"'*'
+tar -C "$INK_APP_FRA_DIR" \
+  --exclude="Versions/$INK_PYTHON_VER/lib/python$INK_PYTHON_VER/test/"'*' \
+  -xf "$PKG_DIR"/"$(basename "$PYTHON_INK_URL")"
 
 # link it to $INK_APP_BIN_DIR so it'll be in $PATH for the app
 mkdir -p "$INK_APP_BIN_DIR"

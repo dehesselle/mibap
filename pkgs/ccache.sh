@@ -37,7 +37,12 @@ EOF
 
 function ccache_install
 {
-  install_source "$CCACHE_URL"
+  local archive
+  archive=$PKG_DIR/$(basename $CCACHE_URL)
+  curl -o "$archive" -L "$CCACHE_URL"
+  tar -C "$SRC_DIR" -xf "$archive"
+  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
+  cd "$SRC_DIR"/ccache-$CCACHE_VER
 
   ./configure --prefix="$VER_DIR"
   make
