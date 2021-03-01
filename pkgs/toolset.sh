@@ -34,7 +34,7 @@ function toolset_install
   else
     # File not present on disk, we need to download.
     echo_i "downloading: $TOOLSET_URL"
-    download_url "$TOOLSET_URL" "$TOOLSET_REPO_DIR"
+    toolset_download
   fi
 
   echo_i "Mounting compressed disk image, this may take some time..."
@@ -98,4 +98,13 @@ function toolset_build
   for script in "$SELF_DIR"/1??-*.sh; do
     $script
   done
+}
+
+function toolset_download
+{
+  if [ ! -d "$TOOLSET_REPO_DIR" ]; then
+    mkdir -p "$TOOLSET_REPO_DIR"
+  fi
+
+  curl -o "$PKG_DIR"/"$(basename "$TOOLSET_URL")" -L "$TOOLSET_URL"
 }

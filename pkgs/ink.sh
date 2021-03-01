@@ -132,3 +132,8 @@ function ink_pipinstall
 
   export PATH=$PATH_ORIGINAL
 }
+
+function ink_python_download
+{
+  curl -o "$PKG_DIR"/"$(basename "$INK_PYTHON_URL")" -L "$INK_PYTHON_URL"
+}

@@ -29,6 +29,4 @@ svg2icns_install
 
 #-- downlaod a pre-built Python.framework --------------------------------------
 
-# This will be bundled with the application.
-
-download_url "$PYTHON_INK_URL" "$PKG_DIR"
+ink_python_download
