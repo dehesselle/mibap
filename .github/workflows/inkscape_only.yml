@@ -64,6 +64,7 @@ jobs:
     - name: download toolset
       run: |
         source 020-vars.sh
+        source pkgs/toolset.sh
         mkdir -p $TOOLSET_REPO_DIR
         curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) -L $TOOLSET_URL
 

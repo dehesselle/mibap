@@ -118,10 +118,10 @@ jobs:
       run: |
         source 020-vars.sh
         cd $WRK_DIR
-        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $TOOLSET_VER -volname "mibap$TOOLSET_VER" mibap_v${TOOLSET_VER}_stripped.dmg
+        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $VERSION -volname "mibap$VERSION" mibap_v${VERSION}_stripped.dmg
         shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
         cat $(echo mibap*.sha256)
-        echo "::set-output name=version::$TOOLSET_VER"
+        echo "::set-output name=version::$VERSION"
       shell: bash
 
     - name: upload archive
@@ -266,7 +266,7 @@ jobs:
       id: toolset
       run: |
         source 020-vars.sh
-        echo "::set-output name=version::$TOOLSET_VER"
+        echo "::set-output name=version::$VERSION"
 
     - name: install toolset
       run: ./install_toolset.sh
