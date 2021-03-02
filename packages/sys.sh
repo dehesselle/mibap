@@ -30,8 +30,10 @@ SYS_PYTHON_VER_RECOMMENDED=3.8
 
 ### functions ##################################################################
 
-function sys_check_recommendations
+function sys_check_ver
 {
+  # Check version recommendations.
+
   if [ "$SYS_SDK_VER" != "$SYS_SDK_VER_RECOMMENDED" ]; then
     echo_w "recommended    SDK version: $SYS_SDK_VER_RECOMMENDED"
     echo_w "       your    SDK version: $SYS_SDK_VER"

@@ -107,7 +107,7 @@ jobs:
     # Remove files to push the archive below 2 GiB.
     - name: strip toolset
       run: |
-        source 020-vars.sh
+        source 010-init.sh
         rm -rf $BLD_DIR/*
         find $SRC_DIR -mindepth 1 -maxdepth 1 -type d ! -name 'gtk-mac-bundler*' -a ! -name 'jhbuild*' -a ! -name 'png2icns*' -exec rm -rf {} \;
 
@@ -116,7 +116,7 @@ jobs:
     - name: create archive
       id: archive
       run: |
-        source 020-vars.sh
+        source 010-init.sh
         cd $WRK_DIR
         hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $VERSION -volname "mibap$VERSION" mibap_v${VERSION}_stripped.dmg
         shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
@@ -215,7 +215,7 @@ jobs:
 
     - name: move disk image to workspace
       run: |
-        source 020-vars.sh
+        source 010-init.sh
         mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
 
     - name: uninstall toolset
@@ -265,7 +265,7 @@ jobs:
     - name: get toolset version
       id: toolset
       run: |
-        source 020-vars.sh
+        source 010-init.sh
         echo "::set-output name=version::$VERSION"
 
     - name: install toolset
