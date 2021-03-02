@@ -16,7 +16,7 @@ SYS_SDK_VER=$(/usr/libexec/PlistBuddy -c "Print \
 SYS_SDK_VER_RECOMMENDED=10.11
 
 SYS_XCODE_VER=$(xcodebuild -version | grep Xcode | awk '{ print $2 }')
-SYS_XCODE_VER_RECOMMENDED=12.3
+SYS_XCODE_VER_RECOMMENDED=12.4
 
 SYS_MACOS_VER=$(sw_vers -productVersion)
 SYS_MACOS_VER_RECOMMENDED=10.15.7
