@@ -1,36 +1,44 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 110-sysprep.sh ###
-# System preparation tasks.
 
-### settings and functions #####################################################
+### description ################################################################
+
+# This script performs system preparation tasks.
+
+### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
+  source "$script";
+done
 
-#-- initial information --------------------------------------------------------
+### settings ###################################################################
+
+# Nothing here.
+
+### main #######################################################################
+
+#---------------------------------------------- print main directory and version
 
 echo_i "WRK_DIR = $WRK_DIR"
 echo_i "VER_DIR = $VER_DIR"
 
-#-- create directories ---------------------------------------------------------
+#------------------------------------------------------------ create directories
 
-# We need these directories early on, so we need to create them ourselves.
+# We need these directories early on, so we need to create them here.
 
 mkdir -p "$HOME"
 mkdir -p "$PKG_DIR"
 mkdir -p "$SRC_DIR"
 mkdir -p "$TMP_DIR"
 
-#-- install ccache -------------------------------------------------------------
+#---------------------------------------------------------------- install ccache
 
 ccache_install
 ccache_configure
 
-#-- log relevant versions to release.log ---------------------------------------
+#------------------------------------------ log relevant versions to release.log
 
 mkdir -p "$VAR_DIR"/log
 

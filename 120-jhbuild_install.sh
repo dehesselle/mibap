@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 120-jhbuild_install.sh ###
-# Install and configure JHBuild.
+
+### description ################################################################
+
+# Setup JHBuild.
 
 ### includes ###################################################################
 

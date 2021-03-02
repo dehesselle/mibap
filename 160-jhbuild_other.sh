@@ -1,32 +1,37 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 160-jhbuild_other.sh ###
-# Install additional components that are not direct dependencies, like tools
-# required for packaging.
 
-### settings and functions #####################################################
+### description ################################################################
+
+# Install additionals tools that are no direct dependencies but that we need
+# for e.g. packaging.
+
+### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
+  source "$script";
+done
 
-include_file error_.sh
+### settings ###################################################################
+
 error_trace_enable
 
-#-- install disk image creator -------------------------------------------------
+### main #######################################################################
+
+#---------------------------------------------------- install disk image creator
 
 dmgbuild_install
 
-#-- install gtk-mac-bundler ----------------------------------------------------
+#-------------------------------------------- install application bundle creator
 
 jhbuild build gtkmacbundler
 
-#-- install svg to icns convertor ----------------------------------------------
+#------------------------------------------------- install svg to icns convertor
 
 svg2icns_install
 
-#-- downlaod a pre-built Python.framework --------------------------------------
+#---------------------------- downlaod Python runtime to be bundled with the app
 
 ink_python_download

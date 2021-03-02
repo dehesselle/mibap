@@ -3,9 +3,17 @@
 
 ### description ################################################################
 
-# This is the main initialization file. As its the first file to be sourced,
-# it contains the most basic global variables that all the other scripts depend
-# upon.
+# This is the main initialization file to setup the environment. Its purpose is
+#   - to provide some basic configuration in its variables section
+#     which do not fit into any package (see files in packages directory)
+#     and/or all the other files depend upon
+#   - source all other scripts
+#   - run a few essential checks to see if we're good
+#
+# It's also supposed to be a "passive" file, i.e. it defines variables and
+# functions but does not do anything on its own. However, this is only
+# 99% true at the moment as the above mentioned checks are capable of
+# calling it quits if a few very fundamental things appear to be broken.
 
 ### settings ###################################################################
 
@@ -48,7 +56,8 @@ fi
 
 # The fully qualified directory name in canonicalized form.
 # We neither have 'readlink -f' nor 'realpath' on macOS, so we use Python.
-SELF_DIR=$(dirname "$(python3 -c "import os; print(os.path.realpath('$0'))")")
+SELF_DIR=$(dirname \
+  "$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))")")
 
 #------------------------------------------------------------- directories: work
 

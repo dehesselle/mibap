@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 140-jhbuild_gtk3.sh ###
+
+### description ################################################################
+
 # Install GTK3 libraries.
 
-### settings and functions #####################################################
+### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
+  source "$script";
+done
 
-#-- install GTK3 libraries -----------------------------------------------------
+### settings ###################################################################
+
+# Nothing here.
+
+### main #######################################################################
 
 jhbuild build \
   meta-gtk-osx-bootstrap \
