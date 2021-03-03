@@ -100,7 +100,7 @@ for binary in $BIN_DIR/inkscape \
                awk '{ print $1 }'); do
     # Note that this here is the reason we require GNU's 'find', as the macOS
     # one doesn't pick up the files from bottom layer of our union mount.
-    lib_canonical=$(find "$LIB_DIR" -maxdepth 1 -name "$(basename "$lib")")
+    lib_canonical=$(find "$LIB_DIR" -maxdepth 2 -name "$(basename "$lib")")
     lib_change_path "$lib_canonical" "$binary"
   done
 done
