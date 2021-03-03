@@ -51,9 +51,10 @@ function toolset_install
   echo_i "toolset mounted as $device"
 
   # Sadly, there are some limitations involved with union-mounting:
-  #   - Files are not visible to 'ls'.
+  #   - Files are not visible to macOS' versions 'ls' or 'find'.
+  #     (The GNU versions do work though.)
   #   - You cannot write in a location without having written to its
-  #     parent location. That's why we need to pre-create all directories
+  #     parent location first. That's why we need to pre-create all directories
   #     below.
   #
   # Shadow-mounting a dmg is not a feasible alternative due to its
