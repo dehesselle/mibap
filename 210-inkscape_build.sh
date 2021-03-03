@@ -1,38 +1,40 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 210-inkscape_build.sh ###
-# Build Inscape.
 
-### settings and functions #####################################################
+### description ################################################################
+
+# Build Inkscape.
+
+### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
+  source "$script";
+done
 
-include_file ansi_.sh
-include_file error_.sh
-error_trace_enable
+### settings ###################################################################
 
-# shellcheck disable=SC2034 # var is from ansi_.sh
+# shellcheck disable=SC2034 # this is from ansi_.sh
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-### variables ##################################################################
+error_trace_enable
 
-INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")
+### main #######################################################################
 
-#-- configure ccache -----------------------------------------------------------
+#-------------------------------------------------------- (re-) configure ccache
 
-ccache_configure  # create directory and config file
+# This is required when using the precompiled toolset.
 
-#-- configure JHBuild ----------------------------------------------------------
+ccache_configure
+
+#------------------------------------------------------- (re-) configure JHBuild
 
 # This allows compiling Inkscape with a different setup than the toolset.
 
 jhbuild_configure
 
-#-- build Inkscape -------------------------------------------------------------
+#---------------------------------------------------------------- build Inkscape
 
 if ! $CI_GITLAB; then     # not running GitLab CI
 
@@ -73,21 +75,32 @@ make
 make install
 make tests
 
-#-- patch Poppler library locations --------------------------------------------
+#--------------------------------------------- make library link paths canonical
 
-lib_change_path \
-  "$LIB_DIR"/libpoppler\\..+dylib \
-  "$BIN_DIR"/inkscape \
-  "$LIB_DIR"/inkscape/libinkscape_base.dylib
+# Most libraries are linked to with their fully qualified paths. Some of them
+# have been linked to using '@rpath' which does not work out of the box. Since
+# we want Inkscape to work in unpackaged form as well, we adjust all offending
+# paths to use qualified paths.
+#
+# example 'ldd /Users/Shared/work/0.47/lib/inkscape/libinkscape_base.dylib':
+#
+#   /Users/Shared/work/0.47/lib/inkscape/libinkscape_base.dylib:
+#     @rpath/libinkscape_base.dylib (compatibility version 0.0.0, ...     <- fix
+#     @rpath/libboost_filesystem.dylib (compatibility version 0.0....     <- fix
+#     @rpath/lib2geom.1.1.0.dylib (compatibility version 1.1.0, cu...     <- fix
+#     /Users/Shared/work/0.47/lib/libharfbuzz.0.dylib (compatibili...     <- ok
+#     /Users/Shared/work/0.47/lib/libpangocairo-1.0.0.dylib (compa...     <- ok
+#     /Users/Shared/work/0.47/lib/libcairo.2.dylib (compatibility ...     <- ok
+#     ...
 
-lib_change_path \
-  "$LIB_DIR"/libpoppler-glib\\..+dylib \
-  "$BIN_DIR"/inkscape \
-  "$LIB_DIR"/inkscape/libinkscape_base.dylib
-
-#-- patch OpenMP library locations ---------------------------------------------
-
-lib_change_path \
-  "$LIB_DIR"/libomp.dylib \
-  "$BIN_DIR"/inkscape \
-  "$LIB_DIR"/inkscape/libinkscape_base.dylib
+for binary in $BIN_DIR/inkscape \
+              $LIB_DIR/inkscape/libinkscape_base.dylib; do
+  for lib in $(otool -L "$binary" |
+               grep "@rpath/" |
+               awk '{ print $1 }'); do
+    # Note that this here is the reason we require GNU's 'find', as the macOS
+    # one doesn't pick up the files from bottom layer of our union mount.
+    lib_canonical=$(find "$LIB_DIR" -maxdepth 1 -name "$(basename "$lib")")
+    lib_change_path "$lib_canonical" "$binary"
+  done
+done

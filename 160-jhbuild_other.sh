@@ -20,6 +20,13 @@ error_trace_enable
 
 ### main #######################################################################
 
+#---------------------------------------------------- install GNU Find Utilities
+
+# We need this because the 'find' provided by macOS does not see the files
+# in the lower (read-only) layer when we union-mount a ramdisk ontop of it.
+
+jhbuild build findutils
+
 #---------------------------------------------------- install disk image creator
 
 dmgbuild_install

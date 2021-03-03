@@ -34,6 +34,8 @@ else                  # not running GitLab CI
   fi
 fi
 
+INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
+
 #----------------------------------- Python runtime to be  bundled with Inkscape
 
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
