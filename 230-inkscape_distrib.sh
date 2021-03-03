@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-#
 # This file is part of the build pipeline for Inkscape on macOS.
-#
-# ### 230-inkscape_distrib.sh ###
-# Create Inkscape disk image for distribution.
 
-### settings and functions #####################################################
+### description ################################################################
+
+# Create disk image for distribution.
+
+### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do source "$script"; done
+for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
+  source "$script";
+done
 
-include_file ansi_.sh
-include_file error_.sh
-error_trace_enable
+### settings ###################################################################
 
-# shellcheck disable=SC2034 # var is from ansi_.sh
+# shellcheck disable=SC2034 # this is from ansi_.sh
 ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
-#-- create disk image for distribution -----------------------------------------
+error_trace_enable
+
+### main #######################################################################
 
 # Create background for development snapshots. This is not meant for
 # official releases, those will be re-packaged manually (they also need
@@ -35,7 +37,7 @@ convert -size 560x400 xc:transparent \
 # Create the disk image.
 dmgbuild_run "$ARTIFACT_DIR"/Inkscape.dmg
 
-# CI: move disk image to a location accessible for the runner
+# GitLab CI: move disk image to a location accessible for the runner
 if $CI_GITLAB; then
   # Cleanup required for non-ephemeral/persistent runners.
   if [ -d "$INK_DIR"/artifacts ]; then
