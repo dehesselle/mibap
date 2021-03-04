@@ -4,8 +4,8 @@
 
 ### description ################################################################
 
-# Install additionals tools that are no direct dependencies but that we need
-# for e.g. packaging.
+# Install additional tools that are no direct dependencies of Inkscape but that
+# we need for e.g. packaging the application.
 
 ### includes ###################################################################
 

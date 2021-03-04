@@ -4,8 +4,10 @@
 
 ### description ################################################################
 
-# In order to make JHBuild usable to build software, it needs to be bootstrapped
-# first. Also Meson and Ninja are have to installed as external dependencies.
+# The first step to perform with JHBuild is to run its bootstrap command.
+# After that it can be freely used to build whatever we want.
+# JHBuild has two external dependencies - Meson and Ninja - that it does not
+# fetch on its own, so we install them as well.
 
 ### includes ###################################################################
 

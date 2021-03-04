@@ -4,7 +4,8 @@
 
 ### description ################################################################
 
-# Create the application bundle.
+# Create the application bundle. This also includes patching library link
+# paths and all other components that we need to make relocatable.
 
 ### includes ###################################################################
 
@@ -157,7 +158,7 @@ rm "$INK_APP_BIN_DIR"/scour
 
 rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
 
-#-------------------------------------------------------------------- fontconfig
+#-------------------------------------------------- add fontconfig configuration
 
 # Mimic the behavior of having all files under 'share' and linking the
 # active ones to 'etc'.

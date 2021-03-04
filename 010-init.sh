@@ -10,10 +10,11 @@
 #   - source all other scripts
 #   - run a few essential checks to see if we're good
 #
-# It's also supposed to be a "passive" file, i.e. it defines variables and
-# functions but does not do anything on its own. However, this is only
-# 99% true at the moment as the above mentioned checks are capable of
-# calling it quits if a few very fundamental things appear to be broken.
+# It's meant to be sourced by all other scripts and supposed to be a "passive"
+# file, i.e. it defines variables and functions but does not do anything on its
+# own. However, this is only 99% true at the moment as the above mentioned
+# checks are capable of calling it quits if a few very fundamental things appear
+# to be broken.
 
 ### settings ###################################################################
 
@@ -22,7 +23,7 @@
 
 ### variables ##################################################################
 
-#----------------------------------------------------------------------- version
+#--------------------------------------------------------------- toolset version
 
 VERSION=0.47
 

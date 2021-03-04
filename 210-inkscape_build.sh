@@ -4,7 +4,9 @@
 
 ### description ################################################################
 
-# Build Inkscape.
+# Build a working version of Inkscape and install it into our tree (install
+# prefix is VER_DIR). Also patch Inkscape's main binary and library as we do
+# not have a valid @rpath at this point.
 
 ### includes ###################################################################
 

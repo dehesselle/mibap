@@ -2,7 +2,7 @@
 
 ### description ################################################################
 
-# TODO: blabla
+# System related things like checking versions of macOS and Xcode.
 
 ### settings ###################################################################
 

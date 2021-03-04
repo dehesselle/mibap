@@ -4,7 +4,7 @@
 
 ### description ################################################################
 
-# Install GTK3 libraries.
+# Install GTK3 libraries (and their dependencies).
 
 ### includes ###################################################################
 
