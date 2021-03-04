@@ -120,7 +120,9 @@ lib_change_paths \
 #------------------------------------------------- install Python package: NumPy
 
 ink_pipinstall "$INK_PYTHON_NUMPY"
-rm "$INK_APP_BIN_DIR"/f2p*
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/f2py
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/f2py3
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/f2py3.8
 
 #--------------------------------------------- install Python package: PyGObject
 
@@ -147,12 +149,13 @@ lib_change_paths \
 
 ink_pipinstall "$INK_PYTHON_PYSERIAL"
 find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
-rm "$INK_APP_BIN_DIR"/miniterm.*
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/pyserial-miniterm
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/pyserial-ports
 
-#------------------------------------------------- install Python package: Scou
+#------------------------------------------------- install Python package: Scour
 
 ink_pipinstall "$INK_PYTHON_SCOUR"
-rm "$INK_APP_BIN_DIR"/scour
+sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$APP_BIN_DIR"/scour
 
 #----------------------------------------------------- remove Python cache files
 

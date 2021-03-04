@@ -74,7 +74,7 @@ INK_PYTHON_SCOUR=scour==0.37
 
 # https://pyserial.readthedocs.io/en/latest/
 # https://github.com/pyserial/pyserial
-INK_PYTHON_PYSERIAL=pyserial==3.4
+INK_PYTHON_PYSERIAL=pyserial==3.5
 
 #------------------------------------------- application bundle directory layout
 
