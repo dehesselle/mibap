@@ -34,11 +34,6 @@ if [ -z "$SDKROOT" ]; then
 fi
 export SDKROOT
 
-#-------------------------------------------------------- max. simultaneous jobs
-
-MAKEFLAGS="-j $(/usr/sbin/sysctl -n hw.ncpu)"  # use all available cores
-export MAKEFLAGS
-
 #--------------------------------------------------------------------- detect CI
 
 if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.

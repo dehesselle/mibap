@@ -71,11 +71,12 @@ cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
   -DCMAKE_PREFIX_PATH="$VER_DIR" \
   -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
+  -GNinja \
   "$INK_DIR"
 
-make
-make install
-make tests
+ninja
+ninja install
+ninja tests
 
 #--------------------------------------------- make library link paths canonical
 
