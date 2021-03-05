@@ -118,7 +118,7 @@ jobs:
       run: |
         source 010-init.sh
         cd $WRK_DIR
-        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $VERSION -volname "mibap$VERSION" mibap_v${VERSION}_stripped.dmg
+        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $VERSION -volname "mibap$VERSION" mibap_v${VERSION}.dmg
         shasum -a 256 $(echo mibap*.dmg) > $(echo mibap*.dmg).sha256
         cat $(echo mibap*.sha256)
         echo "::set-output name=version::$VERSION"
@@ -128,13 +128,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Inkscape_build_toolset
-        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg
+        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}.dmg
 
     - name: upload archive checksum
       uses: actions/upload-artifact@v2
       with:
         name: Inkscape_build_toolset.sha256
-        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}_stripped.dmg.sha256
+        path: ${{ env.WRK_DIR }}/mibap_v${{ steps.archive.outputs.version }}.dmg.sha256
 
 ################################################################################
 
@@ -300,8 +300,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg
-        asset_name: mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg
+        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}.dmg
+        asset_name: mibap_v${{ steps.toolset.outputs.version }}.dmg
         asset_content_type: application/octet-stream
 
     - name: upload release asset checksum
@@ -310,6 +310,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg.sha256
-        asset_name: mibap_v${{ steps.toolset.outputs.version }}_stripped.dmg.sha256
+        asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.version }}.dmg.sha256
+        asset_name: mibap_v${{ steps.toolset.outputs.version }}.dmg.sha256
         asset_content_type: text/plain

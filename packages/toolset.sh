@@ -16,7 +16,7 @@ TOOLSET_VER=$VERSION
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
-v$TOOLSET_VER/mibap_v${TOOLSET_VER}_stripped.dmg
+v$TOOLSET_VER/mibap_v${TOOLSET_VER}.dmg
 
 TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
 
