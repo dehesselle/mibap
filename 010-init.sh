@@ -16,16 +16,20 @@
 # checks are capable of calling it quits if a few very fundamental things appear
 # to be broken.
 
+### includes ###################################################################
+
+# Nothing here.
+
 ### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
 # shellcheck disable=SC2034 # we only use export if we really need it
 
-### variables ##################################################################
+### main #######################################################################
 
 #--------------------------------------------------------------- toolset version
 
-VERSION=0.47
+VERSION=0.48
 
 #-------------------------------------------------------------- target OS by SDK
 
