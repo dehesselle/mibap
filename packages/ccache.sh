@@ -15,11 +15,10 @@ if [ -z "$CCACHE_DIR" ]; then
   CCACHE_DIR=$WRK_DIR/ccache
 fi
 export CCACHE_DIR
-CCACHE_SIZE=3.0G
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
-CCACHE_VER=3.7.12
+CCACHE_VER=4.2
 CCACHE_URL=https://github.com/ccache/ccache/releases/download/\
 v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
 
@@ -27,11 +26,13 @@ v$CCACHE_VER/ccache-$CCACHE_VER.tar.xz
 
 function ccache_configure
 {
-  mkdir -p "$CCACHE_DIR"
+    mkdir -p "$CCACHE_DIR"
 
   cat <<EOF > "$CCACHE_DIR/ccache.conf"
-max_size = $CCACHE_SIZE
+base_dir = $VER_DIR
 hash_dir = false
+max_size = 3.0G
+temporary_dir = $CCACHE_DIR/tmp
 EOF
 }
 
@@ -41,12 +42,20 @@ function ccache_install
   archive=$PKG_DIR/$(basename $CCACHE_URL)
   curl -o "$archive" -L "$CCACHE_URL"
   tar -C "$SRC_DIR" -xf "$archive"
-  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$SRC_DIR"/ccache-$CCACHE_VER
 
-  ./configure --prefix="$VER_DIR"
-  make
+  mkdir -p "$BLD_DIR"/ccache-$CCACHE_VER
+  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
+  cd "$BLD_DIR"/ccache-$CCACHE_VER
+
+  cmake_install
+  cmake_run \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DZSTD_FROM_INTERNET=ON \
+    -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
+    "$SRC_DIR"/ccache-$CCACHE_VER
+  make -j "$(/usr/sbin/sysctl -n hw.ncpu)"
   make install
+  cmake_uninstall
 
   for compiler in clang clang++ gcc g++; do
     ln -s ccache "$BIN_DIR"/$compiler
