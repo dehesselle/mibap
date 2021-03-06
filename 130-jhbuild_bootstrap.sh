@@ -28,11 +28,3 @@ mkdir -p "$XDG_CACHE_HOME"
 
 # Basic bootstrapping.
 jhbuild bootstrap-gtk-osx
-
-#----------------------------------------------------------------- install Meson
-
-meson_install
-
-#----------------------------------------------------------------- install Ninja
-
-ninja_install

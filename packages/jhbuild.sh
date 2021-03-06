@@ -34,7 +34,7 @@ function jhbuild_install
 {
   # Without this, JHBuild won't be able to access https links later because
   # Apple's Python won't be able to validate certificates.
-  pip3 install --ignore-installed --prefix "$VER_DIR" "$JHBUILD_PYTHON_CERTIFI"
+  certifi_install
 
   # Download JHBuild.
   local archive
@@ -73,6 +73,10 @@ jhbuild.main.main(sys.argv[1:])
 EOF
 
   chmod 755 "$BIN_DIR"/jhbuild
+
+  # Install JHBuild's external dependencies.
+  meson_install
+  ninja_install
 }
 
 function jhbuild_configure

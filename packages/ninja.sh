@@ -19,6 +19,10 @@ ninja-mac.zip
 
 function ninja_install
 {
-  curl -o "$PKG_DIR"/"$(basename $NINJA_URL)" -L "$NINJA_URL"
-  unzip -d "$BIN_DIR" "$PKG_DIR/$(basename "$NINJA_URL")"
+  if [ -f "$BIN_DIR"/ninja ]; then
+    echo_i "already installed"
+  else
+    curl -o "$PKG_DIR"/"$(basename $NINJA_URL)" -L "$NINJA_URL"
+    unzip -d "$BIN_DIR" "$PKG_DIR/$(basename "$NINJA_URL")"
+  fi
 }

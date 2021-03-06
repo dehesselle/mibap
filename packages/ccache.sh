@@ -48,14 +48,16 @@ function ccache_install
   cd "$BLD_DIR"/ccache-$CCACHE_VER
 
   cmake_install
+  ninja_install
   cmake_run \
     -DCMAKE_BUILD_TYPE=Release \
     -DZSTD_FROM_INTERNET=ON \
     -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
+    -GNinja \
     "$SRC_DIR"/ccache-$CCACHE_VER
-  make -j "$(/usr/sbin/sysctl -n hw.ncpu)"
-  make install
-  cmake_uninstall
+  ninja
+  ninja install
+  cmake_uninstall   # cleaning up because cmake gets pulled in by JHBuild later
 
   for compiler in clang clang++ gcc g++; do
     ln -s ccache "$BIN_DIR"/$compiler

@@ -6,16 +6,16 @@
 
 ### description ################################################################
 
-# This file contains everything related to setup Meson build system.
+# Install Mozilla root certificates to facilitate SSL certificate checks.
 
 ### variables ##################################################################
 
-# https://mesonbuild.com
-MESON_PIP=meson==0.55.1
+# https://pypi.org/project/certifi/
+CERTIFI_PIP=certifi   # unversioned on purpose
 
 ### functions ##################################################################
 
-function meson_install
+function certifi_install
 {
-  pip3 install --prefix "$VER_DIR" "$MESON_PIP"
+  pip3 install --prefix "$VER_DIR" "$CERTIFI_PIP"
 }
