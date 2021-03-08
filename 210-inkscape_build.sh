@@ -72,12 +72,11 @@ cmake \
   -DCMAKE_C_COMPILER_LAUNCHER=ccache \
   -DCMAKE_PREFIX_PATH="$VER_DIR" \
   -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
-  -GNinja \
   "$INK_DIR"
 
-ninja_run
-ninja_run install
-ninja_run tests
+make "-j$SYS_CORES"
+make "-j$SYS_CORES" install
+make "-j$SYS_CORES" tests
 
 #--------------------------------------------- make library link paths canonical
 

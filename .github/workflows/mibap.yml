@@ -144,8 +144,6 @@ jobs:
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache
-      # limit resource usage to not break GitHub CI
-      NINJA_OPTS: -j1
     steps:
 
     ### pre-build ##############################################################
@@ -207,6 +205,9 @@ jobs:
     ### build ##################################################################
 
     - name: compile Inkscape
+      env:
+        # limit resource usage to not break GitHub CI
+        SYS_CORES: 1
       run: ./210-inkscape_build.sh
 
     - name: create application bundle
