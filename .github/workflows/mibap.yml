@@ -198,6 +198,8 @@ jobs:
         for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
     - name: install toolset
+      env:
+        TOOLSET_OVERLAY_FILE: ${{ env.WRK_DIR }}/overlay.sparseimage
       run: ./install_toolset.sh
 
     ### build ##################################################################

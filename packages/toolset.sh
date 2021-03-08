@@ -18,9 +18,13 @@ TOOLSET_VER=$VERSION
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
 v$TOOLSET_VER/mibap_v${TOOLSET_VER}.dmg
 
-TOOLSET_OVERLAY_SIZE=3   # writable ramdisk overlay, unit in GiB
-
 TOOLSET_REPO_DIR=$WRK_DIR/repo   # persistent storage for downloaded dmg
+
+if [ -z "$TOOLSET_OVERLAY_FILE" ]; then
+  TOOLSET_OVERLAY_FILE=ram
+fi
+
+TOOLSET_OVERLAY_SIZE=3   # writable overlay, unit in GiB
 
 ### functions ##################################################################
 
@@ -37,7 +41,7 @@ function toolset_install
     toolset_download
   fi
 
-  echo_i "Mounting compressed disk image, this may take some time..."
+  echo_i "mounting compressed disk image may take some time..."
 
   if [ ! -d "$VER_DIR" ]; then
     mkdir -p "$VER_DIR"
@@ -47,8 +51,9 @@ function toolset_install
   local device
   device=$(hdiutil attach -nomount "$toolset_dmg" | grep "^/dev/disk" |
     grep "Apple_HFS" | awk '{ print $1 }')
+  echo_i "toolset attached to $device"
   mount -o nobrowse,noowners,ro -t hfs "$device" "$VER_DIR"
-  echo_i "toolset mounted as $device"
+  echo_i "$device mounted at $VER_DIR"
 
   # Sadly, there are some limitations involved with union-mounting:
   #   - Files are not visible to macOS' versions 'ls' or 'find'.
@@ -67,12 +72,22 @@ function toolset_install
   sed -i "" "1d" "$WRK_DIR"/create_dirs.sh   # remove first line ("file exists")
   chmod 755 "$WRK_DIR"/create_dirs.sh
 
-  # create writable ramdisk overlay
-  device=$(hdiutil attach -nomount \
-    ram://$((TOOLSET_OVERLAY_SIZE * 1024 * 2048)) | xargs)
-  newfs_hfs -v "overlay" "$device" >/dev/null
+  # create writable overlay
+  if [ "$TOOLSET_OVERLAY_FILE" = "ram" ]; then    # overlay in memory
+    device=$(hdiutil attach -nomount \
+      ram://$((TOOLSET_OVERLAY_SIZE * 1024 * 2048)) | xargs)
+    newfs_hfs -v "overlay" "$device" >/dev/null
+    echo_i "$TOOLSET_OVERLAY_SIZE GiB ram attached to $device"
+  else                                            # overlay on disk
+    hdiutil create -size 3g -fs HFS+ -nospotlight \
+      -volname overlay "$TOOLSET_OVERLAY_FILE"
+    echo_i "$TOOLSET_OVERLAY_SIZE GiB sparseimage attached to $device"
+    device=$(hdiutil attach -nomount "$TOOLSET_OVERLAY_FILE" |
+      grep "^/dev/disk" | grep "Apple_HFS" | awk '{ print $1 }')
+  fi
+
   mount -o nobrowse,rw,union -t hfs "$device" "$VER_DIR"
-  echo_i "writable overlay mounted as $device"
+  echo_i "$device mounted at $VER_DIR"
 
   # create all directories inside overlay
   "$WRK_DIR"/create_dirs.sh
@@ -92,6 +107,10 @@ function toolset_uninstall
       echo_i "ejected $disk"
     fi
   done
+
+  if [ -f "$TOOLSET_OVERLAY_FILE" ]; then
+    rm "$TOOLSET_OVERLAY_FILE"
+  fi
 }
 
 function toolset_build
