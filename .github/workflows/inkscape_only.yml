@@ -106,10 +106,10 @@ jobs:
       run: ./210-inkscape_build.sh
 
     - name: create application bundle
-      run: ./220-inkscape_package.sh
+      run: nice -n 20 ./220-inkscape_package.sh
 
     - name: create disk image
-      run: ./230-inkscape_distrib.sh
+      run: nice -n 20 ./230-inkscape_distrib.sh
 
     ### post-build ##############################################################
 
