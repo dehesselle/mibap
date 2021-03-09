@@ -117,6 +117,7 @@ jobs:
       run: |
         source 010-init.sh
         mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
+        sync
 
     - name: uninstall toolset
       run: ./uninstall_toolset.sh

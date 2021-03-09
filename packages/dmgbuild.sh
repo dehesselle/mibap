@@ -33,6 +33,9 @@ function dmgbuild_install
 {
   # shellcheck disable=SC2086 # we need word splitting here
   jhbuild run pip3 install $DMGBUILD_PIP
+
+  # dmgbuild has issues with detaching, workaround is to increase max retries
+  sed -i '' '$ s/HiDPI)/HiDPI, detach_retries=15)/g' "$BIN_DIR"/dmgbuild
 }
 
 function dmgbuild_run
