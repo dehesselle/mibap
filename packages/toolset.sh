@@ -65,7 +65,9 @@ function toolset_install
   # Shadow-mounting a dmg is not a feasible alternative due to its
   # bad write-performance.
 
-  # prepare a script for mass-creating directories
+  # Prepare a script for mass-creating directories. We have to do this before
+  # untion-mounting as macOS' 'find' won't see the directories anymore after.
+  # (GNU's 'find' does)
   find "$VER_DIR" -type d ! -path "$VAR_DIR/*" ! -path "$SRC_DIR/*" \
       -exec echo "mkdir {}" \; > "$WRK_DIR"/create_dirs.sh
   echo "mkdir $BLD_DIR" >> "$WRK_DIR"/create_dirs.sh
@@ -103,7 +105,13 @@ function toolset_uninstall
     if [ ${#disk} -eq 0 ]; then
       break   # nothing to do here
     else
-      diskutil eject "$disk" > /dev/null   # unmount
+      # We loop over the 'eject' since it can timeout in GitHub CI.
+      local retry=true
+      while [ $retry ]; do
+        retry=false
+        diskutil eject "$disk" > /dev/null || retry=true  # unmount
+      done
+
       echo_i "ejected $disk"
     fi
   done
@@ -111,13 +119,6 @@ function toolset_uninstall
   if [ -f "$TOOLSET_OVERLAY_FILE" ]; then
     rm "$TOOLSET_OVERLAY_FILE"
   fi
-}
-
-function toolset_build
-{
-  for script in "$SELF_DIR"/1??-*.sh; do
-    $script
-  done
 }
 
 function toolset_download

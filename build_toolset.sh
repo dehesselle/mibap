@@ -20,7 +20,9 @@ set -e   # break if one of the called scripts ends in error
 
 ### main #######################################################################
 
-toolset_build
+for script in "$SELF_DIR"/1??-*.sh; do
+  $script
+done
 
 # Our way of union-mounting a writable overlay ontop of a readonly filesystem
 # introduces the additional challenge that paths cannot be written to if the
