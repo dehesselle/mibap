@@ -39,7 +39,7 @@ mkdir -p "$TMP_DIR"
 
 #---------------------------------------------------------------- install ccache
 
-ccache_install
+ccache_v4_install
 ccache_configure
 
 #------------------------------------------ log relevant versions to release.log
