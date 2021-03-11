@@ -63,8 +63,8 @@ function dmgbuild_run
     sed -i '' "s/PLACEHOLDERBACKGROUND/$(sed_escape_str "$background")/" "$DMGBUILD_CONFIG"
   fi
 
-  # Create disk image in temporary location and move to targetr location
+  # Create disk image in temporary location and move to target location
   # afterwards. This way we can run multiple times without requiring cleanup.
-  dmgbuild -s "$DMGBUILD_CONFIG" "$(basename -s .app "$INK_APP_DIR")" $TMP_DIR/$(basename $dmg_file)
-  mv $TMP_DIR/$(basename $dmg_file) $dmg_file
+  dmgbuild -s "$DMGBUILD_CONFIG" "$(basename -s .app "$INK_APP_DIR")" "$TMP_DIR"/"$(basename "$dmg_file")"
+  mv "$TMP_DIR"/"$(basename "$dmg_file")" "$dmg_file"
 }

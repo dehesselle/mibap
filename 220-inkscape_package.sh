@@ -25,9 +25,9 @@ error_trace_enable
 
 #----------------------------------------------------- create application bundle
 
-mkdir -p "$ARTIFACT_DIR"
-
 ( # run gtk-mac-bundler
+
+  export ARTIFACT_DIR=$ARTIFACT_DIR
 
   BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
   mkdir -p "$BUILD_DIR"
@@ -35,10 +35,9 @@ mkdir -p "$ARTIFACT_DIR"
   cp "$SELF_DIR"/inkscape.bundle "$BUILD_DIR"
   cp "$SELF_DIR"/inkscape.plist "$BUILD_DIR"
 
-  export ARTIFACT_DIR   # referenced in inkscape.bundle
-  # shellcheck disable=SC2164 # we have error trapping that catches bad 'cd'
+  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
   cd "$BUILD_DIR"
-  jhbuild run gtk-mac-bundler inkscape.bundle
+  jhbuild run gtk-mac-bundler inkscape.bundle  # needs ARTIFACT_DIR
 )
 
 # Rename to get from lowercase to capitalized "i" as the binary was completely
@@ -165,7 +164,7 @@ rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
 
 # Mimic the behavior of having all files under 'share' and linking the
 # active ones to 'etc'.
-# shellcheck disable=SC2164 # we have error trapping that catches bad 'cd'
+# shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
 cd "$INK_APP_ETC_DIR"/fonts/conf.d
 
 for file in ./*.conf; do

@@ -44,12 +44,14 @@ if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.
   CI=false
 else
   CI=true   # probably redundant, but for completeness sake
-fi
 
-if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
-  CI_GITLAB=true
-else
-  CI_GITLAB=false
+  if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
+    CI_GITHUB=false
+    CI_GITLAB=true
+  else
+    CI_GITHUB=true
+    CI_GITLAB=false
+  fi
 fi
 
 #------------------------------------------------------------- directories: self
@@ -102,17 +104,17 @@ export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
 #--------------------------------------------------------- directories: artifact
 
-ARTIFACT_DIR=$VER_DIR/artifacts   # parent directory for build artifacts
+if   $CI_GITHUB; then
+  ARTIFACT_DIR=$GITHUB_WORKSPACE
+elif $CI_GITLAB; then
+  ARTIFACT_DIR=$CI_PROJECT_DIR
+else
+  ARTIFACT_DIR=$VER_DIR
+fi
 
 #---------------------------------------------------------------------- set path
 
 export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
-
-### functions ##################################################################
-
-# Nothing here.
-
-### main #######################################################################
 
 #------------------------------------------ source functions from bash_d library
 
@@ -132,6 +134,9 @@ for package in "$SELF_DIR"/packages/*.sh; do
   # shellcheck disable=SC1090 # can't point to a single source here
   source "$package"
 done
+
+# shellcheck disable=SC2034 # this is from ansi_.sh
+ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
 
 #---------------------------------------------------- check if WRK_DIR is usable
 

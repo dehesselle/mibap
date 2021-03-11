@@ -36,13 +36,3 @@ convert -size 560x400 xc:transparent \
 
 # Create the disk image.
 dmgbuild_run "$ARTIFACT_DIR"/Inkscape.dmg
-
-# GitLab CI: move disk image to a location accessible for the runner
-if $CI_GITLAB; then
-  # Cleanup required for non-ephemeral/persistent runners.
-  if [ -d "$INK_DIR"/artifacts ]; then
-    rm -rf "$INK_DIR"/artifacts
-  fi
-
-  mv "$ARTIFACT_DIR" "$INK_DIR"/artifacts
-fi

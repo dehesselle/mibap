@@ -28,26 +28,26 @@ jobs:
       CCACHE_DIR: /Users/Shared/work/ccache
     steps:
 
-    ### pre-build ##############################################################
+    ### prepare the environemnt ################################################
 
     - name: checkout repository
       uses: actions/checkout@v2
       with:
         submodules: true
 
-    - name: create timestamp
-      id: time
+    - name: create cache id
+      id: cache_id
       uses: nanzm/get-time-action@v1.1
       with:
         format: "YYYY-MM-DD-HH-mm-ss"
 
     # Create a new cache, building ontop the most recent old one.
-    - name: populate CCACHE_DIR
+    - name: setup cache
       id: cache
       uses: actions/cache@v2
       with:
         path: ${{ env.CCACHE_DIR }}
-        key: ccache-toolset-${{ steps.time.outputs.time }}
+        key: ccache-toolset-${{ steps.cache_id.outputs.time }}
         restore-keys: ccache-toolset-
 
     # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
@@ -65,7 +65,7 @@ jobs:
         curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
         echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
-    ### cleanup /usr/local #####################################################
+    ### disable /usr/local #####################################################
 
     # GitHub does not provide a clean macOS installation. We need to move the
     # pre-installed components out of the way so we don't pick them up by
@@ -95,37 +95,25 @@ jobs:
     - name: install additional components
       run: ./160-jhbuild_other.sh
 
-    ### post-build toolset #####################################################
+    ### create toolset dmg #####################################################
 
-    - name: create toolset disk image
+    - name: create toolset dmg
       id: toolset
       run: |
         source 010-init.sh
-        rm -rf $BLD_DIR/*
-        find $SRC_DIR -mindepth 1 -maxdepth 1 -type d ! -name 'gtk-mac-bundler*' -a ! -name 'jhbuild*' -a ! -name 'png2icns*' -exec rm -rf {} \;
-        cd $WRK_DIR
-        hdiutil create -fs HFS+ -ov -format UDBZ -srcfolder $VERSION -volname "mibap$VERSION" $GITHUB_WORKSPACE/mibap_v${VERSION}.dmg
-        shasum -a 256 $(echo $GITHUB_WORKSPACE/mibap*.dmg) > $(echo $GITHUB_WORKSPACE/mibap*.dmg).sha256
-        cat $(echo $GITHUB_WORKSPACE/mibap*.sha256)
+        toolset_create_dmg
         echo "::set-output name=version::$VERSION"
 
     ### build Inkscape #########################################################
 
-    - name: compile Inkscape
+    - name: build Inkscape
       run: ./210-inkscape_build.sh
 
-    - name: create application bundle
+    - name: create Inkscape.app
       run: ./220-inkscape_package.sh
 
-    - name: create disk image
+    - name: create Inkscape.dmg
       run: ./230-inkscape_distrib.sh
-
-    ### post-build Inkscape ####################################################
-
-    - name: move disk image to workspace
-      run: |
-        source 010-init.sh
-        mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
 
     ### undo cleanup /usr/local ################################################
 

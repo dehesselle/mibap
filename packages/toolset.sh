@@ -105,11 +105,10 @@ function toolset_uninstall
     if [ ${#disk} -eq 0 ]; then
       break   # nothing to do here
     else
-      # We loop over the 'eject' since it can timeout in GitHub CI.
-      local retry=true
-      while [ $retry ]; do
-        retry=false
-        diskutil eject "$disk" > /dev/null || retry=true  # unmount
+      # We loop over the 'eject' since it occasionally timeouts.
+      while ! diskutil eject "$disk" > /dev/null; do
+        echo_w "retrying to eject $disk in 5 seconds"
+        sleep 5
       done
 
       echo_i "ejected $disk"
@@ -128,4 +127,26 @@ function toolset_download
   fi
 
   curl -o "$PKG_DIR"/"$(basename "$TOOLSET_URL")" -L "$TOOLSET_URL"
+}
+
+function toolset_create_dmg
+{
+  # remove files to reduce size
+  rm -rf "${BLD_DIR:?}"/*
+  find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d \
+    ! -name 'gtk-mac-bundler*' -a \
+    ! -name 'jhbuild*' -a \
+    ! -name 'png2icns*' \
+    -exec rm -rf {} \;
+
+  # create dmg and sha256, print sha256
+  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
+  cd "$WRK_DIR"
+  hdiutil create -fs HFS+ -ov -format UDBZ \
+    -srcfolder "$VERSION" \
+    -volname "mibap$VERSION" \
+    "$ARTIFACT_DIR"/mibap_v"${VERSION}".dmg
+  shasum -a 256 "$(echo "$ARTIFACT_DIR"/mibap*.dmg)" > \
+                "$(echo "$ARTIFACT_DIR"/mibap*.dmg)".sha256
+  cat "$(echo "$ARTIFACT_DIR"/mibap*.sha256)"
 }

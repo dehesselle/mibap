@@ -3,7 +3,7 @@
 ### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2164 # we have error trapping that catches bad 'cd'
+# shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
 
 ### description ################################################################
 
