@@ -27,17 +27,13 @@ error_trace_enable
 
 ( # run gtk-mac-bundler
 
-  export ARTIFACT_DIR=$ARTIFACT_DIR
-
-  BUILD_DIR=$SRC_DIR/gtk-mac-bundler.build
-  mkdir -p "$BUILD_DIR"
-
-  cp "$SELF_DIR"/inkscape.bundle "$BUILD_DIR"
-  cp "$SELF_DIR"/inkscape.plist "$BUILD_DIR"
+  cp "$SELF_DIR"/inkscape.bundle "$INK_BLD_DIR"
+  cp "$SELF_DIR"/inkscape.plist "$INK_BLD_DIR"
 
   # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$BUILD_DIR"
-  jhbuild run gtk-mac-bundler inkscape.bundle  # needs ARTIFACT_DIR
+  cd "$INK_BLD_DIR"
+  export ARTIFACT_DIR=$ARTIFACT_DIR   # referenced in inkscape.bundle
+  jhbuild run gtk-mac-bundler inkscape.bundle
 )
 
 # Rename to get from lowercase to capitalized "i" as the binary was completely
