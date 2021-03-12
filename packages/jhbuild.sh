@@ -22,12 +22,6 @@ JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
-#--------------------------------------- certificates for Python requests module
-
-# Mozilla Root Certificates
-# https://pypi.org/project/certifi
-JHBUILD_PYTHON_CERTIFI=certifi   # This is unversioned on purpose.
-
 ### functions ##################################################################
 
 function jhbuild_install
