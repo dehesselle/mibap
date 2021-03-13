@@ -26,6 +26,8 @@ fi
 
 TOOLSET_OVERLAY_SIZE=3   # writable overlay, unit in GiB
 
+TOOLSET_VOLNAME=mibap$VERSION
+
 ### functions ##################################################################
 
 function toolset_install
@@ -41,19 +43,7 @@ function toolset_install
     toolset_download
   fi
 
-  echo_i "mounting compressed disk image may take some time..."
-
-  if [ ! -d "$VER_DIR" ]; then
-    mkdir -p "$VER_DIR"
-  fi
-
-  # mount build system
-  local device
-  device=$(hdiutil attach -nomount "$toolset_dmg" | grep "^/dev/disk" |
-    grep "Apple_HFS" | awk '{ print $1 }')
-  echo_i "toolset attached to $device"
-  mount -o nobrowse,noowners,ro -t hfs "$device" "$VER_DIR"
-  echo_i "$device mounted at $VER_DIR"
+  toolset_mount "$toolset_dmg" "$VER_DIR"
 
   # Sadly, there are some limitations involved with union-mounting:
   #   - Files are not visible to macOS' versions 'ls' or 'find'.
@@ -64,7 +54,7 @@ function toolset_install
   #
   # Shadow-mounting a dmg is not a feasible alternative due to its
   # bad write-performance.
-
+  #
   # Prepare a script for mass-creating directories. We have to do this before
   # untion-mounting as macOS' 'find' won't see the directories anymore after.
   # (GNU's 'find' does)
@@ -98,9 +88,53 @@ function toolset_install
 
 function toolset_uninstall
 {
+  toolset_unmount "$VER_DIR"
+
+  if [ -f "$TOOLSET_OVERLAY_FILE" ]; then
+    rm "$TOOLSET_OVERLAY_FILE"
+  fi
+}
+
+function toolset_download
+{
+  if [ ! -d "$TOOLSET_REPO_DIR" ]; then
+    mkdir -p "$TOOLSET_REPO_DIR"
+  fi
+
+  curl -o "$TOOLSET_REPO_DIR"/"$(basename "$TOOLSET_URL")" -L "$TOOLSET_URL"
+}
+
+function toolset_mount
+{
+  local toolset_dmg=$1
+  local mountpoint=$2
+
+  echo_i "mounting compressed disk image may take some time..."
+
+  if [ ! -d "$VER_DIR" ]; then
+    mkdir -p "$VER_DIR"
+  fi
+
+  if [ -z "$mountpoint" ]; then
+    hdiutil attach "$toolset_dmg"
+  else
+    local device
+    device=$(hdiutil attach -nomount "$toolset_dmg" | grep "^/dev/disk" |
+      grep "Apple_HFS" | awk '{ print $1 }')
+    echo_i "toolset attached to $device"
+    mount -o nobrowse,noowners,ro -t hfs "$device" "$mountpoint"
+    echo_i "$device mounted at $VER_DIR"
+  fi
+}
+
+function toolset_unmount
+{
+  local mountpoint=$1
+
   while : ; do   # unmount everything (in reverse order)
     local disk
-    disk=$(mount | grep "$VER_DIR" | tail -n1 | awk '{ print $1 }')
+    disk=$(mount | grep "$mountpoint" | tail -n1 | awk '{ print $1 }')
+    disk=${disk%s*}  # cut off slice specification
 
     if [ ${#disk} -eq 0 ]; then
       break   # nothing to do here
@@ -114,19 +148,6 @@ function toolset_uninstall
       echo_i "ejected $disk"
     fi
   done
-
-  if [ -f "$TOOLSET_OVERLAY_FILE" ]; then
-    rm "$TOOLSET_OVERLAY_FILE"
-  fi
-}
-
-function toolset_download
-{
-  if [ ! -d "$TOOLSET_REPO_DIR" ]; then
-    mkdir -p "$TOOLSET_REPO_DIR"
-  fi
-
-  curl -o "$PKG_DIR"/"$(basename "$TOOLSET_URL")" -L "$TOOLSET_URL"
 }
 
 function toolset_create_dmg
@@ -142,11 +163,36 @@ function toolset_create_dmg
   # create dmg and sha256, print sha256
   # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
   cd "$WRK_DIR"
+  # TODO: use TOOLSET_VOLNAME isntead mibab_v$VERSION
+  #       -> requires URL change!
   hdiutil create -fs HFS+ -ov -format UDBZ \
     -srcfolder "$VERSION" \
-    -volname "mibap$VERSION" \
+    -volname "$TOOLSET_VOLNAME" \
     "$ARTIFACT_DIR"/mibap_v"${VERSION}".dmg
   shasum -a 256 "$(echo "$ARTIFACT_DIR"/mibap*.dmg)" > \
                 "$(echo "$ARTIFACT_DIR"/mibap*.dmg)".sha256
   cat "$(echo "$ARTIFACT_DIR"/mibap*.sha256)"
+}
+
+function toolset_copy
+{
+  local target=$1
+
+  local toolset_dmg
+  toolset_dmg=$TOOLSET_REPO_DIR/$(basename "$TOOLSET_URL")
+
+  if [ -f "$toolset_dmg" ]; then
+    echo_i "toolset found: $toolset_dmg"
+  else
+    # File not present on disk, we need to download.
+    echo_i "downloading: $TOOLSET_URL"
+    toolset_download
+  fi
+
+  toolset_mount "$toolset_dmg"
+
+  echo_i "copying files..."
+  rsync -a /Volumes/"$TOOLSET_VOLNAME"/ "$target"
+
+  toolset_unmount /Volumes/"$TOOLSET_VOLNAME"
 }

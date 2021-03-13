@@ -92,35 +92,23 @@ jobs:
         cd /usr/local
         for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
-    - name: install toolset
-      env:
-        TOOLSET_OVERLAY_FILE: ${{ env.WRK_DIR }}/overlay.sparseimage
-      run: ./install_toolset.sh
+    - name: copy toolset
+      run: |
+        source 010-init.sh
+        toolset_copy $VER_DIR
 
     ### build ##################################################################
 
     - name: compile Inkscape
-      env:
-        # limit resource usage to not break GitHub CI
-        SYS_CORES: 1
       run: ./210-inkscape_build.sh
 
     - name: create application bundle
-      run: nice -n 20 ./220-inkscape_package.sh
+      run: ./220-inkscape_package.sh
 
     - name: create disk image
-      run: nice -n 20 ./230-inkscape_distrib.sh
+      run: ./230-inkscape_distrib.sh
 
     ### post-build ##############################################################
-
-    - name: move disk image to workspace
-      run: |
-        source 010-init.sh
-        mv $ARTIFACT_DIR/Inkscape.dmg $GITHUB_WORKSPACE
-        sync
-
-    - name: uninstall toolset
-      run: ./uninstall_toolset.sh
 
     # Undo what we did before, GitHub actions may depend on these.
     - name: re-enable /usr/local
