@@ -34,7 +34,7 @@ SYS_XCODE_VER_RECOMMENDED=12.4
 
 ### functions ##################################################################
 
-function sys_check_ver
+function sys_ver_check
 {
   # Check version recommendations.
 
@@ -57,4 +57,15 @@ function sys_check_ver
     echo_w "recommended Python version: $SYS_PYTHON_VER_RECOMMENDED"
     echo_w "       your Python version: $SYS_PYTHON_VER"
   fi
+}
+
+function sys_ver_log
+{
+  # Create release.log file.
+
+  mkdir -p "$VAR_DIR"/log
+
+  for var in SYS_MACOS_VER SYS_SDK_VER SYS_XCODE_VER VERSION WRK_DIR; do
+    echo "$var = $(eval echo \$$var)" >> "$VAR_DIR"/log/release.log
+  done
 }

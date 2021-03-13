@@ -44,8 +44,4 @@ ccache_configure
 
 #------------------------------------------ log relevant versions to release.log
 
-mkdir -p "$VAR_DIR"/log
-
-for var in MACOS_VER SDK_VER TOOLSET_VER WRK_DIR XCODE_VER; do
-  echo "$var = $(eval echo \$$var)" >> "$VAR_DIR"/log/release.log
-done
+sys_ver_log

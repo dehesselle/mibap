@@ -158,4 +158,4 @@ fi
 
 #---------------------------------------------------- check recommended versions
 
-sys_check_ver
+sys_ver_check
