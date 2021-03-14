@@ -11,12 +11,14 @@
 
 ### variables ##################################################################
 
-TOOLSET_VER=$VERSION
+TOOLSET_VER=v$VERSION
+
+TOOLSET_VOLNAME=mibap_$TOOLSET_VER
 
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
-v$TOOLSET_VER/mibap_v${TOOLSET_VER}.dmg
+$TOOLSET_VER/$TOOLSET_VOLNAME.dmg
 
 TOOLSET_REPO_DIR=$WRK_DIR/repo   # persistent storage for downloaded dmg
 
@@ -25,8 +27,6 @@ if [ -z "$TOOLSET_OVERLAY_FILE" ]; then
 fi
 
 TOOLSET_OVERLAY_SIZE=3   # writable overlay, unit in GiB
-
-TOOLSET_VOLNAME=mibap$VERSION
 
 ### functions ##################################################################
 
@@ -163,15 +163,14 @@ function toolset_create_dmg
   # create dmg and sha256, print sha256
   # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
   cd "$WRK_DIR"
-  # TODO: use TOOLSET_VOLNAME isntead mibab_v$VERSION
-  #       -> requires URL change!
+
   hdiutil create -fs HFS+ -ov -format UDBZ \
     -srcfolder "$VERSION" \
     -volname "$TOOLSET_VOLNAME" \
-    "$ARTIFACT_DIR"/mibap_v"${VERSION}".dmg
-  shasum -a 256 "$(echo "$ARTIFACT_DIR"/mibap*.dmg)" > \
-                "$(echo "$ARTIFACT_DIR"/mibap*.dmg)".sha256
-  cat "$(echo "$ARTIFACT_DIR"/mibap*.sha256)"
+    "$ARTIFACT_DIR/$TOOLSET_VOLNAME".dmg
+  shasum -a 256 "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg" > \
+                "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg".sha256
+  cat "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg.sha256"
 }
 
 function toolset_copy

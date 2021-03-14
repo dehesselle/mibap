@@ -29,7 +29,7 @@
 
 #--------------------------------------------------------------- toolset version
 
-VERSION=0.48
+VERSION=0.49
 
 #-------------------------------------------------------------- target OS by SDK
 
@@ -42,8 +42,10 @@ export SDKROOT
 
 if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.
   CI=false
+  CI_GITHUB=false
+  CI_GITLAB=false
 else
-  CI=true   # probably redundant, but for completeness sake
+  CI=true
 
   if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
     CI_GITHUB=false
@@ -109,7 +111,7 @@ if   $CI_GITHUB; then
 elif $CI_GITLAB; then
   ARTIFACT_DIR=$CI_PROJECT_DIR
 else
-  ARTIFACT_DIR=$VER_DIR
+  ARTIFACT_DIR=$WRK_DIR
 fi
 
 #---------------------------------------------------------------------- set path
