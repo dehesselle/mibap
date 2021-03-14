@@ -134,7 +134,7 @@ function toolset_unmount
   while : ; do   # unmount everything (in reverse order)
     local disk
     disk=$(mount | grep "$mountpoint" | tail -n1 | awk '{ print $1 }')
-    disk=${disk%s*}  # cut off slice specification
+    disk=${disk%s[0-9]}  # cut off slice specification
 
     if [ ${#disk} -eq 0 ]; then
       break   # nothing to do here
