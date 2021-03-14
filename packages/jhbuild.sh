@@ -86,7 +86,6 @@ function jhbuild_configure
   {
     # set moduleset directory
     echo "modulesets_dir = '$SELF_DIR/jhbuild'"
-    echo "modulesets_dir = '$SELF_DIR/jhbuild'"
 
     # basic directory layout
     echo "buildroot = '$BLD_DIR'"
