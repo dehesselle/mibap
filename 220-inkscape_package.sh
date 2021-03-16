@@ -177,11 +177,13 @@ mkdir "$INK_APP_LIB_DIR"/girepository-1.0
 
 # remove fully qualified paths from libraries in *.gir files
 for gir in "$VER_DIR"/share/gir-1.0/*.gir; do
-  sed "s/$(sed_escape_str "$LIB_DIR"/)//g" "$gir" > "$SRC_DIR"/"$(basename "$gir")"
+  sed "s/$(sed_escape_str "$LIB_DIR"/)//g" "$gir" > \
+    "$SRC_DIR/$(basename "$gir")"
 done
 
 # compile *.gir into *.typelib files
 for gir in "$SRC_DIR"/*.gir; do
   jhbuild run g-ir-compiler \
-    -o "$INK_APP_LIB_DIR"/girepository-1.0/"$(basename -s .gir "$gir")".typelib "$gir"
+    -o "$INK_APP_LIB_DIR/girepository-1.0/$(basename -s .gir "$gir")".typelib \
+    "$gir"
 done
