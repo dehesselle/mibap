@@ -12,7 +12,7 @@
 ### variables ##################################################################
 
 if [ -z "$SYS_CORES" ]; then
-  SYS_CORES=$(/usr/sbin/sysctl -n hw.ncpu)
+  SYS_CORES=$(sysctl -n hw.ncpu)
 fi
 
 SYS_MACOS_VER=$(sw_vers -productVersion)
