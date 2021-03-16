@@ -22,9 +22,4 @@ done
 
 ### main #######################################################################
 
-#------------------------------------------------------------- bootstrap JHBuild
-
-mkdir -p "$XDG_CACHE_HOME"
-
-# Basic bootstrapping.
 jhbuild bootstrap-gtk-osx
