@@ -14,8 +14,10 @@ on: push
 #
 #   - release
 #     If the current commit is tagged with a version number (tag beginning
-#     with lower case "v"), create a release draft and upload the workflow
-#     artifacts to it.
+#     with lower case "v"), create a release draft and upload the toolset
+#     related workflow artifacts to it. (This is excludes the Inkscape
+#     artifact on purpose as it was only built to verify the working state
+#     of all scripts.)
 
 jobs:
 

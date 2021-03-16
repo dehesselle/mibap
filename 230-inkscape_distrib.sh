@@ -23,7 +23,7 @@ error_trace_enable
 ### main #######################################################################
 
 # Create background for development snapshots. This is not meant for
-# official releases, those will be re-packaged manually (they also need
+# official releases, those will be repackaged eventually (they also need
 # to be signed and notarized).
 convert -size 560x400 xc:transparent \
   -font Andale-Mono -pointsize 64 -fill black \

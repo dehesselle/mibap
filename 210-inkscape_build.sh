@@ -26,13 +26,15 @@ error_trace_enable
 
 #-------------------------------------------------------- (re-) configure ccache
 
-# This is required when using the precompiled toolset.
+# This is required when using the precompiled toolset as ccache will not have
+# been setup before (it happens in 110-sysprep.sh).
 
 ccache_configure
 
 #------------------------------------------------------- (re-) configure JHBuild
 
-# This allows compiling Inkscape with a different setup than the toolset.
+# This allows compiling Inkscape with a different setup than what the toolset
+# was built with, most importantly a different SDK.
 
 jhbuild_configure
 
@@ -42,7 +44,7 @@ if ! $CI_GITLAB; then     # not running GitLab CI
 
   if [ -d "$INK_DIR"/.git ]; then   # Already cloned?
     # Special treatment 1/2 for local builds: Leave it up to the
-    # user if they need a fresh clone. This way we enable makeing changes
+    # user if they need a fresh clone. This way we enable making changes
     # to the code and running the build again.
     echo_w "using existing repository in $INK_DIR"
     echo_w "Do 'rm -rf $INK_DIR' if you want a fresh clone."
@@ -82,9 +84,11 @@ ninja_run tests
 #--------------------------------------------- make library link paths canonical
 
 # Most libraries are linked to with their fully qualified paths. Some of them
-# have been linked to using '@rpath' which does not work out of the box. Since
-# we want Inkscape to work in unpackaged form as well, we adjust all offending
-# paths to use qualified paths.
+# have been linked to using '@rpath', which we are not setting, therefore
+# breaking the binary. Since we want Inkscape to work in unpackaged form as
+# well, we adjust all offending paths to use qualified paths.
+# (They will be re-adjusted later to use relative location inside the
+# application bundle.)
 #
 # example 'ldd /Users/Shared/work/0.47/lib/inkscape/libinkscape_base.dylib':
 #
@@ -102,8 +106,8 @@ for binary in $BIN_DIR/inkscape \
   for lib in $(otool -L "$binary" |
                grep "@rpath/" |
                awk '{ print $1 }'); do
-    # Note that this here is the reason we require GNU's 'find', as the macOS
-    # one doesn't pick up the files from bottom layer of our union mount.
+    # This here is the reason we require GNU's 'find', as the macOS one doesn't
+    # pick up the files from the bottom layer of our union mount.
     lib_canonical=$(find "$LIB_DIR" -maxdepth 2 -name "$(basename "$lib")")
     lib_change_path "$lib_canonical" "$binary"
   done

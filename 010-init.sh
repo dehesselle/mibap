@@ -4,17 +4,16 @@
 ### description ################################################################
 
 # This is the main initialization file to setup the environment. Its purpose is
-#   - to provide some basic configuration in its variables section
-#     which do not fit into any package (see files in packages directory)
-#     and/or all the other files depend upon
+#   - to provide some basic configuration variables which all other files
+#     depend upon
 #   - source all other scripts
 #   - run a few essential checks to see if we're good
 #
 # It's meant to be sourced by all other scripts and supposed to be a "passive"
 # file, i.e. it defines variables and functions but does not do anything on its
 # own. However, this is only 99% true at the moment as the above mentioned
-# checks are capable of calling it quits if a few very fundamental things appear
-# to be broken.
+# checks are capable of calling it quits (search for 'exit') if a few very
+# fundamental things appear to be broken.
 
 ### includes ###################################################################
 
@@ -86,13 +85,13 @@ PKG_DIR=$VAR_DIR/cache/pkgs
 SRC_DIR=$VER_DIR/usr/src
 TMP_DIR=$VER_DIR/tmp
 
-export HOME=$VER_DIR/home   # yes, we redirect the user's home!
+export HOME=$VER_DIR/home   # Yes, we redirect the user's home.
 
 #---------------------------------------------- directories: temporary locations
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
-export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
+export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default.
 
 #-------------------------------------------------------------- directories: XDG
 
@@ -105,6 +104,11 @@ export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
 export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
 #--------------------------------------------------------- directories: artifact
+
+# In CI mode, the artifacts are placed into the respective project repositories
+# so they can be picked up from there. In non-CI mode the artifacts are
+# placed in WRK_DIR because the toolset dmg cannot be created in VER_DIR
+# (as it is created from VER_DIR).
 
 if   $CI_GITHUB; then
   ARTIFACT_DIR=$GITHUB_WORKSPACE
@@ -120,6 +124,8 @@ export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 
 #------------------------------------------ source functions from bash_d library
 
+# Things I do not want to re-invent and/or am sharing between other projects
+# of mine come from bash_d.
 # https://github.com/dehesselle/bash_d
 
 INCLUDE_DIR=$SELF_DIR/bash_d
