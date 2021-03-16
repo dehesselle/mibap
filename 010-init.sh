@@ -129,11 +129,11 @@ export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 # https://github.com/dehesselle/bash_d
 
 INCLUDE_DIR=$SELF_DIR/bash_d
-# shellcheck source=bash_d/1_include_.sh
-source "$INCLUDE_DIR"/1_include_.sh
-include_file echo_.sh
-include_file error_.sh
-include_file lib_.sh
+# shellcheck source=bash_d/1_include.sh
+source "$INCLUDE_DIR"/1_include.sh
+include_file echo.sh
+include_file error.sh
+include_file lib.sh
 include_file sed.sh
 
 #----------------------------------------------------------- source our packages
