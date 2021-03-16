@@ -45,8 +45,7 @@ function ccache_v3_install
   archive=$PKG_DIR/$(basename $CCACHE_V3_URL)
   curl -o "$archive" -L "$CCACHE_V3_URL"
   tar -C "$SRC_DIR" -xf "$archive"
-  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$SRC_DIR"/ccache-$CCACHE_V3_VER
+  cd "$SRC_DIR"/ccache-$CCACHE_V3_VER || exit 1
 
   ./configure --prefix="$VER_DIR"
   make
@@ -65,8 +64,7 @@ function ccache_v4_install
   tar -C "$SRC_DIR" -xf "$archive"
 
   mkdir -p "$BLD_DIR"/ccache-$CCACHE_V4_VER
-  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$BLD_DIR"/ccache-$CCACHE_V4_VER
+  cd "$BLD_DIR"/ccache-$CCACHE_V4_VER || exit 1
 
   cmake_install
   ninja_install

@@ -30,8 +30,7 @@ error_trace_enable
   cp "$SELF_DIR"/inkscape.bundle "$INK_BLD_DIR"
   cp "$SELF_DIR"/inkscape.plist "$INK_BLD_DIR"
 
-  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$INK_BLD_DIR"
+  cd "$INK_BLD_DIR" || exit 1
   export ARTIFACT_DIR=$ARTIFACT_DIR   # referenced in inkscape.bundle
   jhbuild run gtk-mac-bundler inkscape.bundle
 )
@@ -160,8 +159,7 @@ rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
 
 # Mimic the behavior of having all files under 'share' and linking the
 # active ones to 'etc'.
-# shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-cd "$INK_APP_ETC_DIR"/fonts/conf.d
+cd "$INK_APP_ETC_DIR"/fonts/conf.d || exit 1
 
 for file in ./*.conf; do
   ln -sf ../../../share/fontconfig/conf.avail/"$(basename "$file")" .

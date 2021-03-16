@@ -66,8 +66,7 @@ if ! $CI_GITLAB; then     # not running GitLab CI
 fi
 
 mkdir -p "$INK_BLD_DIR"
-# shellcheck disable=SC2164 # we have error trapping
-cd "$INK_BLD_DIR"
+cd "$INK_BLD_DIR" || exit 1
 
 cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \

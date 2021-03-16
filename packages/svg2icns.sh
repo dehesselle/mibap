@@ -3,7 +3,6 @@
 ### settings ###################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
 
 ### description ################################################################
 
@@ -33,7 +32,7 @@ function svg2icns
   jhbuild run cairosvg -f png -s 1 -o "$png_file" "$svg_file"
 
   # png to icns
-  cd "$TMP_DIR"   # png2icns.sh outputs to current directory
+  cd "$TMP_DIR" || exit 1   # png2icns.sh outputs to current directory
   png2icns.sh "$png_file"
 
   mv "$(basename -s .png "$png_file")".icns "$icns_file"

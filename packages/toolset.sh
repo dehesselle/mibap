@@ -161,8 +161,7 @@ function toolset_create_dmg
     -exec rm -rf {} \;
 
   # create dmg and sha256, print sha256
-  # shellcheck disable=SC2164 # we trap errors to catch bad 'cd'
-  cd "$WRK_DIR"
+  cd "$WRK_DIR" || exit 1
 
   hdiutil create -fs HFS+ -ov -format UDBZ \
     -srcfolder "$VERSION" \
