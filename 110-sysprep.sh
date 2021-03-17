@@ -33,13 +33,14 @@ echo_i "VER_DIR = $VER_DIR"
 # We need these directories early on, so we need to create them here.
 
 mkdir -p "$HOME"
+mkdir -p "$BIN_DIR"
 mkdir -p "$PKG_DIR"
 mkdir -p "$SRC_DIR"
 mkdir -p "$TMP_DIR"
 
 #---------------------------------------------------------------- install ccache
 
-ccache_v4_install
+ccache_install
 ccache_configure
 
 #------------------------------------------ log relevant versions to release.log

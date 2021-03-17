@@ -18,12 +18,10 @@ export CCACHE_DIR
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
-CCACHE_V3_VER=3.7.12
-CCACHE_V3_URL=https://github.com/ccache/ccache/releases/download/\
-v$CCACHE_V3_VER/ccache-$CCACHE_V3_VER.tar.xz
-CCACHE_V4_VER=4.2
-CCACHE_V4_URL=https://github.com/ccache/ccache/releases/download/\
-v$CCACHE_V4_VER/ccache-$CCACHE_V4_VER.tar.xz
+# https://github.com/dehesselle/ccache_macos
+CCACHE_VER=4.2r1
+CCACHE_URL=https://github.com/dehesselle/ccache_macos/releases/download/\
+v$CCACHE_VER/ccache_v$CCACHE_VER.tar.xz
 
 ### functions ##################################################################
 
@@ -39,44 +37,9 @@ temporary_dir = $CCACHE_DIR/tmp
 EOF
 }
 
-function ccache_v3_install
+function ccache_install
 {
-  local archive
-  archive=$PKG_DIR/$(basename $CCACHE_V3_URL)
-  curl -o "$archive" -L "$CCACHE_V3_URL"
-  tar -C "$SRC_DIR" -xf "$archive"
-  cd "$SRC_DIR"/ccache-$CCACHE_V3_VER || exit 1
-
-  ./configure --prefix="$VER_DIR"
-  make
-  make install
-
-  for compiler in clang clang++ gcc g++; do
-    ln -s ccache "$BIN_DIR"/$compiler
-  done
-}
-
-function ccache_v4_install
-{
-  local archive
-  archive=$PKG_DIR/$(basename $CCACHE_V4_URL)
-  curl -o "$archive" -L "$CCACHE_V4_URL"
-  tar -C "$SRC_DIR" -xf "$archive"
-
-  mkdir -p "$BLD_DIR"/ccache-$CCACHE_V4_VER
-  cd "$BLD_DIR"/ccache-$CCACHE_V4_VER || exit 1
-
-  cmake_install
-  ninja_install
-  cmake_run \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DZSTD_FROM_INTERNET=ON \
-    -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
-    -GNinja \
-    "$SRC_DIR"/ccache-$CCACHE_V4_VER
-  ninja
-  ninja install
-  cmake_uninstall   # cleaning up because cmake gets pulled in by JHBuild later
+  curl -L $CCACHE_URL | tar -C "$BIN_DIR" --exclude="ccache.sha256" -xJ
 
   for compiler in clang clang++ gcc g++; do
     ln -s ccache "$BIN_DIR"/$compiler
