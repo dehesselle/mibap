@@ -294,29 +294,6 @@
 			<dict>
 				<key>CFBundleTypeExtensions</key>
 				<array>
-					<string>sk1</string>
-					<string>SK1</string>
-				</array>
-				<key>CFBundleTypeIconFile</key>
-				<string>image-vnd.sk1.icns</string>
-				<key>CFBundleTypeMIMETypes</key>
-				<array>
-					<string>image/vnd.sk1</string>
-				</array>
-				<key>CFBundleTypeName</key>
-				<string>Sketch Document</string>
-				<key>CFBundleTypeOSTypes</key>
-				<array>
-					<string>SK1 </string>
-				</array>
-				<key>CFBundleTypeRole</key>
-				<string>Viewer</string>
-				<key>LSHandlerRank</key>
-				<string>Alternate</string>
-			</dict>
-			<dict>
-				<key>CFBundleTypeExtensions</key>
-				<array>
 					<string>wpg</string>
 					<string>WPG</string>
 				</array>
