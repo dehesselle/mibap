@@ -97,8 +97,7 @@ ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$INK_PYTHON_
 
 # create '.pth' file inside Framework to include our site-packages directory
 # shellcheck disable=SC2086 # it's an integer
-# TODO: remove "./" ?
-echo "./../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
+echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
   > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/python$INK_PYTHON_VER/site-packages/inkscape.pth
 
 #-------------------------------------------------- install Python package: lxml
