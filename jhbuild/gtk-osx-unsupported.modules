@@ -3,10 +3,12 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="iso-codes"
-	      href="http://salsa.debian.org/iso-codes-team/iso-codes/-/archive/"/>
-  <!-- Iso-codes >= 3.68 requires Python3, a dependency too far. -->
+        href="ftp://ftp.halifax.rwth-aachen.de/debian/pool/main/i/"/>
   <autotools id="iso-codes" autogen-sh="configure">
-    <branch checkoutdir="iso-codes-iso-codes-3.67-080f941e075fef791b22feae659e8a510f57fe2c" module="iso-codes-3.67/iso-codes-3.67.tar.bz2" version="3.67"
+    <branch checkoutdir="iso-codes-4.6.0" module="iso-codes/iso-codes_4.6.0.orig.tar.xz" version="4.6.0"
 	    repo="iso-codes"/>
+    <dependencies>
+      <dep package='python3'/>
+    </dependencies>
   </autotools>
 </moduleset>
