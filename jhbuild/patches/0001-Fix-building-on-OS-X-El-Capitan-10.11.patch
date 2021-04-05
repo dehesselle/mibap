@@ -1,0 +1,43 @@
+From ab673dd4dc9132840b35cf76a29170e54dacfe35 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rene=CC=81=20de=20Hesselle?= <dehesselle@web.de>
+Date: Mon, 5 Apr 2021 16:36:42 +0200
+Subject: [PATCH] Fix building on OS X El Capitan 10.11
+
+The preprocessor directives for proper OS version support are missing
+their last digit, rendering the checks defunct.
+
+Fixes https://gitlab.gnome.org/GNOME/gtk/-/issues/3592
+---
+ gdk/quartz/gdkinternal-quartz.h | 2 +-
+ modules/input/imquartz.c        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gdk/quartz/gdkinternal-quartz.h b/gdk/quartz/gdkinternal-quartz.h
+index c546c18937..ec4a2c1c3b 100644
+--- a/gdk/quartz/gdkinternal-quartz.h
++++ b/gdk/quartz/gdkinternal-quartz.h
+@@ -75,7 +75,7 @@ typedef enum {
+   GDK_QUARTZ_EVENT_SUBTYPE_EVENTLOOP
+ } GdkQuartzEventSubType;
+ 
+-#if MAC_OS_X_VERSION_MIN_REQUIRED >= 10130
++#if MAC_OS_X_VERSION_MIN_REQUIRED >= 101300
+ #define GDK_QUARTZ_EVENT_TABLET_PROXIMITY NSEventTypeTabletProximity
+ #define GDK_QUARTZ_EVENT_SUBTYPE_TABLET_PROXIMITY NSEventSubtypeTabletProximity
+ #define GDK_QUARTZ_EVENT_SUBTYPE_TABLET_POINT NSEventSubtypeTabletPoint
+diff --git a/modules/input/imquartz.c b/modules/input/imquartz.c
+index aaf5f42acf..9b9b733841 100644
+--- a/modules/input/imquartz.c
++++ b/modules/input/imquartz.c
+@@ -37,7 +37,7 @@
+ #define GTK_IM_CONTEXT_QUARTZ(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_IM_CONTEXT_TYPE_QUARTZ, GtkIMContextQuartz))
+ #define GTK_IM_CONTEXT_QUARTZ_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), GTK_IM_CONTEXT_TYPE_QUARTZ, GtkIMContextQuartzClass))
+ 
+-#if MAC_OS_X_VERSION_MIN_REQUIRED < 10120
++#if MAC_OS_X_VERSION_MIN_REQUIRED < 101200
+ #define NS_EVENT_KEY_DOWN NSKeyDown
+ #else
+ #define NS_EVENT_KEY_DOWN NSEventTypeKeyDown
+-- 
+2.24.3 (Apple Git-128)
+

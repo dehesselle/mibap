@@ -189,15 +189,9 @@
     </dependencies>
   </meson>
 
-  <!-- Pango
-
-       We need to stick with 1.43.0 due to:
-       - inkscape issue: https://gitlab.com/inkscape/inkscape/issues/364
-       - upstream issue: https://gitlab.gnome.org/GNOME/pango/issues/423
-   -->
   <meson id="pango">
-    <branch version="1.43.0" module="pango/1.43/pango-1.43.0.tar.xz"
-            hash="sha256:d2c0c253a5328a0eccb00cdd66ce2c8713fabd2c9836000b6e22a8b06ba3ddd2">
+    <branch version="1.48.4" module="pango/1.48/pango-1.48.4.tar.xz"
+            hash="sha256:418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a">
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -248,17 +242,13 @@
     </dependencies>
   </meson>
 
-  <!-- GTK 3
-
-       - 3.24.20 is the last release that builds against 10.11.
-         https://gitlab.gnome.org/GNOME/gtk/-/issues/3592
-       - Building on Big Sur requires at least 3.24.23
-         https://gitlab.gnome.org/GNOME/gtk-osx/-/commit/ba5af596153d1dc237d225a26c358879a099800b
-  -->
-  <autotools id="gtk+-3.0" autogen-sh="autogen.sh"
-             autogenargs="--enable-quartz-backend --enable-quartz-relocation">
-    <branch module="gtk+/3.24/gtk+-3.24.20.tar.xz" version="3.24.20"
-            hash="sha256:2dac69f716e8d04ba7a95091589e2baaec95dcace932cb15839163db479b1df3">
+  <meson id="gtk+-3.0"
+         mesonargs="-Dquartz_backend=true -Dbuildtype=release">
+    <branch module="gtk+/3.24/gtk+-3.24.28.tar.xz" version="3.24.28"
+            hash="sha256:b04e09763367f1ce932cd2ee3a359d4de150e1c38e7bef7d29aa72557a6b47c6">
+      <!-- Patches provide compatibility with OS X El Capitan 10.11 -->
+      <patch file="0001-Fix-building-on-OS-X-El-Capitan-10.11.patch" strip="1"/>
+      <patch file="undo_cups_printing_enhancements.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -272,7 +262,7 @@
     <after>
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
-  </autotools>
+  </meson>
 
   <autotools id="gtk-mac-integration" autogen-sh="configure"
              autogenargs="--disable-python">
