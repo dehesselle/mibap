@@ -1,4 +1,5 @@
-# **m**acOS **I**nkscape **b**uild **a**nd **p**ackage
+<!-- markdownlint-disable-next-line MD033 -->
+# <u>m</u>acOS <u>I</u>nkscape <u>b</u>uild <u>a</u>nd <u>p</u>ackage
 
 ![build](https://github.com/dehesselle/mibap/workflows/mibap/badge.svg)
 
