@@ -247,8 +247,8 @@
     <branch module="gtk+/3.24/gtk+-3.24.28.tar.xz" version="3.24.28"
             hash="sha256:b04e09763367f1ce932cd2ee3a359d4de150e1c38e7bef7d29aa72557a6b47c6">
       <!-- Patches provide compatibility with OS X El Capitan 10.11 -->
-      <patch file="0001-Fix-building-on-OS-X-El-Capitan-10.11.patch" strip="1"/>
-      <patch file="undo_cups_printing_enhancements.patch" strip="1"/>
+      <patch file="gtk_fix_darwin_version_directives.patch" strip="1"/>
+      <patch file="gtk_cups_elcapitan_compatibility.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
