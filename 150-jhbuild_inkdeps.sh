@@ -20,7 +20,7 @@ done
 ### main #######################################################################
 
 jhbuild build \
-  bdw-gc \
+  bdwgc \
   doubleconversion \
   googletest \
   gsl \

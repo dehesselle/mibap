@@ -29,16 +29,10 @@
          make it easy to rebuild the whole core stack without redoing
          the bootstrap parts. They have a soft, "after", depencency.
 
-       The remaining modules are mostly for testing and might not work
-       all the time:
-
-       - gtk-osx-python.modules: self explaining.
-       - gtk-osx-gtkmm.modules: self explaining.
-       - gtk-osx-gstreamer.modules: self explaining.
-       - gtk-osx-themes.modules: self explaining.
-       - gtk-osx-network.modules: The network/crypto stack.
+       - gtk-osx-python.modules: Python bindings for Gtk.
+       - gtk-osx-gtkmm.modules: C++ wrappers for Gtk.
+       - gtk-osx-network.modules: The network/crypto stack and WebKit.
        - gtk-osx-random.modules: "random stuff", has apps for testing GTK+.
-       - gtk-osx-unsupported.modules: more testing stuff, competely unsupported.
   -->
 
   <include href="gtk-osx-bootstrap.modules"/>
@@ -46,7 +40,6 @@
   <include href="gtk-osx-network.modules"/>
   <include href="gtk-osx-python.modules"/>
   <include href="gtk-osx-random.modules"/>
-  <include href="gtk-osx-unsupported.modules"/>
 
   <!-- Dummy meson module to shut up a jhbuild warning. -->
   <systemmodule id="meson">
@@ -67,12 +60,13 @@
   <autotools id="libffi" autogenargs="--disable-builddir"
              autogen-sh="configure">
     <branch module="libffi/libffi/releases/download/v3.3/libffi-3.3.tar.gz"
-            repo="github-tarball" version="3.3"/>
+            repo="github-tarball" version="3.3"
+            hash="sha256:72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"/>
   </autotools>
 
   <meson id="glib" mesonargs="-Dinternal_pcre=true -Dlibmount=disabled">
-    <branch module="glib/2.66/glib-2.66.0.tar.xz"  version="2.66.0"
-            hash="sha256:c5a66bf143065648c135da4c943d2ac23cce15690fc91c358013b2889111156c">
+    <branch module="glib/2.68/glib-2.68.0.tar.xz"  version="2.68.0"
+            hash="sha256:67734f584f3a05a2872f57e9a8db38f3b06c7087fb531c5a839d9171968103ea">
     </branch>
     <dependencies>
         <dep package="libffi"/>
@@ -84,29 +78,28 @@
        then build harfbuzz without cairo because cairo requires
        harfbuzz. -->
   <cmake id="freetype-no-harfbuzz" cmakeargs="-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE -DCMAKE_DISABLE_FIND_PACKAGE_BZip2=TRUE -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release">
-    <branch module="freetype/freetype-2.10.2.tar.gz" version="2.10.2"
-            repo="sourceforge"/>
+    <branch module="freetype/freetype-2.10.4.tar.gz" version="2.10.4"
+            repo="sourceforge"
+            hash="sha256:5eab795ebb23ac77001cfb68b7d4d50b5d6c7469247b0b01b2c953269f658dac"/>
     <dependencies>
       <dep package="zlib"/>
     </dependencies>
   </cmake>
 
-  <meson id="harfbuzz-no-cairo" mesonargs="-Dcoretext=enabled -Ddocs=disabled">
-    <branch repo="github-tarball" version="2.7.1"
-            module="harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz" 
-            hash="sha256:e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569">
+  <meson id="harfbuzz-no-cairo" mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled">
+    <branch repo="github-tarball" version="2.8.0"
+            module="harfbuzz/harfbuzz/releases/download/2.8.0/harfbuzz-2.8.0.tar.xz" 
+            hash="sha256:a1079fd021adaf5683351f34587a255975cc3bcadba31246ae40ebebb95ecd42">
     </branch>
     <dependencies>
       <dep package="glib"/>
       <dep package="freetype-no-harfbuzz"/>
-    </dependencies>
-    <after>
       <dep package="icu"/>
-    </after>
+    </dependencies>
   </meson>
 
   <cmake id="freetype" cmakeargs="-DCMAKE_DISABLE_FIND_PACKAGE_BZip2=TRUE -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release">
-    <branch module="freetype/freetype-2.10.2.tar.gz" version="2.10.2"
+    <branch module="freetype/freetype-2.10.4.tar.gz" version="2.10.4"
             repo="sourceforge"/>
     <dependencies>
       <dep package="harfbuzz-no-cairo"/>
@@ -117,7 +110,8 @@
   <autotools id="fontconfig" autogen-sh="configure"
              autogenargs="--disable-docs --with-default-fonts=/System/Library/Fonts --with-add-fonts=/Library/Fonts --with-cache-dir=home">
     <branch repo="fontconfig" version="2.13.1"
-            module="fontconfig-2.13.1.tar.bz2"/>
+            module="fontconfig-2.13.1.tar.bz2"
+            hash="sha256:f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741"/>
     <dependencies>
       <dep package="freetype"/>
     </dependencies>
@@ -141,7 +135,7 @@
              autogenargs="--enable-pdf --enable-quartz --disable-xlib --without-x">
     <branch module="cairo-1.16.0.tar.xz"  version="1.16.0"
             repo="cairographics"
-            hash="sha1:00e81842ae5e81bb0343108884eb5205be0eac14">
+            hash="sha256:5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331">
       <patch file="cairo-freetype-font-variations.patch" strip="1"/>
       <patch file="cairo-image-refcount.patch" strip="1"/>
       <patch file="cairo_pdf_add_missing_flush.patch" strip="1"/>
@@ -155,10 +149,10 @@
   </autotools>
 
   <meson id="gobject-introspection">
-    <branch module="gobject-introspection/1.64/gobject-introspection-1.64.1.tar.xz"
-            version="1.64.1"
-            hash="sha256:80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7">
-      <patch file="https://gitlab.gnome.org/GNOME/gtk-osx/raw/master/patches/girscanner-objc.patch" strip="1"/>
+    <branch module="gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz"
+            version="1.68.0"
+            hash="sha256:d229242481a201b84a0c66716de1752bca41db4133672cfcfb37c93eb6e54a27">
+      <patch file="girscanner-objc.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -169,10 +163,9 @@
     </after>
   </meson>
 
-  <meson id="harfbuzz" mesonargs="-Dcoretext=enabled -Ddocs=disabled">
-    <branch repo="github-tarball" version="2.7.1"
-            module="harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz" 
-            hash="sha256:e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569">
+  <meson id="harfbuzz" mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled">
+    <branch repo="github-tarball" version="2.8.0"
+            module="harfbuzz/harfbuzz/releases/download/2.8.0/harfbuzz-2.8.0.tar.xz">
     </branch>
     <dependencies>
       <dep package="gobject-introspection"/>
@@ -182,8 +175,9 @@
   </meson>
 
   <meson id="fribidi" mesonargs="-Ddocs=false">
-    <branch module="fribidi/fribidi/releases/download/v1.0.9/fribidi-1.0.9.tar.xz"
-            repo="github-tarball" version="1.0.9"/>
+    <branch module="fribidi/fribidi/releases/download/v1.0.10/fribidi-1.0.10.tar.xz"
+            repo="github-tarball" version="1.0.10"
+            hash="sha256:7f1c687c7831499bcacae5e8675945a39bacbad16ecaa945e9454a32df653c01"/>
     <dependencies>
       <!--dep package="c2man"/ -->
     </dependencies>
@@ -218,8 +212,8 @@
   </meson>
 
   <meson id="gdk-pixbuf" mesonargs="-Dx11=false -Dman=false">
-    <branch module="gdk-pixbuf/2.40/gdk-pixbuf-2.40.0.tar.xz" version="2.40.0"
-            hash="sha256:1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6">
+    <branch module="gdk-pixbuf/2.42/gdk-pixbuf-2.42.4.tar.xz" version="2.42.4"
+            hash="sha256:fe9c5dd88f486194ea2bc09b8814c1ed895bb6c530f37cbbf259757c4e482e4d">
       <patch file="gdk-pixbuf-loader-name.patch" strip="1"/>
     </branch>
     <after>
@@ -230,7 +224,8 @@
 
   <autotools id="xorg-util-macros">
     <branch repo="freedesktop" version="1.19.2"
-            module="xorg/individual/util/util-macros-1.19.2.tar.bz2"/>
+            module="xorg/individual/util/util-macros-1.19.2.tar.bz2"
+            hash="sha256:d7e43376ad220411499a79735020f9d145fdc159284867e99467e0d771f3e712"/>
   </autotools>
 
   <meson id="libepoxy">
@@ -242,8 +237,9 @@
     </dependencies>
   </meson>
 
+  <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
   <meson id="gtk+-3.0"
-         mesonargs="-Dquartz_backend=true -Dbuildtype=release">
+             mesonargs="-Dquartz-backend=true -Dx11-backend=false -Dmedia=none">
     <branch module="gtk+/3.24/gtk+-3.24.28.tar.xz" version="3.24.28"
             hash="sha256:b04e09763367f1ce932cd2ee3a359d4de150e1c38e7bef7d29aa72557a6b47c6">
       <!-- Patches provide compatibility with OS X El Capitan 10.11 -->
@@ -254,7 +250,6 @@
       <dep package="glib"/>
       <dep package="pango"/>
       <dep package="atk"/>
-      <dep package="cairo"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gobject-introspection"/>
       <dep package="libepoxy"/>
@@ -266,15 +261,15 @@
 
   <autotools id="gtk-mac-integration" autogen-sh="configure"
              autogenargs="--disable-python">
-    <branch module="gtk-mac-integration/2.1/gtk-mac-integration-2.1.3.tar.xz"
-            version="2.1.3"
-            hash="sha256:d5f72302daad1f517932194d72967a32e72ed8177cfa38aaf64f0a80564ce454">
+    <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.0.tar.xz"
+            version="3.0.0"
+            hash="sha256:af88bb3a284e24c550e15290e07e562fcd2a038ebb0fcc863dd069d3738952ae"
+            >
     </branch>
     <dependencies>
     </dependencies>
     <after>
       <dep package="gtk+-3.0"/>
-      <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </autotools>
 
@@ -284,12 +279,12 @@
             hash="sha256:767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4"/>
   </autotools>
 
-  <autotools id="librsvg" autogen-sh='configure LDFLAGS="$LDFLAGS -lobjc"'>
-    <branch module="librsvg/2.50/librsvg-2.50.2.tar.xz" version="2.50.2"
-	    hash="sha256:6211f271ce4cd44a7318190d36712e9cea384a933d3e3570004edeb210a056d3"/>
+  <autotools id="librsvg" autogenargs="--disable-Bsymbolic">
+    <branch module="librsvg/2.51/librsvg-2.51.0.tar.xz" version="2.51.0"
+            hash="sha256:89d32e38445025e1b1d9af3dd9d3aeb9f6fce527aeecbecf38b369b34c80c038"/>
     <dependencies>
       <dep package="libcroco"/>
-      <dep package="meta-gtk-osx-freetype"/>
+      <dep package="freetype"/>
       <dep package="rust"/>
     </dependencies>
     <after>
@@ -300,30 +295,13 @@
 
   <autotools id="adwaita-icon-theme" autogen-sh="configure">
     <branch module="adwaita-icon-theme/3.38/adwaita-icon-theme-3.38.0.tar.xz"
-            version="3.38.0" hash="sha256:6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97"/>
+            version="3.38.0"
+            hash="sha256:6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97"/>
     <dependencies>
       <dep package="librsvg"/>
     </dependencies>
   </autotools>
 
-  <!-- Rust https://www.rust-lang.org
-       Rust has a custom setup routine (rustup) which is wrapped into
-       a cmake file introduced by that patch below.
-  -->
-  <cmake id="rust"
-         cmakeargs="-DVERSION=1.48.0"
-         supports-non-srcdir-builds="no"
-         use-ninja="no">
-    <branch module="rust-lang/rustup/archive/1.22.1.tar.gz"
-            version="1.22.1"
-            hash="sha256:ad46cc624f318a9493aa62fc9612a450564fe20ba93c689e0ad856bff3c64c5b"
-            repo="github-tarball"
-            checkoutdir="rustup-1.22.1"
-            rename-tarball="rustup-1.22.1.tar.gz">
-      <patch file="rust_cmake_install.patch"
-             strip="1"/>
-    </branch>
-  </cmake>
   <!-- Null metamodule, provided so as not to break modules that use it. -->
   <metamodule id="meta-gtk-osx-freetype" />
 

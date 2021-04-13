@@ -21,7 +21,9 @@ done
 
 jhbuild build python3 # avoid https://gitlab.gnome.org/GNOME/gtk-osx/-/issues/32
 
+pygments_install  # required by gtk-doc
+
 jhbuild build \
   meta-gtk-osx-bootstrap \
   meta-gtk-osx-gtk3 \
-  meta-gtk-osx-gtkmm3
+  gtkmm3

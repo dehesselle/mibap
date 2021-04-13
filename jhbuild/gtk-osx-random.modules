@@ -4,50 +4,45 @@
 <moduleset>
   <repository type="tarball" name="ftp.gnome.org" default="yes"
               href="https://ftp.fau.de/gnome/sources/"/>
+  <repository type="tarball" name="github-tarball" href="https://github.com/"/>
+  <repository type="tarball" name="ftp.gnu.org" href="https://ftp.gnu.org/gnu/"/>
 
-  <repository type="tarball" name="ftp.gtk.org"
-              href="https://ftp.gtk.org/pub/"/>
-  <repository type="tarball" name="hadess"
-              href="http://freedesktop.org/~hadess/"/>
-
+  <repository type="tarball" name="shared-mime-info"
+              href="https://gitlab.freedesktop.org/xdg/shared-mime-info/uploads/"/>
+  <repository type="tarball" name="iso-codes"
+              href="https://salsa.debian.org/iso-codes-team/iso-codes/uploads/"/>
   <repository type="tarball" name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"/>
-  <repository type="git" name="github.com" href="git://github.com/"/>
-  <repository type="tarball" name="github-tarball" href="https://github.com/"/>
-  <repository type="tarball" name="dbus.freedesktop.org"
-              href="http://dbus.freedesktop.org/releases/"/>
+  <repository type="tarball" name="graphviz"
+              href="https://gitlab.com/graphviz/graphviz/-/archive/"/>
   <repository type="tarball" name="sqlite" href="http://www.sqlite.org/"/>
-  <repository type="tarball" name="oracle"
-	      href="http://download.oracle.com/"/>
-  <repository type="tarball" name="ftp.gnu.org"
-	      href="https://ftp.gnu.org/gnu/"/>
-  <repository type="tarball" name="gmplib.org"
-	      href="ftp://ftp.gmplib.org/pub/"/>
-  <repository type="git" name="git.gnome.org"
-              href="https://gitlab.gnome.org/GNOME"/>
-  <repository type="tarball" name="itstool"
-	      href="http://files.itstool.org/"/>
-  <repository type="tarball" name="abisource/enchant"
-              href="http://www.abisource.com/downloads/enchant/"/>
+  <repository type="tarball" name="frodo"
+              href="http://frodo.looijaard.name/system/files/software/"/>
+  <repository type="tarball" name="paguire" href="https://releases.pagure.org/"/> 
+  <repository type="tarball" name="pcre" href="https://ftp.pcre.org/pub/"/>
 
-  <metamodule id="meta-gtk-osx-random">
+  <autotools id="graphviz" supports-non-srcdir-builds="no"
+             autogen-template="pushd %(srcdir)s &amp;&amp; ./autogen.sh &amp;&amp; popd &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s"
+             autogenargs="--disable-sharp --disable-guile --disable-java --disable-lua --disable-ocaml --disable-perl --disable-php --disable-r --disable-ruby --disable-tcl --with-pangocairo">
+    <branch module="2.47.0/graphviz-2.47.0.tar.bz2" version="2.47.0"
+            repo="graphviz" 
+            hash="sha256:dade5b374ce483bf28f2e535baef02280ba8ab86fbe6e93252ab0de48396b714"/>
     <dependencies>
-      <dep package="devhelp"/>
-      <dep package="shared-mime-info"/>
-      <dep package="gossip"/>
-      <dep package="vala"/>
+      <dep package="pango"/>
       <dep package="librsvg"/>
     </dependencies>
-  </metamodule>
+  </autotools>
 
-  <autotools id="vala" autogen-sh="configure"
-             autogenargs="--disable-valadoc">
-    <!-- valadoc has been disabled to not pull in graphviz dependency -->
-    <branch repo="ftp.gnome.org" version="0.48.8"
-            module="vala/0.48/vala-0.48.8.tar.xz"
-            hash="sha256:c83a9b7292627bc259dae7cd414c813a48f285b4b2f4b574fa28e6af9a582ab4"/>
+  <autotools id="vala" autogen-sh="configure">
+    <branch repo="ftp.gnome.org" version="0.52.0"
+            module="vala/0.52/vala-0.52.0.tar.xz"
+            hash="sha256:1de26310db465aca525679d3b5a3c1d8db2e067c4cbc0e5ddd015cd938bac68b"/>
+    <dependencies>
+      <dep package="graphviz"/>
+    </dependencies>
     <after>
       <dep package="meta-gtk-osx-bootstrap"/>
+      <dep package="meta-gtk-osx-gtk3"/>
     </after>
   </autotools>
 
@@ -60,7 +55,7 @@
       <patch file="glade-3.22.1-xslproc.patch" strip="1"/>
     </branch>
     <dependencies>
-      <dep package="itstool"/>
+      <dep package="gtk+-3.0"/>
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-bootstrap"/>
@@ -69,68 +64,93 @@
     </after>
   </autotools>
 
-  <autotools id="gtksourceview3" autogen-sh="configure">
-    <branch module="gtksourceview/3.24/gtksourceview-3.24.4.tar.xz"
-            version="3.24.4" hash="sha256:207fb1958087d89393521eafac05f6dd67448ef6edb43ec2c708a79f3b1aa793">
+  <!-- gtksourceview got a major version ahead: 4.x.x supports recent versions of gtk+-3 and 5.x.x is for gtk4.
+  -->
+  <meson id="gtksourceview3">
+    <branch module="gtksourceview/4.8/gtksourceview-4.8.1.tar.xz"
+            version="4.8.1"
+            hash="sha256:d163d71b5fcafbc5b1eec6dd841edbdbcddd3a7511cd5fdcffd86b8bbfe69ac1">
     </branch>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-      <dep package="meta-gtk-osx-gtk3"/>
-    </after>
+    <dependencies>
+      <dep package="gtk+-3.0"/>
+    </dependencies>
+  </meson>
+
+  <autotools id="frodo-getopt" autogen-sh="configure"
+             supports-non-srcdir-builds="no">
+    <branch repo="frodo" version="1.1.6" module="getopt/getopt-1.1.6.tar.gz"
+            hash="sha256:d0bf1dc642a993e7388a1cddfb9409bed375c21d5278056ccca3a0acd09dc5fe">
+       <patch file="frodo-getopt-autotools.patch" strip="1"/>
+    </branch>
+  </autotools>
+  <autotools id="xmlto" autogen-sh="autoreconf">
+    <branch module="xmlto/xmlto-0.0.28.tar.bz2"
+            version="0.0.28" repo="paguire"
+            hash="sha256:1130df3a7957eb9f6f0d29e4aa1c75732a7dfb6d639be013859b5c7ec5421276">
+      <patch file="xmlto-allow-net-access.patch"/>
+    </branch>
+    <dependencies>
+      <dep package="frodo-getopt"/>
+    </dependencies>
   </autotools>
 
-  <autotools id="lcms" autogen-sh="configure">
-    <branch module="lcms/lcms2-2.9.tar.gz" version="2.9" repo="sourceforge" />
-  </autotools>
-
-  <autotools id="shared-mime-info"  autogen-sh="configure"
-             autogenargs="--disable-default-make-check ac_cv_func_fdatasync=no"
-             supports-non-srcdir-builds="no" >
-    <branch module="shared-mime-info-1.9.tar.xz" version="1.9"
-            repo="hadess">
+  <meson id="shared-mime-info" supports-non-srcdir-builds="no" >
+    <branch module="0ee50652091363ab0d17e335e5e74fbe/shared-mime-info-2.1.tar.xz"
+            repo="shared-mime-info" version="2.1"
+            hash="sha256:b2d40cfcdd84e835d0f2c9107b3f3e77e9cf912f858171fe779946da634e8563">
     </branch>
     <dependencies>
       <dep package="glib"/>
+      <dep package="xmlto"/>
     </dependencies>
-  </autotools>
+  </meson>
 
-  <autotools id="gsettings-desktop-schemas" autogen-sh="configure"
-             autogenargs="--enable-introspection=yes">
-    <branch module="gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz"
-            version="3.24.0"
-            hash="sha256:f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90"/>
+  <meson id="gsettings-desktop-schemas">
+    <branch module="gsettings-desktop-schemas/40/gsettings-desktop-schemas-40.0.tar.xz"
+            version="40.0"
+            hash="sha256:f1b83bf023c0261eacd0ed36066b76f4a520bbcb14bb69c402b7959257125685"/>
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </autotools>
+  </meson>
 
-<!-- SQLite3 is provided by MacOSX in /usr/lib/libsqlite.3.dylib -->
+<!-- SQLite3 is also available from the macOS SDK -->
   <autotools id="sqlite" autogenargs="--disable-tcl --enable-threadsafe"
 	     autogen-sh="configure">
-    <branch module="2017/sqlite-autoconf-3180000.tar.gz" version='3.18.0'
-	    repo="sqlite"/>
+    <branch module="2021/sqlite-autoconf-3350400.tar.gz" version='3.35.4'
+            repo="sqlite"
+            hash="sha256:7771525dff0185bfe9638ccce23faa0e1451757ddbda5a6c853bb80b923a512d"/>
   </autotools>
 
 <!-- Goocanvas2 is for gtk+-3. -->
 
   <autotools id="goocanvas2" supports-non-srcdir-builds="no">
-    <branch module="goocanvas/2.0/goocanvas-2.0.2.tar.xz" version="2.0.2"
-	    hash="sha256:f20e5fbef8d1a2633033edbd886dd13146a1b948d1813a9c353a80a29295d1d0"/>
-    <branch repo="git.gnome.org" module="goocanvas" checkoutdir="goocanvas2"/>
+    <branch module="goocanvas/2.0/goocanvas-2.0.4.tar.xz" version="2.0.4"
+	    hash="sha256:c728e2b7d4425ae81b54e1e07a3d3c8a4bd6377a63cffa43006045bceaa92e90"/>
     <after>
       <dep package="gtk+-3.0"/>
     </after>
   </autotools>
 
   <autotools id="hunspell" autogen-sh="autoreconf">
-    <branch module="hunspell/hunspell/archive/v1.6.1.tar.gz" version="1.6.1"
-	    repo="github-tarball" checkoutdir="hunspell-1.6.1"/>
+    <branch module="hunspell/hunspell/archive/v1.7.0.tar.gz" version="1.7.0"
+            repo="github-tarball" checkoutdir="hunspell-1.7.0"
+            rename-tarball="hunspell-1.7.0.tar.gz"
+            hash="sha256:bb27b86eb910a8285407cf3ca33b62643a02798cf2eef468c0a74f6c3ee6bc8a"/>
   </autotools>
 
-  <autotools id="libgsf" autogenargs="--without-python">
-    <branch  module="libgsf/1.14/libgsf-1.14.41.tar.xz" version="1.14.41"
-	     hash="sha256:150b98586a1021d5c49b3d4d065d0aa3e3674ae31db131af5372499d2d3f08d3">
+  <autotools id="enchant" autogen-sh="configure"
+             autogenargs="--enable-relocatable --with-applespell" >
+    <branch module="AbiWord/enchant/releases/download/v2.2.15/enchant-2.2.15.tar.gz"
+            repo="github-tarball" version="2.2.15"
+            hash="sha256:3b0f2215578115f28e2a6aa549b35128600394304bd79d6f28b0d3b3d6f46c03">
     </branch>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="hunspell"/>
+    </after>
   </autotools>
 
   <autotools id="gmp">
@@ -138,40 +158,23 @@
     </branch>
   </autotools>
 
-  <autotools id="libunistring" autogen-sh="configure">
-    <branch repo="ftp.gnu.org" module="libunistring/libunistring-0.9.7.tar.gz"
-	    version="0.9.7">
+  <autotools id="gmp">
+    <branch repo="ftp.gnu.org" module="gmp/gmp-6.2.1.tar.bz2" version="6.2.1"
+            hash="sha256:eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c">
     </branch>
   </autotools>
 
-  <!-- Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
-  <autotools id="bdw-gc" autogen-sh="configure">
-    <branch repo="github-tarball" module="ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz" version="8.0.4"
-            hash="sha256:436a0ddc67b1ac0b0405b61a9675bca9e075c8156f4debd1d06f3a56c7cd289d"/>
-  </autotools>
-
-  <autotools id="guile" autogen-sh="configure"
-	     autogenargs="--disable-error-on-warning">
-    <branch repo="ftp.gnu.org" module="guile/guile-1.8.8.tar.gz"
-	    version="1.8.8"/>
-    <dependencies>
-      <dep package="gmp"/>
-    </dependencies>
-  </autotools>
-
-  <!-- Guile 2.0.14 crashes during build. Stay at 2.0.12 while this is investigated. -->
-  <autotools id="guile2" autogen-sh="configure">
-    <branch repo="ftp.gnu.org" module="guile/guile-2.0.11.tar.gz"
-	    version="2.0.11">
-      <!--patch file="guild-shell.patch" strip="1"/>
-      <patch file="guile-clocktime.patch" strip="1"/-->
+  <autotools id='readline' autogen-sh="configure">
+    <branch repo="ftp.gnu.org" module="readline/readline-8.1.tar.gz"
+            version="8.1"
+            hash="sha256:f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02">
     </branch>
-    <dependencies>
-      <dep package="libunistring"/>
-      <dep package="gmp"/>
-      <dep package="libffi"/>
-      <dep package="bdw-gc"/>
-    </dependencies>
+  </autotools>
+
+  <autotools id="iso-codes" autogen-sh="configure">
+    <branch module="049ce6aac94d842be809f4063950646c/iso-codes-4.1.tar.xz"
+            version="4.1" repo="iso-codes"
+            hash="sha256:67117fb76f32c8fb5e37d2d60bce238f1f8e865cc7b569a57cbc3017ca15488a"/>
   </autotools>
 
 </moduleset>
