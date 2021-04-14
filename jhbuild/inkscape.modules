@@ -46,9 +46,9 @@
     skip-install="yes"
     supports-non-srcdir-builds="no">
     <branch
-      module="boostorg/release/1.74.0/source/boost_1_74_0.tar.bz2"
-      version="1.74.0"
-      hash="sha256:83bfc1507731a0906e387fc28b7ef5417d591429e51e788417fe9ff025e116b1"
+      module="boostorg/release/1.75.0/source/boost_1_75_0.tar.bz2"
+      version="1.75.0"
+      hash="sha256:953db31e016db7bb207f11432bef7df100516eeb746843fa0486a222e3fd49cb"
       repo="bintray">
     </branch>
   </autotools>
@@ -194,12 +194,12 @@
     id="imagemagick"
     autogen-sh="configure">
     <branch
-      module="ImageMagick/ImageMagick6/archive/6.9.11-22.tar.gz"
-      version="6.9.11-22"
-      hash="sha256:1dd6efedc624738bc38a27611b509c299fc958dc6138370abd34864c0af8cfa0"
+      module="ImageMagick/ImageMagick6/archive/6.9.12-7.tar.gz"
+      version="6.9.12-7"
+      hash="sha256:6abbd6afe7130edba7652a49c03a699657d6a71cf631a3c82014a31c8f93996d"
       repo="github"
-      checkoutdir="imagemagick-6.9.11-22"
-      rename-tarball="imagemagick-6.9.11-22.tar.gz">
+      checkoutdir="imagemagick-6.9.12-7"
+      rename-tarball="imagemagick-6.9.12-7.tar.gz">
       <patch
         file="imagemagick_configure_pango.patch"
         strip="1"/>
@@ -279,12 +279,12 @@
   <cmake
     id="openjpeg">
     <branch
-      module="uclouvain/openjpeg/archive/v2.3.1.tar.gz"
-      version="2.3.1"
-      hash="sha256:63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9"
+      module="uclouvain/openjpeg/archive/v2.4.0.tar.gz"
+      version="2.4.0"
+      hash="sha256:8702ba68b442657f11aaeb2b338443ca8d5fb95b0d845757968a7be31ef7f16d"
       repo="github"
-      checkoutdir="openjpeg-2.3.1"
-      rename-tarball="openjpeg-2.3.1.tar.gz">
+      checkoutdir="openjpeg-2.4.0"
+      rename-tarball="openjpeg-2.4.0.tar.gz">
     </branch>
     <dependencies>
       <!-- TODO
