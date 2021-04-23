@@ -165,7 +165,8 @@
 
   <meson id="harfbuzz" mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled">
     <branch repo="github-tarball" version="2.8.0"
-            module="harfbuzz/harfbuzz/releases/download/2.8.0/harfbuzz-2.8.0.tar.xz">
+            module="harfbuzz/harfbuzz/releases/download/2.8.0/harfbuzz-2.8.0.tar.xz" 
+>
     </branch>
     <dependencies>
       <dep package="gobject-introspection"/>
