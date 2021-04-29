@@ -62,7 +62,6 @@
       <patch file="libxml2.9.10-conditional-parentheses.patch" strip="1"/>
     </branch>
     <after>
-      <dep package="python2"/>
       <dep package="python3"/>
     </after>
   </autotools>
