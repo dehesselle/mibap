@@ -19,7 +19,7 @@ export CCACHE_DIR
 # https://ccache.dev
 # https://github.com/ccache/ccache
 # https://github.com/dehesselle/ccache_macos
-CCACHE_VER=4.2.1r1
+CCACHE_VER=4.3r1
 CCACHE_URL=https://github.com/dehesselle/ccache_macos/releases/download/\
 v$CCACHE_VER/ccache_v$CCACHE_VER.tar.xz
 
