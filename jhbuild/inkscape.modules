@@ -2,7 +2,7 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <repository name="bintray"      type="tarball" href="https://dl.bintray.com/"/>
+  <repository name="boost"        type="tarball" href="https://boostorg.jfrog.io/artifactory/main/release/"/>
   <repository name="freedesktop"  type="tarball" href="https://gitlab.freedesktop.org/"/>
   <repository name="github"       type="tarball" href="https://github.com/"/>
   <repository name="gnome_ftp"    type="tarball" href="https://ftp.fau.de/gnome/sources/"/>
@@ -46,10 +46,10 @@
     skip-install="yes"
     supports-non-srcdir-builds="no">
     <branch
-      module="boostorg/release/1.75.0/source/boost_1_75_0.tar.bz2"
-      version="1.75.0"
-      hash="sha256:953db31e016db7bb207f11432bef7df100516eeb746843fa0486a222e3fd49cb"
-      repo="bintray">
+      module="1.76.0/source/boost_1_76_0.tar.bz2"
+      version="1.76.0"
+      hash="sha256:f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
+      repo="boost">
     </branch>
   </autotools>
 
