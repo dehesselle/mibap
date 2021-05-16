@@ -94,6 +94,7 @@ function jhbuild_configure
     echo "checkoutroot = '$SRC_DIR'"
     echo "prefix = '$VER_DIR'"
     echo "tarballdir = '$PKG_DIR'"
+    echo "top_builddir = '$VAR_DIR/jhbuild'"
 
     # set macOS SDK
     echo "setup_sdk(sdkdir=\"$SDKROOT\")"
