@@ -2,6 +2,7 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
+
   <repository name="boost"        type="tarball" href="https://boostorg.jfrog.io/artifactory/main/release/"/>
   <repository name="freedesktop"  type="tarball" href="https://gitlab.freedesktop.org/"/>
   <repository name="github"       type="tarball" href="https://github.com/"/>
@@ -15,8 +16,11 @@
   <include href="gtk-osx.modules"/>
 
   <!--
-          - Dependencies marked with TODO have not been investigated yet.
-            Maybe there are no dependencies or maybe they need to be added.
+       - Dependencies marked with TODO have not been investigated yet.
+         Maybe there are no dependencies or maybe they need to be added.
+
+       - Indentation may look strange for an XML file, but this is to make
+         my life easier as this is a manually maintained file.
   -->
 
   <!-- Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
@@ -310,14 +314,22 @@
     </dependencies>
   </cmake>
 
-  <!-- Poppler https://poppler.freedesktop.org -->
+  <!-- Poppler https://poppler.freedesktop.org
+
+       To be able to build on El Capitan:
+       - disable GObject Introspection
+       - pin version to 21.03.0
+
+       Mind the differenct between "building on" and "targeting" - building on
+       e.g. Catalina against 10.11 SDK works fine.
+  -->
   <cmake
     id="poppler"
-    cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON">
+    cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF">
     <branch
-      module="poppler-21.04.0.tar.xz"
-      version="21.04.0"
-      hash="sha256:5e2219656c6bbd36154133fef2e12b7d0938464518827098b29a10b1697ea79c"
+      module="poppler-21.03.0.tar.xz"
+      version="21.03.0"
+      hash="sha256:fd51ead4aac1d2f4684fa6e7b0ec06f0233ed21667e720a4e817e4455dd63d27"
       repo="poppler">
     </branch>
     <dependencies>
@@ -347,21 +359,25 @@
   </autotools>
 
   <!-- Rust https://www.rust-lang.org
+
        Rust has a custom setup routine (rustup) which is wrapped into
        a cmake file introduced by that patch below.
   -->
-  <cmake id="rust"
-         cmakeargs="-DVERSION=1.48.0"
-         supports-non-srcdir-builds="no"
-         use-ninja="no">
-    <branch module="rust-lang/rustup/archive/1.22.1.tar.gz"
-            version="1.22.1"
-            hash="sha256:ad46cc624f318a9493aa62fc9612a450564fe20ba93c689e0ad856bff3c64c5b"
-            repo="github"
-            checkoutdir="rustup-1.22.1"
-            rename-tarball="rustup-1.22.1.tar.gz">
-      <patch file="rust_cmake_install.patch"
-             strip="1"/>
+  <cmake
+    id="rust"
+    cmakeargs="-DVERSION=1.48.0"
+    supports-non-srcdir-builds="no"
+    use-ninja="no">
+    <branch
+      module="rust-lang/rustup/archive/1.22.1.tar.gz"
+      version="1.22.1"
+      hash="sha256:ad46cc624f318a9493aa62fc9612a450564fe20ba93c689e0ad856bff3c64c5b"
+      repo="github"
+      checkoutdir="rustup-1.22.1"
+      rename-tarball="rustup-1.22.1.tar.gz">
+      <patch
+        file="rust_cmake_install.patch"
+        strip="1"/>
     </branch>
   </cmake>
 
