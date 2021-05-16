@@ -37,15 +37,17 @@ function jhbuild_install
   tar -C "$SRC_DIR" -xf "$archive"
   JHBUILD_DIR=$SRC_DIR/jhbuild-$JHBUILD_VER
 
+  # Determine the real path to the Python interpreter so we can hardcode it into
+  # the file. This way we can pick up the desired interpreter via environment
+  # lookup once - i.e. right now - and stick to it.
+  local python_interpreter
+  python_interpreter=$(python3 -c \
+    "import os, sys; print(os.path.realpath(sys.executable))")
+
   # Create 'jhbuild' executable. This code has been adapted from
   # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
-  #
-  # This file will use '/usr/bin/python3' instead of the environment lookup
-  # '/usr/bin/env python3' because we want to stick with a version for
-  # JHBuild regardless of what Python we install later (which would
-  # replace that because of PATH within JHBuild environment).
   cat <<EOF > "$BIN_DIR/jhbuild"
-#!/usr/bin/python3
+#!$python_interpreter
 # -*- coding: utf-8 -*-
 
 import sys

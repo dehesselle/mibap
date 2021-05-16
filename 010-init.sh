@@ -60,13 +60,6 @@ else
   fi
 fi
 
-#------------------------------------------------------------- directories: self
-
-# The fully qualified directory name in canonicalized form.
-# We neither have 'readlink -f' nor 'realpath' on macOS, so we use Python.
-SELF_DIR=$(dirname \
-  "$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))")")
-
 #------------------------------------------------------------- directories: work
 
 # This is the main directory where all the action takes place below. The
@@ -84,6 +77,7 @@ BIN_DIR=$VER_DIR/bin
 ETC_DIR=$VER_DIR/etc
 INC_DIR=$VER_DIR/include
 LIB_DIR=$VER_DIR/lib
+OPT_DIR=$VER_DIR/opt
 VAR_DIR=$VER_DIR/var
 BLD_DIR=$VAR_DIR/build
 PKG_DIR=$VAR_DIR/cache/pkgs
@@ -123,9 +117,20 @@ else
   ARTIFACT_DIR=$WRK_DIR
 fi
 
-#---------------------------------------------------------------------- set path
+#------------------------------------------------------ directories: set up path
 
 export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
+
+#------------------------------------------------------------- directories: self
+
+# We want a fully qualified path to our directory in canonicalized form. Since
+# we neither have 'readlink -f' nor 'realpath' on macOS, we use Python.
+# There is a fallback that solely relies on BASH_SOURCE for systems that
+# do not provide python3 (we will provide our own via 110-sysprep.sh).
+
+SELF_DIR=$(dirname \
+  "$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))" \
+    2>/dev/null || echo "${BASH_SOURCE[0]}")")
 
 #------------------------------------------ source functions from bash_d library
 
@@ -171,4 +176,4 @@ fi
 
 #---------------------------------------------------- check recommended versions
 
-sys_ver_check
+sys_check_versions

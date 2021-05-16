@@ -43,6 +43,14 @@ mkdir -p "$TMP_DIR"
 ccache_install
 ccache_configure
 
+#-------------------------------------------------------------- install Python 3
+
+# Support building on El Capitan by providing Python 3.
+
+if [ "$SYS_PYTHON_VER" = "n/a" ]; then
+  python_install
+fi
+
 #------------------------------------------ log relevant versions to release.log
 
-sys_ver_log
+sys_create_log
