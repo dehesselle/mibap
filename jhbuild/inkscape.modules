@@ -318,10 +318,10 @@
 
        To be able to build on El Capitan:
        - disable GObject Introspection
-       - pin version to 21.03.0
+       - version <= 21.03.0
 
-       Mind the differenct between "building on" and "targeting" - building on
-       e.g. Catalina against 10.11 SDK works fine.
+       This in turn requires glib <= 2.66.8 on Catalina
+       https://gitlab.freedesktop.org/poppler/poppler/-/issues/1060
   -->
   <cmake
     id="poppler"

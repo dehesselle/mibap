@@ -63,10 +63,12 @@
             repo="github-tarball" version="3.3"
             hash="sha256:72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"/>
   </autotools>
-
+  <!-- Pin version to 2.66.8 to not break Poppler 21.3.0
+       https://gitlab.freedesktop.org/poppler/poppler/-/issues/1060
+  -->
   <meson id="glib" mesonargs="-Dinternal_pcre=true -Dlibmount=disabled">
-    <branch module="glib/2.68/glib-2.68.0.tar.xz"  version="2.68.0"
-            hash="sha256:67734f584f3a05a2872f57e9a8db38f3b06c7087fb531c5a839d9171968103ea">
+    <branch module="glib/2.66/glib-2.66.8.tar.xz"  version="2.66.8"
+            hash="sha256:97bc87dd91365589af5cbbfea2574833aea7a1b71840fd365ecd2852c76b9c8b">
     </branch>
     <dependencies>
         <dep package="libffi"/>
