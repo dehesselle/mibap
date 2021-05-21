@@ -1,6 +1,6 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2021 René de Hesselle <dehesselle@web.de>
 #
-# This file is part of https://github.com/dehesselle/mibap
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 name: mibap
 on: push
@@ -32,7 +32,7 @@ jobs:
 
     ### prepare the environemnt ################################################
 
-    - name: checkout repository
+    - name: checkout mibap repository
       uses: actions/checkout@v2
       with:
         submodules: true
@@ -55,17 +55,40 @@ jobs:
     # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
     # no official public download available from Apple and I don't trust 3rd
     # party sources (e.g. "phracker"), so I'm enabling this job to download
-    # a compressed tarball that contains the SDK.
+    # a compressed tarball that contains the SDK from a non-public source.
     # In order to use this, you need to setup a repository secret named
     # SDK_DOWNLOAD_URL and give a link to a .tar.xz file.
+    # At the moment, only 10.11.4 SDK is supported (see verify step below).
     - name: install macOS SDK
+      if: env.SDK_DOWNLOAD_URL != null
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-      if: env.SDK_DOWNLOAD_URL != null
       run: |
         mkdir -p $WRK_DIR
         curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
         echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+
+    # Checkout repository to verify SDK...
+    - name: checkout sdkchecksum repository
+      if: env.SDK_DOWNLOAD_URL != null
+      env:
+        SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+      uses: actions/checkout@v2
+      with:
+        repository: dehesselle/sdkchecksum
+        path: sdkchecksum
+        clean: false
+
+    # ...and use it
+    - name: verify SDK
+      if: env.SDK_DOWNLOAD_URL != null
+      env:
+        SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+      run: |
+        mv $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.11.4.sdk.sha256 $WRK_DIR
+        cd $WRK_DIR
+        shasum -a 256 MacOSX10.11.4.sdk.sha256
+        if shasum -s -c MacOSX10.11.4.sdk.sha256; then echo "ok"; exit 0; else echo "failed"; exit 1; fi
 
     ### disable /usr/local #####################################################
 
