@@ -58,24 +58,28 @@ py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i
 
 #----------------------------------- Python packages to be bundled with Inkscape
 
-# https://lxml.de
-# https://github.com/lxml/lxml
+# https://pypi.org/project/lxml/
 # https://github.com/dehesselle/py3framework
 # TODO: check and document why we're using our own build here
 INK_PYTHON_LXML=$(dirname $INK_PYTHON_URL)/lxml-4.5.2-\
 cp${INK_PYTHON_VER/./}-cp${INK_PYTHON_VER/./}-macosx_10_9_x86_64.whl
 
-# https://github.com/numpy/numpy
+# https://pypi.org/project/numpy/
 INK_PYTHON_NUMPY=numpy==1.19.1
 
-# https://pygobject.readthedocs.io/en/latest/
-INK_PYTHON_PYGOBJECT=PyGObject==3.36.1
+# https://pypi.org/project/PyGObject/
+INK_PYTHON_PYGOBJECT="\
+  PyGObject==3.40.1\
+  pycairo==1.20.0\
+"
 
-# https://github.com/scour-project/scour
-INK_PYTHON_SCOUR=scour==0.37
+# https://pypi.org/project/scour/
+INK_PYTHON_SCOUR="\
+  scour==0.37\
+  six==1.16.0\
+"
 
-# https://pyserial.readthedocs.io/en/latest/
-# https://github.com/pyserial/pyserial
+# https://pypi.org/project/pyserial/
 INK_PYTHON_PYSERIAL=pyserial==3.5
 
 #------------------------------------------- application bundle directory layout
@@ -135,6 +139,55 @@ function ink_pipinstall
     $package
 
   export PATH=$PATH_ORIGINAL
+}
+
+function ink_pipinstall_lxml
+{
+  ink_pipinstall "$INK_PYTHON_LXML"
+
+  lib_change_paths \
+    @loader_path/../../.. \
+    "$INK_APP_LIB_DIR" \
+    "$INK_APP_SITEPKG_DIR"/lxml/etree.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
+    "$INK_APP_SITEPKG_DIR"/lxml/objectify.cpython-"${INK_PYTHON_VER/./}"-darwin.so
+}
+
+function ink_pipinstall_numpy
+{
+  ink_pipinstall "$INK_PYTHON_NUMPY"
+
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
+    "$INK_APP_BIN_DIR"/f2py
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
+    "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER_MAJOR
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
+    "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER
+}
+
+function ink_pipinstall_pygobject
+{
+  ink_pipinstall "$INK_PYTHON_PYGOBJECT"
+
+  lib_change_paths \
+    @loader_path/../../.. \
+    "$INK_APP_LIB_DIR" \
+    "$INK_APP_SITEPKG_DIR"/gi/_gi.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
+    "$INK_APP_SITEPKG_DIR"/gi/_gi_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
+    "$INK_APP_SITEPKG_DIR"/cairo/_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
+}
+
+function ink_pipinstall_pyserial
+{
+  ink_pipinstall "$INK_PYTHON_PYSERIAL"
+  find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-miniterm
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-ports
+}
+
+function ink_pipinstall_scour
+{
+  ink_pipinstall "$INK_PYTHON_SCOUR"
+  sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
 function ink_python_download

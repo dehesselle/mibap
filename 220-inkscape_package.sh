@@ -102,55 +102,13 @@ ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$INK_PYTHON_
 echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
   > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/python$INK_PYTHON_VER/site-packages/inkscape.pth
 
-#-------------------------------------------------- install Python package: lxml
+#------------------------------------------------------- install Python packages
 
-ink_pipinstall "$INK_PYTHON_LXML"
-
-lib_change_paths \
-  @loader_path/../../.. \
-  "$INK_APP_LIB_DIR" \
-  "$INK_APP_SITEPKG_DIR"/lxml/etree.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
-  "$INK_APP_SITEPKG_DIR"/lxml/objectify.cpython-"${INK_PYTHON_VER/./}"-darwin.so
-
-#------------------------------------------------- install Python package: NumPy
-
-ink_pipinstall "$INK_PYTHON_NUMPY"
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py3
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py3.8
-
-#--------------------------------------------- install Python package: PyGObject
-
-ink_pipinstall "$INK_PYTHON_PYGOBJECT"
-
-lib_change_paths \
-  @loader_path/../../.. \
-  "$INK_APP_LIB_DIR" \
-  "$INK_APP_SITEPKG_DIR"/gi/_gi.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
-  "$INK_APP_SITEPKG_DIR"/gi/_gi_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
-
-#----------------------------------------------- install Python package: Pycairo
-
-# This package got pulled in by PyGObject.
-# TODO: if this is still true, add it to INK_PYTHON_PYGOBJECT to version-pin
-
-# patch '_cairo'
-lib_change_paths \
-  @loader_path/../../.. \
-  "$INK_APP_LIB_DIR" \
-  "$INK_APP_SITEPKG_DIR"/cairo/_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
-
-#---------------------------------------------- install Python package: pySerial
-
-ink_pipinstall "$INK_PYTHON_PYSERIAL"
-find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-miniterm
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-ports
-
-#------------------------------------------------- install Python package: Scour
-
-ink_pipinstall "$INK_PYTHON_SCOUR"
-sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
+ink_pipinstall_lxml
+ink_pipinstall_numpy
+ink_pipinstall_pygobject
+ink_pipinstall_pyserial
+ink_pipinstall_scour
 
 #----------------------------------------------------- remove Python cache files
 
