@@ -110,7 +110,7 @@
   </cmake>
 
   <autotools id="fontconfig" autogen-sh="configure"
-             autogenargs="--disable-docs --with-default-fonts=/System/Library/Fonts --with-add-fonts=/Library/Fonts --with-cache-dir=home">
+             autogenargs="--disable-docs --with-default-fonts=/System/Library/Fonts --with-add-fonts=/Library/Fonts">
     <branch repo="fontconfig" version="2.13.1"
             module="fontconfig-2.13.1.tar.bz2"
             hash="sha256:f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741"/>
