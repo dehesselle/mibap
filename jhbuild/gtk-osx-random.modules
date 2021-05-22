@@ -21,9 +21,7 @@
   <repository type="tarball" name="paguire" href="https://releases.pagure.org/"/> 
   <repository type="tarball" name="pcre" href="https://ftp.pcre.org/pub/"/>
 
-  <autotools id="graphviz" supports-non-srcdir-builds="no"
-             autogen-template="pushd %(srcdir)s &amp;&amp; ./autogen.sh &amp;&amp; popd &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s"
-             autogenargs="--disable-sharp --disable-guile --disable-java --disable-lua --disable-ocaml --disable-perl --disable-php --disable-r --disable-ruby --disable-tcl --with-pangocairo">
+  <cmake id="graphviz">
     <branch module="2.47.0/graphviz-2.47.0.tar.bz2" version="2.47.0"
             repo="graphviz" 
             hash="sha256:dade5b374ce483bf28f2e535baef02280ba8ab86fbe6e93252ab0de48396b714"/>
@@ -31,7 +29,7 @@
       <dep package="pango"/>
       <dep package="librsvg"/>
     </dependencies>
-  </autotools>
+  </cmake>
 
   <autotools id="vala" autogen-sh="configure">
     <branch repo="ftp.gnome.org" version="0.52.0"
@@ -46,23 +44,15 @@
     </after>
   </autotools>
 
-<!-- Glade 3.10 is the first stable series for Gtk+-3. Note the name
-     change back to just "glade"-->
-  <autotools id="glade" autogen-sh="configure"
-	     autogenargs='--disable-scrollkeeper --disable-introspection CPPFLAGS="$CPPFLAGS -xobjective-c"'>
-    <branch module="glade/3.22/glade-3.22.1.tar.xz" version="3.22.1"
-            hash="sha256:dff89a2ef2eaf000ff2a46979978d03cb9202cb04668e01d0ea5c5bb5547e39a">
-      <patch file="glade-3.22.1-xslproc.patch" strip="1"/>
+  <meson id="glade" mesonargs="-Dmac_bundle=true -Dman=false" >
+    <branch module="glade/3.38/glade-3.38.2.tar.xz" version="3.38.2"
+            hash="sha256:98fc87647d88505c97dd2f30f2db2d3e9527515b3af11694787d62a8d28fbab7">
     </branch>
     <dependencies>
-      <dep package="gtk+-3.0"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap"/>
-      <dep package="meta-gtk-osx-themes"/>
+      <dep package="itstool"/>
       <dep package="meta-gtk-osx-gtk3"/>
-    </after>
-  </autotools>
+    </dependencies>
+  </meson>
 
   <!-- gtksourceview got a major version ahead: 4.x.x supports recent versions of gtk+-3 and 5.x.x is for gtk4.
   -->

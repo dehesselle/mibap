@@ -139,7 +139,7 @@
             repo="cairographics"
             hash="sha256:5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331">
       <patch file="cairo-freetype-font-variations.patch" strip="1"/>
-      <patch file="cairo-image-refcount.patch" strip="1"/>
+      <patch file="Cairo-quartz-surface-create-internal.patch" strip="1"/>
       <patch file="cairo_pdf_add_missing_flush.patch" strip="1"/>
     </branch>
     <dependencies>
