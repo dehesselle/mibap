@@ -104,6 +104,7 @@ echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
 
 #------------------------------------------------------- install Python packages
 
+ink_pipinstall_cssselect
 ink_pipinstall_lxml
 ink_pipinstall_numpy
 ink_pipinstall_pygobject

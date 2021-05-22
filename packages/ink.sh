@@ -58,6 +58,9 @@ py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i
 
 #----------------------------------- Python packages to be bundled with Inkscape
 
+# https://pypi.org/project/cssselect/
+INK_PYTHON_CSSSELECT=cssselect==1.1.0
+
 # https://pypi.org/project/lxml/
 # https://github.com/dehesselle/py3framework
 # TODO: check and document why we're using our own build here
@@ -139,6 +142,11 @@ function ink_pipinstall
     $package
 
   export PATH=$PATH_ORIGINAL
+}
+
+function ink_pipinstall_cssselect
+{
+  ink_pipinstall "$INK_PYTHON_CSSSELECT"
 }
 
 function ink_pipinstall_lxml
