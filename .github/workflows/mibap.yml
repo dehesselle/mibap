@@ -79,16 +79,21 @@ jobs:
         path: sdkchecksum
         clean: false
 
-    # ...and use it
+    # ...and use it to verify
     - name: verify SDK
       if: env.SDK_DOWNLOAD_URL != null
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
       run: |
-        mv $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.11.4.sdk.sha256 $WRK_DIR
+        shasum -a 256 sdkchecksum/MacOSX10.11.4.sdk.sha256
         cd $WRK_DIR
-        shasum -a 256 MacOSX10.11.4.sdk.sha256
-        if shasum -s -c MacOSX10.11.4.sdk.sha256; then echo "ok"; exit 0; else echo "failed"; exit 1; fi
+        if shasum -s -c $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.11.4.sdk.sha256; then
+          echo "ok - SDK verified"
+          exit 0
+        else
+          echo "error - SDK verification failed"
+          exit 1
+        fi
 
     ### disable /usr/local #####################################################
 
