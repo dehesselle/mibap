@@ -30,6 +30,8 @@ SYS_SDK_VER_RECOMMENDED=10.11
 SYS_XCODE_VER=$( (xcodebuild -version 2>/dev/null || echo "Xcode n/a") | grep Xcode | awk '{ print $2 }')
 SYS_XCODE_VER_RECOMMENDED=12.4
 
+SYS_ARCHITECTURE=$(uname -p)
+
 ### functions ##################################################################
 
 function sys_check_versions
@@ -56,6 +58,7 @@ function sys_check_versions
     echo_w "       your Python 3 version: $SYS_PYTHON_VER"
   fi
 }
+
 function sys_create_log
 {
   # Create release.log file.

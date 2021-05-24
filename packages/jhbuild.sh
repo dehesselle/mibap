@@ -24,7 +24,37 @@ JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
+# This Python runtime powers JHBuild on system that do not provide Python 3.
+JHBUILD_PYTHON_VER_MAJOR=3
+JHBUILD_PYTHON_VER_MINOR=8
+JHBUILD_PYTHON_VER_PATCH=10
+JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR.\
+$JHBUILD_PYTHON_VER_PATCH
+
 ### functions ##################################################################
+
+function jhbuild_install_python
+{
+  if [ "$SYS_PYTHON_VER" = "n/a" ]; then
+    local url="https://gitlab.com/dehesselle/python_macos/-/jobs/artifacts/\
+master/raw/python_${JHBUILD_PYTHON_VER//.}_$SYS_ARCHITECTURE.tar.xz?job=\
+python$JHBUILD_PYTHON_VER_MAJOR$JHBUILD_PYTHON_VER_MINOR:$SYS_ARCHITECTURE"
+    local archive
+    archive=$PKG_DIR/$(basename "${url%\?*}")
+    curl -o "$archive" -L "$url"
+
+    mkdir -p "$OPT_DIR"
+    tar -C "$OPT_DIR" -xf "$archive"
+    ln -s "$OPT_DIR"/Python.framework/Versions/Current/bin/\
+python$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR "$BIN_DIR"
+    ln -s "$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR \
+"$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR
+    ln -s "$OPT_DIR"/Python.framework/Versions/Current/bin/\
+pip$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
+  else
+    echo_i "using system Python 3"
+  fi
+}
 
 function jhbuild_install
 {

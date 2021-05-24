@@ -45,13 +45,11 @@ mkdir -p "$TMP_DIR"
 ccache_install
 ccache_configure
 
+
 #-------------------------------------------------------------- install Python 3
 
-# Support building on El Capitan by providing Python 3.
-
-if [ "$SYS_PYTHON_VER" = "n/a" ]; then
-  python_install
-fi
+# Install Python 3 for JHBuild on systems that provide it.
+jhbuild_install_python
 
 #------------------------------------------ log relevant versions to release.log
 
