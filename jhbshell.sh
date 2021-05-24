@@ -22,4 +22,7 @@ done
 
 ### main #######################################################################
 
+jhbuild_configure   # Reconfigure settings to match current system instead
+                    # of the system the toolset was built with.
+
 jhbuild shell
