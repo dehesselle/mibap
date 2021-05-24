@@ -32,10 +32,6 @@
 
   <autotools id="gettext" autogen-sh="configure"
              autogenargs="--without-emacs --disable-java --disable-native-java --disable-libasprintf --disable-csharp --with-included-glib --with-included-libcroco">
-    <!-- GNU gettext
-
-         Version is in-line with what bundled Python.framework (3.8.5.1) needs.
-    -->
     <branch repo="ftp.gnu.org"
             module="gettext/gettext-0.21.tar.xz"
             hash="sha256:d20fcbb537e02dcf1383197ba05bd0734ef7bf5db06bdb241eb69b7d16b73192"
