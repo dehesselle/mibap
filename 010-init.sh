@@ -52,12 +52,12 @@ if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.
 else
   CI=true
 
-  if [ "$CI_PROJECT_NAME" = "inkscape" ]; then
-    CI_GITHUB=false
-    CI_GITLAB=true
-  else
+  if [ -z "$CI_PROJECT_NAME" ]; then  # This is a GitLab variable.
     CI_GITHUB=true
     CI_GITLAB=false
+  else
+    CI_GITHUB=false
+    CI_GITLAB=true
   fi
 fi
 

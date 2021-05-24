@@ -25,9 +25,17 @@ prepare:
   tags:
     - elcapitan
   script:
-    - git clone https://github.com/dehesselle/sdkchecksum
-    - shasum -a 256 sdkchecksum/MacOSX10.11.4.sdk.sha256
-    - if cd $(dirname $SDKROOT) && shasum -s -c $CI_PROJECT_DIR/sdkchecksum/MacOSX10.11.4.sdk.sha256; then echo "ok"; exit 0; else echo "failed"; exit 1; fi
+    - |
+      git clone https://github.com/dehesselle/sdkchecksum
+      shasum -a 256 sdkchecksum/MacOSX10.11.4.sdk.sha256
+      cd $(dirname $SDKROOT)
+      if shasum -s -c $CI_PROJECT_DIR/sdkchecksum/MacOSX10.11.4.sdk.sha256; then
+        echo "ok - SDK verified"
+        exit 0
+      else
+        echo "error - SDK verification failed"
+        exit 1
+      fi
 
 build:
   stage: build
@@ -48,5 +56,11 @@ build:
     - ./140-jhbuild_gtk3.sh
     - ./150-jhbuild_inkdeps.sh
     - ./160-jhbuild_other.sh
-#  after_script:
-#    - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
+  after_script:
+    - |
+      source 010-init.sh
+      toolset_create_dmg
+    - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
+  artifacts:
+    paths:
+      - mibap*.dmg
