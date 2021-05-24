@@ -45,7 +45,7 @@
 
   <!-- cmakes ./configure is picky about invalid flags so we manually set it -->
   <autotools id="cmake" autogen-sh="bootstrap"  bootstrap="true"
-             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s">
+             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --docdir=share/doc/cmake-3.20">
     <branch repo="cmake" module="v3.20/cmake-3.20.0.tar.gz" version="3.20.0">
     </branch>
   </autotools>
