@@ -21,6 +21,8 @@ done
 
 ### main #######################################################################
 
+#------------------------------------------------------- build time dependencies
+
 jhbuild build \
   bdwgc \
   doubleconversion \
@@ -35,3 +37,15 @@ jhbuild build \
   openmp \
   poppler \
   potrace
+
+#--------------------------------------------------------- run time dependencies
+
+# Build Python wheels and save them to our package cache.
+
+jhbuild run pip3 install wheel
+jhbuild run pip3 wheel "$INK_PYTHON_CSSSELECT" -w "$PKG_DIR"
+jhbuild run pip3 wheel "$INK_PYTHON_LXML"      -w "$PKG_DIR"
+jhbuild run pip3 wheel "$INK_PYTHON_NUMPY"     -w "$PKG_DIR"
+jhbuild run pip3 wheel "$INK_PYTHON_PYGOBJECT" -w "$PKG_DIR"
+jhbuild run pip3 wheel "$INK_PYTHON_PYSERIAL"  -w "$PKG_DIR"
+jhbuild run pip3 wheel "$INK_PYTHON_SCOUR"     -w "$PKG_DIR"

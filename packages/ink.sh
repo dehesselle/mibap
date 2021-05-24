@@ -62,13 +62,10 @@ py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i
 INK_PYTHON_CSSSELECT=cssselect==1.1.0
 
 # https://pypi.org/project/lxml/
-# https://github.com/dehesselle/py3framework
-# TODO: check and document why we're using our own build here
-INK_PYTHON_LXML=$(dirname $INK_PYTHON_URL)/lxml-4.5.2-\
-cp${INK_PYTHON_VER/./}-cp${INK_PYTHON_VER/./}-macosx_10_9_x86_64.whl
+INK_PYTHON_LXML=lxml==6.4.3
 
 # https://pypi.org/project/numpy/
-INK_PYTHON_NUMPY=numpy==1.19.1
+INK_PYTHON_NUMPY=numpy==1.20.3
 
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PYGOBJECT="\
@@ -76,14 +73,14 @@ INK_PYTHON_PYGOBJECT="\
   pycairo==1.20.0\
 "
 
-# https://pypi.org/project/scour/
-INK_PYTHON_SCOUR="\
-  scour==0.37\
-  six==1.16.0\
-"
-
 # https://pypi.org/project/pyserial/
 INK_PYTHON_PYSERIAL=pyserial==3.5
+
+# https://pypi.org/project/scour/
+INK_PYTHON_SCOUR="\
+  scour==0.38.2\
+  six==1.16.0\
+"
 
 #------------------------------------------- application bundle directory layout
 
@@ -128,8 +125,14 @@ function ink_get_repo_shorthash
 
 function ink_pipinstall
 {
-  local package=$1
+  local packages=$1
   local options=$2   # optional
+
+  # turn package names into filenames of our wheels in PKG_DIR
+  local wheels
+  for package in $packages; do
+    wheels="$wheels $(eval echo "$PKG_DIR"/"${package%==*}"*.whl)"
+  done
 
   local PATH_ORIGINAL=$PATH
   export PATH=$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
@@ -139,7 +142,7 @@ function ink_pipinstall
     --prefix "$INK_APP_RES_DIR" \
     --ignore-installed \
     $options \
-    $package
+    $wheels
 
   export PATH=$PATH_ORIGINAL
 }
@@ -187,6 +190,7 @@ function ink_pipinstall_pygobject
 function ink_pipinstall_pyserial
 {
   ink_pipinstall "$INK_PYTHON_PYSERIAL"
+
   find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-miniterm
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-ports
@@ -195,6 +199,7 @@ function ink_pipinstall_pyserial
 function ink_pipinstall_scour
 {
   ink_pipinstall "$INK_PYTHON_SCOUR"
+
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
