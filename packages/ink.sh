@@ -62,7 +62,7 @@ py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i
 INK_PYTHON_CSSSELECT=cssselect==1.1.0
 
 # https://pypi.org/project/lxml/
-INK_PYTHON_LXML=lxml==6.4.3
+INK_PYTHON_LXML=lxml==4.6.3
 
 # https://pypi.org/project/numpy/
 INK_PYTHON_NUMPY=numpy==1.20.3
