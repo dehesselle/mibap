@@ -59,6 +59,11 @@ build:
   after_script:
     - |
       source 010-init.sh
+      find $PKG_DIR -type f \
+        ! -name "*.whl" -a ! -name "$(basename $INK_PYTHON_URL)" \
+        -exec rm {} +
+    - |
+      source 010-init.sh
       toolset_create_dmg
     - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
   artifacts:
