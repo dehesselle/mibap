@@ -135,7 +135,8 @@
   -->
   <autotools
     id="gsl"
-    autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'>
+    autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'
+    autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --infodir=%(prefix)s/share/info %(autogenargs)s">
     <branch
       module="gsl/gsl-1.9.tar.gz"
       version="1.9"
