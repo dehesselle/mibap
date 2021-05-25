@@ -38,12 +38,8 @@ job=python${JHBUILD_PYTHON_VER//.}:$(uname -p)"
 
 function jhbuild_install_python
 {
-  local archive
-  archive=$PKG_DIR/$(basename "${JHBUILD_PYTHON_URL%\?*}")
-  curl -o "$archive" -L "$JHBUILD_PYTHON_URL"
-
   mkdir -p "$OPT_DIR"
-  tar -C "$OPT_DIR" -xf "$archive"
+  curl -L "$JHBUILD_PYTHON_URL" | tar -C "$OPT_DIR" -x
 
   local python_bin_dir
   python_bin_dir=$OPT_DIR/Python.framework/Versions/Current/bin
