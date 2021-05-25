@@ -107,15 +107,14 @@ export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
 # In CI mode, the artifacts are placed into the respective project repositories
 # so they can be picked up from there. In non-CI mode the artifacts are
-# placed in WRK_DIR because the toolset dmg cannot be created in VER_DIR
-# (as it is created from VER_DIR).
+# placed in VER_DIR.
 
 if   $CI_GITHUB; then
   ARTIFACT_DIR=$GITHUB_WORKSPACE
 elif $CI_GITLAB; then
   ARTIFACT_DIR=$CI_PROJECT_DIR
 else
-  ARTIFACT_DIR=$WRK_DIR
+  ARTIFACT_DIR=$VER_DIR
 fi
 
 #------------------------------------------------------ directories: set up path

@@ -154,6 +154,17 @@ function toolset_unmount
 
 function toolset_create_dmg
 {
+  local target_dir=$1
+
+  if [ -z "$target_dir" ]; then
+    target_dir=$ARTIFACT_DIR
+  fi
+
+  if [ "$target_dir" = "$VER_DIR" ]; then
+    echo_e "not allowed: target_dir = VER_DIR"
+    exit 1
+  fi
+
   # remove files to reduce size
   rm -rf "${BLD_DIR:?}"/*
   find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d \
@@ -168,10 +179,10 @@ function toolset_create_dmg
   hdiutil create -fs HFS+ -ov -format UDBZ \
     -srcfolder "$VERSION" \
     -volname "$TOOLSET_VOLNAME" \
-    "$ARTIFACT_DIR/$TOOLSET_VOLNAME".dmg
-  shasum -a 256 "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg" > \
-                "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg".sha256
-  cat "$ARTIFACT_DIR/$TOOLSET_VOLNAME.dmg.sha256"
+    "$target_dir/$TOOLSET_VOLNAME".dmg
+  shasum -a 256 "$target_dir/$TOOLSET_VOLNAME.dmg" > \
+                "$target_dir/$TOOLSET_VOLNAME.dmg".sha256
+  cat "$target_dir/$TOOLSET_VOLNAME.dmg.sha256"
 }
 
 function toolset_copy
