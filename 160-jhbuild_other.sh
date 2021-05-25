@@ -41,6 +41,3 @@ jhbuild build gtkmacbundler
 
 svg2icns_install
 
-#---------------------------- downlaod Python runtime to be bundled with the app
-
-ink_python_download

@@ -38,7 +38,7 @@ fi
 
 INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 
-#----------------------------------- Python runtime to be  bundled with Inkscape
+#------------------------------------ Python runtime to be bundled with Inkscape
 
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
 # the core extensions work out-of-the-box. This is independent from whatever
@@ -46,15 +46,12 @@ INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 
 INK_PYTHON_VER_MAJOR=3
 INK_PYTHON_VER_MINOR=8
-INK_PYTHON_VER_PATCH=5
-INK_PYTHON_VER_BUILD=2  # custom build version
-
-INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR  # convenience handle
-
-# https://github.com/dehesselle/py3framework
-INK_PYTHON_URL=https://github.com/dehesselle/py3framework/releases/download/\
-py${INK_PYTHON_VER/./}$INK_PYTHON_VER_PATCH.$INK_PYTHON_VER_BUILD/\
-py${INK_PYTHON_VER/./}${INK_PYTHON_VER_PATCH}_framework_${INK_PYTHON_VER_BUILD}i.tar.xz
+INK_PYTHON_VER_PATCH=10
+INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
+INK_PYTHON_VER_FULL=$INK_PYTHON_VER.$INK_PYTHON_VER_PATCH
+INK_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
+artifacts/master/raw/python_${INK_PYTHON_VER_FULL//.}_$(uname -p).tar.xz?\
+job=python${INK_PYTHON_VER//.}:inkscape:$(uname -p)"
 
 #----------------------------------- Python packages to be bundled with Inkscape
 
@@ -203,7 +200,25 @@ function ink_pipinstall_scour
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
-function ink_python_download
+function ink_download_python
 {
-  curl -o "$PKG_DIR"/"$(basename "$INK_PYTHON_URL")" -L "$INK_PYTHON_URL"
+  curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
+}
+
+function ink_install_python
+{
+  mkdir "$INK_APP_FRA_DIR"
+  tar -C "$INK_APP_FRA_DIR" -xf "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")"
+
+  # link it to INK_APP_BIN_DIR so it'll be in PATH for the app
+  mkdir -p "$INK_APP_BIN_DIR"
+  # shellcheck disable=SC2086 # it's an integer
+  ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/\
+python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
+
+  # create '.pth' file inside Framework to include our site-packages directory
+  # shellcheck disable=SC2086 # it's an integer
+  echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages"\
+    > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/\
+python$INK_PYTHON_VER/site-packages/inkscape.pth
 }

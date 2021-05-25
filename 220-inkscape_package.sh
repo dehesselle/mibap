@@ -84,25 +84,9 @@ svg2icns "$INK_DIR"/share/branding/inkscape-mac.svg \
 
 cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 
-#---------------------------------------------------------- add Python.framework
+#------------------------------------------------------- add Python and packages
 
-# extract Python.framework (w/o testfiles)
-mkdir "$INK_APP_FRA_DIR"
-tar -C "$INK_APP_FRA_DIR" \
-  --exclude="Versions/$INK_PYTHON_VER/lib/python$INK_PYTHON_VER/test/"'*' \
-  -xf "$PKG_DIR"/"$(basename "$INK_PYTHON_URL")"
-
-# link it to $INK_APP_BIN_DIR so it'll be in PATH for the app
-mkdir -p "$INK_APP_BIN_DIR"
-# shellcheck disable=SC2086 # it's an integer
-ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
-
-# create '.pth' file inside Framework to include our site-packages directory
-# shellcheck disable=SC2086 # it's an integer
-echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
-  > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/python$INK_PYTHON_VER/site-packages/inkscape.pth
-
-#------------------------------------------------------- install Python packages
+ink_install_python
 
 ink_pipinstall_cssselect
 ink_pipinstall_lxml

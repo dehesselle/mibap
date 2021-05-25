@@ -38,7 +38,11 @@ jhbuild build \
   poppler \
   potrace
 
-#--------------------------------------------------------- run time dependencies
+#------------------------------------------------- run time dependencies: Python
+
+# Download custom Python runtime.
+
+ink_download_python
 
 # Build Python wheels and save them to our package cache.
 
