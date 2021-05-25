@@ -45,12 +45,6 @@ mkdir -p "$TMP_DIR"
 ccache_install
 ccache_configure
 
-
-#-------------------------------------------------------------- install Python 3
-
-# Install Python 3 for JHBuild on systems that provide it.
-jhbuild_install_python
-
 #------------------------------------------ log relevant versions to release.log
 
 sys_create_log

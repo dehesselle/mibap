@@ -28,36 +28,35 @@ jhbuild-$JHBUILD_VER.tar.bz2
 JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
 JHBUILD_PYTHON_VER_PATCH=10
-JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR.\
-$JHBUILD_PYTHON_VER_PATCH
+JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
+JHBUILD_PYTHON_VER_FULL=$JHBUILD_PYTHON_VER.$JHBUILD_PYTHON_VER_PATCH
+JHBUILD_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
+artifacts/master/raw/python_${JHBUILD_PYTHON_VER_FULL//.}_$(uname -p).tar.xz?\
+job=python${JHBUILD_PYTHON_VER//.}:$(uname -p)"
 
 ### functions ##################################################################
 
 function jhbuild_install_python
 {
-  if [ "$SYS_PYTHON_VER" = "n/a" ]; then
-    local url="https://gitlab.com/dehesselle/python_macos/-/jobs/artifacts/\
-master/raw/python_${JHBUILD_PYTHON_VER//.}_$SYS_ARCHITECTURE.tar.xz?job=\
-python$JHBUILD_PYTHON_VER_MAJOR$JHBUILD_PYTHON_VER_MINOR:$SYS_ARCHITECTURE"
-    local archive
-    archive=$PKG_DIR/$(basename "${url%\?*}")
-    curl -o "$archive" -L "$url"
+  local archive
+  archive=$PKG_DIR/$(basename "${JHBUILD_PYTHON_URL%\?*}")
+  curl -o "$archive" -L "$JHBUILD_PYTHON_URL"
 
-    mkdir -p "$OPT_DIR"
-    tar -C "$OPT_DIR" -xf "$archive"
-    ln -s "$OPT_DIR"/Python.framework/Versions/Current/bin/\
-python$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR "$BIN_DIR"
-    ln -s "$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR \
-"$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR
-    ln -s "$OPT_DIR"/Python.framework/Versions/Current/bin/\
-pip$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
-  else
-    echo_i "using system Python 3"
-  fi
+  mkdir -p "$OPT_DIR"
+  tar -C "$OPT_DIR" -xf "$archive"
+
+  local python_bin_dir
+  python_bin_dir=$OPT_DIR/Python.framework/Versions/Current/bin
+  ln -s "$python_bin_dir"/python$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
+  ln -s "$python_bin_dir"/python$JHBUILD_PYTHON_VER "$BIN_DIR"
+  ln -s "$python_bin_dir"/pip$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
 }
 
 function jhbuild_install
 {
+  # The safest way is to use our custom Python, even if the system provides one.
+  jhbuild_install_python
+
   # Without this, JHBuild won't be able to access https links later because
   # Apple's Python won't be able to validate certificates.
   certifi_install
@@ -141,15 +140,16 @@ function jhbuild_configure
 
     # certificates for https
     echo "os.environ[\"SSL_CERT_FILE\"] = \
-    \"$LIB_DIR/python$SYS_PYTHON_VER/site-packages/certifi/cacert.pem\""
+      \"$LIB_DIR/python$JHBUILD_PYTHON_VER/site-packages/certifi/cacert.pem\""
     echo "os.environ[\"REQUESTS_CA_BUNDLE\"] = \
-    \"$LIB_DIR/python$SYS_PYTHON_VER/site-packages/certifi/cacert.pem\""
+      \"$LIB_DIR/python$JHBUILD_PYTHON_VER/site-packages/certifi/cacert.pem\""
 
     # user home directory
     echo "os.environ[\"HOME\"] = \"$HOME\""
 
     # special treatment for Python, as this influences how wheels are built
-    echo "module_extra_env[\"python3\"] = {'MACOSX_DEPLOYMENT_TARGET': '$SYS_SDK_VER'}"
+    echo "module_extra_env[\"python3\"] = \
+      {'MACOSX_DEPLOYMENT_TARGET': '$SYS_SDK_VER'}"
 
     # less noise on the terminal if not CI
     if ! $CI; then
