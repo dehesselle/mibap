@@ -13,14 +13,14 @@
 
 ### variables ##################################################################
 
-TOOLSET_VER=v$VERSION
+TOOLSET_VER=$VERSION
 
-TOOLSET_VOLNAME=mibap_$TOOLSET_VER
+TOOLSET_VOLNAME=mibap_v$TOOLSET_VER
 
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
-$TOOLSET_VER/$TOOLSET_VOLNAME.dmg
+v$TOOLSET_VER/$TOOLSET_VOLNAME.dmg
 
 TOOLSET_REPO_DIR=$WRK_DIR/repo   # persistent storage for downloaded dmg
 
