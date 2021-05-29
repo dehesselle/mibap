@@ -86,8 +86,15 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 
 #------------------------------------------------------- add Python and packages
 
+# Install externally built Python framework.
 ink_install_python
 
+# Replace our own wheels with the ones built externally.
+mkdir "$PKG_DIR"/retired
+mv "$PKG_DIR"/*.whl "$PKG_DIR"/retired
+tar -C "$PKG_DIR" -xf "$PKG_DIR/$(basename "$INK_PYTHON_WHEELS_URL")"
+
+# Install wheels.
 ink_pipinstall_cssselect
 ink_pipinstall_lxml
 ink_pipinstall_numpy

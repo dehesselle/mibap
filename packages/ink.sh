@@ -53,6 +53,13 @@ INK_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
 artifacts/master/raw/python_${INK_PYTHON_VER_FULL//.}_$(uname -p).tar.xz?\
 job=python${INK_PYTHON_VER//.}:inkscape:$(uname -p)"
 
+# Python packages are built externally (on a system running El Capitan for
+# better backward compatiblity) and included here.
+
+INK_PYTHON_WHEELS_VER=0.49
+INK_PYTHON_WHEELS_URL=https://github.com/dehesselle/mibap_wheels/releases/\
+download/v$INK_PYTHON_WHEELS_VER/wheels.tar.xz
+
 #----------------------------------- Python packages to be bundled with Inkscape
 
 # https://pypi.org/project/cssselect/
@@ -221,4 +228,23 @@ python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
   echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages"\
     > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/\
 python$INK_PYTHON_VER/site-packages/inkscape.pth
+}
+
+# shellcheck disable=SC2086 # we need word splitting here
+function ink_build_wheels
+{
+  jhbuild run pip3 install wheel
+  jhbuild run pip3 wheel $INK_PYTHON_CSSSELECT -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_LXML      -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_NUMPY     -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_PYGOBJECT -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_PYSERIAL  -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_SCOUR     -w "$PKG_DIR"
+}
+
+function ink_download_wheels
+{
+  curl \
+    -o "$PKG_DIR"/"$(basename "${INK_PYTHON_WHEELS_URL%\?*}")" \
+    -L "$INK_PYTHON_WHEELS_URL"
 }

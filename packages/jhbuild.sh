@@ -143,10 +143,6 @@ function jhbuild_configure
     # user home directory
     echo "os.environ[\"HOME\"] = \"$HOME\""
 
-    # special treatment for Python, as this influences how wheels are built
-    echo "module_extra_env[\"python3\"] = \
-      {'MACOSX_DEPLOYMENT_TARGET': '$SYS_SDK_VER'}"
-
     # less noise on the terminal if not CI
     if ! $CI; then
       echo "quiet_mode = True"

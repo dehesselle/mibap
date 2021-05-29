@@ -46,16 +46,10 @@ ink_download_python
 
 # Build Python wheels and save them to our package cache.
 
-jhbuild run pip3 install wheel
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_CSSSELECT -w "$PKG_DIR"
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_LXML      -w "$PKG_DIR"
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_NUMPY     -w "$PKG_DIR"
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_PYGOBJECT -w "$PKG_DIR"
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_PYSERIAL  -w "$PKG_DIR"
-# shellcheck disable=SC2086 # we need word splitting here
-jhbuild run pip3 wheel $INK_PYTHON_SCOUR     -w "$PKG_DIR"
+ink_build_wheels
+
+# To provide backward compatibility, wheels are also built externally on a
+# machine running the minimum supported OS version. Download those to our
+# package cache as well. (This does not overwrite the above ones.)
+
+ink_download_wheels
