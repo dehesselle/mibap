@@ -86,6 +86,9 @@ INK_PYTHON_SCOUR="\
   six==1.16.0\
 "
 
+# https://pypi.org/project/urllib3
+INK_PYTHON_URLLIB3=urllib3==1.26.5
+
 #------------------------------------------- application bundle directory layout
 
 INK_APP_DIR=$ARTIFACT_DIR/Inkscape.app
@@ -207,6 +210,11 @@ function ink_pipinstall_scour
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
+function ink_pipinstall_urllib3
+{
+  ink_pipinstall "$INK_PYTHON_URLLIB3"
+}
+
 function ink_download_python
 {
   curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
@@ -240,6 +248,7 @@ function ink_build_wheels
   jhbuild run pip3 wheel $INK_PYTHON_PYGOBJECT -w "$PKG_DIR"
   jhbuild run pip3 wheel $INK_PYTHON_PYSERIAL  -w "$PKG_DIR"
   jhbuild run pip3 wheel $INK_PYTHON_SCOUR     -w "$PKG_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_URLLIB3   -w "$PKG_DIR"
 }
 
 function ink_download_wheels
