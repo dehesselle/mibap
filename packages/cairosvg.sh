@@ -17,8 +17,8 @@
 # https://cairosvg.org
 # https://github.com/Kozea/CairoSVG
 CAIROSVG_PIP="\
-  cairocffi==1.1.0\
-  cairosvg==2.4.2\
+  cairocffi==1.2.0\
+  cairosvg==2.5.2\
 "
 
 ### functions ##################################################################
