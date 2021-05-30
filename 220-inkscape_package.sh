@@ -90,9 +90,11 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 ink_install_python
 
 # Replace our own wheels with the ones built externally.
+if [ ! -d "$PKG_DIR"/retired ]; then
 mkdir "$PKG_DIR"/retired
 mv "$PKG_DIR"/*.whl "$PKG_DIR"/retired
 tar -C "$PKG_DIR" -xf "$PKG_DIR/$(basename "$INK_PYTHON_WHEELS_URL")"
+fi
 
 # Install wheels.
 ink_pipinstall_cssselect
@@ -120,18 +122,20 @@ done
 # directory below '$HOME/Library/Application Support/Inkscape'.
 cp "$SELF_DIR"/fonts.conf "$INK_APP_ETC_DIR"/fonts
 
-#--------------------------------------- create GObject introspection repository
+#--------------------------------------- modify GObject introspection repository
 
-mkdir "$INK_APP_LIB_DIR"/girepository-1.0
-
-# remove fully qualified paths from libraries in *.gir files
-for gir in "$VER_DIR"/share/gir-1.0/*.gir; do
-  sed "s/$(sed_escape_str "$LIB_DIR"/)//g" "$gir" > \
-    "$SRC_DIR/$(basename "$gir")"
+# change paths to match Python binary, not Inkscape binary
+for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
+  sed "s/\
+@executable_path/\
+$(sed_escape_str @executable_path/../../../..)/g" "$gir" > \
+    "$TMP_DIR/$(basename "$gir")"
 done
 
+mv "$TMP_DIR"/*.gir "$INK_APP_RES_DIR"/share/gir-1.0
+
 # compile *.gir into *.typelib files
-for gir in "$SRC_DIR"/*.gir; do
+for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
   jhbuild run g-ir-compiler \
     -o "$INK_APP_LIB_DIR/girepository-1.0/$(basename -s .gir "$gir")".typelib \
     "$gir"
