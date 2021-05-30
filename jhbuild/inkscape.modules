@@ -191,6 +191,9 @@
       <patch
         file="gtk-mac-bundler_configure.patch"
         strip="1"/>
+      <patch
+        file="gtk-mac-bundler_encoding_arg.patch"
+        strip="1"/>
     </branch>
   </autotools>
 
