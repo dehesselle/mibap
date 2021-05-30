@@ -103,6 +103,7 @@ ink_pipinstall_numpy
 ink_pipinstall_pygobject
 ink_pipinstall_pyserial
 ink_pipinstall_scour
+ink_pipinstall_urllib3
 
 #----------------------------------------------------- remove Python cache files
 
