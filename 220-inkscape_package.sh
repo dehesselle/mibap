@@ -89,21 +89,17 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 # Install externally built Python framework.
 ink_install_python
 
-# Replace our own wheels with the ones built externally.
-if [ ! -d "$PKG_DIR"/retired ]; then
-mkdir "$PKG_DIR"/retired
-mv "$PKG_DIR"/*.whl "$PKG_DIR"/retired
-tar -C "$PKG_DIR" -xf "$PKG_DIR/$(basename "$INK_PYTHON_WHEELS_URL")"
-fi
+# Exteract the externally built wheels.
+tar -C "$TMP_DIR" -xf "$PKG_DIR/$(basename "$INK_PYTHON_WHEELS_URL")"
 
 # Install wheels.
-ink_pipinstall_cssselect
-ink_pipinstall_lxml
-ink_pipinstall_numpy
-ink_pipinstall_pygobject
-ink_pipinstall_pyserial
-ink_pipinstall_scour
-ink_pipinstall_urllib3
+ink_pipinstall_cssselect  "$TMP_DIR"
+ink_pipinstall_lxml       "$TMP_DIR"
+ink_pipinstall_numpy      "$TMP_DIR"
+ink_pipinstall_pygobject  "$TMP_DIR"
+ink_pipinstall_pyserial   "$TMP_DIR"
+ink_pipinstall_scour      "$TMP_DIR"
+ink_pipinstall_urllib3    "$TMP_DIR"
 
 #----------------------------------------------------- remove Python cache files
 

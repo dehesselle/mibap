@@ -133,12 +133,17 @@ function ink_get_repo_shorthash
 function ink_pipinstall
 {
   local packages=$1
-  local options=$2   # optional
+  local wheels_dir=$2   # optional
+  local options=$3      # optional
 
-  # turn package names into filenames of our wheels in PKG_DIR
+  if [ -z "$wheels_dir" ]; then
+    wheels_dir=$PKG_DIR
+  fi
+
+  # turn package names into filenames of our wheels
   local wheels
   for package in $packages; do
-    wheels="$wheels $(eval echo "$PKG_DIR"/"${package%==*}"*.whl)"
+    wheels="$wheels $(eval echo "$wheels_dir"/"${package%==*}"*.whl)"
   done
 
   local PATH_ORIGINAL=$PATH
@@ -156,12 +161,18 @@ function ink_pipinstall
 
 function ink_pipinstall_cssselect
 {
-  ink_pipinstall "$INK_PYTHON_CSSSELECT"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_CSSSELECT" "$wheels_dir" "$options"
 }
 
 function ink_pipinstall_lxml
 {
-  ink_pipinstall "$INK_PYTHON_LXML"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_LXML" "$wheels_dir" "$options"
 
   lib_change_paths \
     @loader_path/../../.. \
@@ -172,7 +183,10 @@ function ink_pipinstall_lxml
 
 function ink_pipinstall_numpy
 {
-  ink_pipinstall "$INK_PYTHON_NUMPY"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_NUMPY" "$wheels_dir" "$options"
 
   sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
     "$INK_APP_BIN_DIR"/f2py
@@ -184,7 +198,10 @@ function ink_pipinstall_numpy
 
 function ink_pipinstall_pygobject
 {
-  ink_pipinstall "$INK_PYTHON_PYGOBJECT"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_PYGOBJECT" "$wheels_dir" "$options"
 
   lib_change_paths \
     @loader_path/../../.. \
@@ -196,7 +213,10 @@ function ink_pipinstall_pygobject
 
 function ink_pipinstall_pyserial
 {
-  ink_pipinstall "$INK_PYTHON_PYSERIAL"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_PYSERIAL" "$wheels_dir" "$options"
 
   find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-miniterm
@@ -205,14 +225,20 @@ function ink_pipinstall_pyserial
 
 function ink_pipinstall_scour
 {
-  ink_pipinstall "$INK_PYTHON_SCOUR"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_SCOUR" "$wheels_dir" "$options"
 
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
 function ink_pipinstall_urllib3
 {
-  ink_pipinstall "$INK_PYTHON_URLLIB3"
+  local wheels_dir=$1
+  local options=$2
+
+  ink_pipinstall "$INK_PYTHON_URLLIB3" "$wheels_dir" "$options"
 }
 
 function ink_download_python
