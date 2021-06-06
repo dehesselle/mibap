@@ -72,7 +72,7 @@ lib_change_siblings "$INK_APP_LIB_DIR"
   /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$IV ($RV)'" "$PLIST"
 
   # update minimum system version according to deployment target
-  /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SDK_VER'" "$PLIST"
+  /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SYS_SDK_VER'" "$PLIST"
 )
 
 #----------------------------------------------------- generate application icon
