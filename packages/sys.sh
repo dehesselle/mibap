@@ -18,7 +18,7 @@ SYS_MACOS_VER_RECOMMENDED=10.15.7
 
 SYS_SDK_VER=$(/usr/libexec/PlistBuddy -c "Print \
 :DefaultProperties:MACOSX_DEPLOYMENT_TARGET" "$SDKROOT"/SDKSettings.plist)
-SYS_SDK_VER_RECOMMENDED=10.11
+SYS_SDK_VER_RECOMMENDED=10.13
 
 SYS_XCODE_VER=$( (xcodebuild -version 2>/dev/null || echo "Xcode n/a") | grep Xcode | awk '{ print $2 }')
 SYS_XCODE_VER_RECOMMENDED=12.4

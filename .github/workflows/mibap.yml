@@ -52,13 +52,13 @@ jobs:
         key: ccache-toolset-${{ steps.cache_id.outputs.time }}
         restore-keys: ccache-toolset-
 
-    # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
-    # no official public download available from Apple and I don't trust 3rd
-    # party sources (e.g. "phracker"), so I'm enabling this job to download
-    # a compressed tarball that contains the SDK from a non-public source.
+    # GitHub does not provide old SDKs on their runners. There is no official
+    # public download available from Apple and I don't trust 3rd party sources
+    # (e.g. "phracker"), so I'm enabling this job to download a compressed
+    # tarball that contains the SDK from a non-public source.
     # In order to use this, you need to setup a repository secret named
     # SDK_DOWNLOAD_URL and give a link to a .tar.xz file.
-    # At the moment, only 10.11.4 SDK is supported (see verify step below).
+    # At the moment, only 10.13.4 SDK is supported (hardcoded below).
     - name: install macOS SDK
       if: env.SDK_DOWNLOAD_URL != null
       env:
@@ -85,9 +85,9 @@ jobs:
       env:
         SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
       run: |
-        shasum -a 256 sdkchecksum/MacOSX10.11.4.sdk.sha256
+        shasum -a 256 sdkchecksum/MacOSX10.13.4.sdk.sha256
         cd $WRK_DIR
-        if shasum -s -c $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.11.4.sdk.sha256; then
+        if shasum -s -c $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.13.4.sdk.sha256; then
           echo "ok - SDK verified"
           exit 0
         else

@@ -29,7 +29,7 @@ Building Inkscape is a two-step process:
 - There are __version recommendations__ based on a known working setup.
   - macOS Catalina 10.15.7
   - Xcode 12.4
-  - OS X El Capitan 10.11 SDK (from Xcode 7.3.1)
+  - macOS High Sierra 10.13 SDK (from Xcode 9.4.1)
 
 - An __internet connection__ for all the downloads.
 
@@ -46,7 +46,7 @@ Building Inkscape is a two-step process:
 
    ```bash
    # Don't blindly copy/paste this. No spaces allowed.
-   echo "SDKROOT=$HOME/MacOSX10.11.sdk" > 005-sdkroot.sh
+   echo "SDKROOT=$HOME/MacOSX10.13.sdk" > 005-sdkroot.sh
    ```
 
 1. Build the toolset.

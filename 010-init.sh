@@ -33,12 +33,12 @@ VERSION=0.49
 
 #-------------------------------------------------------------- target OS by SDK
 
-# If SDKROOT is set, use that. If it is not set, try to select the 10.11 SDK
+# If SDKROOT is set, use that. If it is not set, try to select the 10.13 SDK
 # (which is our minimum system requirement/target) and fallback to whatever
 # SDK is available as the default one.
 
 if [ -z "$SDKROOT" ]; then
-  SDKROOT=$(xcodebuild -version -sdk macosx10.11 Path 2>/dev/null ||
+  SDKROOT=$(xcodebuild -version -sdk macosx10.13 Path 2>/dev/null ||
             xcodebuild -version -sdk macosx Path)
 fi
 export SDKROOT
