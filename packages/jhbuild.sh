@@ -27,11 +27,9 @@ jhbuild-$JHBUILD_VER.tar.bz2
 # This Python runtime powers JHBuild on system that do not provide Python 3.
 JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
-JHBUILD_PYTHON_VER_PATCH=10
 JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
-JHBUILD_PYTHON_VER_FULL=$JHBUILD_PYTHON_VER.$JHBUILD_PYTHON_VER_PATCH
 JHBUILD_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
-artifacts/master/raw/python_${JHBUILD_PYTHON_VER_FULL//.}_$(uname -p).tar.xz?\
+artifacts/master/raw/python_${JHBUILD_PYTHON_VER//.}_$(uname -p).tar.xz?\
 job=python${JHBUILD_PYTHON_VER//.}:$(uname -p)"
 
 ### functions ##################################################################

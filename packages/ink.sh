@@ -43,14 +43,16 @@ INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
 # the core extensions work out-of-the-box. This is independent from whatever
 # Python is running JHBuild or getting built as a dependency.
+#
+# We are only pinning major and minor versions here, not the patch level.
+# Patch level is determined by whatever is current in the python_macos
+# project.
 
 INK_PYTHON_VER_MAJOR=3
 INK_PYTHON_VER_MINOR=8
-INK_PYTHON_VER_PATCH=10
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
-INK_PYTHON_VER_FULL=$INK_PYTHON_VER.$INK_PYTHON_VER_PATCH
 INK_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
-artifacts/master/raw/python_${INK_PYTHON_VER_FULL//.}_$(uname -p).tar.xz?\
+artifacts/master/raw/python_${INK_PYTHON_VER//.}_$(uname -p).tar.xz?\
 job=python${INK_PYTHON_VER//.}:inkscape:$(uname -p)"
 
 # Python packages are built externally (on a system running El Capitan for
