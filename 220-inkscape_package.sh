@@ -43,6 +43,8 @@ error_trace_enable
 mv "$INK_APP_DIR" "$INK_APP_DIR".tmp
 mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
+#------------------------------------------------------ patch library link paths
+
 # patch library link paths for lib2geom
 lib_change_path \
   @executable_path/../Resources/lib/lib2geom\\..+dylib \
@@ -61,19 +63,32 @@ lib_change_path \
 
 lib_change_siblings "$INK_APP_LIB_DIR"
 
-( # update version numbers in property list
+#------------------------------------------------------------- modify Info.plist
 
-  PLIST=$INK_APP_CON_DIR/Info.plist
-  IV=$(ink_get_version)
-  RV=$(ink_get_repo_shorthash)
+# update Inkscape version information
+/usr/libexec/PlistBuddy \
+  -c "Set CFBundleShortVersionString '$(ink_get_version) \
+($(ink_get_repo_shorthash))'" \
+  "$INK_APP_CON_DIR"/Info.plist
 
-  # update Inkscape version information
-  /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString '$IV ($RV)'" "$PLIST"
-  /usr/libexec/PlistBuddy -c "Set CFBundleVersion '$IV ($RV)'" "$PLIST"
+# update minimum system version according to deployment target
+/usr/libexec/PlistBuddy \
+  -c "Set LSMinimumSystemVersion $SYS_SDK_VER" \
+  "$INK_APP_CON_DIR"/Info.plist
 
-  # update minimum system version according to deployment target
-  /usr/libexec/PlistBuddy -c "Set LSMinimumSystemVersion '$SYS_SDK_VER'" "$PLIST"
-)
+# add some metadata to make CI identifiable
+if $CI_GITLAB; then
+  for var in PROJECT_NAME PROJECT_URL COMMIT_BRANCH COMMIT_SHA COMMIT_SHORT_SHA\
+             JOB_ID JOB_URL JOB_NAME PIPELINE_ID PIPELINE_URL; do
+    # use awk to create camel case strings (e.g. PROJECT_NAME to ProjectName)
+    /usr/libexec/PlistBuddy -c "Add CI$(\
+      echo $var | awk -F _ '{
+        for (i=1; i<=NF; i++)
+        printf "%s", toupper(substr($i,1,1)) tolower(substr($i,2))
+      }'
+    ) string $(eval echo \$CI_$var)" "$INK_APP_CON_DIR"/Info.plist
+  done
+fi
 
 #----------------------------------------------------- generate application icon
 
