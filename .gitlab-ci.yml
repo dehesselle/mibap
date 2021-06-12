@@ -5,7 +5,7 @@
 # The main CI for this repository is the GitHub one, not GitLab. There is
 # no feature parity between the two and that is on purpose. GitLab CI is
 # used solely on a custom runner to build portions of the software natively
-# on OS X 10.11 El Capitan (instead of targeting El Capitan via SDK from
+# on the oldest supported OS (instead of targeting that via SDK from
 # a recent OS). The things we do for backward compatibility!
 
 variables:
@@ -13,7 +13,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   WRK_DIR: /Users/Shared/work
   CCACHE_DIR: /Users/Shared/work/ccache
-  SDKROOT: /opt/sdks/MacOSX10.11.sdk
+  SDKROOT: /opt/sdks/MacOSX10.13.sdk
 
 stages:
   - prepare
@@ -23,13 +23,13 @@ stages:
 prepare:
   stage: prepare
   tags:
-    - elcapitan
+    - highsierra
   script:
     - |
       git clone https://github.com/dehesselle/sdkchecksum
-      shasum -a 256 sdkchecksum/MacOSX10.11.4.sdk.sha256
+      shasum -a 256 sdkchecksum/MacOSX10.13.4.sdk.sha256
       cd $(dirname $SDKROOT)
-      if shasum -s -c $CI_PROJECT_DIR/sdkchecksum/MacOSX10.11.4.sdk.sha256; then
+      if shasum -s -c $CI_PROJECT_DIR/sdkchecksum/MacOSX10.13.4.sdk.sha256; then
         echo "ok - SDK verified"
         exit 0
       else
@@ -40,13 +40,7 @@ prepare:
 build:
   stage: build
   tags:
-    - elcapitan
-# Cache will be managed manually.
-#
-#  cache:
-#    key: mibap-cache
-#    paths:
-#      - '$CCACHE_DIR'
+    - highsierra
   before_script:
     - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
   script:

@@ -318,22 +318,14 @@
     </dependencies>
   </cmake>
 
-  <!-- Poppler https://poppler.freedesktop.org
-
-       To be able to build on El Capitan:
-       - disable GObject Introspection
-       - version <= 21.03.0
-
-       This in turn requires glib <= 2.66.8 on Catalina
-       https://gitlab.freedesktop.org/poppler/poppler/-/issues/1060
-  -->
+  <!-- Poppler https://poppler.freedesktop.org -->
   <cmake
     id="poppler"
     cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF">
     <branch
-      module="poppler-21.03.0.tar.xz"
-      version="21.03.0"
-      hash="sha256:fd51ead4aac1d2f4684fa6e7b0ec06f0233ed21667e720a4e817e4455dd63d27"
+      module="poppler-21.06.1.tar.xz"
+      version="21.06.1"
+      hash="sha256:86b09e5a02de40081a3916ef8711c5128eaf4b1fc59d5f87d0ec66f04f595db4"
       repo="poppler">
     </branch>
     <dependencies>
