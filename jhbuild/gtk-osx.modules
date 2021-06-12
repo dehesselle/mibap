@@ -263,6 +263,10 @@
             version="3.0.0"
             hash="sha256:af88bb3a284e24c550e15290e07e562fcd2a038ebb0fcc863dd069d3738952ae"
             >
+      <!-- Make hard-coded LOCALEDIR relative to application bundle, fixing localization of
+           application menu items like "About" and "Services"
+      -->
+      <patch file="gtk-mac-integration_relative_localedir.patch" strip="1"/>
     </branch>
     <dependencies>
     </dependencies>

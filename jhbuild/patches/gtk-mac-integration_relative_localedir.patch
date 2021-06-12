@@ -1,0 +1,23 @@
+# point to locale directory inside the application bundle
+diff --git a/src/gtkosxapplication_quartz.c b/src/gtkosxapplication_quartz.c
+index b5161cb..3eb18bc 100644
+--- a/src/gtkosxapplication_quartz.c
++++ b/src/gtkosxapplication_quartz.c
+@@ -592,7 +592,16 @@ gtkosx_application_init (GtkosxApplication *self)
+   self->priv->notify = [[GtkApplicationNotificationObject alloc] init];
+   [NSApp setDelegate: [GtkApplicationDelegate new]];
+   self->priv->delegate = [NSApp delegate];
+-  bindtextdomain (PACKAGE_NAME, LOCALEDIR);
++  gchar *app_res_dir = gtkosx_application_get_resource_path();
++  if (app_res_dir) {
++    gchar *locale_dir = g_strdup_printf("%s/share/locale", app_res_dir);
++    g_free(app_res_dir);
++    bindtextdomain (PACKAGE_NAME, locale_dir);
++    g_free(locale_dir);
++  }
++  else {
++    bindtextdomain (PACKAGE_NAME, LOCALEDIR);
++  }
+ }
+ 
+ static void
