@@ -55,8 +55,8 @@ INK_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
 artifacts/master/raw/python_${INK_PYTHON_VER//.}_$(uname -p).tar.xz?\
 job=python${INK_PYTHON_VER//.}:inkscape:$(uname -p)"
 
-# Python packages are built externally (on a system running El Capitan for
-# better backward compatiblity) and included here.
+# Python packages are built externally (on a system running the oldest supported
+# OS for better backward compatiblity) and included here.
 
 INK_PYTHON_WHEELS_VER=0.49
 INK_PYTHON_WHEELS_URL=https://github.com/dehesselle/mibap_wheels/releases/\
