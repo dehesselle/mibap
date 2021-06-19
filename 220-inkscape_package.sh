@@ -70,6 +70,9 @@ lib_change_siblings "$INK_APP_LIB_DIR"
   -c "Set CFBundleShortVersionString '$(ink_get_version) \
 ($(ink_get_repo_shorthash))'" \
   "$INK_APP_CON_DIR"/Info.plist
+/usr/libexec/PlistBuddy \
+  -c "Set CFBundleVersion '$(ink_get_version) ($(ink_get_repo_shorthash))'" \
+  "$INK_APP_CON_DIR"/Info.plist
 
 # update minimum system version according to deployment target
 /usr/libexec/PlistBuddy \
