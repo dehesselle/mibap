@@ -93,7 +93,7 @@ Time for ☕, this will take a while!
    This will
 
    - run all the `2nn`-prefixed scripts consecutively
-   - produce `$WRK_DIR/$TOOLSET_VER/artifacts/Inkscape.dmg`
+   - produce `$WRK_DIR/$TOOLSET_VER/Inkscape.dmg`
 
 ## GitLab CI
 
@@ -103,7 +103,14 @@ Configure a job in your `.gitlab-ci.yml` as follows:
 
 ```yaml
 buildmacos:
+  tags:
+    - mac  # tag your runner
+  variables:
+    SDKROOT: /opt/sdks/MacOSX10.13.sdk  # target platform by SDK
   before_script:
+    # after_script doesn't run for cancelled/timed out jobs
+    # https://gitlab.com/gitlab-org/gitlab/-/issues/15603
+    - packaging/macos/uninstall_toolset.sh
     - packaging/macos/install_toolset.sh
   script:
     - packaging/macos/build_inkscape.sh
@@ -111,7 +118,7 @@ buildmacos:
     - packaging/macos/uninstall_toolset.sh
   artifacts:
     paths:
-      - artifacts/
+      - Inkscape.dmg
 ```
 
 ## known issues
@@ -119,7 +126,7 @@ buildmacos:
 Besides what you may find in the issue tracker:
 
 - If you're logged in to the desktop when building the toolset, you may get multiple popups asking to install Java. They're triggered by at least `gettext` and `cmake` checking for the presence of Java during their configuration stages and can be safely ignored.
-- GitLab CI: timouts or cancelling a job makes GitLab skip the `after_script` step. This leaves the runner in an unclean state and will break the next job. If you suffer from this issue, add `packaging/macos/uninstall_toolset.sh` to the `before_script` section.
+- GitLab CI: `after_script` doesn't run for timed out or cancelled jobs, leaving the runner in an unclean state. Workaround is to put `uninstall_toolset.sh` in `before_script` as well.
 
 ## Status
 

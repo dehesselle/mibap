@@ -110,7 +110,7 @@ Time for ☕, this will take a while!
    This will
 
    - run all the `2nn`-prefixed scripts consecutively
-   - produce `$WRK_DIR/$TOOLSET_VER/artifacts/Inkscape.dmg`
+   - produce `$WRK_DIR/$TOOLSET_VER/Inkscape.dmg`
 
 ## GitHub CI
 
