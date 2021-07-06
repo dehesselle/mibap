@@ -6,10 +6,13 @@
 
 # This file contains everything related to setup ccache.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2034 # globally defined variables here w/o export
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -47,3 +50,7 @@ function ccache_install
     ln -s ccache "$BIN_DIR"/$compiler
   done
 }
+
+### main #######################################################################
+
+# Nothing here.

@@ -9,6 +9,10 @@
 # Create our JHBuild-based toolset with all dependencies to be able to
 # compile Inkscape.
 
+### shellcheck #################################################################
+
+# Nothing here.
+
 ### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
@@ -16,11 +20,17 @@ for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
   source "$script";
 done
 
-### settings ###################################################################
+### variables ##################################################################
 
-set -e   # break if one of the called scripts ends in error
+# Nothing here.
+
+### functions ##################################################################
+
+# Nothing here.
 
 ### main #######################################################################
+
+set -e
 
 for script in "$SELF_DIR"/1??-*.sh; do
   $script

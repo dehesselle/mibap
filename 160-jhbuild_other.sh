@@ -9,6 +9,10 @@
 # Install additional tools that are no direct dependencies of Inkscape but that
 # we need for e.g. packaging the application.
 
+### shellcheck #################################################################
+
+# Nothing here.
+
 ### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
@@ -16,11 +20,17 @@ for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
   source "$script";
 done
 
-### settings ###################################################################
+### variables ##################################################################
 
-error_trace_enable
+# Nothing here.
+
+### functions ##################################################################
+
+# Nothing here.
 
 ### main #######################################################################
+
+error_trace_enable
 
 #---------------------------------------------------- install GNU Find Utilities
 

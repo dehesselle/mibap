@@ -6,9 +6,13 @@
 
 # Convert svg to icns.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -39,3 +43,7 @@ function svg2icns
 
   mv "$(basename -s .png "$png_file")".icns "$icns_file"
 }
+
+### main #######################################################################
+
+# Nothing here.

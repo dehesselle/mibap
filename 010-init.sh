@@ -16,16 +16,25 @@
 # checks are capable of calling it quits (search for 'exit') if a few very
 # fundamental things appear to be broken.
 
-### includes ###################################################################
-
-# Nothing here.
-
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2034 # we only use export if we really need it
+# shellcheck disable=SC2034 # we only use exports if we really need them
 
-### main #######################################################################
+### includes ###################################################################
+
+# Shell code I share between projects comes from bash_d.
+# https://github.com/dehesselle/bash_d
+
+INCLUDE_DIR=$(dirname "${BASH_SOURCE[0]}")/bash_d
+# shellcheck source=bash_d/1_include.sh
+source "$INCLUDE_DIR"/1_include.sh
+include_file echo
+include_file error
+include_file lib
+include_file sed
+
+### variables ##################################################################
 
 #--------------------------------------------------------------- toolset version
 
@@ -45,14 +54,14 @@ export SDKROOT
 
 #--------------------------------------------------------------------- detect CI
 
-if [ -z "$CI" ]; then   # Both GitHub and GitLab set this.
+if [ -z "$CI" ]; then   # both GitHub and GitLab set this
   CI=false
   CI_GITHUB=false
   CI_GITLAB=false
 else
   CI=true
 
-  if [ -z "$CI_PROJECT_NAME" ]; then  # This is a GitLab variable.
+  if [ -z "$CI_PROJECT_NAME" ]; then  # this is a GitLab-only variable
     CI_GITHUB=true
     CI_GITLAB=false
   else
@@ -85,13 +94,13 @@ PKG_DIR=$VAR_DIR/cache/pkgs
 SRC_DIR=$VER_DIR/usr/src
 TMP_DIR=$VER_DIR/tmp
 
-export HOME=$VER_DIR/home   # Yes, we redirect the user's home.
+export HOME=$VER_DIR/home   # yes, we redirect the user's home
 
 #---------------------------------------------- directories: temporary locations
 
 export TMP=$TMP_DIR
 export TEMP=$TMP_DIR
-export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default.
+export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
 
 #-------------------------------------------------------------- directories: XDG
 
@@ -128,33 +137,27 @@ export PATH=$BIN_DIR:/usr/bin:/bin:/usr/sbin:/sbin
 # There is a fallback that solely relies on BASH_SOURCE for systems that
 # do not provide python3 (we will provide our own via 110-sysprep.sh).
 
-SELF_DIR=$(dirname \
-  "$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))" \
-    2>/dev/null || echo "${BASH_SOURCE[0]}")")
+# shellcheck disable=SC2164 # exit would be useless because of subshell
+SELF_DIR=$(\
+  python3 -c "import pathlib;\
+    print(pathlib.Path('${BASH_SOURCE[0]}').parent.resolve())" 2>/dev/null ||
+  echo "$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)"\
+)
 
-#------------------------------------------ source functions from bash_d library
+#----------------------------------------------------- allow colors in GitLab CI
 
-# Things I do not want to re-invent and/or am sharing between other projects
-# of mine come from bash_d.
-# https://github.com/dehesselle/bash_d
+# Since GitLab uses colors in their CI there's no need to disable ours.
 
-INCLUDE_DIR=$SELF_DIR/bash_d
-# shellcheck source=bash_d/1_include.sh
-source "$INCLUDE_DIR"/1_include.sh
-include_file echo.sh
-include_file error.sh
-include_file lib.sh
-include_file sed.sh
+if $CI_GITLAB; then
+  # shellcheck disable=SC2034 # this is from bash_d/ansi.sh (sourced by echo)
+  ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
+fi
 
-#----------------------------------------------------------- source our packages
+### functions ##################################################################
 
-for package in "$SELF_DIR"/packages/*.sh; do
-  # shellcheck disable=SC1090 # can't point to a single source here
-  source "$package"
-done
+# Nothing here.
 
-# shellcheck disable=SC2034 # this is from ansi_.sh
-ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
+### main #######################################################################
 
 #---------------------------------------------------- check if WRK_DIR is usable
 
@@ -173,6 +176,16 @@ if [ ! -d "$SDKROOT" ]; then
   echo_e "SDK not found: $SDKROOT"
   exit 1
 fi
+
+#----------------------------------------------------------- source our packages
+
+# Packages are designed/allowed to silently depend on this file, therefore this
+# code cannot be put into the include section at the top.
+
+for package in "$SELF_DIR"/packages/*.sh; do
+  # shellcheck disable=SC1090 # can't point to a single source here
+  source "$package"
+done
 
 #---------------------------------------------------- check recommended versions
 

@@ -6,10 +6,13 @@
 
 # System related things like checking versions of macOS and Xcode.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2034 # no exports desired
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -55,3 +58,7 @@ function sys_create_log
     echo "$var = $(eval echo \$$var)" >> "$VAR_DIR"/log/release.log
   done
 }
+
+### main #######################################################################
+
+# Nothing here.

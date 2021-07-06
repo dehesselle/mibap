@@ -11,6 +11,10 @@
 # JHBuild has two external dependencies - Meson and Ninja - that it does not
 # fetch on its own, so we install them as well.
 
+### shellcheck #################################################################
+
+# Nothing here.
+
 ### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
@@ -18,7 +22,11 @@ for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
   source "$script";
 done
 
-### settings ###################################################################
+### variables ##################################################################
+
+# Nothing here.
+
+### functions ##################################################################
 
 # Nothing here.
 

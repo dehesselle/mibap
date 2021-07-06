@@ -6,9 +6,13 @@
 
 # Convert png to icns.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -27,3 +31,7 @@ function png2icns_install
   tar -C "$SRC_DIR" -xf "$archive"
   ln -s "$SRC_DIR"/png2icns-$PNG2ICNS_VER/png2icns.sh "$BIN_DIR"
 }
+
+### main #######################################################################
+
+# Nothing here.

@@ -6,10 +6,13 @@
 
 # This file contains everything related to Inkscape.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
-# shellcheck disable=SC2034 # no exports desired
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -285,3 +288,7 @@ function ink_download_wheels
     -o "$PKG_DIR"/"$(basename "${INK_PYTHON_WHEELS_URL%\?*}")" \
     -L "$INK_PYTHON_WHEELS_URL"
 }
+
+### main #######################################################################
+
+# Nothing here.

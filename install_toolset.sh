@@ -9,6 +9,10 @@
 # Install a pre-compiled version of our JHBuild-based toolset and all the
 # required dependencies to build Inkscape.
 
+### shellcheck #################################################################
+
+# Nothing here.
+
 ### includes ###################################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
@@ -16,13 +20,16 @@ for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
   source "$script";
 done
 
-### settings ###################################################################
+### variables ##################################################################
 
-# shellcheck disable=SC2034 # this is from ansi_.sh
-ANSI_TERM_ONLY=false   # use ANSI control characters even if not in terminal
+# Nothing here.
 
-error_trace_enable
+### functions ##################################################################
+
+# Nothing here.
 
 ### main #######################################################################
+
+error_trace_enable
 
 toolset_install

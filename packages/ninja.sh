@@ -6,9 +6,13 @@
 
 # This file contains everything related to setup Ninja build system.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -40,3 +44,7 @@ function ninja_run
   # shellcheck disable=SC2086 # we want word splitting
   ninja $NINJA_OPTS $args
 }
+
+### main #######################################################################
+
+# Nothing here.

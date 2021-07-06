@@ -6,9 +6,13 @@
 
 # Install Mozilla root certificates to facilitate SSL certificate checks.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -21,3 +25,7 @@ function certifi_install
 {
   pip3 install --prefix "$VER_DIR" "$CERTIFI_PIP"
 }
+
+### main #######################################################################
+
+# Nothing here.

@@ -6,9 +6,13 @@
 
 # This file contains everything related to setup Meson build system.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -21,3 +25,7 @@ function meson_install
 {
   pip3 install --prefix "$VER_DIR" "$MESON_PIP"
 }
+
+### main #######################################################################
+
+# Nothing here.

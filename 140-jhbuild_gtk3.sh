@@ -6,7 +6,11 @@
 
 ### description ################################################################
 
-# Install GTK3 libraries (and their dependencies).
+# Install GTK3 libraries and their dependencies.
+
+### shellcheck #################################################################
+
+# Nothing here.
 
 ### includes ###################################################################
 
@@ -15,7 +19,11 @@ for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
   source "$script";
 done
 
-### settings ###################################################################
+### variables ##################################################################
+
+# Nothing here.
+
+### functions ##################################################################
 
 # Nothing here.
 

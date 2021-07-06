@@ -6,9 +6,13 @@
 
 # This file contains everything related to setup JHBuild.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -149,3 +153,7 @@ function jhbuild_configure
 
   } >> "$JHBUILDRC_CUSTOM"
 }
+
+### main #######################################################################
+
+# Nothing here.

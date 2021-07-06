@@ -6,9 +6,13 @@
 
 # This file contains everything related to setup Pygments.
 
-### settings ###################################################################
+### shellcheck #################################################################
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
+
+### includes ###################################################################
+
+# Nothing here.
 
 ### variables ##################################################################
 
@@ -21,3 +25,7 @@ function pygments_install
 {
   pip3 install --prefix "$VER_DIR" "$PYGMENTS_PIP"
 }
+
+### main #######################################################################
+
+# Nothing here.
