@@ -1,5 +1,4 @@
-<!-- markdownlint-disable-next-line MD033 -->
-# <u>m</u>acOS <u>I</u>nkscape <u>b</u>uild <u>a</u>nd <u>p</u>ackage
+# macOS Inkscape build and package
 
 ![build](https://github.com/dehesselle/mibap/workflows/mibap/badge.svg)
 
@@ -128,7 +127,7 @@ This project is still a work in progress (hence 0.x version).
 
 ## Contact
 
-If you want to reach out, join `#team_devel_mac` on [Inkscape's RocketChat](https://chat.inkscape.org/).
+If you want to reach out, join [#team_devel_mac](https://chat.inkscape.org/channel/team_devel_mac) on Inkscape's RocketChat.
 
 ## License
 
