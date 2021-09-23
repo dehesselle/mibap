@@ -263,6 +263,7 @@
             version="3.0.1"
             hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d"
             >
+      <patch file="gtk-mac-integration_menu_decorations.patch" strip="1"/>
     </branch>
     <dependencies>
     </dependencies>
