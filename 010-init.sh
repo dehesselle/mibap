@@ -26,13 +26,11 @@
 # Shell code I share between projects comes from bash_d.
 # https://github.com/dehesselle/bash_d
 
-INCLUDE_DIR=$(dirname "${BASH_SOURCE[0]}")/bash_d
-# shellcheck source=bash_d/1_include.sh
-source "$INCLUDE_DIR"/1_include.sh
-include_file echo
-include_file error
-include_file lib
-include_file sed
+source "$(dirname "${BASH_SOURCE[0]}")"/bash_d/bash_d.sh
+bash_d_include echo
+bash_d_include error
+bash_d_include lib
+bash_d_include sed
 
 ### variables ##################################################################
 
