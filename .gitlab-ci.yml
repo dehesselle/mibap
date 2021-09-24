@@ -13,7 +13,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   WRK_DIR: /Users/Shared/work
   CCACHE_DIR: /Users/Shared/work/ccache
-  SDKROOT: /opt/sdks/MacOSX10.13.sdk
+  SDKROOT: /Users/Shared/work/MacOSX10.13.sdk
 
 stages:
   - prepare
@@ -42,15 +42,14 @@ build:
   tags:
     - highsierra
   before_script:
+    # For persistent runners: cleanup previous run. This will be moved to
+    # after_script where it belongs.
     - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
   script:
-    - ./110-sysprep.sh
-    - ./120-jhbuild_install.sh
-    - ./130-jhbuild_bootstrap.sh
-    - ./140-jhbuild_gtk3.sh
-    - ./150-jhbuild_inkdeps.sh
-    - ./160-jhbuild_other.sh
+    - ./build_toolset.sh
   after_script:
+    # reduce artifact size, need to stay below 1 GiB
+    # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
     - |
       source 010-init.sh
       find $PKG_DIR -type f \
