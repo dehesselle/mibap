@@ -373,8 +373,8 @@ def setup_sdk(sdkdir, architectures=[_default_arch]):
 # Moduleset to use. You can override this in .jhbuildrc-custom or on
 # the command line.
 #
-moduleset = 'https://raw.githubusercontent.com/dehesselle/mibap/master/jhbuild/inkscape.modules'
-use_local_modulesets = False
+moduleset = "inkscape.modules"
+use_local_modulesets = True
 modulesets_dir = ""
 
 # A list of the modules to build. You can override this in
@@ -577,32 +577,6 @@ else:
 
 if not _ran_recursively and _gtk_osx_prompt_prefix:
     os.environ["JHBUILD_PROMPT"] = "[" + _gtk_osx_prompt_prefix + "] "
-
-# We want libxml2 to install its python module in $PREFIX even if
-# we're not building python because if it tries to install in the
-# virtenv site-packages jhbuild will refuse to install it. Ideally
-# we'd do this only if not building python because if we do then it
-# finds the right place and does the right thing.
-
-# Unfortunately there's no way to get the config object from the
-# project to find out if we're building python3. We test the modules
-# list here but that's not really reliable because python3 might be
-# pulled in as a dependency by another module.
-
-# Note that this will break if there's an undetected python3 build and
-# the built python is a different major + minor version from the
-# virtenv one.
-if 'python3' in modules or 'meta-gtk-osx-python3' in modules:
-    os.environ['PYTHON'] = os.path.join(prefix, 'bin', 'python3')
-    module_extra_env['pkg-config'] = {'PYTHON':sys.executable}
-else:
-    _python_ver = str(sys.version_info.major) + '.' + str(sys.version_info.minor)
-    _python_install_path = os.path.join(prefix, 'lib', 'python' + _python_ver,
-                                        'site-packages')
-    append_autogenargs('libxml2',
-                       '--with-python-install-dir=' + _python_install_path)
-    environ_append('PYTHONPATH', _python_install_path, ':')
-    os.environ['PYTHON'] = sys.executable
 
 # Unset this so we don't mess with the check for not starting
 # recursively.

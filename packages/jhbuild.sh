@@ -21,10 +21,18 @@
 export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
-# JHBuild build system (3.38.0+ from master branch because of specific patch)
+JHBUILD_REQUIREMENTS="\
+  certifi\
+  meson==0.57.1\
+  ninja==1.10.0.post2\
+  pygments==2.8.1\
+"
+
+# JHBuild build system 3.38.0+ (a896cbf404461cab979fa3cd1c83ddf158efe83b)
+# from master branch because of specific patch
 # https://gitlab.gnome.org/GNOME/jhbuild
 # https://wiki.gnome.org/Projects/Jhbuild/Introduction
-JHBUILD_VER=a896cbf404461cab979fa3cd1c83ddf158efe83b
+JHBUILD_VER=a896cbf
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
@@ -35,73 +43,66 @@ JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
 JHBUILD_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
 artifacts/master/raw/python_${JHBUILD_PYTHON_VER//.}_$(uname -p).tar.xz?\
 job=python${JHBUILD_PYTHON_VER//.}:$(uname -p)"
+JHBUILD_PYTHON_DIR=$OPT_DIR/Python.framework/Versions/$JHBUILD_PYTHON_VER
+JHBUILD_PYTHON_BIN_DIR=$JHBUILD_PYTHON_DIR/bin
+
+export JHBUILD_PYTHON_BIN=$JHBUILD_PYTHON_BIN_DIR/python$JHBUILD_PYTHON_VER
+export JHBUILD_PYTHON_PIP=$JHBUILD_PYTHON_BIN_DIR/pip$JHBUILD_PYTHON_VER
 
 ### functions ##################################################################
 
 function jhbuild_install_python
 {
+  # Download and extract Python.framework to OPT_DIR.
   mkdir -p "$OPT_DIR"
   curl -L "$JHBUILD_PYTHON_URL" | tar -C "$OPT_DIR" -x
 
-  local python_bin_dir
-  python_bin_dir=$OPT_DIR/Python.framework/Versions/Current/bin
-  ln -s "$python_bin_dir"/python$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
-  ln -s "$python_bin_dir"/python$JHBUILD_PYTHON_VER "$BIN_DIR"
-  ln -s "$python_bin_dir"/pip$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"
+  # Create a pkg-config configuration to match our installation location.
+  # Note: sed changes the prefix and exec_prefix lines!
+  mkdir -p "$LIB_DIR"/pkgconfig
+  cp "$JHBUILD_PYTHON_DIR"/lib/pkgconfig/python-$JHBUILD_PYTHON_VER*.pc \
+    "$LIB_DIR"/pkgconfig
+  sed -i "" "s/prefix=.*/prefix=$(sed_escape_str "$JHBUILD_PYTHON_DIR")/" \
+    "$LIB_DIR"/pkgconfig/python-$JHBUILD_PYTHON_VER.pc
+  sed -i "" "s/prefix=.*/prefix=$(sed_escape_str "$JHBUILD_PYTHON_DIR")/" \
+    "$LIB_DIR"/pkgconfig/python-$JHBUILD_PYTHON_VER-embed.pc
+
+  # Link binaries to our BIN_DIR.
+  ln -s "$JHBUILD_PYTHON_BIN" "$BIN_DIR"/python$JHBUILD_PYTHON_VER
+  ln -s "$JHBUILD_PYTHON_BIN" "$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR
+
+  # Shadow the system's python binary as well.
+  ln -s python$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"/python
 }
 
 function jhbuild_install
 {
-  # The safest way is to use our custom Python, even if the system provides one.
+  # We use our own custom Python, even if the system provides one.
   jhbuild_install_python
 
-  # Without this, JHBuild won't be able to access https links later because
-  # Apple's Python won't be able to validate certificates.
-  certifi_install
+  # Install dependencies.
+  # shellcheck disable=SC2086 # we need word splitting for requirements
+  "$JHBUILD_PYTHON_BIN_DIR"/pip$JHBUILD_PYTHON_VER \
+    install --prefix="$VER_DIR" $JHBUILD_REQUIREMENTS
 
   # Download JHBuild.
   local archive
   archive=$PKG_DIR/$(basename $JHBUILD_URL)
   curl -o "$archive" -L "$JHBUILD_URL"
   tar -C "$SRC_DIR" -xf "$archive"
-  JHBUILD_DIR=$SRC_DIR/jhbuild-$JHBUILD_VER
 
-  # Determine the real path to the Python interpreter so we can hardcode it into
-  # the file. This way we can pick up the desired interpreter via environment
-  # lookup once - i.e. right now - and stick to it.
-  local python_interpreter
-  python_interpreter=$(python3 -c \
-    "import os, sys; print(os.path.realpath(sys.executable))")
+  ( # Install JHBuild.
+    cd "$SRC_DIR"/jhbuild-$JHBUILD_VER || exit 1
+    ./autogen.sh \
+      --prefix="$VER_DIR" \
+      --with-python="$JHBUILD_PYTHON_BIN_DIR"/python$JHBUILD_PYTHON_VER
+    make
+    make install
 
-  # Create 'jhbuild' executable. This code has been adapted from
-  # https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
-  cat <<EOF > "$BIN_DIR/jhbuild"
-#!$python_interpreter
-# -*- coding: utf-8 -*-
-
-import sys
-import os
-import builtins
-
-sys.path.insert(0, '$JHBUILD_DIR')
-pkgdatadir = None
-datadir = None
-import jhbuild
-srcdir = os.path.abspath(os.path.join(os.path.dirname(jhbuild.__file__), '..'))
-
-builtins.__dict__['PKGDATADIR'] = pkgdatadir
-builtins.__dict__['DATADIR'] = datadir
-builtins.__dict__['SRCDIR'] = srcdir
-
-import jhbuild.main
-jhbuild.main.main(sys.argv[1:])
-EOF
-
-  chmod 755 "$BIN_DIR"/jhbuild
-
-  # Install JHBuild's external dependencies.
-  meson_install
-  ninja_install
+    sed -i "" \
+      "1 s/.*/#!$(sed_escape_str "$BIN_DIR/python$JHBUILD_PYTHON_VER")/" \
+      "$BIN_DIR"/jhbuild
+  )
 }
 
 function jhbuild_configure
@@ -110,11 +111,11 @@ function jhbuild_configure
   # with the ramdisk overlay.
   mkdir -p "$(dirname "$JHBUILDRC")"
   # shellcheck disable=SC2094 # not the same file
-  cat "$SELF_DIR"/jhbuild/"$(basename "$JHBUILDRC")"        > "$JHBUILDRC"
-  # shellcheck disable=SC2094 # not the same file
-  cat "$SELF_DIR"/jhbuild/"$(basename "$JHBUILDRC_CUSTOM")" > "$JHBUILDRC_CUSTOM"
+  cat "$SELF_DIR"/jhbuild/"$(basename "$JHBUILDRC")" > "$JHBUILDRC"
 
   {
+    echo "# -*- mode: python -*-"
+
     # set moduleset directory
     echo "modulesets_dir = '$SELF_DIR/jhbuild'"
 
@@ -151,7 +152,7 @@ function jhbuild_configure
       echo "progress_bar = True"
     fi
 
-  } >> "$JHBUILDRC_CUSTOM"
+  } > "$JHBUILDRC_CUSTOM"
 }
 
 ### main #######################################################################

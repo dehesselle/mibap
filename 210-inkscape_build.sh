@@ -85,9 +85,9 @@ cmake \
   -GNinja \
   "$INK_DIR"
 
-ninja_run
-ninja_run install
-ninja_run tests
+ninja
+ninja install
+ninja tests
 
 #--------------------------------------------- make library link paths canonical
 
