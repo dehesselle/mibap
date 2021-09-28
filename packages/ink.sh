@@ -58,12 +58,7 @@ INK_PYTHON_URL="https://gitlab.com/dehesselle/python_macos/-/jobs/\
 artifacts/master/raw/python_${INK_PYTHON_VER//.}_$(uname -p).tar.xz?\
 job=python${INK_PYTHON_VER//.}:inkscape:$(uname -p)"
 
-# Python packages are also built externally (on a system running the oldest
-# supported OS for better backward compatiblity) and included here.
-
-INK_PYTHON_WHEELS_VER=0.51
-INK_PYTHON_WHEELS_URL=https://github.com/dehesselle/mibap_wheels/releases/\
-download/v$INK_PYTHON_WHEELS_VER/wheels.tar.xz
+INK_WHEELS_DIR=$PKG_DIR
 
 #----------------------------------- Python packages to be bundled with Inkscape
 
@@ -138,17 +133,12 @@ function ink_get_repo_shorthash
 function ink_pipinstall
 {
   local packages=$1
-  local wheels_dir=$2   # optional
-  local options=$3      # optional
-
-  if [ -z "$wheels_dir" ]; then
-    wheels_dir=$PKG_DIR
-  fi
+  local options=$2      # optional
 
   # turn package names into filenames of our wheels
   local wheels
   for package in $packages; do
-    wheels="$wheels $(eval echo "$wheels_dir"/"${package%==*}"*.whl)"
+    wheels="$wheels $(eval echo "$INK_WHEELS_DIR"/"${package%==*}"*.whl)"
   done
 
   local PATH_ORIGINAL=$PATH
@@ -166,18 +156,12 @@ function ink_pipinstall
 
 function ink_pipinstall_cssselect
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_CSSSELECT" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_CSSSELECT"
 }
 
 function ink_pipinstall_lxml
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_LXML" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_LXML"
 
   lib_change_paths \
     @loader_path/../../.. \
@@ -188,10 +172,7 @@ function ink_pipinstall_lxml
 
 function ink_pipinstall_numpy
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_NUMPY" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_NUMPY"
 
   sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
     "$INK_APP_BIN_DIR"/f2py
@@ -203,10 +184,7 @@ function ink_pipinstall_numpy
 
 function ink_pipinstall_pygobject
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_PYGOBJECT" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_PYGOBJECT"
 
   lib_change_paths \
     @loader_path/../../.. \
@@ -218,10 +196,7 @@ function ink_pipinstall_pygobject
 
 function ink_pipinstall_pyserial
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_PYSERIAL" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_PYSERIAL"
 
   find "$INK_APP_SITEPKG_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/pyserial-miniterm
@@ -230,20 +205,14 @@ function ink_pipinstall_pyserial
 
 function ink_pipinstall_scour
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_SCOUR" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_SCOUR"
 
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
 function ink_pipinstall_urllib3
 {
-  local wheels_dir=$1
-  local options=$2
-
-  ink_pipinstall "$INK_PYTHON_URLLIB3" "$wheels_dir" "$options"
+  ink_pipinstall "$INK_PYTHON_URLLIB3"
 }
 
 function ink_download_python
@@ -273,20 +242,13 @@ python$INK_PYTHON_VER/site-packages/inkscape.pth
 function ink_build_wheels
 {
   jhbuild run pip3 install wheel
-  jhbuild run pip3 wheel $INK_PYTHON_CSSSELECT -w "$PKG_DIR"
-  jhbuild run pip3 wheel --no-binary :all: $INK_PYTHON_LXML -w "$PKG_DIR"
-  jhbuild run pip3 wheel $INK_PYTHON_NUMPY     -w "$PKG_DIR"
-  jhbuild run pip3 wheel $INK_PYTHON_PYGOBJECT -w "$PKG_DIR"
-  jhbuild run pip3 wheel $INK_PYTHON_PYSERIAL  -w "$PKG_DIR"
-  jhbuild run pip3 wheel $INK_PYTHON_SCOUR     -w "$PKG_DIR"
-  jhbuild run pip3 wheel $INK_PYTHON_URLLIB3   -w "$PKG_DIR"
-}
-
-function ink_download_wheels
-{
-  curl \
-    -o "$PKG_DIR"/"$(basename "${INK_PYTHON_WHEELS_URL%\?*}")" \
-    -L "$INK_PYTHON_WHEELS_URL"
+  jhbuild run pip3 wheel $INK_PYTHON_CSSSELECT -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel --no-binary :all: $INK_PYTHON_LXML -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_NUMPY     -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_PYGOBJECT -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_PYSERIAL  -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_SCOUR     -w "$INK_WHEELS_DIR"
+  jhbuild run pip3 wheel $INK_PYTHON_URLLIB3   -w "$INK_WHEELS_DIR"
 }
 
 ### main #######################################################################
