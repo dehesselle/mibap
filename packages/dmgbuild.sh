@@ -11,7 +11,7 @@
 
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
 
-### includes ###################################################################
+### dependencies ###############################################################
 
 # Nothing here.
 

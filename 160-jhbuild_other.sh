@@ -13,7 +13,7 @@
 
 # Nothing here.
 
-### includes ###################################################################
+### dependencies ###############################################################
 
 # shellcheck disable=SC1090 # can't point to a single source here
 for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do

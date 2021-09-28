@@ -21,7 +21,7 @@
 # shellcheck shell=bash # no shebang as this file is intended to be sourced
 # shellcheck disable=SC2034 # we only use exports if we really need them
 
-### includes ###################################################################
+### dependencies ###############################################################
 
 # Shell code I share between projects comes from bash_d.
 # https://github.com/dehesselle/bash_d
