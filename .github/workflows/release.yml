@@ -113,14 +113,19 @@ jobs:
           key: ccache-toolset-${{ steps.cache_id.outputs.time }}
           restore-keys: ccache-toolset-
 
-      # GitHub does not provide 10.13 SDK on their runners.
-      # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
-      # Official downloads from Apple are not publicly available. I don't trust
-      # 3rd party sources (e.g. "phracker"), so I'm using my own. My source
-      # is verifiable via checksums.
-      # In order to use this, you need to setup a repository secret named
-      # SDK_DOWNLOAD_URL and provide a link to a .tar.xz file.
-      # At the moment, only 10.13.4 SDK is supported (hardcoded below).
+    # GitHub does not provide 10.13 SDK on their runners and no image older
+    # than Catalina. See here for what you can expect in their Catalina image:
+    # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
+    #
+    # Official downloads from Apple are not accessible without a developer
+    # account and I don't trust 3rd party sources (e.g. "phracker"). So I'm
+    # using my own (non-public) source, but I'm providing the means to verify
+    # what I'm doing, see here:
+    # https://github.com/dehesselle/sdkchecksum
+    #
+    # In order to use your custom SDK_DOWNLOAD_URL, create a repository secret
+    # of said name and proivide a link to a .tar.xz file.
+    # At the moment, only 10.13.4 SDK is supported (hardcoded below).
       - name: install macOS SDK
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
