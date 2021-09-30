@@ -52,10 +52,12 @@ build:
     # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
     - |
       source 010-init.sh
+      cd $PKG_DIR
+      tar -cJf $CI_PROJECT_DIR/wheels.tar.xz *.whl
       find $PKG_DIR -type f \
-        ! -name "*.whl" -a ! -name "$(basename $INK_PYTHON_URL)" \
-        -exec rm {} +
+        ! -name "*.whl" -a ! -name "$(basename $INK_PYTHON_URL)" -delete
       toolset_create_dmg
   artifacts:
     paths:
       - mibap*.dmg
+      - wheels.tar.xz
