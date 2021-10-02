@@ -10,9 +10,9 @@
 # After this file has been processed, the environment is fully set up
 # with lots of variables and functions so that the real work can begin.
 #
-# Beside a few essential checks that can cause this to 'exit', this file
-# is considered to be "passive", i.e. it defines variables and functions but
-# does not do anything on its own.
+# Besides the one 'exit' at the bottom of this script, this file is considered
+# to be "passive", i.e. it only defines variables and functions but does not
+# do any work on its own.
 
 ### shellcheck #################################################################
 
@@ -155,24 +155,6 @@ fi
 
 ### main #######################################################################
 
-#---------------------------------------------------- check if WRK_DIR is usable
-
-# shellcheck disable=SC2046 # result is integer
-if  [ $(mkdir -p "$WRK_DIR" 2>/dev/null; echo $?) -eq 0 ] &&
-    [ -w "$WRK_DIR" ] ; then
-  : # WRK_DIR has been created or was already there and is writable
-else
-  echo_e "WRK_DIR not usable: $WRK_DIR"
-  exit 1
-fi
-
-#----------------------------------------------------- check for presence of SDK
-
-if [ ! -d "$SDKROOT" ]; then
-  echo_e "SDK not found: $SDKROOT"
-  exit 1
-fi
-
 #----------------------------------------------------------- source our packages
 
 # Packages are designed/allowed to silently depend on this file, therefore this
@@ -183,6 +165,12 @@ for package in "$SELF_DIR"/packages/*.sh; do
   source "$package"
 done
 
-#---------------------------------------------------- check recommended versions
+#---------------------------------------------------------- perform basic checks
+
+if sys_check_wrkdir && sys_check_sdkroot; then
+  :         # all is well
+else
+  exit 1    # cannot continue
+fi
 
 sys_check_versions
