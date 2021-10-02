@@ -6,7 +6,8 @@
 
 ### description ################################################################
 
-# Install GTK3 libraries and their dependencies.
+# Install GTK3 and its C++ bindings. Dependencies get pulled in and built
+# automatically by JHBuild.
 
 ### shellcheck #################################################################
 

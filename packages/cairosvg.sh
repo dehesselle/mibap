@@ -4,7 +4,7 @@
 
 ### description ################################################################
 
-# Convert svg to png with cairosvg.
+# cairosvg is a Python package so we can convert svg to png.
 
 ### shellcheck #################################################################
 

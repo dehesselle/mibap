@@ -6,7 +6,8 @@
 
 ### description ################################################################
 
-# Install Inkscape dependencies.
+# Install remaining Inkscape dependencies, i.e. everything besides the GTK3
+# stack.
 
 ### shellcheck #################################################################
 

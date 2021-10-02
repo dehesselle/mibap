@@ -7,7 +7,7 @@
 ### description ################################################################
 
 # The first step to perform with JHBuild is to run its bootstrap command.
-# After that it can be freely used to build whatever we want.
+# After that it can be freely used to build whatever the moduleset provides.
 
 ### shellcheck #################################################################
 

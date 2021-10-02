@@ -6,7 +6,7 @@
 
 ### description ################################################################
 
-# Create disk image for distribution.
+# Create a disk image for distribution.
 
 ### shellcheck #################################################################
 

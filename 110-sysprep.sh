@@ -6,11 +6,7 @@
 
 ### description ################################################################
 
-# This script performs system preparation tasks - basically the tings we need
-# to take care of before even setting up JHBuild. Performing checks
-# like running check_sys_ver are not part of this file (see bottom of
-# 010-init.sh), as that would mean that those checks are only run exactly once,
-# which is not what we want.
+# Prepare the system so we can setup JHBuild.
 
 ### shellcheck #################################################################
 

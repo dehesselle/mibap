@@ -4,7 +4,7 @@
 
 ### description ################################################################
 
-# This file contains everything related to setup JHBuild.
+# Download, install and configure JHBuild.
 
 ### shellcheck #################################################################
 
@@ -15,8 +15,6 @@
 # Nothing here.
 
 ### variables ##################################################################
-
-#----------------------------------------------------------------------- JHBuild
 
 export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
@@ -36,7 +34,11 @@ JHBUILD_VER=a896cbf
 JHBUILD_URL=https://gitlab.gnome.org/GNOME/jhbuild/-/archive/$JHBUILD_VER/\
 jhbuild-$JHBUILD_VER.tar.bz2
 
-# This Python runtime powers JHBuild on system that do not provide Python 3.
+
+# We install a dedicated Python runtime for JHBuild. It is installed and
+# kept separately from the rest of this system. This does not interfere
+# with the Python runtime that gets build when building all our libraries
+# later
 JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
 JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
@@ -112,7 +114,7 @@ function jhbuild_install
 function jhbuild_configure
 {
   # Copy JHBuild configuration files. We can't use 'cp' because that doesn't
-  # with the ramdisk overlay.
+  # work with the ramdisk overlay.
   mkdir -p "$(dirname "$JHBUILDRC")"
   # shellcheck disable=SC2094 # not the same file
   cat "$SELF_DIR"/jhbuild/"$(basename "$JHBUILDRC")" > "$JHBUILDRC"

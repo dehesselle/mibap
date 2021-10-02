@@ -4,7 +4,8 @@
 
 ### description ################################################################
 
-# Convert svg to icns.
+# Convert svg to icns. This is the "wrapper" that utilizes/requires caivrosvg
+# and png2icns packages.
 
 ### shellcheck #################################################################
 

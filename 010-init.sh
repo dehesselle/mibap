@@ -4,17 +4,15 @@
 
 ### description ################################################################
 
-# This is the main initialization file to setup the environment. Its purpose is
-#   - to provide some basic configuration variables which all other files
-#     depend upon
-#   - source all other scripts
-#   - run a few essential checks to see if we're good
+# This is the main settings file that always gets sourced first. It contains
+# some basic configuration itself and is then responsible for sourcing all
+# other necessary files.
+# After this file has been processed, the environment is fully set up
+# with lots of variables and functions so that the real work can begin.
 #
-# It's meant to be sourced by all other scripts and supposed to be a "passive"
-# file, i.e. it defines variables and functions but does not do anything on its
-# own. However, this is only 99% true at the moment as the above mentioned
-# checks are capable of calling it quits (search for 'exit') if a few very
-# fundamental things appear to be broken.
+# Beside a few essential checks that can cause this to 'exit', this file
+# is considered to be "passive", i.e. it defines variables and functions but
+# does not do anything on its own.
 
 ### shellcheck #################################################################
 

@@ -4,8 +4,8 @@
 
 ### description ################################################################
 
-# This file contains everything related to setup dmgbuild, a tool to create
-# disk images.
+# dmgbuild is a Python package that simplifies the process of creating a
+# disk image (dmg) for distribution.
 
 ### shellcheck #################################################################
 

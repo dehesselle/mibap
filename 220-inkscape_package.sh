@@ -6,8 +6,7 @@
 
 ### description ################################################################
 
-# Create the application bundle. This also includes patching library link
-# paths and all other components that we need to make relocatable.
+# Create the application bundle and make everything relocatable.
 
 ### shellcheck #################################################################
 

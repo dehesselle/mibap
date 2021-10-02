@@ -4,7 +4,7 @@
 
 ### description ################################################################
 
-# This file contains everything related to setup ccache.
+# Using ccache greatly reduces build times.
 
 ### shellcheck #################################################################
 

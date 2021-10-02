@@ -4,7 +4,8 @@
 
 ### description ################################################################
 
-# This file contains everything related to the toolset.
+# Once all of Inkscape's dependencies have been collected and built, we bundle
+# them into the "toolset".
 
 ### shellcheck #################################################################
 
