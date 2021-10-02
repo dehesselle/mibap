@@ -22,7 +22,7 @@ export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
 JHBUILD_REQUIREMENTS="\
-  certifi\
+  certifi==2021.5.30\
   meson==0.57.1\
   ninja==1.10.0.post2\
   pygments==2.8.1\
@@ -84,6 +84,10 @@ function jhbuild_install
   # shellcheck disable=SC2086 # we need word splitting for requirements
   "$JHBUILD_PYTHON_BIN_DIR"/pip$JHBUILD_PYTHON_VER \
     install --prefix="$VER_DIR" $JHBUILD_REQUIREMENTS
+
+  # Remove expired Lets's Encrypt root certificate.
+  patch -b -d "$LIB_DIR"/python$JHBUILD_PYTHON_VER/site-packages/certifi \
+    -p1 < "$SELF_DIR"/packages/patches/certifi_remove_expired.patch
 
   # Download JHBuild.
   local archive
