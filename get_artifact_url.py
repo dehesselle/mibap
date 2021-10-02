@@ -38,13 +38,17 @@ def main() -> None:
     commit = project.commits.get(args.sha)
     pipeline = project.pipelines.get(commit.last_pipeline["id"])
 
+    # Return the first (=newest) successful job.
+    # (That's what the 'break' statements do.)
     for job in pipeline.jobs.list():
         if job.status == "success":
             if args.job is not None:    # because args.job is an optional argument
                 if job.name == args.job:
-                    print(job.web_url + "/artifacts/download")
+                    print(job.web_url)
+                    break
             else:
-                print(job.web_url + "/artifacts/download")
+                print(job.web_url)
+                break
 
 
 if __name__ == "__main__":
