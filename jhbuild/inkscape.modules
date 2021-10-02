@@ -283,6 +283,26 @@
     </dependencies>
   </autotools>
 
+  <metamodule
+    id="meta-inkscape-dependencies">
+    <dependencies>
+      <dep package="bdwgc"/>
+      <dep package="doubleconversion"/>
+      <dep package="googletest"/>
+      <dep package="gspell"/>
+      <dep package="gsl"/>
+      <dep package="gspell"/>
+      <dep package="imagemagick"/>
+      <dep package="libcdr"/>
+      <dep package="libsoup"/>
+      <dep package="libvisio"/>
+      <dep package="openjpeg"/>
+      <dep package="openmp"/>
+      <dep package="poppler"/>
+      <dep package="potrace"/>
+    </dependencies>
+  </metamodule>
+
   <!-- OpenJPEG https://github.com/uclouvain/openjpeg -->
   <cmake
     id="openjpeg">

@@ -30,22 +30,9 @@ done
 
 ### main #######################################################################
 
-#------------------------------------------------------- build time dependencies
+#------------------------------------------------------ dependencies besides GTK
 
-jhbuild build \
-  bdwgc \
-  doubleconversion \
-  googletest \
-  gsl \
-  gspell \
-  imagemagick \
-  libcdr \
-  libsoup \
-  libvisio \
-  openjpeg \
-  openmp \
-  poppler \
-  potrace
+jhbuild build meta-inkscape-dependencies
 
 #------------------------------------------------- run time dependencies: Python
 
