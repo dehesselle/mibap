@@ -32,14 +32,21 @@ jobs:
         with:
           script: core.setFailed("version tag not found")
 
-      - name: get mibap version
-        id: mibap
+      - name: get toolset version
+        id: toolset
         run: |
           source 010-init.sh
           echo "::set-output name=version::$VERSION"
 
+      - name: get mibap version
+        id: mibap
+        run: echo "::set-output name=version::${GITHUB_REF##*v}"
+
+      # Once we have established that the "toolset version" (from 010-init.sh)
+      # matches the "mibap version" (from git tag) we can safely rely on
+      # "mibap version" from here on.
       - name: fail on version mismatch
-        if: ${{ !endsWith(github.ref, steps.mibap.outputs.version) }}
+        if: ${{ !endsWith(github.ref, steps.toolset.outputs.version) }}
         uses: actions/github-script@v3
         with:
           script: core.setFailed("version tag mismatch")
@@ -215,6 +222,10 @@ jobs:
       # Restore /usr/local, GitHub actions depend on these.
       - name: restore /usr/local
         run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
+
+      - name: get mibap version
+        id: mibap
+        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
 
       - name: upload toolset disk image
         uses: actions/upload-artifact@v2
