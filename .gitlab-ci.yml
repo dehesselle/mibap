@@ -18,6 +18,7 @@ variables:
 stages:
   - prepare
   - build
+  - release
 
 # verify SDK integrity
 prepare:
@@ -42,12 +43,11 @@ build:
   tags:
     - highsierra
   before_script:
-    # For persistent runners: cleanup previous run. This will be moved to
-    # after_script where it belongs.
+    # For persistent runners: cleanup previous run. This is not an after_script
+    # as those run on failed jobs as well, taking away a debugging opportunity.
     - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
   script:
     - ./build_toolset.sh
-  after_script:
     # reduce artifact size, need to stay below 1 GiB
     # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
     - |
@@ -61,3 +61,13 @@ build:
     paths:
       - mibap*.dmg
       - wheels.tar.xz
+
+release:
+  stage: release
+  only:
+    - tags
+  image: python:3-alpine
+  script:
+    - pip3 install gitlab-release==5.1
+    # requires PRIVATE_TOKEN with api permission
+    - gitlab-release mibap*.dmg wheels.tar.xz

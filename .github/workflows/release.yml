@@ -59,31 +59,17 @@ jobs:
         with:
           script: core.setFailed("SDK_DOWNLOAD_URL secret not found")
 
-      - name: fail on missing secret GITLAB_ACCESS_TOKEN
-        env:
-          GITLAB_ACCESS_TOKEN: ${{ secrets.GITLAB_ACCESS_TOKEN }}
-        if: env.GITLAB_ACCESS_TOKEN == null
-        uses: actions/github-script@v3
-        with:
-          script: core.setFailed("GITLAB_ACCESS_TOKEN secret not found")
-
-      - name: get artifact URL from GitLab
+      - name: request artifact from GitLab
         id: gitlab
         env:
-          REPO_URL: https://gitlab.com/dehesselle/mibap
-          GITLAB_ACCESS_TOKEN: ${{ secrets.GITLAB_ACCESS_TOKEN }}
+          RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
         run: |
-          python3 -m venv gau
-          source gau/bin/activate
-          pip install -r get_artifact_url.requirements.txt
-          if URL=$(./get_artifact_url.py $REPO_URL $GITHUB_SHA build 1>/dev/null 2>&1); then
-            echo "::set-output name=url::$URL"
-          else
-            echo "::set-output name=url::none"
-          fi
+          source 010-init.sh
+          HTTP_RESPONSE=$(curl --head -L $RELEASE_URL/$VERSION/wheels.tar.xz | head -n1 | awk '{ print $2 }')
+          echo "::set-output name=http::${HTTP_RESPONSE}"
 
       - name: fail on missing GitLab artifact
-        if: steps.gitlab.outputs.url == 'none'
+        if: steps.gitlab.outputs.http != '200'
         uses: actions/github-script@v3
         with:
           script: core.setFailed("no artifact for this commit on GitLab")
@@ -190,26 +176,14 @@ jobs:
       - name: install additional components
         run: ./160-jhbuild_other.sh
 
-    #------------------------------------------ incooperate parts from GitLab CI
+    #---------------------------------------- add wheels artifact from GitLab CI
 
-      - name: download wheels artifact from GitLab
+      - name: add wheels from GitLab
         env:
-          REPO_URL: https://gitlab.com/dehesselle/mibap
-          GITLAB_ACCESS_TOKEN: ${{ secrets.GITLAB_ACCESS_TOKEN }}
-        if: env.GITLAB_ACCESS_TOKEN != null
-        run: |
-          python3 -m venv gau
-          source gau/bin/activate
-          pip install -r get_artifact_url.requirements.txt
-          if ! curl -O -L $(./get_artifact_url.py $REPO_URL $GITHUB_SHA build)/raw/wheels.tar.xz; then
-            echo "error: failed to download artifact from GitLab"
-            exit 1
-          fi
-
-      - name: add wheels to toolset
+          RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
         run: |
           source 010-init.sh
-          mv wheels.tar.xz $PKG_DIR
+          curl -o $PKG_DIR/wheels.tar.xz -L $RELEASE_URL/$VERSION/wheels.tar.xz
 
     #----------------------------------------------------------- create artifact
 
