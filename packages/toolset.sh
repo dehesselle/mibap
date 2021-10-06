@@ -170,6 +170,7 @@ function toolset_create_dmg
 
   # remove files to reduce size
   rm -rf "${BLD_DIR:?}"/*
+  rm -rf "${TMP_DIR:?}"/*
   find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d \
     ! -name 'gtk-mac-bundler*' -a \
     ! -name 'jhbuild*' -a \
