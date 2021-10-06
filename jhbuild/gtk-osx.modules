@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="ftp.gnome.org" default="yes"
-              href="https://download.gnome.org/sources/"/>
+              href="http://ftp.gnome.org/pub/GNOME/sources/"/>
   <repository type="tarball" name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"/>
   <repository type="tarball" name="cairographics"
@@ -14,6 +14,8 @@
               href="ftp://ftp.freedesktop.org/pub/"/>
   <repository type="tarball" name="fontconfig"
 	      href="http://www.freedesktop.org/software/fontconfig/release/"/>
+  <repository type="tarball" name="hicolor"
+              href="https://icon-theme.freedesktop.org/releases/"/>
   <repository type="git" name="github" href="git://github.com/"/>
   <repository type="tarball" name="github-tarball" href="https://github.com/"/>
   <repository type="system" name="system"/>
@@ -46,7 +48,7 @@
     <branch repo="system"/>
   </systemmodule>
 
-   <metamodule id="meta-gtk-osx-gtk3">
+  <metamodule id="meta-gtk-osx-gtk3">
     <dependencies>
       <dep package="gtk+-3.0"/>
       <dep package="gtk-mac-integration"/>
@@ -69,7 +71,7 @@
             hash="sha256:67734f584f3a05a2872f57e9a8db38f3b06c7087fb531c5a839d9171968103ea">
     </branch>
     <dependencies>
-        <dep package="libffi"/>
+      <dep package="libffi"/>
     </dependencies>
   </meson>
 
@@ -184,7 +186,7 @@
     </dependencies>
   </meson>
 
-  <meson id="pango">
+  <meson id="pango" mesonargs="-Dfontconfig=enabled">
     <branch version="1.48.4" module="pango/1.48/pango-1.48.4.tar.xz"
             hash="sha256:418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a">
     </branch>
@@ -193,14 +195,14 @@
       <dep package="cairo"/>
       <dep package="harfbuzz"/>
       <dep package="fribidi"/>
-     </dependencies>
+    </dependencies>
     <after>
       <dep package="gobject-introspection"/>
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </meson>
-
- <meson id="atk">
+  
+  <meson id="atk">
     <branch module="atk/2.36/atk-2.36.0.tar.xz" version="2.36.0"
             hash="sha256:fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788"/>
     <dependencies>
@@ -223,6 +225,11 @@
     </after>
   </meson>
 
+  <autotools id="hicolor-icon-theme">
+    <branch module="hicolor-icon-theme-0.17.tar.xz" version="0.17"
+            repo="hicolor"/>
+  </autotools>
+
   <autotools id="xorg-util-macros">
     <branch repo="freedesktop" version="1.19.2"
             module="xorg/individual/util/util-macros-1.19.2.tar.bz2"
@@ -241,8 +248,9 @@
   <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
   <meson id="gtk+-3.0"
              mesonargs="-Dquartz-backend=true -Dx11-backend=false -Dmedia=none">
-    <branch module="gtk+/3.24/gtk+-3.24.29.tar.xz" version="3.24.29"
-            hash="sha256:f57ec4ade8f15cab0c23a80dcaee85b876e70a8823d9105f067ce335a8268caa">
+    <branch module="gtk+/3.24/gtk+-3.24.30.tar.xz" version="3.24.30"
+            hash="sha256:ba75bfff320ad1f4cfbee92ba813ec336322cc3c660d406aad014b07087a3ba9">
+      <patch file="Quartz-version-detection-for-macOS-12.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -251,6 +259,7 @@
       <dep package="gdk-pixbuf"/>
       <dep package="gobject-introspection"/>
       <dep package="libepoxy"/>
+      <dep package="hicolor-icon-theme"/>
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-bootstrap"/>
@@ -261,9 +270,8 @@
              autogenargs="--disable-python">
     <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.1.tar.xz"
             version="3.0.1"
-            hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d"
-            >
-      <patch file="gtk-mac-integration_menu_decorations.patch" strip="1"/>
+            hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d">
+      <patch file="gtk-mac-integration-work-around-svg-locale-bug.patch" strip="1"/>
     </branch>
     <dependencies>
     </dependencies>
@@ -287,7 +295,7 @@
       <dep package="rust"/>
     </dependencies>
     <after>
-<!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
+      <!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
       <dep package="gtk+-3.0"/>
     </after>
   </autotools>

@@ -4,7 +4,7 @@
 <moduleset>
 
   <repository type="tarball" name="ftp.gnome.org" default="yes"
-              href="https://ftp.fau.de/gnome/sources/"/>
+              href="http://ftp.gnome.org/pub/GNOME/sources/"/>
   <repository type="tarball" name="cairographics.org"
               href="http://cairographics.org/releases/"/>
   <repository type="tarball" name="python"
@@ -39,9 +39,8 @@
   </metamodule>
 
   <autotools id="python3" autogenargs="--enable-shared" autogen-sh="configure">
-    <branch repo="python" module="3.8.9/Python-3.8.9.tar.xz" version="3.8.9"
-            hash="sha256:5e391f3ec45da2954419cab0beaefd8be38895ea5ce33577c3ec14940c4b9572"
-            />
+    <branch repo="python" module="3.8.12/Python-3.8.12.tar.xz" version="3.8.12"
+            hash="sha256:b1d3a76420375343b5e8a22fceb1ac65b77193e9ed27146524f0a9db058728ea"/>
     <dependencies>
       <dep package='readline'/>
       <dep package="openssl"/> <!-- For hashlib -->
@@ -59,7 +58,7 @@
       <dep package="python3"/>
       <dep package="meta-gtk-osx-gtk3"/>
     </after>
-  </meson>
+   </meson>
 
    <meson id="pygobject3" >
     <branch version="3.40.1" module="pygobject/3.40/pygobject-3.40.1.tar.xz"
@@ -74,9 +73,10 @@
 
   <autotools id="gtk-mac-integration-python" autogen-sh="configure"
              autogenargs="--enable-python">
-    <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.0.tar.xz"
-            version="3.0.0"
-            hash="sha256:af88bb3a284e24c550e15290e07e562fcd2a038ebb0fcc863dd069d3738952ae">
+    <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.1.tar.xz"
+            version="3.0.1"
+            hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d">
+      <patch file="gtk-mac-integration-work-around-svg-locale-bug.patch" strip="1"/>
     </branch>
     <dependencies>
     </dependencies>
@@ -84,5 +84,14 @@
       <dep package="pygobject3"/>
     </after>
   </autotools>
+
+  <distutils id="pygments">
+    <branch repo="pymodules" version="2.9.0"
+            module="ba/6e/7a7c13c21d8a4a7f82ccbfe257a045890d4dbf18c023f985f565f97393e3/Pygments-2.9.0.tar.gz">
+    </branch>
+    <dependencies>
+      <dep package="python3"/>
+    </dependencies>
+  </distutils>
 
 </moduleset>

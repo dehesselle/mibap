@@ -4,7 +4,7 @@
 <moduleset>
 
   <repository type="tarball" name="ftp.gnome.org" default="yes"
-              href="https://ftp.fau.de/gnome/sources/"/>
+              href="http://download.gnome.org/sources/"/>
   <repository type="tarball" name="ftp.gnu.org" href="https://ftp.gnu.org/gnu/"/>
   <repository type="tarball" name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"/>
@@ -95,6 +95,9 @@
     </dependencies>
     <after>
       <dep package="python3"/>
+      <!-- We setup our JHBuild differently, so we don't need that.
+      <dep package="pygments"/>
+      -->
     </after>
   </meson>
 
