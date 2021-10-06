@@ -103,10 +103,12 @@ export TMPDIR=$TMP_DIR   # TMPDIR is the common macOS default
 export XDG_CACHE_HOME=$VAR_DIR/cache  # instead ~/.cache
 export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 
-#-------------------------------------------------------------- directories: pip
+#----------------------------------------------------------- directories: Python
 
 export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
 export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
+
+export PYTHONPYCACHEPREFIX=$TMP_DIR            # redirect __pycache__ here
 
 #--------------------------------------------------------- directories: artifact
 
