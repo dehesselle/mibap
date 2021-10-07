@@ -169,7 +169,9 @@ done
 
 #---------------------------------------------------------- perform basic checks
 
-if sys_check_wrkdir && sys_check_sdkroot; then
+if sys_check_wrkdir &&
+   sys_check_sdkroot &&
+   sys_check_usr_local; then
   :         # all is well
 else
   exit 1    # cannot continue
