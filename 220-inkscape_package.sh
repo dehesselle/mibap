@@ -43,29 +43,18 @@ error_trace_enable
   jhbuild run gtk-mac-bundler inkscape.bundle
 )
 
-# Rename to get from lowercase to capitalized "i" as the binary was completely
-# lowercase in the 0.9x versions.
-# (Doing it this way works only on case-insensitive filesystems.)
-mv "$INK_APP_DIR" "$INK_APP_DIR".tmp
+# Rename to get from lowercase "i" to capitalized "I" as the app bundle name
+# depends on the main binary (and that was lowercase in 0.9x).
+mv "$INK_APP_DIR" "$INK_APP_DIR".tmp   # requires case-insensitive filesysystem
 mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
-#------------------------------------------------------ patch library link paths
+#----------------------------------------------------- adjust library link paths
 
-# patch library link paths for lib2geom
-lib_change_path \
-  @executable_path/../Resources/lib/lib2geom\\..+dylib \
-  "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.dylib
+lib_clear_rpath $INK_APP_EXE_DIR/inkscape
+lib_add_rpath @executable_path/../Resources/lib $INK_APP_EXE_DIR/inkscape
+lib_add_rpath @executable_path/../Resources/lib/inkscape $INK_APP_EXE_DIR/inkscape
 
-# patch library link path for libboost_filesystem
-lib_change_path \
-  @executable_path/../Resources/lib/libboost_filesystem.dylib \
-  "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.dylib \
-  "$INK_APP_EXE_DIR"/inkscape
-
-# patch library link path for libinkscape_base
-lib_change_path \
-  @executable_path/../Resources/lib/inkscape/libinkscape_base.dylib \
-  "$INK_APP_EXE_DIR"/inkscape
+lib_replace_path $LIB_DIR @rpath $INK_APP_EXE_DIR/inkscape
 
 lib_change_siblings "$INK_APP_LIB_DIR"
 
@@ -151,6 +140,7 @@ cp "$SELF_DIR"/fonts.conf "$INK_APP_ETC_DIR"/fonts
 #--------------------------------------- modify GObject introspection repository
 
 # change paths to match Python binary, not Inkscape binary
+# TODO: can we use rpath here?
 for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
   sed "s/\
 @executable_path/\

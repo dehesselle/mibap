@@ -88,34 +88,11 @@ ninja
 ninja install
 ninja tests
 
-#--------------------------------------------- make library link paths canonical
+#----------------------------------- make libraries work for unpackaged Inkscape
 
-# Most libraries are linked to with their fully qualified paths. Some of them
-# have been linked to using '@rpath', which we are not setting, therefore
-# breaking the binary. Since we want Inkscape to work in unpackaged form as
-# well, we adjust all offending paths to use qualified paths.
-# (They will be re-adjusted later to use relative location inside the
-# application bundle.)
-#
-# example 'ldd /Users/Shared/work/0.47/lib/inkscape/libinkscape_base.dylib':
-#
-#   /Users/Shared/work/0.47/lib/inkscape/libinkscape_base.dylib:
-#     @rpath/libinkscape_base.dylib (compatibility version 0.0.0, ...     <- fix
-#     @rpath/libboost_filesystem.dylib (compatibility version 0.0....     <- fix
-#     @rpath/lib2geom.1.1.0.dylib (compatibility version 1.1.0, cu...     <- fix
-#     /Users/Shared/work/0.47/lib/libharfbuzz.0.dylib (compatibili...     <- ok
-#     /Users/Shared/work/0.47/lib/libpangocairo-1.0.0.dylib (compa...     <- ok
-#     /Users/Shared/work/0.47/lib/libcairo.2.dylib (compatibility ...     <- ok
-#     ...
+# Most libraries are linked to with their fully qualified paths, a few have been
+# linked to using '@rpath'. The Inkscape binary only provides an LC_RPATH
+# setting for its own library path (LIB_DIR/inkscape) at this point, so we need
+# to add LIB_DIR to make it work.
 
-for binary in $BIN_DIR/inkscape \
-              $LIB_DIR/inkscape/libinkscape_base.dylib; do
-  for lib in $(otool -L "$binary" |
-               grep "@rpath/" |
-               awk '{ print $1 }'); do
-    # This here is the reason we require GNU's 'find', as the macOS one doesn't
-    # pick up the files from the bottom layer of our union mount.
-    lib_canonical=$(find "$LIB_DIR" -maxdepth 2 -name "$(basename "$lib")")
-    lib_change_path "$lib_canonical" "$binary"
-  done
-done
+lib_add_rpath @loader_path/../lib $BIN_DIR/inkscape
