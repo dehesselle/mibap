@@ -50,13 +50,17 @@ mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
 #----------------------------------------------------- adjust library link paths
 
-lib_clear_rpath $INK_APP_EXE_DIR/inkscape
-lib_add_rpath @executable_path/../Resources/lib $INK_APP_EXE_DIR/inkscape
-lib_add_rpath @executable_path/../Resources/lib/inkscape $INK_APP_EXE_DIR/inkscape
+lib_clear_rpath "$INK_APP_EXE_DIR"/inkscape
+lib_add_rpath @executable_path/../Resources/lib "$INK_APP_EXE_DIR"/inkscape
+lib_add_rpath @executable_path/../Resources/lib/inkscape "$INK_APP_EXE_DIR"/inkscape
 
-lib_replace_path $LIB_DIR @rpath $INK_APP_EXE_DIR/inkscape
+lib_replace_path "$LIB_DIR" @rpath "$INK_APP_EXE_DIR"/inkscape
 
 lib_change_siblings "$INK_APP_LIB_DIR"
+
+lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
+  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules/*.so \
+  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/printbackends/*.so
 
 #------------------------------------------------------------- modify Info.plist
 
