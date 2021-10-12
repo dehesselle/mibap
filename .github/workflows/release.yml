@@ -34,6 +34,8 @@ jobs:
 
       - name: get toolset version
         id: toolset
+        env:
+          SYS_IGNORE_USR_LOCAL: true
         run: |
           source 010-init.sh
           echo "::set-output name=version::$VERSION"
@@ -52,9 +54,9 @@ jobs:
           script: core.setFailed("version tag mismatch")
 
       - name: fail on missing secret SDK_DOWNLOAD_URL
+        if: env.SDK_DOWNLOAD_URL == null
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-        if: env.SDK_DOWNLOAD_URL == null
         uses: actions/github-script@v3
         with:
           script: core.setFailed("SDK_DOWNLOAD_URL secret not found")
@@ -63,6 +65,7 @@ jobs:
         id: gitlab
         env:
           RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
+          SYS_IGNORE_USR_LOCAL: true
         run: |
           source 010-init.sh
           HTTP_RESPONSE=$(curl --head -L $RELEASE_URL/$VERSION/wheels.tar.xz | head -n1 | awk '{ print $2 }')
