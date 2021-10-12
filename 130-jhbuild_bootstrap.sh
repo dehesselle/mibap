@@ -30,4 +30,8 @@ done
 
 ### main #######################################################################
 
+if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
+  error_trace_enable
+fi
+
 jhbuild bootstrap-gtk-osx

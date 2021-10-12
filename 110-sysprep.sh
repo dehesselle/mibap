@@ -29,6 +29,8 @@ done
 
 ### main #######################################################################
 
+error_trace_enable
+
 #---------------------------------------------- print main directory and version
 
 echo_i "WRK_DIR = $WRK_DIR"

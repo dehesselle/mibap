@@ -30,7 +30,9 @@ done
 
 ### main #######################################################################
 
-error_trace_enable
+if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
+  error_trace_enable
+fi
 
 #---------------------------------------------------- install GNU Find Utilities
 
@@ -50,4 +52,3 @@ jhbuild build gtkmacbundler
 #------------------------------------------------- install svg to icns convertor
 
 svg2icns_install
-
