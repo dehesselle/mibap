@@ -1,32 +1,28 @@
-# macOS Inkscape build and package
+# macOS Inkscape build and package (mibap)
 
-![build](https://github.com/dehesselle/mibap/workflows/mibap/badge.svg)
+![GitHub badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![GitHub build worfklow](https://github.com/dehesselle/mibap/workflows/build/badge.svg)
+![GitHub release workflow](https://github.com/dehesselle/mibap/workflows/release/badge.svg)
+![GitLab badge](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)![GitLab master branch](https://gitlab.com/dehesselle/mibap/badges/master/pipeline.svg)
 
-This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. That means updates happen here more frequently and in smaller steps than what is pushed (in accumulated/squashed form) to Inkscape's sources ([packaging/macos](https://gitlab.com/inkscape/inkscape/-/tree/master/packaging/macos)).
+This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. Together with its [mirror on GitLab](https://gitlab.com/dehesselle/mibap) it creates a ready-to-use disk image (otherwise referred to as "the toolset"), containing all dependencies so that Inkscape's CI can focus on building the app.
 
-The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild) in conjunction with our own custom moduleset based off [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx). If you have never heard about these two, take a look at [GTK's documentation](https://www.gtk.org/docs/installations/macos/); it is important to understand that this is neither Homebrew nor MacPorts. But don't worry, everything has been automated to the point that you only have to run shell scripts.
+![mibap_overview](https://github.com/dehesselle/mibap/wiki/mibap_overview.drawio.svg)
 
-## Build instructions
+## Under the hood
 
-Building Inkscape is a two-step process:
+The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild) with a custom moduleset based off [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx). If you have never heard about these two, take a look at [GTK's documentation](https://www.gtk.org/docs/installations/macos/); it is important to understand that this is neither Homebrew nor MacPorts. But don't worry, in the end it's just another orchestration tool to perform "configure; make; make install" and manage dependencies.
 
-1. Setup a build environment with all the dependencies ("toolset"). There are two options:
-
-   a. Build everything from scratch. This encompasses _a lot_ of libraries and helper tools, therefore this is time consuming and can be error-prone if you don't stick to the recommendations.
-
-   __or__
-
-   b. Use a precompiled version of the toolset. You can practically fast forward to the next step.
-
-1. Build Inkscape.
+## Building mibap ("the toolset")
 
 ### Prerequisites
 
-- A __clean environment__ is key.
-  - Software and libraries installed via package managers (e.g. Homebrew, MacPorts, Fink) can cause problems depending on their installation directory.
-    - Rule of thumb: clear out `/usr/local`.
+- A __clean environment__ is key. This is the most inconvenient requirement.
+  - Software and libraries installed via package managers like Homebrew, MacPorts, Fink etc. are known to cause problems (usually: build failures) depending on installation prefix.
+    - Clear out `/usr/local`.
+    - Uninstall Xorg.
   - Use a dedicated user account to avoid any interference with the environment.
-    - Rule of thumb: no customizations in dotfiles like `.profile`, `.bashrc` etc.
+    - No customizations in dotfiles like `.profile`, `.bashrc` etc.
 
 - There are __version recommendations__ based on a known working setup.
   - macOS Catalina 10.15.7
@@ -35,7 +31,7 @@ Building Inkscape is a two-step process:
 
 - An __internet connection__ for all the downloads.
 
-### step 1a: build the toolset
+### Steps
 
 1. Clone this repository and `cd` into it.
 
@@ -47,14 +43,14 @@ Building Inkscape is a two-step process:
 1. _(optional)_ Set a build directory (default: `/Users/Shared/work`).
 
    ```bash
-   # Don't blindly copy/paste this. Avoid spaces.
+   # Optional. Avoid spaces.
    echo "WRK_DIR=$HOME/my_build_dir" > 005-customdir.sh
    ```
 
-1. _(optional)_ Set the SDK to be used (default: `xcodebuild -version -sdk macosx Path`).
+1. _(optional)_ Use a specific SDK (default: `xcodebuild -version -sdk macosx Path`).
 
    ```bash
-   # Don't blindly copy/paste this. Avoid spaces.
+   # Optional. Avoid spaces.
    echo "SDKROOT=$HOME/MacOSX10.13.sdk" > 005-sdkroot.sh
    ```
 
@@ -65,21 +61,26 @@ Building Inkscape is a two-step process:
    ```
 
    This will
+   - build everything in your `$WRK_DIR`
+   - take some time!
 
-   - run all the `1nn`-prefixed scripts consecutively
-   - populate `$WRK_DIR/$TOOLSET_VER`
+## Building Inkscape
 
-Time for ☕, this will take a while!
+The easiest way to build Inkscape is using the precompiled toolset. The only downsinde is that you don't get to choose the build directory, you have to accept the default `/Users/Shared/work`.
 
-### step 1b: install a precompiled toolset
+<!-- markdownlint-disable MD024 -->
+### Steps
+<!-- markdownlint-enable MD024 -->
 
-1. Acknowledge that the precompiled toolset requires `WRK_DIR=/Users/Shared/work` as build directory. (It's the default, no need to configure this.)
-
-1. Clone this repository and `cd` into it.
+1. Clone this repository and `cd` into it. Checkout the latest tag, do not use master. Initialize and update the submodules.
 
    ```bash
-   git clone --recurse-submodules https://github.com/dehesselle/mibap
+   git clone https://github.com/dehesselle/mibap
    cd mibap
+   # checkout tag with highest version number
+   git checkout $(git tag | grep "^v" | sort -V | tail -1)
+   git submodule init
+   git submodule update
    ```
 
 1. Install the toolset.
@@ -90,15 +91,11 @@ Time for ☕, this will take a while!
 
    This will
 
-   - download a disk image (about 1.6 GiB) to `/Users/Shared/work/repo`
-   - mount the (read-only) disk image to `/Users/Shared/work/$TOOLSET_VER`
-   - union mount a ramdisk (3 GiB) to `/Users/Shared/work/$TOOLSET_VER`
+   - download the latest toolset [release](https://github.com/dehesselle/mibap/releases) (about 1.1 GiB) to `/Users/Shared/work/repo`
+   - mount the (read-only) toolset to `/Users/Shared/work/<version>`
+   - union mount a ramdisk (3 GiB) to `/Users/Shared/work/<version>`
 
-   The mounted volumes won't show up in Finder but you can see them using `diskutil list`.
-
-   Once you're done building Inkscape, use `uninstall_toolset.sh` to eject them. This does not delete the contents of `/Users/Shared/work/repo`.
-
-### step 2: build Inkscape
+   The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.
 
 1. Build Inkscape.
 
@@ -107,23 +104,8 @@ Time for ☕, this will take a while!
    ```
 
    This will
-
-   - run all the `2nn`-prefixed scripts consecutively
-   - produce `$WRK_DIR/$TOOLSET_VER/Inkscape.dmg`
-
-## GitHub CI
-
-documentation TBD
-
-## known issues
-
-Besides what you may find in the issue tracker:
-
-- If you're logged in to the desktop when building the toolset, you may get multiple popups asking to install Java. They're triggered by at least `gettext` and `cmake` checking for the presence of Java during their configuration stages and can be safely ignored.
-
-## Status
-
-This project is still a work in progress (hence 0.x version).
+   - build and install Inkscape (unpackaged) to `/Users/Shared/work/<version>`
+   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/<version>`.
 
 ## Contact
 
