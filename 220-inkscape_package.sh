@@ -50,17 +50,28 @@ mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
 #----------------------------------------------------- adjust library link paths
 
+# Add rpath according to our app bundle structure.
 lib_clear_rpath "$INK_APP_EXE_DIR"/inkscape
 lib_add_rpath @executable_path/../Resources/lib "$INK_APP_EXE_DIR"/inkscape
-lib_add_rpath @executable_path/../Resources/lib/inkscape "$INK_APP_EXE_DIR"/inkscape
+lib_add_rpath @executable_path/../Resources/lib/inkscape \
+  "$INK_APP_EXE_DIR"/inkscape
 
-lib_replace_path "$LIB_DIR" @rpath "$INK_APP_EXE_DIR"/inkscape
-
+# Libraries in INK_APP_LIB_DIR can reference each other directly.
 lib_change_siblings "$INK_APP_LIB_DIR"
 
+# Point GTK modules towards INK_APP_LIB_DIR.
 lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
   "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules/*.so \
   "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/printbackends/*.so
+
+#------------------------------------------------------ use rpath in cache files
+
+sed -i '' \
+  's/@executable_path\/..\/Resources\/lib/@rpath/g' \
+  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules.cache
+sed -i '' \
+  's/@executable_path\/..\/Resources\/lib/@rpath/g' \
+  "$INK_APP_LIB_DIR"/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
 #------------------------------------------------------------- modify Info.plist
 
@@ -106,6 +117,14 @@ cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
 # Install externally built Python framework.
 ink_install_python
 
+# Add rpath to find libraries.
+lib_add_rpath @executable_path/../../../../../Resources/lib \
+  "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/bin/\
+python"$INK_PYTHON_VER"
+lib_add_rpath @executable_path/../../../../../../../../Resources/lib \
+  "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/Resources/\
+Python.app/Contents/MacOS/Python
+
 # Exteract the externally built wheels (if present).
 if [ -f "$INK_WHEELS_DIR"/wheels.tar.xz ]; then
   tar -C "$TMP_DIR" -xf "$INK_WHEELS_DIR"/wheels.tar.xz
@@ -141,15 +160,10 @@ done
 # directory below '$HOME/Library/Application Support/Inkscape'.
 cp "$SELF_DIR"/fonts.conf "$INK_APP_ETC_DIR"/fonts
 
-#--------------------------------------- modify GObject introspection repository
+#-------------------------------- use rpath for GObject introspection repository
 
-# change paths to match Python binary, not Inkscape binary
-# TODO: can we use rpath here?
 for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
-  sed "s/\
-@executable_path/\
-$(sed_escape_str @executable_path/../../../..)/g" "$gir" > \
-    "$TMP_DIR/$(basename "$gir")"
+  sed "s/@executable_path\/../@rpath/g" "$gir" > "$TMP_DIR/$(basename "$gir")"
 done
 
 mv "$TMP_DIR"/*.gir "$INK_APP_RES_DIR"/share/gir-1.0
