@@ -20,10 +20,10 @@ export JHBUILDRC=$ETC_DIR/jhbuildrc
 export JHBUILDRC_CUSTOM=$JHBUILDRC-custom
 
 JHBUILD_REQUIREMENTS="\
-  certifi==2021.5.30\
-  meson==0.57.1\
-  ninja==1.10.0.post2\
-  pygments==2.8.1\
+  certifi==2021.10.8\
+  meson==0.59.2\
+  ninja==1.10.2.2\
+  pygments==2.10.0\
 "
 
 # JHBuild build system 3.38.0+ (a896cbf404461cab979fa3cd1c83ddf158efe83b)

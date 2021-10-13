@@ -64,12 +64,12 @@ INK_PYTHON_CSSSELECT=cssselect==1.1.0
 INK_PYTHON_LXML=lxml==4.6.3
 
 # https://pypi.org/project/numpy/
-INK_PYTHON_NUMPY=numpy==1.20.3
+INK_PYTHON_NUMPY=numpy==1.21.2
 
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PYGOBJECT="\
-  PyGObject==3.40.1\
-  pycairo==1.20.0\
+  PyGObject==3.42.0\
+  pycairo==1.20.1\
 "
 
 # https://pypi.org/project/pyserial/
@@ -82,7 +82,7 @@ INK_PYTHON_SCOUR="\
 "
 
 # https://pypi.org/project/urllib3
-INK_PYTHON_URLLIB3=urllib3==1.26.5
+INK_PYTHON_URLLIB3=urllib3==1.26.7
 
 #------------------------------------------- application bundle directory layout
 
