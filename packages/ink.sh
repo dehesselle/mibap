@@ -39,6 +39,7 @@ else                  # not running GitLab CI
   fi
 fi
 
+# shellcheck disable=SC2034 # used outside this script
 INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 
 #------------------------------------ Python runtime to be bundled with Inkscape
@@ -92,7 +93,9 @@ INK_APP_CON_DIR=$INK_APP_DIR/Contents
 INK_APP_RES_DIR=$INK_APP_CON_DIR/Resources
 INK_APP_FRA_DIR=$INK_APP_CON_DIR/Frameworks
 INK_APP_BIN_DIR=$INK_APP_RES_DIR/bin
+# shellcheck disable=SC2034 # used outside this script
 INK_APP_ETC_DIR=$INK_APP_RES_DIR/etc
+# shellcheck disable=SC2034 # used outside this script
 INK_APP_EXE_DIR=$INK_APP_CON_DIR/MacOS
 INK_APP_LIB_DIR=$INK_APP_RES_DIR/lib
 

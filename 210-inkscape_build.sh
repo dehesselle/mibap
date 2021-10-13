@@ -92,7 +92,7 @@ ninja tests
 
 # Most libraries are linked to with their fully qualified paths, a few have been
 # linked to using '@rpath'. The Inkscape binary only provides an LC_RPATH
-# setting for its own library path (LIB_DIR/inkscape) at this point, so we need
-# to add LIB_DIR to make it work.
+# setting for its custom library path 'lib/inkscape' at this point, so we need
+# to add the common library path 'lib'.
 
-lib_add_rpath @loader_path/../lib $BIN_DIR/inkscape
+lib_add_rpath @loader_path/../lib "$BIN_DIR"/inkscape
