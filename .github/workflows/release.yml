@@ -334,6 +334,8 @@ jobs:
     #------------------------------------------------------------ create release
 
       - name: install toolset
+        env:
+          SYS_IGNORE_USR_LOCAL: true
         run: ./install_toolset.sh
 
       - name: read mibap release.log
@@ -343,6 +345,8 @@ jobs:
           path: ${{ env.WRK_DIR }}/${{ steps.mibap.outputs.version }}/var/log/release.log
 
       - name: uninstall toolset
+        env:
+          SYS_IGNORE_USR_LOCAL: true
         run: ./uninstall_toolset.sh
 
       - name: create release
