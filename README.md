@@ -1,9 +1,9 @@
 # macOS Inkscape build and package (mibap)
 
 ![GitHub badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
-![GitHub build worfklow](https://github.com/dehesselle/mibap/workflows/build/badge.svg)
-![GitHub release workflow](https://github.com/dehesselle/mibap/workflows/release/badge.svg)
-![GitLab badge](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)![GitLab master branch](https://gitlab.com/dehesselle/mibap/badges/master/pipeline.svg)
+![GitHub build worfklow](https://github.com/dehesselle/mibap/actions/workflows/build.yml/badge.svg)
+![GitLab badge](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)
+![GitLab master branch](https://gitlab.com/dehesselle/mibap/badges/master/pipeline.svg)
 
 This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. Together with its [mirror on GitLab](https://gitlab.com/dehesselle/mibap) it creates a ready-to-use disk image (otherwise referred to as "the toolset"), containing all dependencies so that Inkscape's CI can focus on building the app.
 
@@ -66,7 +66,11 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 
 ## Building Inkscape
 
-The easiest way to build Inkscape is using the precompiled toolset. The only downsinde is that you don't get to choose the build directory, you have to accept the default `/Users/Shared/work`.
+<!-- markdownlint-disable MD024 -->
+### Prerequisites
+<!-- markdownlint-enable MD024 -->
+
+- The precompiled toolset requires `/Users/Shared/work` as build directory.
 
 <!-- markdownlint-disable MD024 -->
 ### Steps
@@ -93,7 +97,7 @@ The easiest way to build Inkscape is using the precompiled toolset. The only dow
 
    - download the latest toolset [release](https://github.com/dehesselle/mibap/releases) (about 1.1 GiB) to `/Users/Shared/work/repo`
    - mount the (read-only) toolset to `/Users/Shared/work/<version>`
-   - union mount a ramdisk (3 GiB) to `/Users/Shared/work/<version>`
+   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/<version>`
 
    The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.
 
