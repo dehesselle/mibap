@@ -125,22 +125,25 @@ lib_add_rpath @executable_path/../../../../../../../../Resources/lib \
   "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/Resources/\
 Python.app/Contents/MacOS/Python
 
-# Exteract the externally built wheels (if present).
-if [ -f "$INK_WHEELS_DIR"/wheels.tar.xz ]; then
-  tar -C "$TMP_DIR" -xf "$INK_WHEELS_DIR"/wheels.tar.xz
-  INK_WHEELS_DIR=$TMP_DIR
+# Exteract the externally built wheels if present. Wheels in TMP_DIR
+# will take precedence over the ones in PKG_DIR.
+if [ -f "$PKG_DIR"/wheels.tar.xz ]; then
+  tar -C "$TMP_DIR" -xf "$PKG_DIR"/wheels.tar.xz
 else
   echo_w "not using externally built wheels"
 fi
 
 # Install wheels.
+ink_pipinstall_appdirs         # extension manager
+ink_pipinstall_beautifulsoup4  # extension manager
+ink_pipinstall_cachecontrol    # extension manager
 ink_pipinstall_cssselect
+ink_pipinstall_gtkme           # extension manager
 ink_pipinstall_lxml
 ink_pipinstall_numpy
 ink_pipinstall_pygobject
 ink_pipinstall_pyserial
 ink_pipinstall_scour
-ink_pipinstall_urllib3
 
 #----------------------------------------------------- remove Python cache files
 
