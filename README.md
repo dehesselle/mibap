@@ -101,9 +101,12 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 
    The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.
 
-1. Build Inkscape.
+1. Set `INK_DIR` to your clone of Inkscape's repository and start the build.
 
    ```bash
+   # Clone Inkscape's sources if you haven't done this yet:
+   # git clone --recurse-submodules https://gitlab.com/inkscape/inkscape $HOME/inkscape
+   export INK_DIR=$HOME/inkscape
    ./build_inkscape.sh
    ```
 

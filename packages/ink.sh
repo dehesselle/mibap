@@ -19,15 +19,24 @@
 
 #----------------------------------------------- source directory and git branch
 
-# If we're running inside Inkscape's official CI, the repository is already
-# there and we adjust INK_DIR accordingly.
-# If not, check if a custom repository location and/or branch has been
-# specified in the environment.
+# There are 3 possible scenarios:
+#
+#   1. We're running inside GitLab CI:
+#      The repository has already been cloned, set INK_DIR accordingly.
+#
+#   2. We're not running inside GitLab CI and INK_DIR has been set:
+#      Use INK_DIR provided as-is, we expect the source to be there.
+#
+#   3. We're not running inside GitLab CI and INK_DIR has not been set:
+#      Set INK_DIR to our default location, we'll clone the repo there.
 
 if $CI_GITLAB; then   # running GitLab CI
   INK_DIR=$SELF_DIR/../..
 else                  # not running GitLab CI
-  INK_DIR=$SRC_DIR/inkscape
+  # Use default directory if not provided.
+  if [ -z "$INK_DIR" ]; then
+    INK_DIR=$SRC_DIR/inkscape
+  fi
 
   # Allow using a custom Inkscape repository and branch.
   if [ -z "$INK_URL" ]; then
