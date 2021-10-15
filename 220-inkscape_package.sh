@@ -105,8 +105,9 @@ fi
 
 #----------------------------------------------------- generate application icon
 
-svg2icns "$INK_DIR"/share/branding/inkscape-mac.svg \
-         "$INK_APP_RES_DIR"/inkscape.icns
+svg2icns \
+  "$INK_DIR"/share/branding/inkscape-mac.svg \
+  "$INK_APP_RES_DIR"/inkscape.icns
 
 #----------------------------------------------------------- add file type icons
 
@@ -144,6 +145,18 @@ ink_pipinstall_numpy
 ink_pipinstall_pygobject
 ink_pipinstall_pyserial
 ink_pipinstall_scour
+
+#---------------------------------------------------------- generate Python icon
+
+curl \
+  -o "$TMP_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
+  -L "$INK_PYTHON_ICON_URL"
+
+svg2icns \
+  "$TMP_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
+  "$INK_APP_FRA_DIR/Python.framework/Resources/Python.app/Contents/\
+Resources/PythonInterpreter.icns" \
+  8
 
 #----------------------------------------------------- remove Python cache files
 
