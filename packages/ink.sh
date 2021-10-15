@@ -285,6 +285,8 @@ function ink_pipinstall_scour
 function ink_download_python
 {
   curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
+  curl -o "$PKG_DIR"/"$(basename "$INK_PYTHON_ICON_URL")" \
+    -L "$INK_PYTHON_ICON_URL"
 }
 
 function ink_install_python
@@ -303,6 +305,13 @@ python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
   echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages"\
     > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/\
 python$INK_PYTHON_VER/site-packages/inkscape.pth
+
+  # use custom icon for Python.app
+  svg2icns \
+    "$PKG_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
+    "$INK_APP_FRA_DIR/Python.framework/Resources/Python.app/Contents/\
+Resources/PythonInterpreter.icns" \
+    8
 }
 
 function ink_build_wheels

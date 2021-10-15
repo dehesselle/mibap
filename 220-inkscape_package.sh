@@ -146,18 +146,6 @@ ink_pipinstall_pygobject
 ink_pipinstall_pyserial
 ink_pipinstall_scour
 
-#---------------------------------------------------------- generate Python icon
-
-curl \
-  -o "$TMP_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
-  -L "$INK_PYTHON_ICON_URL"
-
-svg2icns \
-  "$TMP_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
-  "$INK_APP_FRA_DIR/Python.framework/Resources/Python.app/Contents/\
-Resources/PythonInterpreter.icns" \
-  8
-
 #----------------------------------------------------- remove Python cache files
 
 rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__
