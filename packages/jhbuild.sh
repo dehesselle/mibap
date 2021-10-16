@@ -43,7 +43,7 @@ JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
 JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
 JHBUILD_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/1/python_${INK_PYTHON_VER/./}_$(uname -p).tar.xz"
+python_macos/1/python_${JHBUILD_PYTHON_VER/./}_$(uname -p).tar.xz"
 JHBUILD_PYTHON_DIR=$OPT_DIR/Python.framework/Versions/$JHBUILD_PYTHON_VER
 JHBUILD_PYTHON_BIN_DIR=$JHBUILD_PYTHON_DIR/bin
 
