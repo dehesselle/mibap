@@ -86,10 +86,6 @@ function jhbuild_install
   "$JHBUILD_PYTHON_BIN_DIR"/pip$JHBUILD_PYTHON_VER \
     install --prefix="$VER_DIR" $JHBUILD_REQUIREMENTS
 
-  # Remove expired Lets's Encrypt root certificate.
-  patch -b -d "$LIB_DIR"/python$JHBUILD_PYTHON_VER/site-packages/certifi \
-    -p1 < "$SELF_DIR"/packages/patches/certifi_remove_expired.patch
-
   # Download JHBuild.
   local archive
   archive=$PKG_DIR/$(basename $JHBUILD_URL)
