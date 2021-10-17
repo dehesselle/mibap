@@ -192,7 +192,7 @@ function ink_pipinstall
     fi
   done
 
-  local PATH_ORIGINAL=$PATH
+  local path_original=$PATH
   export PATH=$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
   # shellcheck disable=SC2086 # we need word splitting here
@@ -202,7 +202,7 @@ function ink_pipinstall
     $options \
     $wheels
 
-  export PATH=$PATH_ORIGINAL
+  export PATH=$path_original
 }
 
 function ink_pipinstall_appdirs
