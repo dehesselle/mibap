@@ -42,11 +42,10 @@ VERSION=0.56
 # (which is our minimum system requirement/target) and fallback to whatever
 # SDK is available as the default one.
 
-if [ -z "$SDKROOT" ]; then
-  SDKROOT=$(xcodebuild -version -sdk macosx10.13 Path 2>/dev/null ||
-            xcodebuild -version -sdk macosx Path)
-fi
-export SDKROOT
+export SDKROOT=${SDKROOT:-$(\
+  xcodebuild -version -sdk macosx10.11 Path 2>/dev/null ||
+  xcodebuild -version -sdk macosx Path)\
+}
 
 #--------------------------------------------------------------------- detect CI
 
@@ -72,9 +71,7 @@ fi
 # default, being directly below /Users/Shared, is guaranteed user-writable
 # and present on every macOS system.
 
-if [ -z "$WRK_DIR" ]; then
-  WRK_DIR=/Users/Shared/work
-fi
+WRK_DIR=${WRK_DIR:-/Users/Shared/work}
 
 #---------------------------- directories: FSH-like layout for the build toolset
 
@@ -106,7 +103,6 @@ export XDG_CONFIG_HOME=$ETC_DIR       # instead ~/.config
 #----------------------------------------------------------- directories: Python
 
 export PIP_CACHE_DIR=$XDG_CACHE_HOME/pip       # instead ~/Library/Caches/pip
-export PIPENV_CACHE_DIR=$XDG_CACHE_HOME/pipenv # instead ~/Library/Caches/pipenv
 
 export PYTHONPYCACHEPREFIX=$TMP_DIR            # redirect __pycache__ here
 

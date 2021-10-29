@@ -26,8 +26,7 @@ SYS_SDK_VER_RECOMMENDED=10.13
 SYS_XCODE_VER=$( (xcodebuild -version 2>/dev/null || echo "Xcode n/a") | grep Xcode | awk '{ print $2 }')
 SYS_XCODE_VER_RECOMMENDED=12.4
 
-if [ -z "$SYS_IGNORE_USR_LOCAL" ] ||
-   [ "$SYS_IGNORE_USR_LOCAL" != "true" ]; then
+if [ "$SYS_IGNORE_USR_LOCAL" != "true" ]; then
   SYS_IGNORE_USR_LOCAL=false
 fi
 
