@@ -71,7 +71,7 @@ function sys_check_wrkdir
     : # WRK_DIR has been created or was already there and is writable
   else
     echo_e "WRK_DIR not usable: $WRK_DIR"
-    exit 1
+    return 1
   fi
 }
 
@@ -79,7 +79,7 @@ function sys_check_sdkroot
 {
   if [ ! -d "$SDKROOT" ]; then
     echo_e "SDK not found: $SDKROOT"
-    exit 1
+    return 1
   fi
 }
 
@@ -107,7 +107,7 @@ function sys_check_usr_local
       echo_e "    export SYS_IGNORE_USR_LOCAL=true                             "
       echo_e "                                                                 "
       echo_e "to ignore this error at your own risk.                           "
-      exit 1
+      return 1
     fi
   fi
 }
