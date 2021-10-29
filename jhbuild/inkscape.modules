@@ -182,17 +182,14 @@
     makeargs="&amp;&amp; make install"
     skip-install="yes">
     <branch
-      module="gtk-mac-bundler/-/archive/3770bb6c27a913dc39dbcc98fe175a53df92700c/gtk-mac-bundler-3770bb6c27a913dc39dbcc98fe175a53df92700c.tar.bz2"
-      version="3770bb6c"
-      hash="sha256:79703fbcb7ffcad3617316d41fa6169e9f3bced040b2a231fd0d158e9f7edfde"
+      module="gtk-mac-bundler/-/archive/58d951c8/gtk-mac-bundler-58d951c8.tar.bz2"
+      version="58d951c8"
+      hash="sha256:4617a36dadb7fe9ad242bdd826819e78098a089ccb3c4a002eb7b105ea0ca97c"
       repo="gnome_gitlab"
-      checkoutdir="gtk-mac-bundler_3770bb6c"
-      rename-tarball="gtk-mac-bundler_3770bb6c.tar.bz2">
+      checkoutdir="gtk-mac-bundler_58d951c8"
+      rename-tarball="gtk-mac-bundler_58d951c8.tar.bz2">
       <patch
         file="gtk-mac-bundler_configure.patch"
-        strip="1"/>
-      <patch
-        file="gtk-mac-bundler_encoding_arg.patch"
         strip="1"/>
     </branch>
   </autotools>
