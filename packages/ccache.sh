@@ -16,10 +16,7 @@
 
 ### variables ##################################################################
 
-if [ -z "$CCACHE_DIR" ]; then
-  CCACHE_DIR=$WRK_DIR/ccache
-fi
-export CCACHE_DIR
+export CCACHE_DIR=${CCACHE_DIR:-$WRK_DIR/ccache}
 
 # https://ccache.dev
 # https://github.com/ccache/ccache
