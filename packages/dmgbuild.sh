@@ -19,15 +19,17 @@
 
 # https://dmgbuild.readthedocs.io/en/latest/
 # https://github.com/al45tair/dmgbuild
-# including dependencies:
+# including optional dependencies:
 # - biplist: binary plist parser/generator
 # - pyobjc-*: framework wrappers
 DMGBUILD_PIP="\
   biplist==1.0.3\
-  pyobjc-core==7.2\
-  pyobjc-framework-Cocoa==7.2\
-  pyobjc-framework-Quartz==7.2\
-  dmgbuild==1.4.2\
+  dmgbuild==1.5.2\
+  ds-store==1.3.0\
+  mac-alias==2.2.0\
+  pyobjc-core==7.3\
+  pyobjc-framework-Cocoa==7.3\
+  pyobjc-framework-Quartz==7.3\
 "
 
 DMGBUILD_CONFIG="$SRC_DIR"/inkscape_dmg.py
