@@ -139,7 +139,7 @@ jobs:
           clean: false
 
       # ...and use it to verify
-      - name: verify that SDK is genuine
+      - name: verify SDK
         run: |
           shasum -a 256 sdkchecksum/MacOSX10.13.4.sdk.sha256
           cd $WRK_DIR
@@ -228,7 +228,7 @@ jobs:
 
     #--------------------------------------------------- prepare the environment
 
-      - name: checkout repository
+      - name: checkout mibap repository
         uses: actions/checkout@v2
         with:
           submodules: true
