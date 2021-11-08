@@ -86,6 +86,28 @@ function jhbuild_install
   "$JHBUILD_PYTHON_BIN_DIR"/pip$JHBUILD_PYTHON_VER \
     install --prefix="$VER_DIR" $JHBUILD_REQUIREMENTS
 
+  function pem_remove_expired
+  {
+    local pem_bundle=$1
+
+    # BSD's csplit does not support '{*}' (it's a GNU extension)
+    csplit -n 3 -k -f "$TMP_DIR"/pem- "$pem_bundle" \
+     '/END CERTIFICATE/+1' '{999}' >/dev/null || true
+
+    for pem in "$TMP_DIR"/pem-*; do
+      if ! openssl x509 -checkend 0 -noout -in "$pem"; then
+        echo_i "removing $pem: $(openssl x509 -enddate -noout -in "$pem")"
+        cat "$pem"
+        rm "$pem"
+      fi
+    done
+
+    cat "$TMP_DIR"/pem-??? > "$pem_bundle"
+  }
+
+  pem_remove_expired \
+    "$LIB_DIR"/python$JHBUILD_PYTHON_VER/site-packages/certifi/cacert.pem
+
   # Download JHBuild.
   local archive
   archive=$PKG_DIR/$(basename $JHBUILD_URL)
