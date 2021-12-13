@@ -33,3 +33,8 @@ done
 error_trace_enable
 
 toolset_install
+
+if [ "$1" = "restore_overlay" ]; then
+  # restore files fronm build stage
+  tar -C "$VER_DIR" -xpJf "$ARTIFACT_DIR"/toolset_overlay.tar.xz
+fi

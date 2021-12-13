@@ -31,4 +31,14 @@ done
 
 error_trace_enable
 
+case "$1" in
+  save_overlay) # save files from build stage (to be used later in test stage)
+    toolset_save_overlay
+    ;;
+  save_testfiles) # save files from test stage (test evidence)
+    tar -C "$VAR_DIR" -cp testfiles |
+      XZ_OPT=-T0 xz > "$ARTIFACT_DIR"/testfiles.tar.xz
+    ;;
+esac
+
 toolset_uninstall
