@@ -123,6 +123,8 @@ INK_PYTHON_PKG_PYSERIAL=pyserial==3.5
 INK_PYTHON_PKG_SCOUR="\
   scour==0.38.2\
   six==1.16.0\
+  packaging==21.3 \
+  pyparsing==3.0.6 \
 "
 
 #------------------------------------------- application bundle directory layout
