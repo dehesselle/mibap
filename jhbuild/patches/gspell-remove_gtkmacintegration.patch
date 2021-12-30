@@ -1,0 +1,59 @@
+# Remove the dependency on gtk-mac-integration and replace it with a
+# simpler solution.
+diff --git a/configure.ac b/configure.ac
+index 15da2b1..8f3d70c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -204,13 +204,6 @@ AM_CONDITIONAL(OS_OSX, test "$os_osx" = "yes")
+ 
+ if test "$os_osx" = "yes"; then
+ 	AC_DEFINE([OS_OSX], [1], [Defined if OS is Mac OSX])
+-
+-	AX_PKG_CHECK_MODULES([GTK_MAC],
+-			     [],
+-			     [gtk-mac-integration-gtk3 >= 2.0.8])
+-
+-	AC_SUBST(GTK_MAC_CFLAGS)
+-	AC_SUBST(GTK_MAC_LIBS)
+ fi
+ 
+ # Output files
+diff --git a/gspell/gspell-osx.c b/gspell/gspell-osx.c
+index e3b9615..9d71cbb 100644
+--- a/gspell/gspell-osx.c
++++ b/gspell/gspell-osx.c
+@@ -22,24 +22,24 @@
+ #endif
+ 
+ #include "gspell-osx.h"
+-#include <gtkosxapplication.h>
++#include <mach-o/dyld.h>
++#include <limits.h>
+ #import <Cocoa/Cocoa.h>
+ 
+ gchar *
+ _gspell_osx_get_resource_path (void)
+ {
+-	gchar *id;
+-	gchar *ret = NULL;
+-
+-	id = gtkosx_application_get_bundle_id ();
++	uint32_t size = PATH_MAX + 1;
+ 
+-	if (id != NULL)
+-	{
+-		ret = gtkosx_application_get_resource_path ();
++	gchar* path = (gchar*)g_malloc(size);
++	if (_NSGetExecutablePath(path, &size) == 0) {
++		gchar* contents_dir = g_strstr_len(path, -1, "Contents");
++		g_snprintf(contents_dir, 19, "Contents/Resources");
++		return path;
+ 	}
+ 
+-	g_free (id);
+-	return ret;
++	g_free(path);
++	return NULL;
+ }
+ 
+ gchar *

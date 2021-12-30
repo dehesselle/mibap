@@ -20,7 +20,6 @@
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygobject3"/>
-      <dep package="gtk-mac-integration-python"/>
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-gtk3"/>
@@ -31,7 +30,6 @@
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygobject3"/>
-      <dep package="gtk-mac-integration-python"/>
     </dependencies>
     <after>
       <dep package="meta-gtk-osx-gtk3"/>
@@ -70,20 +68,6 @@
       <dep package="python3"/>
     </after>
    </meson>
-
-  <autotools id="gtk-mac-integration-python" autogen-sh="configure"
-             autogenargs="--enable-python">
-    <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.1.tar.xz"
-            version="3.0.1"
-            hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d">
-      <patch file="gtk-mac-integration-work-around-svg-locale-bug.patch" strip="1"/>
-    </branch>
-    <dependencies>
-    </dependencies>
-    <after>
-      <dep package="pygobject3"/>
-    </after>
-  </autotools>
 
   <distutils id="pygments" python3="1">
     <branch repo="pymodules" version="2.9.0"

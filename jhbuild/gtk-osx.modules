@@ -51,7 +51,6 @@
   <metamodule id="meta-gtk-osx-gtk3">
     <dependencies>
       <dep package="gtk+-3.0"/>
-      <dep package="gtk-mac-integration"/>
       <dep package="adwaita-icon-theme"/>
     </dependencies>
     <after>
@@ -248,10 +247,10 @@
   <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
   <meson id="gtk+-3.0"
              mesonargs="-Dquartz-backend=true -Dx11-backend=false -Dmedia=none">
-    <branch module="gtk+/3.24/gtk+-3.24.30.tar.xz" version="3.24.30"
-            hash="sha256:ba75bfff320ad1f4cfbee92ba813ec336322cc3c660d406aad014b07087a3ba9">
-      <patch file="Quartz-version-detection-for-macOS-12.patch" strip="1"/>
-      <patch file="gtk+-scale-absolute-value.patch" strip="1"/>
+    <branch module="gtk+/3.24/gtk+-3.24.31.tar.xz" version="3.24.31"
+            hash="sha256:423c3e7fdb4c459ee889e35fd4d71fd2623562541c1041b11c07e5ad1ff10bf9">
+      <patch file="gtk-mr4298_fix_mr4265_performance_patch.patch" strip="1"/>
+      <patch file="gtk-mr4299_dock_quit_invokes_app_quit.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -266,20 +265,6 @@
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </meson>
-
-  <autotools id="gtk-mac-integration" autogen-sh="configure"
-             autogenargs="--disable-python">
-    <branch module="gtk-mac-integration/3.0/gtk-mac-integration-3.0.1.tar.xz"
-            version="3.0.1"
-            hash="sha256:f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d">
-      <patch file="gtk-mac-integration-work-around-svg-locale-bug.patch" strip="1"/>
-    </branch>
-    <dependencies>
-    </dependencies>
-    <after>
-      <dep package="gtk+-3.0"/>
-    </after>
-  </autotools>
 
   <autotools id="libcroco" autogenargs="--disable-Bsymbolic"
              autogen-sh="configure">

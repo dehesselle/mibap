@@ -109,9 +109,6 @@
   <translations  name="gtk30-properties">
     ${prefix}/share/locale
   </translations>
-  <translations name="gtk-mac-integration">
-    ${prefix}/share/locale
-  </translations>
   <translations  name="inkscape">
     ${prefix}/share/locale
   </translations>

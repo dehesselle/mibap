@@ -155,7 +155,10 @@
       hash="sha256:dcbb769dfdde8e3c0a8ed3102ce7e661abbf7ddf85df08b29915e92cd723abdd"
       repo="gnome_ftp">
       <patch
-        file="gspell_makefile_objc.patch"
+        file="gspell-makefile_objc.patch"
+        strip="1"/>
+      <patch
+        file="gspell-remove_gtkmacintegration.patch"
         strip="1"/>
     </branch>
     <dependencies>

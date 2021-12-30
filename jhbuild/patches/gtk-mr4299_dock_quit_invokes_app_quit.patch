@@ -1,0 +1,50 @@
+From cbd9715c3ce2f4887948e397e32cfd6773ee29d6 Mon Sep 17 00:00:00 2001
+From: Thomas Holder <thomas@thomas-holder.de>
+Date: Wed, 29 Dec 2021 13:13:21 +0100
+Subject: [PATCH] macOS: Dock "Quit" invokes "app.quit" action
+
+Allows the application to handle "Dock icon > Quit" the same as
+"Application menu > Quit".
+
+Requires GtkApplication's `register-session` property.
+
+Suitable replacement for gtk-mac-integration's
+`NSApplicationBlockTermination` signal.
+---
+ gtk/gtkapplication-quartz.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+
+diff --git a/gtk/gtkapplication-quartz.c b/gtk/gtkapplication-quartz.c
+index f614dea296..efa88b4b5d 100644
+--- a/gtk/gtkapplication-quartz.c
++++ b/gtk/gtkapplication-quartz.c
+@@ -80,13 +80,19 @@ G_DEFINE_TYPE (GtkApplicationImplQuartz, gtk_application_impl_quartz, GTK_TYPE_A
+ 
+ -(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
+ {
+-  /* We have no way to give our message other than to pop up a dialog
+-   * ourselves, which we should not do since the OS will already show
+-   * one when we return NSTerminateNow.
+-   *
+-   * Just let the OS show the generic message...
+-   */
+-  return quartz->quit_inhibit == 0 ? NSTerminateNow : NSTerminateCancel;
++  const gchar *quit_action_name = "quit";
++  GActionGroup *action_group = G_ACTION_GROUP (quartz->impl.application);
++
++  if (quartz->quit_inhibit != 0)
++    return NSTerminateCancel;
++
++  if (g_action_group_has_action (action_group, quit_action_name))
++    {
++      g_action_group_activate_action (action_group, quit_action_name, NULL);
++      return NSTerminateCancel;
++    }
++
++  return NSTerminateNow;
+ }
+ 
+ -(void)application:(NSApplication *)theApplication openFiles:(NSArray *)filenames
+-- 
+2.32.0 (Apple Git-132)
+
