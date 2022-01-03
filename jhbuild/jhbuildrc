@@ -126,7 +126,10 @@ def osx_ver():
     exp = re.compile(r'(\d+\.\d+)\.\d+')
     vernum = exp.match(vstring)
     _osx_version = float(vernum.group(1)) - 4.0
-    _target = '10.%d' % int(_osx_version)
+    if _osx_version < 16:
+        _target = '10.%d' % int(_osx_version)
+    else:
+        _target = '%d' % (_osx_version - 5)
 
     _default_arch = _popen("uname -m")
 
@@ -239,7 +242,7 @@ osx_ver()
 
 def setup_sdk(sdkdir, architectures=[_default_arch]):
 
-    global use_local_modulesets
+    global use_local_modulesets, conditions
 
     if sdkdir:
         environ_prepend("LDFLAGS", "-L" + sdkdir + "/usr/lib")
@@ -278,6 +281,7 @@ def setup_sdk(sdkdir, architectures=[_default_arch]):
         append_autogenargs("openssl", "darwin64-x86_64-cc #")
     elif architectures == ["arm64"]:
         conditions.add('64-bit')
+        conditions.add('arm64')
         append_autogenargs("glib", "ac_cv_c_bigendian=no")
         append_autogenargs("openssl", "darwin64-arm64-cc #") # Not a legal value
     elif len(set(architectures) - {"i386",  "x86_64", 'arm64'}) > 0:
@@ -355,6 +359,11 @@ def setup_sdk(sdkdir, architectures=[_default_arch]):
     # GMP deliberately attempts to use CC_FOR_BUILD with no separate
     # cflags so we need to force it:
     module_extra_env['gmp'] = {'CC_FOR_BUILD':os.environ['CC'] + ' ' + os.environ['CFLAGS']}
+    # Kill a couple of noisy warnings for webkit1:
+    module_extra_env["webkit"] = {'CPPFLAGS':os.environ['CPPFLAGS'] + " -Wno-unused-local-typedef -Wno-missing-field-initializsers"}
+    module_extra_env["webkit1gtk3"] = {'CPPFLAGS':os.environ['CPPFLAGS'] + " -Wno-unused-local-typedef -Wno-missing-field-initializsers -Wno-undefined-bool-conversion"}
+    module_extra_env["webkit"] = {'CXXFLAGS':os.environ['CXXFLAGS'] + ' -Wno-inconsistent-missing-override'}
+    module_extra_env["webkit1gtk3"] = {'CXXFLAGS':os.environ['CXXFLAGS'] + ' -Wno-inconsistent-missing-override'}
 
     # Finally when building normally we need to force CFLAGS_FOR_BUILD
     # to our current CFLAGS so that everything will link with other
@@ -376,8 +385,8 @@ def setup_sdk(sdkdir, architectures=[_default_arch]):
 # Moduleset to use. You can override this in .jhbuildrc-custom or on
 # the command line.
 #
-moduleset = "inkscape.modules"
-use_local_modulesets = True
+moduleset = ''
+use_local_modulesets = False
 modulesets_dir = ""
 
 # A list of the modules to build. You can override this in
@@ -581,6 +590,9 @@ else:
 if not _ran_recursively and _gtk_osx_prompt_prefix:
     os.environ["JHBUILD_PROMPT"] = "[" + _gtk_osx_prompt_prefix + "] "
 
+module_extra_env["pygtk"] = {'PYTHON':os.path.join(prefix, 'bin', 'python2')}
+module_extra_env["pygobject2"] = {'PYTHON':os.path.join(prefix, 'bin', 'python2')}
+module_extra_env["spidermonkey"] = {'AUTOCONF':'autoconf'}
 # Unset this so we don't mess with the check for not starting
 # recursively.
 os.unsetenv("JHB")

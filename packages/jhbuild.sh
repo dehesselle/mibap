@@ -41,8 +41,8 @@ jhbuild-$JHBUILD_VER.tar.bz2
 JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
 JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
-JHBUILD_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/2/python_${JHBUILD_PYTHON_VER/./}_$(uname -p).tar.xz"
+JHBUILD_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/\
+generic/python_macos/5/python_${JHBUILD_PYTHON_VER/./}_$(uname -p).tar.xz"
 JHBUILD_PYTHON_DIR=$OPT_DIR/Python.framework/Versions/$JHBUILD_PYTHON_VER
 JHBUILD_PYTHON_BIN_DIR=$JHBUILD_PYTHON_DIR/bin
 
@@ -51,28 +51,31 @@ export JHBUILD_PYTHON_PIP=$JHBUILD_PYTHON_BIN_DIR/pip$JHBUILD_PYTHON_VER
 
 ### functions ##################################################################
 
+function jhbuild_set_interpreter
+{
+  for dir in $BIN_DIR $JHBUILD_PYTHON_BIN_DIR; do
+     for file in $(find $dir/ -type f -maxdepth 1); do
+      local file_type
+      file_type=$(file "$file")
+      if [[ $file_type = *"Python script"* ]]; then
+        sed -i "" "1 s|.*|#!$JHBUILD_PYTHON_BIN|" "$file"
+      fi
+    done
+  done
+}
+
 function jhbuild_install_python
 {
   # Download and extract Python.framework to OPT_DIR.
   mkdir -p "$OPT_DIR"
   curl -L "$JHBUILD_PYTHON_URL" | tar -C "$OPT_DIR" -x
 
-  # Create a pkg-config configuration to match our installation location.
-  # Note: sed changes the prefix and exec_prefix lines!
-  mkdir -p "$LIB_DIR"/pkgconfig
-  cp "$JHBUILD_PYTHON_DIR"/lib/pkgconfig/python-$JHBUILD_PYTHON_VER*.pc \
-    "$LIB_DIR"/pkgconfig
-  sed -i "" "s/prefix=.*/prefix=$(sed_escape_str "$JHBUILD_PYTHON_DIR")/" \
-    "$LIB_DIR"/pkgconfig/python-$JHBUILD_PYTHON_VER.pc
-  sed -i "" "s/prefix=.*/prefix=$(sed_escape_str "$JHBUILD_PYTHON_DIR")/" \
-    "$LIB_DIR"/pkgconfig/python-$JHBUILD_PYTHON_VER-embed.pc
+  jhbuild_set_interpreter
 
-  # Link binaries to our BIN_DIR.
-  ln -s "$JHBUILD_PYTHON_BIN" "$BIN_DIR"/python$JHBUILD_PYTHON_VER
-  ln -s "$JHBUILD_PYTHON_BIN" "$BIN_DIR"/python$JHBUILD_PYTHON_VER_MAJOR
-
-  # Shadow the system's python binary as well.
-  ln -s python$JHBUILD_PYTHON_VER_MAJOR "$BIN_DIR"/python
+  # create '.pth' file inside Framework to include our site-packages directory
+  echo "../../../../../../../lib/python$INK_PYTHON_VER/site-packages"\
+    > "$OPT_DIR"/Python.framework/Versions/$JHBUILD_PYTHON_VER/lib/\
+python$JHBUILD_PYTHON_VER/site-packages/jhbuild.pth
 }
 
 function jhbuild_install
@@ -82,8 +85,7 @@ function jhbuild_install
 
   # Install dependencies.
   # shellcheck disable=SC2086 # we need word splitting for requirements
-  "$JHBUILD_PYTHON_BIN_DIR"/pip$JHBUILD_PYTHON_VER \
-    install --prefix="$VER_DIR" $JHBUILD_REQUIREMENTS
+  $JHBUILD_PYTHON_PIP install --prefix=$VER_DIR $JHBUILD_REQUIREMENTS
 
   function pem_remove_expired
   {
@@ -115,16 +117,13 @@ function jhbuild_install
 
   ( # Install JHBuild.
     cd "$SRC_DIR"/jhbuild-$JHBUILD_VER || exit 1
-    ./autogen.sh \
-      --prefix="$VER_DIR" \
-      --with-python="$JHBUILD_PYTHON_BIN_DIR"/python$JHBUILD_PYTHON_VER
+    export PATH=$JHBUILD_PYTHON_BIN_DIR:$PATH
+    ./autogen.sh --prefix="$VER_DIR"
     make
     make install
-
-    sed -i "" \
-      "1 s/.*/#!$(sed_escape_str "$BIN_DIR/python$JHBUILD_PYTHON_VER")/" \
-      "$BIN_DIR"/jhbuild
   )
+
+  jhbuild_set_interpreter
 }
 
 function jhbuild_configure
@@ -138,8 +137,10 @@ function jhbuild_configure
   {
     echo "# -*- mode: python -*-"
 
-    # set moduleset directory
+    # setup moduleset
     echo "modulesets_dir = '$SELF_DIR/jhbuild'"
+    echo "moduleset = 'inkscape.modules'"
+    echo "use_local_modulesets = True"
 
     # basic directory layout
     echo "buildroot = '$BLD_DIR'"
