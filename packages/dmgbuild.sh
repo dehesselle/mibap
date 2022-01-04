@@ -54,20 +54,20 @@ function dmgbuild_run
   cp "$SELF_DIR"/"$(basename "$DMGBUILD_CONFIG")" "$SRC_DIR"
 
   # set application
-  sed -i '' "s/PLACEHOLDERAPPLICATION/$(sed_escape_str "$INK_APP_DIR")/" "$DMGBUILD_CONFIG"
+  sed -i '' "s|PLACEHOLDERAPPLICATION|$INK_APP_DIR|" "$DMGBUILD_CONFIG"
 
   # set disk image icon (if it exists)
   local icon
   icon=$SRC_DIR/$(basename -s .py "$DMGBUILD_CONFIG").icns
   if [ -f "$icon" ]; then
-    sed -i '' "s/PLACEHOLDERICON/$(sed_escape_str "$icon")/" "$DMGBUILD_CONFIG"
+    sed -i '' "s|PLACEHOLDERICON|$icon|" "$DMGBUILD_CONFIG"
   fi
 
   # set background image (if it exists)
   local background
   background=$SRC_DIR/$(basename -s .py "$DMGBUILD_CONFIG").png
   if [ -f "$background" ]; then
-    sed -i '' "s/PLACEHOLDERBACKGROUND/$(sed_escape_str "$background")/" "$DMGBUILD_CONFIG"
+    sed -i '' "s|PLACEHOLDERBACKGROUND|$background|" "$DMGBUILD_CONFIG"
   fi
 
   # Create disk image in temporary location and move to target location

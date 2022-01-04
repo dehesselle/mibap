@@ -28,7 +28,6 @@ source "$(dirname "${BASH_SOURCE[0]}")"/bash_d/bash_d.sh
 bash_d_include echo
 bash_d_include error
 bash_d_include lib
-bash_d_include sed
 
 ### variables ##################################################################
 
