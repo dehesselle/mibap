@@ -9,7 +9,7 @@
   <repository type="tarball" name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"/>
   <repository type="tarball" name="jpeg"
-              href="http://www.ijg.org/files/"/>
+              href="https://www.fossies.org/"/>
   <repository type="tarball" name="libtiff"
 	      href="http://download.osgeo.org/"/>
   <repository type="tarball" name="icon-theme"
@@ -31,7 +31,7 @@
   </autotools>
 
   <autotools id="libjpeg" autogen-sh="configure">
-    <branch module="jpegsrc.v9d.tar.gz" version="9d"
+    <branch module="linux/misc/jpegsrc.v9d.tar.gz" version="9d"
             repo="jpeg" checkoutdir="jpeg-9d"
             hash="sha256:6c434a3be59f8f62425b2e3c077e785c9ce30ee5874ea1c270e843f273ba71ee">
     </branch>
