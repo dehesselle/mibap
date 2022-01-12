@@ -1,0 +1,672 @@
+From eda28c47b9a70a0f048087685444c6292690f4a1 Mon Sep 17 00:00:00 2001
+From: Marc Jeanmougin <marc@jeanmougin.fr>
+Date: Wed, 29 May 2019 09:44:09 +0200
+Subject: [PATCH 1/3] Enable access to the pixman dithering path Code to choose
+ between dithering quality is modeled on the filter rendering choice
+
+---
+ src/cairo-gl-gradient.c     |  4 +++-
+ src/cairo-image-source.c    | 48 +++++++++++++++++++++++++++++++++++++
+ src/cairo-pattern-private.h |  1 +
+ src/cairo-pattern.c         | 45 ++++++++++++++++++++++++++++++++++
+ src/cairo.h                 | 14 +++++++++++
+ src/drm/cairo-drm-intel.c   |  4 +++-
+ 6 files changed, 114 insertions(+), 2 deletions(-)
+
+diff --git a/src/cairo-gl-gradient.c b/src/cairo-gl-gradient.c
+index 6107bea1e..ad1bcc615 100644
+--- a/src/cairo-gl-gradient.c
++++ b/src/cairo-gl-gradient.c
+@@ -160,7 +160,9 @@ _cairo_gl_gradient_render (const cairo_gl_context_t    *ctx,
+ 
+     pixman_image_set_filter (gradient, PIXMAN_FILTER_BILINEAR, NULL, 0);
+     pixman_image_set_repeat (gradient, PIXMAN_REPEAT_PAD);
+-
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++    pixman_image_set_dither (gradient, PIXMAN_DITHER_BEST);
++#endif
+     image = pixman_image_create_bits (gradient_pixman_format, width, 1,
+ 				      bytes, sizeof(uint32_t)*width);
+     if (unlikely (image == NULL)) {
+diff --git a/src/cairo-image-source.c b/src/cairo-image-source.c
+index c56845ab2..274f43df7 100644
+--- a/src/cairo-image-source.c
++++ b/src/cairo-image-source.c
+@@ -383,6 +383,30 @@ _pixman_image_for_gradient (const cairo_gradient_pattern_t *pattern,
+ 
+ 	pixman_image_set_repeat (pixman_image, pixman_repeat);
+     }
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0) 
++    {
++	pixman_dither_t pixman_dither;
++
++	switch (pattern->base.dither) {
++	default:
++	case CAIRO_DITHER_NONE:
++	case CAIRO_DITHER_DEFAULT:
++	    pixman_dither = PIXMAN_DITHER_NONE;
++	    break;
++	case CAIRO_DITHER_FAST:
++	    pixman_dither = PIXMAN_DITHER_FAST;
++	    break;
++	case CAIRO_DITHER_GOOD:
++	    pixman_dither = PIXMAN_DITHER_GOOD;
++	    break;
++	case CAIRO_DITHER_BEST:
++	    pixman_dither = PIXMAN_DITHER_BEST;
++	    break;
++	}
++
++	pixman_image_set_dither (pixman_image, pixman_dither);
++    }
++#endif
+ 
+     return pixman_image;
+ }
+@@ -1047,6 +1071,30 @@ _pixman_image_set_properties (pixman_image_t *pixman_image,
+ 
+ 	pixman_image_set_repeat (pixman_image, pixman_repeat);
+     }
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++    {
++	pixman_dither_t pixman_dither;
++
++	switch (pattern->dither) {
++	default:
++	case CAIRO_DITHER_NONE:
++	case CAIRO_DITHER_DEFAULT:
++	    pixman_dither = PIXMAN_DITHER_NONE;
++	    break;
++	case CAIRO_DITHER_FAST:
++	    pixman_dither = PIXMAN_DITHER_FAST;
++	    break;
++	case CAIRO_DITHER_GOOD:
++	    pixman_dither = PIXMAN_DITHER_GOOD;
++	    break;
++	case CAIRO_DITHER_BEST:
++	    pixman_dither = PIXMAN_DITHER_BEST;
++	    break;
++	}
++
++	pixman_image_set_dither (pixman_image, pixman_dither);
++    }
++#endif
+ 
+     if (pattern->has_component_alpha)
+ 	pixman_image_set_component_alpha (pixman_image, TRUE);
+diff --git a/src/cairo-pattern-private.h b/src/cairo-pattern-private.h
+index 26d584e68..f6365cc76 100644
+--- a/src/cairo-pattern-private.h
++++ b/src/cairo-pattern-private.h
+@@ -70,6 +70,7 @@ struct _cairo_pattern {
+     cairo_pattern_type_t	type;
+ 
+     cairo_filter_t		filter;
++    cairo_dither_t    dither;
+     cairo_extend_t		extend;
+     cairo_bool_t		has_component_alpha;
+ 
+diff --git a/src/cairo-pattern.c b/src/cairo-pattern.c
+index 32811af59..a216357d3 100644
+--- a/src/cairo-pattern.c
++++ b/src/cairo-pattern.c
+@@ -74,6 +74,7 @@ static const cairo_solid_pattern_t _cairo_pattern_nil = {
+ 
+       CAIRO_PATTERN_TYPE_SOLID,		/* type */
+       CAIRO_FILTER_DEFAULT,		/* filter */
++      CAIRO_DITHER_DEFAULT,   /* dither */
+       CAIRO_EXTEND_GRADIENT_DEFAULT,	/* extend */
+       FALSE,				/* has component alpha */
+       { 1., 0., 0., 1., 0., 0., },	/* matrix */
+@@ -90,6 +91,7 @@ static const cairo_solid_pattern_t _cairo_pattern_nil_null_pointer = {
+ 
+       CAIRO_PATTERN_TYPE_SOLID,		/* type */
+       CAIRO_FILTER_DEFAULT,		/* filter */
++      CAIRO_DITHER_DEFAULT,   /* dither */
+       CAIRO_EXTEND_GRADIENT_DEFAULT,	/* extend */
+       FALSE,				/* has component alpha */
+       { 1., 0., 0., 1., 0., 0., },	/* matrix */
+@@ -106,6 +108,7 @@ const cairo_solid_pattern_t _cairo_pattern_black = {
+ 
+       CAIRO_PATTERN_TYPE_SOLID,		/* type */
+       CAIRO_FILTER_NEAREST,		/* filter */
++      CAIRO_DITHER_DEFAULT,   /* dither */
+       CAIRO_EXTEND_REPEAT,		/* extend */
+       FALSE,				/* has component alpha */
+       { 1., 0., 0., 1., 0., 0., },	/* matrix */
+@@ -123,6 +126,7 @@ const cairo_solid_pattern_t _cairo_pattern_clear = {
+ 
+       CAIRO_PATTERN_TYPE_SOLID,		/* type */
+       CAIRO_FILTER_NEAREST,		/* filter */
++      CAIRO_DITHER_DEFAULT,   /* dither */
+       CAIRO_EXTEND_REPEAT,		/* extend */
+       FALSE,				/* has component alpha */
+       { 1., 0., 0., 1., 0., 0., },	/* matrix */
+@@ -140,6 +144,7 @@ const cairo_solid_pattern_t _cairo_pattern_white = {
+ 
+       CAIRO_PATTERN_TYPE_SOLID,		/* type */
+       CAIRO_FILTER_NEAREST,		/* filter */
++      CAIRO_DITHER_DEFAULT,   /* dither */
+       CAIRO_EXTEND_REPEAT,		/* extend */
+       FALSE,				/* has component alpha */
+       { 1., 0., 0., 1., 0., 0., },	/* matrix */
+@@ -230,6 +235,7 @@ _cairo_pattern_init (cairo_pattern_t *pattern, cairo_pattern_type_t type)
+ 	pattern->extend = CAIRO_EXTEND_GRADIENT_DEFAULT;
+ 
+     pattern->filter    = CAIRO_FILTER_DEFAULT;
++    pattern->dither    = CAIRO_DITHER_DEFAULT;
+     pattern->opacity   = 1.0;
+ 
+     pattern->has_component_alpha = FALSE;
+@@ -2068,6 +2074,28 @@ cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter)
+     _cairo_pattern_notify_observers (pattern, CAIRO_PATTERN_NOTIFY_FILTER);
+ }
+ 
++/**
++ * cairo_pattern_set_dither:
++ * @pattern: a #cairo_pattern_t
++ * @filter: a #cairo_dither_t describing the dithering to use
++ *
++ * See #cairo_dither_t for details on each algorithm.
++ *
++ * Since: TODO
++ **/
++void
++cairo_pattern_set_dither (cairo_pattern_t *pattern, cairo_dither_t dither)
++{
++    if (pattern->status)
++	return;
++
++    pattern->dither = dither;
++    _cairo_pattern_notify_observers (pattern, CAIRO_PATTERN_NOTIFY_FILTER);
++    /* We probably can notify the same observers as when we notify filter
++     * changes (?) TODO CHECK THAT */
++}
++
++
+ /**
+  * cairo_pattern_get_filter:
+  * @pattern: a #cairo_pattern_t
+@@ -2085,6 +2113,23 @@ cairo_pattern_get_filter (cairo_pattern_t *pattern)
+     return pattern->filter;
+ }
+ 
++/**
++ * cairo_pattern_get_dither:
++ * @pattern: a #cairo_pattern_t
++ *
++ * Gets the current dithering for a pattern.  See #cairo_dither_t
++ * for details.
++ *
++ * Return value: the current dithering algorithm of the pattern
++ *
++ * Since: TODO
++ **/
++cairo_dither_t
++cairo_pattern_get_dither (cairo_pattern_t *pattern)
++{
++    return pattern->dither;
++}
++
+ /**
+  * cairo_pattern_set_extend:
+  * @pattern: a #cairo_pattern_t
+diff --git a/src/cairo.h b/src/cairo.h
+index 96427b425..4370df85e 100644
+--- a/src/cairo.h
++++ b/src/cairo.h
+@@ -2959,12 +2959,26 @@ typedef enum _cairo_filter {
+     CAIRO_FILTER_GAUSSIAN
+ } cairo_filter_t;
+ 
++typedef enum _cairo_dither {
++    CAIRO_DITHER_NONE,
++    CAIRO_DITHER_DEFAULT,
++    CAIRO_DITHER_FAST,
++    CAIRO_DITHER_GOOD,
++    CAIRO_DITHER_BEST
++} cairo_dither_t;
++
+ cairo_public void
+ cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+ 
+ cairo_public cairo_filter_t
+ cairo_pattern_get_filter (cairo_pattern_t *pattern);
+ 
++cairo_public void
++cairo_pattern_set_dither (cairo_pattern_t *pattern, cairo_dither_t dither);
++
++cairo_public cairo_dither_t
++cairo_pattern_get_dither (cairo_pattern_t *pattern);
++
+ cairo_public cairo_status_t
+ cairo_pattern_get_rgba (cairo_pattern_t *pattern,
+ 			double *red, double *green,
+diff --git a/src/drm/cairo-drm-intel.c b/src/drm/cairo-drm-intel.c
+index e6fb83dd5..b697b5679 100644
+--- a/src/drm/cairo-drm-intel.c
++++ b/src/drm/cairo-drm-intel.c
+@@ -1288,7 +1288,9 @@ intel_gradient_render (intel_device_t *device,
+ 
+     pixman_image_set_filter (gradient, PIXMAN_FILTER_BILINEAR, NULL, 0);
+     pixman_image_set_repeat (gradient, PIXMAN_REPEAT_PAD);
+-
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++    pixman_image_set_dither (gradient, PIXMAN_DITHER_BEST);
++#endif
+     image = pixman_image_create_bits (PIXMAN_a8r8g8b8, width, 1, NULL, 0);
+     if (unlikely (image == NULL)) {
+ 	pixman_image_unref (gradient);
+-- 
+2.34.1
+
+From 62a1016e475f54705fd275ee24d6056b1649afcc Mon Sep 17 00:00:00 2001
+From: Marc Jeanmougin <marc@jeanmougin.fr>
+Date: Sat, 27 Mar 2021 23:53:28 +0100
+Subject: [PATCH 2/3] Expose dithering property at the image surface level.
+
+Copies the property on push_group
+---
+ src/cairo-default-context.c       |  6 ++-
+ src/cairo-image-source.c          | 40 ++----------------
+ src/cairo-image-surface-private.h |  1 +
+ src/cairo-image-surface.c         | 67 +++++++++++++++++++++++++++++++
+ src/cairo.h                       | 22 ++++++----
+ src/cairoint.h                    |  5 +++
+ 6 files changed, 96 insertions(+), 45 deletions(-)
+
+diff --git a/src/cairo-default-context.c b/src/cairo-default-context.c
+index 95b5f6b77..b5a531aa1 100644
+--- a/src/cairo-default-context.c
++++ b/src/cairo-default-context.c
+@@ -180,7 +180,11 @@ _cairo_default_context_push_group (void *abstract_cr, cairo_content_t content)
+ 	if (unlikely (status))
+ 	    goto bail;
+ 
+-	/* Set device offsets on the new surface so that logically it appears at
++	/* copies over the dither property */
++	cairo_image_surface_set_dither(group_surface,
++					 cairo_image_surface_get_dither(parent_surface));
++
++    /* Set device offsets on the new surface so that logically it appears at
+ 	 * the same location on the parent surface -- when we pop_group this,
+ 	 * the source pattern will get fixed up for the appropriate target surface
+ 	 * device offsets, so we want to set our own surface offsets from /that/,
+diff --git a/src/cairo-image-source.c b/src/cairo-image-source.c
+index 274f43df7..93daff3c0 100644
+--- a/src/cairo-image-source.c
++++ b/src/cairo-image-source.c
+@@ -385,24 +385,8 @@ _pixman_image_for_gradient (const cairo_gradient_pattern_t *pattern,
+     }
+ #if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0) 
+     {
+-	pixman_dither_t pixman_dither;
+-
+-	switch (pattern->base.dither) {
+-	default:
+-	case CAIRO_DITHER_NONE:
+-	case CAIRO_DITHER_DEFAULT:
+-	    pixman_dither = PIXMAN_DITHER_NONE;
+-	    break;
+-	case CAIRO_DITHER_FAST:
+-	    pixman_dither = PIXMAN_DITHER_FAST;
+-	    break;
+-	case CAIRO_DITHER_GOOD:
+-	    pixman_dither = PIXMAN_DITHER_GOOD;
+-	    break;
+-	case CAIRO_DITHER_BEST:
+-	    pixman_dither = PIXMAN_DITHER_BEST;
+-	    break;
+-	}
++	pixman_dither_t pixman_dither =
++        _pixman_dither_from_cairo_dither(pattern->base.dither);
+ 
+ 	pixman_image_set_dither (pixman_image, pixman_dither);
+     }
+@@ -1073,24 +1057,8 @@ _pixman_image_set_properties (pixman_image_t *pixman_image,
+     }
+ #if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
+     {
+-	pixman_dither_t pixman_dither;
+-
+-	switch (pattern->dither) {
+-	default:
+-	case CAIRO_DITHER_NONE:
+-	case CAIRO_DITHER_DEFAULT:
+-	    pixman_dither = PIXMAN_DITHER_NONE;
+-	    break;
+-	case CAIRO_DITHER_FAST:
+-	    pixman_dither = PIXMAN_DITHER_FAST;
+-	    break;
+-	case CAIRO_DITHER_GOOD:
+-	    pixman_dither = PIXMAN_DITHER_GOOD;
+-	    break;
+-	case CAIRO_DITHER_BEST:
+-	    pixman_dither = PIXMAN_DITHER_BEST;
+-	    break;
+-	}
++	pixman_dither_t pixman_dither =
++        _pixman_dither_from_cairo_dither (pattern->dither);
+ 
+ 	pixman_image_set_dither (pixman_image, pixman_dither);
+     }
+diff --git a/src/cairo-image-surface-private.h b/src/cairo-image-surface-private.h
+index 2b7921133..c06b9737b 100644
+--- a/src/cairo-image-surface-private.h
++++ b/src/cairo-image-surface-private.h
+@@ -78,6 +78,7 @@ struct _cairo_image_surface {
+     unsigned owns_data : 1;
+     unsigned transparency : 2;
+     unsigned color : 2;
++    cairo_dither_t dither : 3;
+ };
+ #define to_image_surface(S) ((cairo_image_surface_t *)(S))
+ 
+diff --git a/src/cairo-image-surface.c b/src/cairo-image-surface.c
+index 0e17f3a16..7478647bc 100644
+--- a/src/cairo-image-surface.c
++++ b/src/cairo-image-surface.c
+@@ -169,6 +169,7 @@ _cairo_image_surface_init (cairo_image_surface_t *surface,
+     surface->owns_data = FALSE;
+     surface->transparency = CAIRO_IMAGE_UNKNOWN;
+     surface->color = CAIRO_IMAGE_UNKNOWN_COLOR;
++    surface->dither = CAIRO_DITHER_DEFAULT;
+ 
+     surface->width = pixman_image_get_width (pixman_image);
+     surface->height = pixman_image_get_height (pixman_image);
+@@ -248,6 +249,25 @@ _pixman_format_from_masks (cairo_format_masks_t *masks,
+     return TRUE;
+ }
+ 
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++/* Convenience function to convert cairo_dither_t into pixman_dither_t */
++pixman_dither_t _pixman_dither_from_cairo_dither(cairo_dither_t dither)
++{
++    switch(dither) {
++    default:
++    case CAIRO_DITHER_NONE:
++    case CAIRO_DITHER_DEFAULT:
++        return PIXMAN_DITHER_NONE;
++    case CAIRO_DITHER_FAST:
++        return PIXMAN_DITHER_FAST;
++    case CAIRO_DITHER_GOOD:
++        return PIXMAN_DITHER_GOOD;
++    case CAIRO_DITHER_BEST:
++        return PIXMAN_DITHER_BEST;
++    }
++}
++#endif
++
+ /* A mask consisting of N bits set to 1. */
+ #define MASK(N) ((1UL << (N))-1)
+ 
+@@ -631,6 +651,30 @@ cairo_image_surface_get_width (cairo_surface_t *surface)
+ }
+ slim_hidden_def (cairo_image_surface_get_width);
+ 
++/**
++ * cairo_image_surface_get_dither:
++ * @surface: a #cairo_image_surface_t
++ *
++ * Get the current dithering method
++ *
++ * Return value: the current dithering method.
++ *
++ * Since: TODO
++ **/
++cairo_dither_t
++cairo_image_surface_get_dither (cairo_surface_t *surface)
++{
++    cairo_image_surface_t *image_surface = (cairo_image_surface_t *) surface;
++
++    if (! _cairo_surface_is_image (surface)) {
++	_cairo_error_throw (CAIRO_STATUS_SURFACE_TYPE_MISMATCH);
++	return CAIRO_DITHER_DEFAULT;
++    }
++
++    return image_surface->dither;
++}
++//slim_hidden_def (cairo_image_surface_get_dither);
++
+ /**
+  * cairo_image_surface_get_height:
+  * @surface: a #cairo_image_surface_t
+@@ -792,6 +836,7 @@ _cairo_image_surface_snapshot (void *abstract_surface)
+ 
+ 	clone->transparency = image->transparency;
+ 	clone->color = image->color;
++	clone->dither = image->dither;
+ 
+ 	clone->owns_data = TRUE;
+ 	return &clone->base;
+@@ -1358,3 +1403,25 @@ error:
+     cairo_surface_destroy (image);
+     return to_image_surface (_cairo_surface_create_in_error (status));
+ }
++
++cairo_public int
++cairo_image_surface_set_dither (cairo_surface_t *surface, cairo_dither_t dither)
++{
++    cairo_image_surface_t *image_surface = (cairo_image_surface_t *) surface;
++
++    if (! _cairo_surface_is_image (surface)) {
++	_cairo_error_throw (CAIRO_STATUS_SURFACE_TYPE_MISMATCH);
++	return 0;
++    }
++
++    image_surface->dither = dither;
++    if (image_surface->pixman_image) {
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++        pixman_image_set_dither(image_surface->pixman_image,
++                _pixman_dither_from_cairo_dither(dither));
++#endif
++    }
++
++}
++//slim_hidden_def (cairo_image_surface_set_dither);
++
+diff --git a/src/cairo.h b/src/cairo.h
+index 4370df85e..f50e78cce 100644
+--- a/src/cairo.h
++++ b/src/cairo.h
+@@ -427,6 +427,14 @@ typedef enum _cairo_format {
+     CAIRO_FORMAT_RGBA128F  = 7
+ } cairo_format_t;
+ 
++typedef enum _cairo_dither {
++    CAIRO_DITHER_NONE,
++    CAIRO_DITHER_DEFAULT,
++    CAIRO_DITHER_FAST,
++    CAIRO_DITHER_GOOD,
++    CAIRO_DITHER_BEST
++} cairo_dither_t;
++
+ 
+ /**
+  * cairo_write_func_t:
+@@ -2563,6 +2571,12 @@ cairo_image_surface_create_for_data (unsigned char	       *data,
+ cairo_public unsigned char *
+ cairo_image_surface_get_data (cairo_surface_t *surface);
+ 
++cairo_public cairo_dither_t
++cairo_image_surface_get_dither (cairo_surface_t *surface);
++
++cairo_public int
++cairo_image_surface_set_dither (cairo_surface_t *surface, cairo_dither_t dither);
++
+ cairo_public cairo_format_t
+ cairo_image_surface_get_format (cairo_surface_t *surface);
+ 
+@@ -2959,14 +2973,6 @@ typedef enum _cairo_filter {
+     CAIRO_FILTER_GAUSSIAN
+ } cairo_filter_t;
+ 
+-typedef enum _cairo_dither {
+-    CAIRO_DITHER_NONE,
+-    CAIRO_DITHER_DEFAULT,
+-    CAIRO_DITHER_FAST,
+-    CAIRO_DITHER_GOOD,
+-    CAIRO_DITHER_BEST
+-} cairo_dither_t;
+-
+ cairo_public void
+ cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+ 
+diff --git a/src/cairoint.h b/src/cairoint.h
+index 7c1000556..0df148feb 100644
+--- a/src/cairoint.h
++++ b/src/cairoint.h
+@@ -1582,6 +1582,11 @@ cairo_private cairo_bool_t
+ _pixman_format_to_masks (pixman_format_code_t	 pixman_format,
+ 			 cairo_format_masks_t	*masks);
+ 
++#if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
++cairo_private pixman_dither_t
++_pixman_dither_from_cairo_dither(cairo_dither_t dither);
++#endif
++
+ cairo_private void
+ _cairo_image_scaled_glyph_fini (cairo_scaled_font_t *scaled_font,
+ 				cairo_scaled_glyph_t *scaled_glyph);
+-- 
+2.34.1
+
+From 1e5537ec948ce4b52acd46fce785be11725a551f Mon Sep 17 00:00:00 2001
+From: Marc Jeanmougin <marc@jeanmougin.fr>
+Date: Mon, 29 Mar 2021 12:18:56 +0200
+Subject: [PATCH 3/3] make lint tests pass
+
+---
+ src/cairo-image-surface.c | 20 +++++++++++++++-----
+ src/cairo-pattern.c       |  4 ++--
+ src/cairoint.h            |  4 +++-
+ 3 files changed, 20 insertions(+), 8 deletions(-)
+
+diff --git a/src/cairo-image-surface.c b/src/cairo-image-surface.c
+index 7478647bc..d8d91d8e1 100644
+--- a/src/cairo-image-surface.c
++++ b/src/cairo-image-surface.c
+@@ -250,8 +250,9 @@ _pixman_format_from_masks (cairo_format_masks_t *masks,
+ }
+ 
+ #if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
+-/* Convenience function to convert cairo_dither_t into pixman_dither_t */
+-pixman_dither_t _pixman_dither_from_cairo_dither(cairo_dither_t dither)
++/* Convenience function to convert #cairo_dither_t into #pixman_dither_t */
++pixman_dither_t
++_pixman_dither_from_cairo_dither (cairo_dither_t dither)
+ {
+     switch(dither) {
+     default:
+@@ -659,7 +660,7 @@ slim_hidden_def (cairo_image_surface_get_width);
+  *
+  * Return value: the current dithering method.
+  *
+- * Since: TODO
++ * Since: 1.18
+  **/
+ cairo_dither_t
+ cairo_image_surface_get_dither (cairo_surface_t *surface)
+@@ -673,7 +674,7 @@ cairo_image_surface_get_dither (cairo_surface_t *surface)
+ 
+     return image_surface->dither;
+ }
+-//slim_hidden_def (cairo_image_surface_get_dither);
++slim_hidden_def (cairo_image_surface_get_dither);
+ 
+ /**
+  * cairo_image_surface_get_height:
+@@ -1404,6 +1405,15 @@ error:
+     return to_image_surface (_cairo_surface_create_in_error (status));
+ }
+ 
++/**
++ * cairo_image_surface_set_dither:
++ * @surface: a #cairo_image_surface_t
++ * @dither: a #cairo_dither_t
++ *
++ * Sets the current dithering method
++ *
++ * Since: 1.18
++ **/
+ cairo_public int
+ cairo_image_surface_set_dither (cairo_surface_t *surface, cairo_dither_t dither)
+ {
+@@ -1423,5 +1433,5 @@ cairo_image_surface_set_dither (cairo_surface_t *surface, cairo_dither_t dither)
+     }
+ 
+ }
+-//slim_hidden_def (cairo_image_surface_set_dither);
++slim_hidden_def (cairo_image_surface_set_dither);
+ 
+diff --git a/src/cairo-pattern.c b/src/cairo-pattern.c
+index a216357d3..f07ab9f83 100644
+--- a/src/cairo-pattern.c
++++ b/src/cairo-pattern.c
+@@ -2081,7 +2081,7 @@ cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter)
+  *
+  * See #cairo_dither_t for details on each algorithm.
+  *
+- * Since: TODO
++ * Since: 1.18
+  **/
+ void
+ cairo_pattern_set_dither (cairo_pattern_t *pattern, cairo_dither_t dither)
+@@ -2122,7 +2122,7 @@ cairo_pattern_get_filter (cairo_pattern_t *pattern)
+  *
+  * Return value: the current dithering algorithm of the pattern
+  *
+- * Since: TODO
++ * Since: 1.18
+  **/
+ cairo_dither_t
+ cairo_pattern_get_dither (cairo_pattern_t *pattern)
+diff --git a/src/cairoint.h b/src/cairoint.h
+index 0df148feb..e78ba80cc 100644
+--- a/src/cairoint.h
++++ b/src/cairoint.h
+@@ -1584,7 +1584,7 @@ _pixman_format_to_masks (pixman_format_code_t	 pixman_format,
+ 
+ #if PIXMAN_VERSION >= PIXMAN_VERSION_ENCODE(0,39,0)
+ cairo_private pixman_dither_t
+-_pixman_dither_from_cairo_dither(cairo_dither_t dither);
++_pixman_dither_from_cairo_dither (cairo_dither_t dither);
+ #endif
+ 
+ cairo_private void
+@@ -1978,6 +1978,8 @@ slim_hidden_proto (cairo_image_surface_get_format);
+ slim_hidden_proto (cairo_image_surface_get_height);
+ slim_hidden_proto (cairo_image_surface_get_stride);
+ slim_hidden_proto (cairo_image_surface_get_width);
++slim_hidden_proto (cairo_image_surface_get_dither);
++slim_hidden_proto (cairo_image_surface_set_dither);
+ slim_hidden_proto (cairo_line_to);
+ slim_hidden_proto (cairo_mask);
+ slim_hidden_proto (cairo_matrix_init);
+-- 
+2.34.1
+
+From 8522e26a7fe32d0098650eb8e778dc19ff778d23 Mon Sep 17 00:00:00 2001
+From: Marc Jeanmougin <marc@jeanmougin.fr>
+Date: Mon, 24 Jan 2022 21:28:44 +0100
+Subject: [PATCH] add define to detect patched cairo
+
+---
+ src/cairo.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/cairo.h b/src/cairo.h
+index f50e78cce..47360bbd4 100644
+--- a/src/cairo.h
++++ b/src/cairo.h
+@@ -2571,6 +2571,7 @@ cairo_image_surface_create_for_data (unsigned char	       *data,
+ cairo_public unsigned char *
+ cairo_image_surface_get_data (cairo_surface_t *surface);
+ 
++#define CAIRO_HAS_DITHER
+ cairo_public cairo_dither_t
+ cairo_image_surface_get_dither (cairo_surface_t *surface);
+ 
+-- 
+2.34.1
+

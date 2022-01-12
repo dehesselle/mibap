@@ -140,6 +140,7 @@
       <patch file="cairo-freetype-font-variations.patch" strip="1"/>
       <patch file="Cairo-quartz-surface-create-internal.patch" strip="1"/>
       <patch file="cairo_pdf_add_missing_flush.patch" strip="1"/>
+      <patch file="cairo-pixman_dithering.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="pixman"/>
