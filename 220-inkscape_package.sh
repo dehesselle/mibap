@@ -139,16 +139,17 @@ else
 fi
 
 # Install wheels.
-ink_pipinstall_appdirs         # extension manager
-ink_pipinstall_beautifulsoup4  # extension manager
-ink_pipinstall_cachecontrol    # extension manager
-ink_pipinstall_cssselect
-ink_pipinstall_gtkme           # extension manager
-ink_pipinstall_lxml
-ink_pipinstall_numpy
-ink_pipinstall_pygobject
-ink_pipinstall_pyserial
-ink_pipinstall_scour
+ink_pipinstall "$INK_PYTHON_PKG_APPDIRS"         # extension manager
+ink_pipinstall "$INK_PYTHON_PKG_BEAUTIFULSOUP4"  # extension manager
+ink_pipinstall "$INK_PYTHON_PKG_CACHECONTROL"    # extension manager
+ink_pipinstall "$INK_PYTHON_PKG_CSSSELECT"
+ink_pipinstall "$INK_PYTHON_PKG_GTKME"           # extension manager
+ink_pipinstall "$INK_PYTHON_PKG_LXML"
+ink_pipinstall "$INK_PYTHON_PKG_NUMPY"
+ink_pipinstall "$INK_PYTHON_PKG_PILLOW"          # export raster extension
+ink_pipinstall "$INK_PYTHON_PKG_PYGOBJECT"
+ink_pipinstall "$INK_PYTHON_PKG_PYSERIAL"
+ink_pipinstall "$INK_PYTHON_PKG_SCOUR"
 
 #----------------------------------------------------- remove Python cache files
 

@@ -108,6 +108,9 @@ INK_PYTHON_PKG_LXML=lxml==4.6.3
 # https://pypi.org/project/numpy/
 INK_PYTHON_PKG_NUMPY=numpy==1.21.2
 
+# https://pypi.org/project/Pillow/
+INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
+
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PKG_PYGOBJECT="\
@@ -172,14 +175,8 @@ function ink_get_repo_shorthash
 
 function ink_pipinstall
 {
-  local packages=$1     # list of packages or function name ink_pipinstall_*
+  local packages=$1     # list of packages
   local options=$2      # optional
-
-  # resolve function name into list of packages
-  if [[ $packages = ${FUNCNAME[0]}* ]]; then
-    packages=$(tr "[:lower:]" "[:upper:]" <<< "${packages/${FUNCNAME[0]}_/}")
-    packages=$(eval echo \$INK_PYTHON_PKG_"$packages")
-  fi
 
   # turn package names into filenames of our wheels
   local wheels
@@ -205,37 +202,14 @@ function ink_pipinstall
     $wheels
 
   export PATH=$path_original
-}
 
-function ink_pipinstall_appdirs
-{
-  ink_pipinstall "${FUNCNAME[0]}"
-}
-
-function ink_pipinstall_beautifulsoup4
-{
-  ink_pipinstall "${FUNCNAME[0]}"
-}
-
-function ink_pipinstall_cachecontrol
-{
-  ink_pipinstall "${FUNCNAME[0]}"
-}
-
-function ink_pipinstall_cssselect
-{
-  ink_pipinstall "${FUNCNAME[0]}"
-}
-
-function ink_pipinstall_gtkme
-{
-  ink_pipinstall "${FUNCNAME[0]}"
+  if declare -F "ink_pipinstall_${packages%%==*}" > /dev/null; then
+    ink_pipinstall_"${packages%%==*}"
+  fi
 }
 
 function ink_pipinstall_lxml
 {
-  ink_pipinstall "${FUNCNAME[0]}"
-
   lib_change_paths \
     @loader_path/../../.. \
     "$INK_APP_LIB_DIR" \
@@ -245,8 +219,6 @@ function ink_pipinstall_lxml
 
 function ink_pipinstall_numpy
 {
-  ink_pipinstall "${FUNCNAME[0]}"
-
   sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
     "$INK_APP_BIN_DIR"/f2py
   sed -i '' '1s/.*/#!\/usr\/bin\/env python'"$INK_PYTHON_VER_MAJOR"'/' \
@@ -257,8 +229,6 @@ function ink_pipinstall_numpy
 
 function ink_pipinstall_pygobject
 {
-  ink_pipinstall "${FUNCNAME[0]}"
-
   lib_change_paths \
     @loader_path/../../.. \
     "$INK_APP_LIB_DIR" \
@@ -269,8 +239,6 @@ function ink_pipinstall_pygobject
 
 function ink_pipinstall_pyserial
 {
-  ink_pipinstall "${FUNCNAME[0]}"
-
   find "$INK_APP_SPK_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' \
     "$INK_APP_BIN_DIR"/pyserial-miniterm
@@ -279,8 +247,6 @@ function ink_pipinstall_pyserial
 
 function ink_pipinstall_scour
 {
-  ink_pipinstall "${FUNCNAME[0]}"
-
   sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/scour
 }
 
