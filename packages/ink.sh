@@ -66,6 +66,9 @@ cp${INK_PYTHON_VER/./}-cp${INK_PYTHON_VER/./}-macosx_10_9_x86_64.whl
 # https://github.com/numpy/numpy
 INK_PYTHON_NUMPY=numpy==1.19.1
 
+# https://pypi.org/project/Pillow/
+INK_PYTHON_PILLOW=Pillow==9.0.0
+
 # https://pygobject.readthedocs.io/en/latest/
 INK_PYTHON_PYGOBJECT=PyGObject==3.36.1
 

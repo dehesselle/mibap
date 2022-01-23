@@ -119,6 +119,10 @@ sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py
 sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py3
 sed -i '' '1s/.*/#!\/usr\/bin\/env python3/' "$INK_APP_BIN_DIR"/f2py3.8
 
+#------------------------------------------------ install Python package: Pillow
+
+ink_pipinstall "$INK_PYTHON_PILLOW"
+
 #--------------------------------------------- install Python package: PyGObject
 
 ink_pipinstall "$INK_PYTHON_PYGOBJECT"
