@@ -58,10 +58,10 @@ INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 # Python is running JHBuild or getting built as a dependency.
 
 INK_PYTHON_VER_MAJOR=3
-INK_PYTHON_VER_MINOR=8
+INK_PYTHON_VER_MINOR=9
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/2/python_${INK_PYTHON_VER/./}_$(uname -p)_inkscape.tar.xz"
+python_macos/7/python_${INK_PYTHON_VER/./}_$(uname -p)_inkscape.tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
@@ -74,7 +74,7 @@ INK_PYTHON_PKG_APPDIRS=appdirs==1.4.4
 # https://pypi.org/project/soupsieve/
 INK_PYTHON_PKG_BEAUTIFULSOUP4="\
   beautifulsoup4==4.10.0\
-  soupsieve==2.2.1\
+  soupsieve==2.3.1\
 "
 
 # https://pypi.org/project/CacheControl/
@@ -86,14 +86,14 @@ INK_PYTHON_PKG_BEAUTIFULSOUP4="\
 # https://pypi.org/project/requests/
 # https://pypi.org/project/urllib3/
 INK_PYTHON_PKG_CACHECONTROL="\
-  CacheControl==0.12.6\
+  CacheControl==0.12.10\
   certifi==2021.10.8\
-  charset_normalizer==2.0.7\
+  charset_normalizer==2.0.11\
   idna==3.3\
   lockfile==0.12.2\
-  msgpack==1.0.2\
-  requests==2.26.0\
-  urllib3==1.26.7\
+  msgpack==1.0.3\
+  requests==2.27.1\
+  urllib3==1.26.8\
 "
 
 # https://pypi.org/project/cssselect/
@@ -103,10 +103,10 @@ INK_PYTHON_PKG_CSSSELECT=cssselect==1.1.0
 INK_PYTHON_PKG_GTKME=gtkme==1.5.3
 
 # https://pypi.org/project/lxml/
-INK_PYTHON_PKG_LXML=lxml==4.6.3
+INK_PYTHON_PKG_LXML=lxml==4.7.1
 
 # https://pypi.org/project/numpy/
-INK_PYTHON_PKG_NUMPY=numpy==1.21.2
+INK_PYTHON_PKG_NUMPY=numpy==1.22.1
 
 # https://pypi.org/project/Pillow/
 INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
@@ -127,7 +127,7 @@ INK_PYTHON_PKG_SCOUR="\
   scour==0.38.2\
   six==1.16.0\
   packaging==21.3 \
-  pyparsing==3.0.6 \
+  pyparsing==3.0.7 \
 "
 
 #------------------------------------------- application bundle directory layout

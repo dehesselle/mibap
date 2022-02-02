@@ -37,8 +37,8 @@
   </metamodule>
 
   <autotools id="python3" autogenargs="--enable-shared" autogen-sh="configure">
-    <branch repo="python" module="3.8.12/Python-3.8.12.tar.xz" version="3.8.12"
-            hash="sha256:b1d3a76420375343b5e8a22fceb1ac65b77193e9ed27146524f0a9db058728ea"/>
+    <branch repo="python" module="3.9.2/Python-3.9.2.tar.xz" version="3.9.2"
+            hash="sha256:3c2034c54f811448f516668dce09d24008a0716c3a794dd8639b5388cbde247d"/>
     <dependencies>
       <dep package='readline'/>
       <dep package="openssl"/> <!-- For hashlib -->

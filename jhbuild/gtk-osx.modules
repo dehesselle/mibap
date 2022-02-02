@@ -151,9 +151,10 @@
   </autotools>
 
   <meson id="gobject-introspection">
-    <branch module="gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz"
-            version="1.68.0"
-            hash="sha256:d229242481a201b84a0c66716de1752bca41db4133672cfcfb37c93eb6e54a27">
+    <branch module="gobject-introspection/1.70/gobject-introspection-1.70.0.tar.xz"
+            version="1.70.0"
+            hash="sha256:902b4906e3102d17aa2fcb6dad1c19971c70f2a82a159ddc4a94df73a3cafc4a">
+      <patch file="gobject-introspection-1.70.0-obsolet.patch" strip="1"/>
       <patch file="girscanner-objc.patch" strip="1"/>
     </branch>
     <dependencies>
@@ -214,7 +215,7 @@
     </after>
   </meson>
 
-  <meson id="gdk-pixbuf" mesonargs="-Dx11=false -Dman=false">
+  <meson id="gdk-pixbuf" mesonargs="-Drelocatable=true -Dman=false">
     <branch module="gdk-pixbuf/2.42/gdk-pixbuf-2.42.4.tar.xz" version="2.42.4"
             hash="sha256:fe9c5dd88f486194ea2bc09b8814c1ed895bb6c530f37cbbf259757c4e482e4d">
       <patch file="gdk-pixbuf-loader-name.patch" strip="1"/>
@@ -246,8 +247,7 @@
   </meson>
 
   <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
-  <meson id="gtk+-3.0"
-             mesonargs="-Dquartz-backend=true -Dx11-backend=false -Dmedia=none">
+  <meson id="gtk+-3.0" mesonargs="-Dx11_backend=false">
     <branch module="gtk+/3.24/gtk+-3.24.31.tar.xz" version="3.24.31"
             hash="sha256:423c3e7fdb4c459ee889e35fd4d71fd2623562541c1041b11c07e5ad1ff10bf9">
       <patch file="gtk-mr4298_fix_mr4265_performance_patch.patch" strip="1"/>
@@ -273,7 +273,8 @@
             hash="sha256:767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4"/>
   </autotools>
 
-  <autotools id="librsvg" autogenargs="--disable-Bsymbolic">
+  <autotools id="librsvg" autogen-sh="autoreconf"
+             autogenargs="--disable-Bsymbolic">
     <branch module="librsvg/2.51/librsvg-2.51.0.tar.xz" version="2.51.0"
             hash="sha256:89d32e38445025e1b1d9af3dd9d3aeb9f6fce527aeecbecf38b369b34c80c038"/>
     <dependencies>

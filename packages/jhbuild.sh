@@ -42,7 +42,7 @@ JHBUILD_PYTHON_VER_MAJOR=3
 JHBUILD_PYTHON_VER_MINOR=8
 JHBUILD_PYTHON_VER=$JHBUILD_PYTHON_VER_MAJOR.$JHBUILD_PYTHON_VER_MINOR
 JHBUILD_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/\
-generic/python_macos/5/python_${JHBUILD_PYTHON_VER/./}_$(uname -p).tar.xz"
+generic/python_macos/6/python_${JHBUILD_PYTHON_VER/./}_$(uname -p).tar.xz"
 JHBUILD_PYTHON_DIR=$OPT_DIR/Python.framework/Versions/$JHBUILD_PYTHON_VER
 JHBUILD_PYTHON_BIN_DIR=$JHBUILD_PYTHON_DIR/bin
 
@@ -73,7 +73,7 @@ function jhbuild_install_python
   jhbuild_set_interpreter
 
   # create '.pth' file inside Framework to include our site-packages directory
-  echo "../../../../../../../lib/python$INK_PYTHON_VER/site-packages"\
+  echo "../../../../../../../lib/python$JHBUILD_PYTHON_VER/site-packages"\
     > "$OPT_DIR"/Python.framework/Versions/$JHBUILD_PYTHON_VER/lib/\
 python$JHBUILD_PYTHON_VER/site-packages/jhbuild.pth
 }
