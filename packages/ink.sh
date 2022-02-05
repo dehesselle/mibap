@@ -30,7 +30,7 @@ else                  # not running GitLab CI
 
   # Allow using a custom branch.
   if [ -z "$INK_BRANCH" ]; then
-    INK_BRANCH=master
+    INK_BRANCH=1.1.x
   fi
 fi
 
