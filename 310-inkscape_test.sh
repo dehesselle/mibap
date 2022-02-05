@@ -58,6 +58,14 @@ cd "$INK_BLD_DIR" || exit 1
 sed -i '' -e '/MeasureSegments/ s/^#*/\/\//g' \
   "$INK_DIR"/testfiles/src/lpe-test.cpp
 
+# disable test: <symbol> geometric properties (SVG 2.0 feature
+sed -i '' -e '/symbol-svg2-geometry-properties/ s/^#*/##/g' \
+  "$INK_DIR"/testfiles/rendering_tests/CMakeLists.txt
+
+# disable test: .otf font with compressed SVG glyphs
+sed -i '' -e '/text-gzipped-svg-glyph/ s/^#*/##/g' \
+  "$INK_DIR"/testfiles/rendering_tests/CMakeLists.txt
+
 ninja tests   # build tests
 
 ctest -V
