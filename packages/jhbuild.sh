@@ -155,10 +155,16 @@ function jhbuild_configure
     # set release build
     echo "setup_release()"
 
-    # enable ccache
-    echo "os.environ[\"CC\"] = \"$BIN_DIR/gcc\""
-    echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\""
-    echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""
+    # Use compiler binaries from our own BIN_DIR if present. The intention is
+    # that these are symlinks pointing to ccache if that has been installed
+    # (see ccache.sh for details).
+    if [ -x "$BIN_DIR/gcc" ]; then
+      echo "os.environ[\"CC\"] = \"$BIN_DIR/gcc\""
+      echo "os.environ[\"OBJC\"] = \"$BIN_DIR/gcc\""
+    fi
+    if [ -x "$BIN_DIR/g++" ]; then
+      echo "os.environ[\"CXX\"] = \"$BIN_DIR/g++\""
+    fi
 
     # certificates for https
     echo "os.environ[\"SSL_CERT_FILE\"] = \
