@@ -54,13 +54,13 @@ export JHBUILD_PYTHON_PIP=$JHBUILD_PYTHON_BIN_DIR/pip$JHBUILD_PYTHON_VER
 function jhbuild_set_interpreter
 {
   for dir in $BIN_DIR $JHBUILD_PYTHON_BIN_DIR; do
-     for file in $(find $dir/ -type f -maxdepth 1); do
+    while IFS= read -r -d '' file; do
       local file_type
       file_type=$(file "$file")
       if [[ $file_type = *"Python script"* ]]; then
         sed -i "" "1 s|.*|#!$JHBUILD_PYTHON_BIN|" "$file"
       fi
-    done
+    done < <(find "$dir"/ -type f -maxdepth 1 -print0)
   done
 }
 
