@@ -143,7 +143,6 @@ ink_pipinstall "$INK_PYTHON_PKG_APPDIRS"         # extension manager
 ink_pipinstall "$INK_PYTHON_PKG_BEAUTIFULSOUP4"  # extension manager
 ink_pipinstall "$INK_PYTHON_PKG_CACHECONTROL"    # extension manager
 ink_pipinstall "$INK_PYTHON_PKG_CSSSELECT"
-ink_pipinstall "$INK_PYTHON_PKG_GTKME"           # extension manager
 ink_pipinstall "$INK_PYTHON_PKG_LXML"
 ink_pipinstall "$INK_PYTHON_PKG_NUMPY"
 ink_pipinstall "$INK_PYTHON_PKG_PILLOW"          # export raster extension

@@ -99,9 +99,6 @@ INK_PYTHON_PKG_CACHECONTROL="\
 # https://pypi.org/project/cssselect/
 INK_PYTHON_PKG_CSSSELECT=cssselect==1.1.0
 
-# https://pypi.org/project/gtkme/
-INK_PYTHON_PKG_GTKME=gtkme==1.5.3
-
 # https://pypi.org/project/lxml/
 INK_PYTHON_PKG_LXML=lxml==4.7.1
 
