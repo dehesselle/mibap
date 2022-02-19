@@ -106,13 +106,15 @@ function jhbuild_install
     cat "$TMP_DIR"/pem-??? > "$pem_bundle"
   }
 
-  pem_remove_expired \
-    "$LIB_DIR"/python$JHBUILD_PYTHON_VER/site-packages/certifi/cacert.pem
+  local cacert="$LIB_DIR"/python$JHBUILD_PYTHON_VER/site-packages/certifi/\
+cacert.pem
 
-  # Download JHBuild.
+  pem_remove_expired "$cacert"
+
+  # Download JHBuild. Setting CURL_CA_BUNDLE is required for High Sierra.
   local archive
   archive=$PKG_DIR/$(basename $JHBUILD_URL)
-  curl -o "$archive" -L "$JHBUILD_URL"
+  CURL_CA_BUNDLE=$cacert curl -o "$archive" -L "$JHBUILD_URL"
   tar -C "$SRC_DIR" -xf "$archive"
 
   ( # Install JHBuild.
