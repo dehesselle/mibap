@@ -53,11 +53,6 @@ jhbuild run pip3 install "$PKG_DIR"/lxml*.whl
 
 cd "$INK_BLD_DIR" || exit 1
 
-# disable LPE tests that fail on macOS:
-# MeasureSegments_multi_mm_1_0_2, MeasureSegments_multi_px_1_0_2
-sed -i '' -e '/MeasureSegments/ s/^#*/\/\//g' \
-  "$INK_DIR"/testfiles/src/lpe-test.cpp
-
 ninja tests   # build tests
 
 ctest -V
