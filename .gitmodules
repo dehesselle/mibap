@@ -1,3 +1,3 @@
-[submodule "funcs/bash_d"]
-	path = bash_d
-	url = https://github.com/dehesselle/bash_d
+[submodule "jhb"]
+	path = jhb
+	url = https://github.com/dehesselle/jhb

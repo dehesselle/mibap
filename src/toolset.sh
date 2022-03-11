@@ -17,14 +17,12 @@
 
 ### variables ##################################################################
 
-TOOLSET_VER=$VERSION
-
-TOOLSET_VOLNAME=mibap_v$TOOLSET_VER
+TOOLSET_VOLNAME=mibap_v$VERSION
 
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap
 TOOLSET_URL=https://github.com/dehesselle/mibap/releases/download/\
-v$TOOLSET_VER/$TOOLSET_VOLNAME.dmg
+v$VERSION/$TOOLSET_VOLNAME.dmg
 
 TOOLSET_REPO_DIR=$WRK_DIR/repo   # persistent storage for downloaded dmg
 
@@ -172,8 +170,9 @@ function toolset_create_dmg
   rm -rf "${BLD_DIR:?}"/*
   rm -rf "${TMP_DIR:?}"/*
   find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d \
+    ! -name 'bash_d' -a \
     ! -name 'gtk-mac-bundler*' -a \
-    ! -name 'jhbuild*' -a \
+    ! -name 'jhb*' -a \
     ! -name 'png2icns*' \
     -exec rm -rf {} \;
 
@@ -181,7 +180,7 @@ function toolset_create_dmg
   cd "$WRK_DIR" || exit 1
 
   hdiutil create -fs HFS+ -ov -format UDBZ \
-    -srcfolder "$VERSION" \
+    -srcfolder "$(basename "$VER_DIR")" \
     -volname "$TOOLSET_VOLNAME" \
     "$target_dir/$TOOLSET_VOLNAME".dmg
   shasum -a 256 "$target_dir/$TOOLSET_VOLNAME.dmg" > \

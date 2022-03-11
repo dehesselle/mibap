@@ -1,14 +1,16 @@
-# SPDX-FileCopyrightText: 2021 René de Hesselle <dehesselle@web.de>
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2022 René de Hesselle <dehesselle@web.de>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 ### description ################################################################
 
-# cairosvg is a Python package so we can convert svg to png.
+# Custom configuration for jhb.
 
 ### shellcheck #################################################################
 
-# shellcheck shell=bash # no shebang as this file is intended to be sourced
+# shellcheck disable=SC2034 # no unused variables
 
 ### dependencies ###############################################################
 
@@ -16,22 +18,14 @@
 
 ### variables ##################################################################
 
-# https://cairocffi.readthedocs.io/en/stable/
-# https://github.com/Kozea/cairocffi
-# https://cairosvg.org
-# https://github.com/Kozea/CairoSVG
-CAIROSVG_PIP="\
-  cairocffi==1.2.0\
-  cairosvg==2.5.2\
-"
+VERSION=0.60
+VER_DIR_TEMPLATE="\$WRK_DIR/mibap-\$VERSION"
+RECOMMENDED_SDK_VER_X86_64=10.13
+RECOMMENDED_MACOS_VER_X86_64=10.15.7
 
 ### functions ##################################################################
 
-function cairosvg_install
-{
-  # shellcheck disable=SC2086 # we need word splitting here
-  jhbuild run pip3 install $CAIROSVG_PIP
-}
+# Nothing here.
 
 ### main #######################################################################
 

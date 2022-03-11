@@ -14,14 +14,16 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+
+source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
+
+bash_d_include error
 
 ### variables ##################################################################
 
-# Nothing here.
+SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 ### functions ##################################################################
 

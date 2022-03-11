@@ -15,10 +15,9 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+
+source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
 
 ### variables ##################################################################
 
@@ -30,13 +29,9 @@ done
 
 ### main #######################################################################
 
-if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
-  error_trace_enable
-fi
-
 #------------------------------------------------------ dependencies besides GTK
 
-jhbuild build meta-inkscape-dependencies
+jhb build meta-inkscape-dependencies
 
 #------------------------------------------------- run time dependencies: Python
 

@@ -15,10 +15,11 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
+
+bash_d_include error
+bash_d_include lib
 
 ### variables ##################################################################
 
@@ -32,19 +33,14 @@ done
 
 error_trace_enable
 
-#-------------------------------------------------------- (re-) configure ccache
+#----------------------------------------------------------- (re-) configure jhb
 
-# This is required when using the precompiled toolset as ccache will not have
-# been setup before (it happens in 110-sysprep.sh).
+# Rerun configuration to adapt to the current system. This will
+#   - allow Inkscape to be build against a different SDK than the toolset has
+#     been built with
+#   - setup ccache
 
-ccache_configure
-
-#------------------------------------------------------- (re-) configure JHBuild
-
-# This allows compiling Inkscape with a different setup than what the toolset
-# was built with, most importantly a different SDK.
-
-jhbuild_configure
+jhb configure
 
 #---------------------------------------------------------------- build Inkscape
 

@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 #
-# SPDX-FileCopyrightText: 2021 René de Hesselle <dehesselle@web.de>
+# SPDX-FileCopyrightText: 2022 René de Hesselle <dehesselle@web.de>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 ### description ################################################################
 
-# The first step to perform with JHBuild is to run its bootstrap command.
-# After that it can be freely used to build whatever the moduleset provides.
+# Bootstrap jhb. We want to use our own versioning and naming (so mutiple
+# versions can coexist independent from each other on one machine), therefore we
+# cannot use the pre-built bootstrap archive.
 
 ### shellcheck #################################################################
 
@@ -15,14 +16,11 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+# Nothing here.
 
 ### variables ##################################################################
 
-# Nothing here.
+SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 ### functions ##################################################################
 
@@ -30,8 +28,10 @@ done
 
 ### main #######################################################################
 
-if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
-  error_trace_enable
-fi
+#-------------------------------------------------- install custom configuration
 
-jhbuild bootstrap-gtk-osx
+cp "$SELF_DIR"/jhb-custom.conf.sh "$SELF_DIR"/jhb/etc
+
+#----------------------------------------------------------------- run bootstrap
+
+"$SELF_DIR"/jhb/usr/bin/bootstrap

@@ -15,10 +15,7 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
 ### variables ##################################################################
 
@@ -29,8 +26,5 @@ done
 # Nothing here.
 
 ### main #######################################################################
-
-jhbuild_configure   # Reconfigure settings to match current system instead
-                    # of the system the toolset was built with.
 
 jhbuild shell

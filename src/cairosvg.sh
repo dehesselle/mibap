@@ -4,7 +4,7 @@
 
 ### description ################################################################
 
-# Using ccache greatly reduces build times.
+# cairosvg is a Python package so we can convert svg to png.
 
 ### shellcheck #################################################################
 
@@ -16,36 +16,21 @@
 
 ### variables ##################################################################
 
-export CCACHE_DIR=${CCACHE_DIR:-$WRK_DIR/ccache}
-
-# https://ccache.dev
-# https://github.com/ccache/ccache
-# https://github.com/dehesselle/ccache_macos
-CCACHE_VER=4.5.1r1
-CCACHE_URL=https://github.com/dehesselle/ccache_macos/releases/download/\
-v$CCACHE_VER/ccache_v$CCACHE_VER.tar.xz
+# https://cairocffi.readthedocs.io/en/stable/
+# https://github.com/Kozea/cairocffi
+# https://cairosvg.org
+# https://github.com/Kozea/CairoSVG
+CAIROSVG_PIP="\
+  cairocffi==1.2.0\
+  cairosvg==2.5.2\
+"
 
 ### functions ##################################################################
 
-function ccache_configure
+function cairosvg_install
 {
-    mkdir -p "$CCACHE_DIR"
-
-  cat <<EOF > "$CCACHE_DIR/ccache.conf"
-base_dir = $WRK_DIR
-hash_dir = false
-max_size = 3.0G
-temporary_dir = $CCACHE_DIR/tmp
-EOF
-}
-
-function ccache_install
-{
-  curl -L $CCACHE_URL | tar -C "$BIN_DIR" --exclude="ccache.sha256" -xJ
-
-  for compiler in clang clang++ gcc g++; do
-    ln -s ccache "$BIN_DIR"/$compiler
-  done
+  # shellcheck disable=SC2086 # we need word splitting here
+  jhb run pip3 install $CAIROSVG_PIP
 }
 
 ### main #######################################################################

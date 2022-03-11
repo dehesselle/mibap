@@ -15,10 +15,14 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+source "$SRC_DIR"/jhb/jhbuild.sh
+
+
+source "$(dirname "${BASH_SOURCE[0]}")"/src/cairosvg.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/png2icns.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/svg2icns.sh
 
 ### variables ##################################################################
 
@@ -39,7 +43,7 @@ fi
 # We need this because the 'find' provided by macOS does not see the files
 # in the lower (read-only) layer when we union-mount a ramdisk ontop of it.
 
-jhbuild build findutils
+jhb build findutils
 
 #---------------------------------------------------- install disk image creator
 
@@ -47,7 +51,7 @@ dmgbuild_install
 
 #-------------------------------------------- install application bundle creator
 
-jhbuild build gtkmacbundler
+jhb build gtkmacbundler
 
 #------------------------------------------------- install svg to icns convertor
 

@@ -25,9 +25,9 @@ jobs:
     #--------------------------------------------------- prepare the environemnt
 
     - name: checkout mibap repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: recursive
 
     - name: create cache id
       id: cache_id
@@ -103,30 +103,26 @@ jobs:
 
     #------------------------------------------------------------- build toolset
 
-    - name: prepare system
-      run: ./110-sysprep.sh
-
-    - name: install JHBuild
-      run: ./120-jhbuild_install.sh
-
     - name: bootstrap JHBuild
-      run: ./130-jhbuild_bootstrap.sh
+      run: ./110-bootstrap_jhb.sh
 
-    - name: build GTK3 stack
-      run: ./140-jhbuild_gtk3.sh
+    - name: build GTK 3 stack
+      run: ./120-build_gtk3.sh
 
     - name: build Inkscape dependencies
-      run: ./150-jhbuild_inkdeps.sh
+      run: ./130-build_inkdeps.sh
 
     - name: install additional components
-      run: ./160-jhbuild_other.sh
+      run: ./140-build_other.sh
 
     - name: create toolset dmg
       id: toolset
       run: |
-        source 010-init.sh
-        toolset_create_dmg
+        source jhb/etc/jhb.conf.sh
         echo "::set-output name=version::$VERSION"
+        bash_d_include echo
+        source src/toolset.sh
+        toolset_create_dmg
 
     #------------------------------------------------------------ build Inkscape
 

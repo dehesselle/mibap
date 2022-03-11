@@ -54,14 +54,13 @@ INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 #------------------------------------ Python runtime to be bundled with Inkscape
 
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
-# the core extensions work out-of-the-box. This is independent from whatever
-# Python is running JHBuild or getting built as a dependency.
+# the core extensions work out-of-the-box.
 
 INK_PYTHON_VER_MAJOR=3
 INK_PYTHON_VER_MINOR=9
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/7/python_${INK_PYTHON_VER/./}_$(uname -p)_inkscape.tar.xz"
+python_macos/8/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
@@ -281,10 +280,10 @@ Resources/PythonInterpreter.icns" \
 
 function ink_build_wheels
 {
-  jhbuild run pip3 install wheel
+  jhb run pip3 install wheel
   for pkg in ${!INK_PYTHON_PKG_*}; do
     # shellcheck disable=SC2046 # we need word splitting here
-    jhbuild run pip3 wheel --no-binary :all: $(eval echo \$"$pkg") -w "$PKG_DIR"
+    jhb run pip3 wheel --no-binary :all: $(eval echo \$"$pkg") -w "$PKG_DIR"
   done
 }
 

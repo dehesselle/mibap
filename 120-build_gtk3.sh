@@ -6,7 +6,7 @@
 
 ### description ################################################################
 
-# Setup JHBuild.
+# Install GTK3 libraries and their dependencies.
 
 ### shellcheck #################################################################
 
@@ -14,14 +14,11 @@
 
 ### dependencies ###############################################################
 
-# shellcheck disable=SC1090 # can't point to a single source here
-for script in "$(dirname "${BASH_SOURCE[0]}")"/0??-*.sh; do
-  source "$script";
-done
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
 ### variables ##################################################################
 
-# Nothing here.
+SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 ### functions ##################################################################
 
@@ -29,7 +26,14 @@ done
 
 ### main #######################################################################
 
-error_trace_enable
+jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 
-jhbuild_install
-jhbuild_configure
+jhb build \
+  libxml2 \
+  pygments \
+  python3
+
+jhb build \
+  meta-gtk-osx-bootstrap \
+  meta-gtk-osx-gtk3 \
+  gtkmm3
