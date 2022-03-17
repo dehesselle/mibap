@@ -133,8 +133,8 @@
   </autotools>
 
   <autotools id="enchant" autogen-sh="configure"
-             autogenargs="--enable-relocatable --with-applespell" >
-    <branch module="AbiWord/enchant/releases/download/v2.2.15/enchant-2.2.15.tar.gz"
+             autogenargs="--enable-relocatable" >
+    <branch module="AbiWord/enchant/releases/download/v2.2.15/enchant-2.2.15.tar.gz" 
             repo="github-tarball" version="2.2.15"
             hash="sha256:3b0f2215578115f28e2a6aa549b35128600394304bd79d6f28b0d3b3d6f46c03">
     </branch>
