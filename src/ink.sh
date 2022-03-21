@@ -171,12 +171,12 @@ function ink_get_repo_shorthash
 
 function ink_pipinstall
 {
-  local packages=$1     # list of packages
+  local packages=$1     # name of variable that resolves to list of packages
   local options=$2      # optional
 
   # turn package names into filenames of our wheels
   local wheels
-  for package in $packages; do
+  for package in $(eval echo \$"$packages"); do
     package=$(eval echo "${package%==*}"*.whl)
     # If present in TMP_DIR, use that. This is how the externally built
     # packages can be fed into this.
@@ -199,8 +199,12 @@ function ink_pipinstall
 
   export PATH=$path_original
 
-  if declare -F "ink_pipinstall_${packages%%==*}" > /dev/null; then
-    ink_pipinstall_"${packages%%==*}"
+  local ink_pipinstall_func
+  ink_pipinstall_func=ink_pipinstall_$(echo "${packages##*_}" |
+    tr "[:upper:]" "[:lower:]")
+
+  if declare -F "$ink_pipinstall_func" > /dev/null; then
+    $ink_pipinstall_func
   fi
 }
 
