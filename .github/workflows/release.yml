@@ -9,22 +9,16 @@ on:
       - 'v*'
 jobs:
 
-# This workflow...
-#
-#   ... deserves some documentation here :D
-#
-#
-
-################################################################################
+  ##############################################################################
 
   check_requirements:
     runs-on: macos-10.15
     steps:
 
       - name: checkout mibap repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          submodules: true
+          submodules: recursive
 
       - name: fail on missing version tag
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
@@ -37,16 +31,17 @@ jobs:
         env:
           SYS_IGNORE_USR_LOCAL: true
         run: |
-          source 010-init.sh
+          cp jhb-custom.conf.sh jhb/etc
+          source jhb/etc/jhb.conf.sh
           echo "::set-output name=version::$VERSION"
 
-      - name: get mibap version
-        id: mibap
+      - name: get repository version tag
+        id: repo
         run: echo "::set-output name=version::${GITHUB_REF##*v}"
 
-      # Once we have established that the "toolset version" (from 010-init.sh)
-      # matches the "mibap version" (from git tag) we can safely rely on
-      # "mibap version" from here on.
+      # Once we have established that the "toolset version" (from jhb.conf.sh)
+      # matches the "repo version" (from git tag) we can safely rely on
+      # "repo version" from here on.
       - name: fail on version mismatch
         if: ${{ !endsWith(github.ref, steps.toolset.outputs.version) }}
         uses: actions/github-script@v3
@@ -77,231 +72,31 @@ jobs:
         with:
           script: core.setFailed("no artifact for this commit on GitLab")
 
-################################################################################
+  ##############################################################################
 
-  build_toolset:
-    runs-on: macos-10.15
+  call_build_toolset:
+    uses: ./.github/workflows/build_toolset.yml
+    with:
+      SDK_DOWNLOAD_URL_REQUIRED: true
+    secrets:
+      SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
     needs: check_requirements
-    env:
-      WRK_DIR: /Users/Shared/work
-      CCACHE_DIR: /Users/Shared/work/ccache
-    steps:
 
-    #--------------------------------------------------- prepare the environemnt
+  ##############################################################################
 
-      - name: checkout mibap repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+  call_validate_toolset:
+    uses: ./.github/workflows/validate_toolset.yml
+    with:
+      SDK_DOWNLOAD_URL_REQUIRED: true
+    secrets:
+      SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+    needs: call_build_toolset
 
-      - name: create cache id
-        id: cache_id
-        uses: nanzm/get-time-action@v1.1
-        with:
-          format: "YYYY-MM-DD-HH-mm-ss"
-
-      # Create a new cache, building ontop the most recent old one.
-      - name: setup cache
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.time }}
-          restore-keys: ccache-toolset-
-
-    # GitHub does not provide 10.13 SDK on their runners and no image older
-    # than Catalina. See here for what you can expect in their Catalina image:
-    # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
-    #
-    # Official downloads from Apple are not accessible without a developer
-    # account and I don't trust 3rd party sources (e.g. "phracker"). So I'm
-    # using my own (non-public) source, but I'm providing the means to verify
-    # what I'm doing, see here:
-    # https://github.com/dehesselle/sdkchecksum
-    #
-    # In order to use your custom SDK_DOWNLOAD_URL, create a repository secret
-    # of said name and proivide a link to a .tar.xz file.
-    # At the moment, only 10.13.4 SDK is supported (hardcoded below).
-      - name: install macOS SDK
-        env:
-          SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-        run: |
-          mkdir -p $WRK_DIR
-          curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
-          echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
-
-      # Checkout repository to verify SDK...
-      - name: checkout sdkchecksum repository
-        uses: actions/checkout@v2
-        with:
-          repository: dehesselle/sdkchecksum
-          path: sdkchecksum
-          clean: false
-
-      # ...and use it to verify
-      - name: verify SDK
-        run: |
-          shasum -a 256 sdkchecksum/MacOSX10.13.4.sdk.sha256
-          cd $WRK_DIR
-          if shasum -s -c $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.13.4.sdk.sha256; then
-            echo "ok - SDK verified"
-            exit 0
-          else
-            echo "error - SDK verification failed"
-            exit 1
-          fi
-
-      # GitHub does not provide a clean macOS installation. We need to move the
-      # pre-installed components out of the way so we don't pick them up by
-      # accident.
-      - name: disable /usr/local
-        run: |
-          cd /usr/local
-          for dir in include lib share; do sudo mv $dir $dir.disabled; done
-
-    #---------------------------------------------- compile all the dependnecies
-
-      - name: prepare system
-        run: ./110-sysprep.sh
-
-      - name: install JHBuild
-        run: ./120-jhbuild_install.sh
-
-      - name: bootstrap JHBuild
-        run: ./130-jhbuild_bootstrap.sh
-
-      - name: build GTK3 stack
-        run: ./140-jhbuild_gtk3.sh
-
-      - name: build Inkscape dependencies
-        run: ./150-jhbuild_inkdeps.sh
-
-      - name: install additional components
-        run: ./160-jhbuild_other.sh
-
-    #---------------------------------------- add wheels artifact from GitLab CI
-
-      - name: add wheels from GitLab
-        env:
-          RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
-        run: |
-          source 010-init.sh
-          curl -o $PKG_DIR/wheels.tar.xz -L $RELEASE_URL/$VERSION/wheels.tar.xz
-
-    #----------------------------------------------------------- create artifact
-
-      # This creates .dmg and .dmg.sha256 files.
-      - name: create toolset disk image
-        run: |
-          source 010-init.sh
-          toolset_create_dmg
-
-      # Restore /usr/local, GitHub actions depend on these.
-      - name: restore /usr/local
-        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
-
-      - name: get mibap version
-        id: mibap
-        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
-
-      - name: upload toolset disk image
-        uses: actions/upload-artifact@v2
-        with:
-          name: Inkscape_build_toolset
-          path: ${{ github.workspace }}/mibap_${{ steps.mibap.outputs.tag }}.dmg
-
-      - name: upload toolset checksum
-        uses: actions/upload-artifact@v2
-        with:
-          name: Inkscape_build_toolset.sha256
-          path: ${{ github.workspace }}/mibap_${{ steps.mibap.outputs.tag }}.dmg.sha256
-
-################################################################################
-
-  validate_toolset:
-    runs-on: macos-10.15
-    needs: build_toolset
-    env:
-      WRK_DIR: /Users/Shared/work
-      CCACHE_DIR: /Users/Shared/work/ccache
-    steps:
-
-    #--------------------------------------------------- prepare the environment
-
-      - name: checkout mibap repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: create cache id
-        id: cache_id
-        uses: nanzm/get-time-action@v1.1
-        with:
-          format: "YYYY-MM-DD-HH-mm-ss"
-
-      # Create a new cache, building ontop the most recent old one.
-      - name: setup cache
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.time }}
-          restore-keys: ccache-toolset-
-
-      - name: get toolset artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: Inkscape_build_toolset
-
-      - name: get mibap version
-        id: mibap
-        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
-
-      - name: install toolset
-        env:
-          TAG: ${{ steps.mibap.outputs.tag }}
-        run: |
-          hdiutil attach mibap_$TAG.dmg
-          rsync -a /Volumes/mibap_$TAG/ /Users/Shared/work/${TAG##*v}
-          hdiutil eject /Volumes/mibap_$TAG
-          rm mibap_$TAG.dmg
-
-      # GitHub does not provide a clean macOS installation. We need to move the
-      # pre-installed components out of the way so we don't pick them up by
-      # accident.
-      - name: disable /usr/local
-        run: |
-          cd /usr/local
-          for dir in include lib share; do sudo mv $dir $dir.disabled; done
-
-    #---------------------------------------- build Inkscape to validate toolset
-
-      - name: build Inkscape
-        run: ./210-inkscape_build.sh
-
-      - name: create Inkscape.app
-        run: ./220-inkscape_package.sh
-
-      - name: create Inkscape.dmg
-        run: ./230-inkscape_distrib.sh
-
-    #---------------------------------------------------------- upload artifacts
-
-      # Restore /usr/local, GitHub actions depend on these.
-      - name: restore /usr/local
-        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
-
-      - name: upload Inkscape disk image
-        uses: actions/upload-artifact@v2
-        with:
-          name: Inkscape_dmg
-          path: ${{ github.workspace }}/Inkscape.dmg
-
-################################################################################
+  ##############################################################################
 
   create_release:
     runs-on: macos-10.15
-    needs: validate_toolset
+    needs: call_validate_toolset
     env:
       WRK_DIR: /Users/Shared/work
     steps:
@@ -309,18 +104,18 @@ jobs:
     #--------------------------------------------------- prepare the environment
 
       - name: checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
       - name: download toolset
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Inkscape_build_toolset
           path: ${{ env.WRK_DIR }}/repo
 
       - name: download toolset checksum
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Inkscape_build_toolset.sha256
           path: ${{ env.WRK_DIR }}/repo

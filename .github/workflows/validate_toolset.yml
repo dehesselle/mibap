@@ -1,0 +1,105 @@
+# SPDX-FileCopyrightText: 2022 René de Hesselle <dehesselle@web.de>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+name: validate_toolset
+on:
+  workflow_call:
+    inputs:
+      SDK_DOWNLOAD_URL_REQUIRED:
+        description: "If set to true, break the build on missing SDK_DOWNLOAD_URL."
+        default: false
+        required: false
+        type: boolean
+      WRK_DIR:
+        description: "Location of our work directory."
+        default: /Users/Shared/work
+        required: false
+        type: string
+      CCACHE_DIR:
+        description: "Location of our ccache directory."
+        default: /Users/Shared/work/ccache
+        required: false
+        type: string
+    secrets:
+      SDK_DOWNLOAD_URL:
+        required: false
+jobs:
+
+  ##############################################################################
+
+  validate_toolset:
+    runs-on: macos-10.15
+    env:
+      WRK_DIR: ${{ inputs.WRK_DIR }}
+      CCACHE_DIR: ${{ inputs.CCACHE_DIR }}
+    steps:
+
+      #------------------------------------------------- prepare the environment
+
+      - name: checkout mibap repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: create cache id
+        id: cache_id
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: "YYYY-MM-DD-HH-mm-ss"
+
+      # Create a new cache, building ontop the most recent old one.
+      - name: setup cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-toolset-${{ steps.cache_id.outputs.time }}
+          restore-keys: ccache-toolset-
+
+      - name: get toolset artifact
+        id: artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Inkscape_build_toolset
+
+      - name: install toolset
+        run: |
+          cp jhb-custom.conf.sh jhb/etc
+          source jhb/etc/jhb.conf.sh
+          source src/toolset.sh
+          hdiutil attach $TOOLSET_VOLNAME.dmg
+          rsync -a /Volumes/$TOOLSET_VOLNAME/ $VER_DIR/
+          hdiutil eject /Volumes/$TOOLSET_VOLNAME
+          rm $TOOLSET_VOLNAME.dmg
+
+      # GitHub does not provide a clean macOS installation. We need to move the
+      # pre-installed components out of the way so we don't pick them up by
+      # accident.
+      - name: disable /usr/local
+        run: |
+          cd /usr/local
+          for dir in include lib share; do sudo mv $dir $dir.disabled; done
+
+      #-------------------------------------- build Inkscape to validate toolset
+
+      - name: build Inkscape
+        run: ./210-inkscape_build.sh
+
+      - name: create Inkscape.app
+        run: ./220-inkscape_package.sh
+
+      - name: create Inkscape.dmg
+        run: ./230-inkscape_distrib.sh
+
+      #-------------------------------------------------------- upload artifacts
+
+      # Restore /usr/local, GitHub actions depend on these.
+      - name: restore /usr/local
+        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
+
+      - name: upload Inkscape disk image
+        uses: actions/upload-artifact@v3
+        with:
+          name: Inkscape_dmg
+          path: ${{ github.workspace }}/Inkscape.dmg
