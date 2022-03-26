@@ -45,18 +45,29 @@ build:
   before_script:
     # For persistent runners: cleanup previous run. This is not an after_script
     # as those run on failed jobs as well, taking away a debugging opportunity.
-    - rm -rf $WRK_DIR/$(grep VERSION= 010-init.sh | awk -F '=' '{ print $2 }')
+    - rm -rf $WRK_DIR/mibap-$(grep VERSION= jhb-custom.conf.sh | awk -F '=' '{ print $2 }')
   script:
     - ./build_toolset.sh
-    # reduce artifact size, need to stay below 1 GiB
-    # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
+    # put the commands into an intermediary script as I've had problems running
+    # them directly in the shell
     - |
-      source 010-init.sh
-      cd $PKG_DIR
-      tar -cJf $CI_PROJECT_DIR/wheels.tar.xz *.whl
-      find $PKG_DIR -type f \
-        ! -name "*.whl" -a ! -name "$(basename $INK_PYTHON_URL)" -delete
+      cat <<EOF > "create_artifacts.sh"
+      source jhb/etc/jhb.conf.sh
+
+      # create wheels artifact
+      (cd "\$PKG_DIR"; tar -cJf "$CI_PROJECT_DIR"/wheels.tar.xz "*.whl")
+
+      # reduce artifact size, need to stay below 1 GiB
+      # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
+      find "\$PKG_DIR" -type f -delete
+
+      # create toolset artifact
+      bash_d_include echo
+      source src/toolset.sh
       toolset_create_dmg
+      EOF
+      chmod 755 create_artifacts.sh
+      ./create_artifacts.sh
   artifacts:
     paths:
       - mibap*.dmg
