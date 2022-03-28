@@ -135,7 +135,7 @@ jobs:
         env:
           RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
         run: |
-          source 010-init.sh
+          source jhb/etc/jhb.conf.sh
           curl -o $PKG_DIR/wheels.tar.xz -L $RELEASE_URL/$VERSION/wheels.tar.xz
 
       #---------------------------------------------------------------- artifact

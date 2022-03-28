@@ -62,7 +62,7 @@ jobs:
           RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
           SYS_IGNORE_USR_LOCAL: true
         run: |
-          source 010-init.sh
+          source jhb/etc/jhb.conf.sh
           HTTP_RESPONSE=$(curl --head -L $RELEASE_URL/$VERSION/wheels.tar.xz | head -n1 | awk '{ print $2 }')
           echo "::set-output name=http::${HTTP_RESPONSE}"
 
@@ -103,10 +103,10 @@ jobs:
 
     #--------------------------------------------------- prepare the environment
 
-      - name: checkout repository
+      - name: checkout mibap repository
         uses: actions/checkout@v3
         with:
-          submodules: true
+          submodules: recursive
 
       - name: download toolset
         uses: actions/download-artifact@v3
@@ -120,24 +120,28 @@ jobs:
           name: Inkscape_build_toolset.sha256
           path: ${{ env.WRK_DIR }}/repo
 
-      - name: get mibap version
-        id: mibap
+      - name: configure toolset
+        id: toolset
         run: |
-          echo "::set-output name=tag::${GITHUB_REF##*/}"
-          echo "::set-output name=version::${GITHUB_REF##*v}"
+          cp jhb-custom.conf.sh jhb/etc
+          source jhb/etc/jhb.conf.sh
+          echo "::set-output name=VERSION::$VERSION"
+          echo "::set-output name=VER_DIR::$VER_DIR"
+          echo "::set-output name=dmg::$(basename $VER_DIR).dmg"
 
     #------------------------------------------------------------ create release
 
       - name: install toolset
         env:
           SYS_IGNORE_USR_LOCAL: true
-        run: ./install_toolset.sh
+        run: |
+          ./install_toolset.sh
 
-      - name: read mibap release.log
-        id: release_log
+      - name: read jhb log
+        id: jhb_log
         uses: juliangruber/read-file-action@v1
         with:
-          path: ${{ env.WRK_DIR }}/${{ steps.mibap.outputs.version }}/var/log/release.log
+          path: ${{ steps.toolset.outputs.VER_DIR }}/var/log/jhb.log
 
       - name: uninstall toolset
         env:
@@ -154,7 +158,7 @@ jobs:
           release_name: Inkscape build toolset ${{ github.ref }}
           draft: true
           prerelease: false
-          body: ${{ steps.release_log.outputs.content }}
+          body: ${{ steps.jhb_log.outputs.content }}
 
       - name: upload toolset to release
         uses: actions/upload-release-asset@v1
@@ -162,8 +166,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/mibap_${{ steps.mibap.outputs.tag }}.dmg
-          asset_name: mibap_${{ steps.mibap.outputs.tag }}.dmg
+          asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.VERSION }}.dmg
+          asset_name: ${{ steps.toolset.outputs.dmg }}
           asset_content_type: application/octet-stream
 
       - name: upload toolset checksum to release
@@ -172,6 +176,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/mibap_${{ steps.mibap.outputs.tag }}.dmg.sha256
-          asset_name: mibap_${{ steps.mibap.outputs.tag }}.dmg.sha256
+          asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.VERSION }}.dmg.sha256
+          asset_name: ${{ steps.toolset.outputs.dmg }}.sha256
           asset_content_type: text/plain
