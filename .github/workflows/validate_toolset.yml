@@ -102,4 +102,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Inkscape_dmg
-          path: ${{ github.workspace }}/Inkscape.dmg
+          path: Inkscape.dmg

@@ -17,7 +17,7 @@
 
 ### variables ##################################################################
 
-TOOLSET_VOLNAME=mibap_v$VERSION
+TOOLSET_VOLNAME=$(basename "$VER_DIR")
 
 # A disk image containing a built version of the whole toolset.
 # https://github.com/dehesselle/mibap

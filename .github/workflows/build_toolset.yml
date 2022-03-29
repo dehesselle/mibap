@@ -144,9 +144,9 @@ jobs:
         id: toolset
         run: |
           source jhb/etc/jhb.conf.sh
-          echo "::set-output name=version::$VERSION"
           bash_d_include echo
           source src/toolset.sh
+          echo "::set-output name=dmg::$TOOLSET_VOLNAME.dmg"
           toolset_create_dmg
 
       # Restore /usr/local, GitHub actions depend on these.
@@ -157,10 +157,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Inkscape_build_toolset
-          path: ${{ github.workspace }}/mibap_v${{ steps.toolset.outputs.version }}.dmg
+          path: ${{ steps.toolset.outputs.dmg }}
 
       - name: upload toolset checksum
         uses: actions/upload-artifact@v3
         with:
           name: Inkscape_build_toolset.sha256
-          path: ${{ github.workspace }}/mibap_v${{ steps.toolset.outputs.version }}.dmg.sha256
+          path: ${{ steps.toolset.outputs.dmg }}.sha256

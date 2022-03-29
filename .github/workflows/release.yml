@@ -166,7 +166,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.VERSION }}.dmg
+          asset_path: ${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}
           asset_name: ${{ steps.toolset.outputs.dmg }}
           asset_content_type: application/octet-stream
 
@@ -176,6 +176,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/mibap_v${{ steps.toolset.outputs.VERSION }}.dmg.sha256
+          asset_path: ${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}.sha256
           asset_name: ${{ steps.toolset.outputs.dmg }}.sha256
           asset_content_type: text/plain
