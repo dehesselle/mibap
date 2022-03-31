@@ -14,8 +14,8 @@
 
 ### dependencies ###############################################################
 
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
-
 source "$(dirname "${BASH_SOURCE[0]}")"/src/toolset.sh
 
 bash_d_include echo
