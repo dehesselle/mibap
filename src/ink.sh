@@ -31,7 +31,7 @@
 #      Set INK_DIR to our default location, we'll clone the repo there.
 
 if $CI_GITLAB; then   # running GitLab CI
-  INK_DIR=$SELF_DIR/../..
+  INK_DIR=$CI_PROJECT_DIR
 else                  # not running GitLab CI
   # Use default directory if not provided.
   if [ -z "$INK_DIR" ]; then
