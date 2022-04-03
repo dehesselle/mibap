@@ -1,0 +1,20 @@
+diff --git a/config.h.meson b/config.h.meson
+index ce2aeb2946..5e8ff5fc45 100644
+--- a/config.h.meson
++++ b/config.h.meson
+@@ -232,7 +232,7 @@
+ 
+ /* Use NSBundle functions to determine load paths for libraries, translations,
+    etc. */
+-#mesondefine QUARTZ_RELOCATION
++#define QUARTZ_RELOCATION
+ 
+ /* The size of `DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY', as computed by sizeof.
+    */
+@@ -289,4 +289,4 @@
+ #mesondefine ISO_CODES_PREFIX
+ 
+ /* Define if tracker3 is available */
+-#mesondefine HAVE_TRACKER3
+\ No newline at end of file
++#mesondefine HAVE_TRACKER3

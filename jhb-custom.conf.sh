@@ -18,7 +18,7 @@
 
 ### variables ##################################################################
 
-VERSION=0.61
+VERSION=0.62
 VER_DIR_TEMPLATE="\$WRK_DIR/mibap-\$VERSION"
 RECOMMENDED_SDK_VER_X86_64=10.13
 RECOMMENDED_MACOS_VER_X86_64=10.15.7

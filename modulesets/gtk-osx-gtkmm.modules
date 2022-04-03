@@ -37,15 +37,15 @@
     </dependencies>
  </autotools>
 
-   <meson id="pangomm-1.4">
-     <branch module="pangomm/2.42/pangomm-2.42.2.tar.xz" version="2.42.2"
-             hash="sha256:1b24c92624ae1275ccb57758175d35f7c39ad3342d8c0b4ba60f0d9849d2d08a"/>
-     <dependencies>
-      <dep package="glibmm-2.4"/>
-      <dep package="cairomm-1.14"/>
-      <dep package="pango"/>
-    </dependencies>
-   </meson>
+ <meson id="pangomm-1.4">
+  <branch module="pangomm/2.46/pangomm-2.46.2.tar.xz" version="2.46.2"
+          hash="sha256:57442ab4dc043877bfe3839915731ab2d693fc6634a71614422fb530c9eaa6f4"/>
+  <dependencies>
+   <dep package="glibmm-2.4"/>
+   <dep package="cairomm-1.14"/>
+   <dep package="pango"/>
+ </dependencies>
+</meson>
 
   <meson id="atkmm-1.6">
     <branch module="atkmm/2.28/atkmm-2.28.1.tar.xz" version="2.28.1"

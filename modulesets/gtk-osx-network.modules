@@ -20,7 +20,7 @@
   <autotools id="openssl" autogen-sh="Configure" autogenargs="shared "
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --openssldir=%(prefix)s/etc/ssl %(autogenargs)s"
              makeinstallargs="install_sw" supports-non-srcdir-builds="no">
-    <branch module="openssl-1.1.1n.tar.gz" version="1.1.n" repo="openssl"
+    <branch module="openssl-1.1.1n.tar.gz" version="1.1.1n" repo="openssl"
             hash="sha256:40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a"/>
   </autotools>
 
@@ -83,9 +83,8 @@
   <if condition-unset="pre-Mavericks">
     <autotools id="gnutls" autogen-sh="autoreconf"
                autogenargs="--disable-gtk-doc-html --with-included-unistring">
-      <branch repo="gnupg.org" version="3.7.1"
-              module="gcrypt/gnutls/v3.7/gnutls-3.7.1.tar.xz"
-              hash="sha256:3777d7963eca5e06eb315686163b7b3f5045e2baac5e54e038ace9835e5cac6f">
+      <branch repo="gnupg.org" version="3.7.3"
+              module="gcrypt/gnutls/v3.7/gnutls-3.7.3.tar.xz">
       </branch>
       <dependencies>
         <dep package="libnettle"/>

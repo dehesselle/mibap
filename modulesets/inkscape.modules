@@ -376,21 +376,21 @@
 
   <!-- Rust https://www.rust-lang.org
 
-       Rust has a custom setup routine (rustup) which is wrapped into
-       a cmake file introduced by that patch below.
+    Rust has a custom setup routine (rustup) which is wrapped into
+    a cmake file introduced by that patch below.
   -->
   <cmake
     id="rust"
-    cmakeargs="-DVERSION=1.48.0"
+    cmakeargs="-DVERSION=1.59.0"
     supports-non-srcdir-builds="no"
     use-ninja="no">
     <branch
-      module="rust-lang/rustup/archive/1.22.1.tar.gz"
-      version="1.22.1"
-      hash="sha256:ad46cc624f318a9493aa62fc9612a450564fe20ba93c689e0ad856bff3c64c5b"
+      module="rust-lang/rustup/archive/1.24.3.tar.gz"
+      version="1.24.3"
+      hash="sha256:24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6"
       repo="github"
-      checkoutdir="rustup-1.22.1"
-      rename-tarball="rustup-1.22.1.tar.gz">
+      checkoutdir="rustup-1.24.3"
+      rename-tarball="rustup-1.24.3.tar.gz">
       <patch
         file="rust_cmake_install.patch"
         strip="1"/>
