@@ -59,7 +59,7 @@ build:
 
       # reduce artifact size, need to stay below 1 GiB
       # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
-      # find "\$PKG_DIR" -type f -delete
+      find "\$PKG_DIR" -type f -delete
 
       # create toolset artifact
       bash_d_include echo
