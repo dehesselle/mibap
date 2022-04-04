@@ -16,6 +16,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/src/toolset.sh
 
 bash_d_include echo
@@ -38,7 +39,7 @@ case "$1" in
     toolset_save_overlay
     ;;
   save_testfiles) # save files from test stage (test evidence)
-    tar -C "$VAR_DIR" -cp testfiles |
+    tar -C "$INK_BLD_DIR" -cp testfiles |
       XZ_OPT=-T0 xz > "$ARTIFACT_DIR"/testfiles.tar.xz
     ;;
 esac
