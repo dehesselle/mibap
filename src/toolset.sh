@@ -176,16 +176,19 @@ function toolset_create_dmg
     ! -name 'png2icns*' \
     -exec rm -rf {} \;
 
-  # create dmg and sha256, print sha256
-  cd "$WRK_DIR" || exit 1
+  ( # create dmg
+    cd "$WRK_DIR" || exit 1
+    hdiutil create -fs HFS+ -ov -format UDBZ \
+      -srcfolder "$(basename "$VER_DIR")" \
+      -volname "$TOOLSET_VOLNAME" \
+      "$target_dir/$TOOLSET_VOLNAME".dmg
+  )
 
-  hdiutil create -fs HFS+ -ov -format UDBZ \
-    -srcfolder "$(basename "$VER_DIR")" \
-    -volname "$TOOLSET_VOLNAME" \
-    "$target_dir/$TOOLSET_VOLNAME".dmg
-  shasum -a 256 "$target_dir/$TOOLSET_VOLNAME.dmg" > \
-                "$target_dir/$TOOLSET_VOLNAME.dmg".sha256
-  cat "$target_dir/$TOOLSET_VOLNAME.dmg.sha256"
+  ( # create and print checksum
+    cd "$target_dir" || exit 1
+    shasum -a 256 "$TOOLSET_VOLNAME".dmg > "$TOOLSET_VOLNAME".dmg.sha256
+    cat "$TOOLSET_VOLNAME".dmg.sha256
+  )
 }
 
 function toolset_copy
