@@ -109,8 +109,12 @@ INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
 
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
+# FIXME:
+#   using a pre-release of PyGObject 3.42.1 because of
+#   https://gitlab.gnome.org/GNOME/pygobject/-/commit/f4350ea8
+#   see ink_build_wheels below
 INK_PYTHON_PKG_PYGOBJECT="\
-  PyGObject==3.42.0\
+  PyGObject==3.42.1 \
   pycairo==1.20.1\
 "
 
@@ -284,6 +288,13 @@ Resources/PythonInterpreter.icns" \
 
 function ink_build_wheels
 {
+  # FIXME: use a pre-release version of PyGObject because of
+  # https://gitlab.gnome.org/GNOME/pygobject/-/commit/f4350ea8
+  INK_PYTHON_PKG_PYGOBJECT="\
+    https://gitlab.gnome.org/GNOME/pygobject/-/archive/9e0477b0/pygobject-9e0477b0.tar.gz\
+    pycairo==1.20.1\
+  "
+
   jhb run pip3 install wheel
   for pkg in ${!INK_PYTHON_PKG_*}; do
     # shellcheck disable=SC2046 # we need word splitting here
