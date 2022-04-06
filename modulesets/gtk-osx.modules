@@ -74,14 +74,9 @@
             hash="sha256:4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8"/>
   </autotools>
   
-  <!-- sticking with glib 2.70.5 for the time being
-    this might be a problem in GLib. Specifically, if you look at line 160 of gatomic.h in
-    your error message, they call the compiler intrinsic __atomic_compare_exchange_n which
-    expects the first two arguments to be pointers of the same type; atomic is a pointer
-    to int but then they have the cast (void *) for the second parameter, and gcc is
-    unhappy about it. Can you experiment patching that (void *) out and seeing what happens?
-    BTW, I'm getting the same warning error on Linux; it might depend on compiler version as
-    well and how lax it is about the calls to intrinsics.
+  <!--
+    sticking with glib 2.70.5 until a new release contains
+    https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2578
   -->
   <meson id="glib" mesonargs="-Dlibmount=disabled">
     <branch module="glib/2.70/glib-2.70.5.tar.xz"  version="2.70.5"
@@ -155,7 +150,7 @@
     <branch module="1.17.6/cairo-1.17.6.tar.bz2"  version="1.17.6"
             repo="cairographics-temp"
             hash="sha256:90496d135c9ef7612c98f8ee358390cdec0825534573778a896ea021155599d2">
-      <patch file="cairo-pixman_dithering.patch" strip="1"/>
+      <patch file="cairo-pixman_dithering.patch" strip="1"/> <!-- Inkscape: packaging/cario.patch -->
     </branch>
     <dependencies>
       <dep package="pixman"/>
@@ -245,12 +240,13 @@
   </meson>
 
   <!--
-    upstream has mesonargs="-Drelocatable=true -Dman=false"
-    but that breaks the following two tests in Inkscape:
+    relocatability breaks two tests in Inkscape
       - <symbol> geometric properties (SVG 2.0 feature)
       - .otf font with compressed SVG glyphs
+  <meson id="gdk-pixbuf" mesonargs="-Drelocatable=true -Dman=false">
   -->
-  <meson id="gdk-pixbuf" mesonargs="-Dx11=false -Dman=false">
+  <meson id="gdk-pixbuf" mesonargs="-Dman=false">
+
     <branch module="gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz" version="2.42.8"
             hash="sha256:84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6">
       <patch file="gdk-pixbuf-loader-name.patch" strip="1"/>
