@@ -124,9 +124,9 @@
 
  <autotools id="fontconfig" autogen-sh="configure"
              autogenargs="--disable-docs --with-default-fonts=/System/Library/Fonts --with-add-fonts=/Library/Fonts">
-    <branch repo="fontconfig" version="2.13.1"
-            module="fontconfig-2.13.1.tar.bz2"
-            hash="sha256:f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741"/>
+    <branch repo="fontconfig" version="2.14.0"
+            module="fontconfig-2.14.0.tar.xz"
+            hash="sha256:dcbeb84c9c74bbfdb133d535fe1c7bedc9f2221a8daf3914b984c44c520e9bac"/>
     <dependencies>
       <dep package="freetype"/>
     </dependencies>
