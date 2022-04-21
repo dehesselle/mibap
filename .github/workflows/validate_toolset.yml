@@ -67,11 +67,10 @@ jobs:
         run: |
           cp jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
-          source src/toolset.sh
-          hdiutil attach $TOOLSET_VOLNAME.dmg
-          rsync -a /Volumes/$TOOLSET_VOLNAME/ $VER_DIR/
-          hdiutil eject /Volumes/$TOOLSET_VOLNAME
-          rm $TOOLSET_VOLNAME.dmg
+          hdiutil attach $RELEASE_ARCHIVE
+          rsync -a /Volumes/${RELEASE_ARCHIVE%%_*}/ $VER_DIR/
+          hdiutil eject /Volumes/${RELEASE_ARCHIVE%%_*}
+          rm $RELEASE_ARCHIVE
 
       # GitHub does not provide a clean macOS installation. We need to move the
       # pre-installed components out of the way so we don't pick them up by

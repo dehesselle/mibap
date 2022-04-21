@@ -51,27 +51,21 @@ build:
     # put the commands into an intermediary script as I've had problems running
     # them directly in the shell
     - |
-      cat <<EOF > "create_artifacts.sh"
       source jhb/etc/jhb.conf.sh
-
       # create wheels artifact
-      (cd "\$PKG_DIR"; tar -cJf "$CI_PROJECT_DIR"/wheels.tar.xz *.whl)
-
+      (cd "$PKG_DIR"; tar -cJf "$CI_PROJECT_DIR"/wheels_$(uname -m).tar.xz *.whl)
       # reduce artifact size, need to stay below 1 GiB
       # https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size
-      find "\$PKG_DIR" -type f -delete
-
+      rm -rf "${BLD_DIR:?}"/*
+      rm -rf "${PKG_DIR:?}"/*
+      rm -rf "${TMP_DIR:?}"/*
+      find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' ! -name 'png2icns*' -exec rm -rf {} \;
       # create toolset artifact
-      bash_d_include echo
-      source src/toolset.sh
-      toolset_create_dmg
-      EOF
-      chmod 755 create_artifacts.sh
-      ./create_artifacts.sh
+      jhb/usr/bin/archive create_dmg
   artifacts:
     paths:
       - mibap*.dmg
-      - wheels.tar.xz
+      - wheels*.tar.xz
 
 release:
   stage: release
@@ -81,4 +75,4 @@ release:
   script:
     - pip3 install gitlab-release==5.1
     # requires PRIVATE_TOKEN with api permission
-    - gitlab-release mibap*.dmg wheels.tar.xz
+    - gitlab-release mibap*.dmg wheels*.tar.xz

@@ -133,21 +133,26 @@ jobs:
       - name: add wheels from GitLab
         if: startsWith(github.ref, 'refs/tags/v')
         env:
-          RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
+          GITLAB_REPO: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
         run: |
           source jhb/etc/jhb.conf.sh
-          curl -o $PKG_DIR/wheels.tar.xz -L $RELEASE_URL/$VERSION/wheels.tar.xz
+          curl -o $PKG_DIR/wheels.tar.xz -L $GITLAB_REPO/$VERSION/wheels_$(uname -m).tar.xz
 
       #---------------------------------------------------------------- artifact
+
+      - name: remove non-essential files
+        run: |
+          source jhb/etc/jhb.conf.sh
+          find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' ! -name 'png2icns*' -exec rm -rf {} \;
+          rm -rf "${BLD_DIR:?}"/*
+          rm -rf "${TMP_DIR:?}"/*
 
       - name: create toolset dmg
         id: toolset
         run: |
+          jhb/usr/bin/archive create_dmg
           source jhb/etc/jhb.conf.sh
-          bash_d_include echo
-          source src/toolset.sh
-          echo "::set-output name=dmg::$TOOLSET_VOLNAME.dmg"
-          toolset_create_dmg
+          echo "::set-output name=dmg::$RELEASE_ARCHIVE"
 
       # Restore /usr/local, GitHub actions depend on these.
       - name: restore /usr/local

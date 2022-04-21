@@ -59,11 +59,11 @@ jobs:
       - name: request artifact from GitLab
         id: gitlab
         env:
-          RELEASE_URL: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
+          GITLAB_REPO: https://gitlab.com/api/v4/projects/26865980/packages/generic/mibap
           SYS_IGNORE_USR_LOCAL: true
         run: |
           source jhb/etc/jhb.conf.sh
-          HTTP_RESPONSE=$(curl --head -L $RELEASE_URL/$VERSION/wheels.tar.xz | head -n1 | awk '{ print $2 }')
+          HTTP_RESPONSE=$(curl --head -L $GITLAB_REPO/$VERSION/wheels_$(uname -m).tar.xz | head -n1 | awk '{ print $2 }')
           echo "::set-output name=http::${HTTP_RESPONSE}"
 
       - name: fail on missing GitLab artifact
@@ -127,7 +127,7 @@ jobs:
           source jhb/etc/jhb.conf.sh
           echo "::set-output name=VERSION::$VERSION"
           echo "::set-output name=VER_DIR::$VER_DIR"
-          echo "::set-output name=dmg::$(basename $VER_DIR).dmg"
+          echo "::set-output name=dmg::$RELEASE_ARCHIVE"
 
     #------------------------------------------------------------ create release
 

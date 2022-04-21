@@ -99,18 +99,6 @@
     </dependencies>
   </autotools>
 
-<!-- GNU Find Utilities https://www.gnu.org/software/findutils/ -->
-  <autotools
-    id="findutils"
-    autogen-sh="configure">
-    <branch
-      module="findutils/findutils-4.7.0.tar.xz"
-      version="4.7.0"
-      hash="sha256:c5fefbdf9858f7e4feb86f036e1247a54c79fc2d8e4b7064d5aaa1f47dfa789a"
-      repo="gnu">
-    </branch>
-  </autotools>
-
   <!-- Google Testing and Mocking Framework https://github.com/google/googletest -->
   <cmake
     id="googletest">
