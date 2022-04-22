@@ -14,6 +14,7 @@
   <repository name="webm" type="tarball"
               href="http://downloads.webmproject.org/releases/"/>
   <repository type="tarball" name="github-tarball" href="https://github.com/"/>
+  <repository type="tarball" name="zlib" href="https://www.zlib.net/"/>
 
   <!-- of the many arguments such as prefix and libdir that jhbuild might pass
   to configure, openssl only understands prefix, and only with =. -->
@@ -61,12 +62,11 @@
     </branch>
   </autotools>
 
-  <autotools id="zlib" autogen-sh="configure" skip-autogen="never"
-             supports-non-srcdir-builds="no">
-    <branch repo="sourceforge" version="1.2.11"
-            module="libpng/zlib-1.2.11.tar.xz"
-            hash="sha256:4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"/>
-  </autotools>
+  <cmake id="zlib">
+    <branch repo="zlib" version="1.2.12"
+            module="zlib-1.2.12.tar.xz"
+            hash="sha256:7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"/>
+  </cmake>
 
   <autotools id="p11-kit" autogen-sh="configure"
              autogenargs="--without-trust-paths">
