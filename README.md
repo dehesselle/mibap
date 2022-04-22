@@ -1,13 +1,8 @@
 # macOS Inkscape build and package (mibap)
 
-![GitHub badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![GitHub build worfklow](https://github.com/dehesselle/mibap/actions/workflows/build.yml/badge.svg)
-![GitLab badge](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)
-![GitLab master branch](https://gitlab.com/dehesselle/mibap/badges/master/pipeline.svg)
 
-This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. Together with its [mirror on GitLab](https://gitlab.com/dehesselle/mibap) it creates a ready-to-use disk image (otherwise referred to as "the toolset"), containing all dependencies so that Inkscape's CI can focus on building the app.
-
-![mibap_overview](https://github.com/dehesselle/mibap/wiki/mibap_overview.drawio.svg)
+This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
 
 ## Under the hood
 
@@ -17,10 +12,12 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 
 ### Prerequisites
 
-- A __clean environment__ is key. This is the most inconvenient requirement.
-  - Software and libraries installed via package managers like Homebrew, MacPorts, Fink etc. are known to cause problems (usually: build failures) depending on installation prefix.
-    - Clear out `/usr/local`.
-    - Uninstall Xorg.
+- A __clean environment__ is key. This is the most inconvenient requirement as it will likely conflict with how you are currently using your Mac, but it is vital.
+  - Software and libraries - usually installed via package managers like Homebrew, MacPorts, Fink etc. - are known to cause problems depending on installation prefix. You cannot have software installed in the following locations:
+    - `/usr/local`
+    - `/opt/homebrew`
+    - `/opt/local`
+  - Uninstall Xquartz.
   - Use a dedicated user account to avoid any interference with the environment.
     - No customizations in dotfiles like `.profile`, `.bashrc` etc.
 
@@ -44,14 +41,14 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 
    ```bash
    # Optional. Avoid spaces.
-   echo "WRK_DIR=$HOME/my_build_dir" > 005-customdir.sh
+   export WRK_DIR=$HOME/my_build_dir
    ```
 
 1. _(optional)_ Use a specific SDK (default: `xcodebuild -version -sdk macosx Path`).
 
    ```bash
    # Optional. Avoid spaces.
-   echo "SDKROOT=$HOME/MacOSX10.13.sdk" > 005-sdkroot.sh
+   export SDKROOT=$HOME/MacOSX10.13.sdk
    ```
 
 1. Build the toolset.
@@ -63,6 +60,8 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    This will
    - build everything in your `$WRK_DIR`
    - take some time!
+
+You'll likely see warnings during the build - that's normal. Some of them cannot be avoided, others are there to point out where you might be deviating from the recommended setup (e.g. using a different macOS version).
 
 ## Building Inkscape
 
@@ -96,10 +95,11 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    This will
 
    - download the latest toolset [release](https://github.com/dehesselle/mibap/releases) (about 1.1 GiB) to `/Users/Shared/work/repo`
-   - mount the (read-only) toolset to `/Users/Shared/work/<version>`
-   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/<version>`
+   - mount the (read-only) toolset to `/Users/Shared/work/mibap-0.63`
+   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/mibap-0.63`
 
-   The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.
+   The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.  
+   _(Version numbers are subject to change.)_
 
 1. Set `INK_DIR` to your clone of Inkscape's repository and start the build.
 
@@ -111,8 +111,8 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    ```
 
    This will
-   - build and install Inkscape (unpackaged) to `/Users/Shared/work/<version>`
-   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/<version>`.
+   - build and install Inkscape (unpackaged) to `/Users/Shared/work/mibap-0.63`
+   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/mibap-0.63`.
 
 ## Contact
 

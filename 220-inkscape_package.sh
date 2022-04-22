@@ -134,14 +134,6 @@ lib_add_rpath @executable_path/../../../../../../../../Resources/lib \
   "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/Resources/\
 Python.app/Contents/MacOS/Python
 
-# Exteract the externally built wheels if present. Wheels in TMP_DIR
-# will take precedence over the ones in PKG_DIR.
-if [ -f "$PKG_DIR"/wheels.tar.xz ]; then
-  tar -C "$TMP_DIR" -xf "$PKG_DIR"/wheels.tar.xz
-else
-  echo_w "not using externally built wheels"
-fi
-
 # Install wheels.
 ink_pipinstall INK_PYTHON_PKG_APPDIRS         # extension manager
 ink_pipinstall INK_PYTHON_PKG_BEAUTIFULSOUP4  # extension manager

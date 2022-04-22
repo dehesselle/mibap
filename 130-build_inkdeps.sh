@@ -42,7 +42,3 @@ ink_download_python
 # Build Python wheels and save them to our package cache.
 
 ink_build_wheels
-
-# To provide backward compatibility, wheels are also built externally on a
-# machine running the minimum supported OS version. CI takes care of
-# acquiring those and puts them as wheels.tar.xz into PKG_DIR.
