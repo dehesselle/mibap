@@ -313,17 +313,12 @@
   <cmake
     id="openmp">
     <branch
-      module="llvm/llvm-project/releases/download/llvmorg-11.0.0/openmp-11.0.0.src.tar.xz"
-      version="11.0.0"
-      hash="sha256:2d704df8ca67b77d6d94ebf79621b0f773d5648963dd19e0f78efef4404b684c"
+      module="llvm/llvm-project/releases/download/llvmorg-12.0.1/openmp-12.0.1.src.tar.xz"
+      version="12.0.1"
+      hash="sha256:60fe79440eaa9ebf583a6ea7f81501310388c02754dbe7dc210776014d06b091"
       repo="github"
-      checkoutdir="openmp-11.0.0">
+      checkoutdir="openmp-12.0.1">
     </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
   </cmake>
 
   <!-- Poppler https://poppler.freedesktop.org -->
