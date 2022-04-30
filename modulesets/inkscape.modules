@@ -284,6 +284,7 @@
       <dep package="libcdr"/>
       <dep package="libsoup"/>
       <dep package="libvisio"/>
+      <dep package="libwebp"/>
       <dep package="openjpeg"/>
       <dep package="openmp"/>
       <dep package="poppler"/>
