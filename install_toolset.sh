@@ -15,7 +15,8 @@
 
 ### dependencies ###############################################################
 
-# Nothing here.
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
 ### variables ##################################################################
 
@@ -26,8 +27,6 @@ SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
 # Nothing here.
 
 ### main #######################################################################
-
-cp "$SELF_DIR"/jhb-custom.conf.sh "$SELF_DIR"/jhb/etc/jhb-custom.conf.sh
 
 "$SELF_DIR"/jhb/usr/bin/archive install_dmg 3
 
