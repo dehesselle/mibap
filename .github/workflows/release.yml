@@ -12,7 +12,7 @@ jobs:
   ##############################################################################
 
   check_requirements:
-    runs-on: macos-10.15
+    runs-on: macos-11
     steps:
 
       - name: checkout mibap repository
@@ -79,7 +79,7 @@ jobs:
   ##############################################################################
 
   create_release:
-    runs-on: macos-10.15
+    runs-on: macos-11
     needs: call_validate_toolset
     env:
       WRK_DIR: /Users/Shared/work

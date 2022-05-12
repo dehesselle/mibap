@@ -29,7 +29,7 @@ jobs:
   ##############################################################################
 
   build_toolset:
-    runs-on: macos-10.15
+    runs-on: macos-11
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache
@@ -57,14 +57,14 @@ jobs:
           key: ccache-toolset-${{ steps.cache_id.outputs.time }}
           restore-keys: ccache-toolset-
 
-      # GitHub does not provide 10.13 SDK on their runners and no image older
-      # than Catalina. See here for what you can expect in their Catalina image:
-      # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
+      # GitHub does not provide 10.11 SDK on their runners and no image older
+      # than Catalina. See here for what you can expect in their images:
+      # https://github.com/actions/virtual-environments/tree/main/images/macos
       #
       # Official downloads from Apple are not accessible without a developer
       # account and I don't trust 3rd party sources (e.g. "phracker"). So I'm
       # using my own (non-public) source, but I'm providing the means to verify
-      # what I'm doing, see here:
+      # its genuinity, see here:
       # https://github.com/dehesselle/sdkchecksum
       #
       # In order to use your custom SDK_DOWNLOAD_URL, create a repository secret
