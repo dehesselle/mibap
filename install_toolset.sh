@@ -28,6 +28,8 @@ SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 ### main #######################################################################
 
+cp "$SELF_DIR"/jhb-custom.conf.sh "$SELF_DIR"/jhb/etc/jhb-custom.conf.sh
+
 "$SELF_DIR"/jhb/usr/bin/archive install_dmg 3
 
 if [ "$1" = "restore_overlay" ]; then
