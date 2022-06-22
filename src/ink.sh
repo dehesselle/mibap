@@ -102,7 +102,9 @@ INK_PYTHON_PKG_CSSSELECT=cssselect==1.1.0
 INK_PYTHON_PKG_LXML=lxml==4.7.1
 
 # https://pypi.org/project/numpy/
-INK_PYTHON_PKG_NUMPY=numpy==1.22.1
+INK_PYTHON_PKG_NUMPY=https://files.pythonhosted.org/packages/\
+b4/85/8097082c4794d854e40f84639c83e33e516431faaeb9cecba39eba6921d5/\
+numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl
 
 # https://pypi.org/project/Pillow/
 INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
@@ -177,7 +179,12 @@ function ink_pipinstall
   # turn package names into filenames of our wheels
   local wheels
   for package in $(eval echo \$"$packages"); do
-    package=$(eval echo "${package%==*}"*.whl)
+    if [ "${package::8}" = "https://" ]; then
+      package=$(basename "$package")
+    else
+      package=$(eval echo "${package/==/-}"*.whl)
+    fi
+
     # If present in TMP_DIR, use that. This is how the externally built
     # packages can be fed into this.
     if [ -f "$TMP_DIR/$package" ]; then
@@ -285,9 +292,22 @@ Resources/PythonInterpreter.icns" \
 function ink_build_wheels
 {
   jhb run pip3 install wheel
-  for pkg in ${!INK_PYTHON_PKG_*}; do
-    # shellcheck disable=SC2046 # we need word splitting here
-    jhb run pip3 wheel --no-binary :all: $(eval echo \$"$pkg") -w "$PKG_DIR"
+
+  for package_set in ${!INK_PYTHON_PKG_*}; do
+    local packages
+    for package in $(eval echo \$"$package_set"); do
+      if [ "${package::8}" = "https://" ]; then
+        curl -L -o "$PKG_DIR/$(basename "$package")" "$package"
+      else
+        packages="$packages $package"
+      fi
+    done
+
+    if [ -n "$packages" ]; then
+      # shellcheck disable=SC2086 # we need word splitting here
+      jhb run pip3 wheel --no-binary :all: $packages -w "$PKG_DIR"
+      packages=""
+    fi
   done
 }
 
