@@ -23,11 +23,11 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 
 - There are __version recommendations__ based on known working setups.
   - For `x86_64` architecture:
-    - macOS Big Sur 11.6.5
+    - macOS Big Sur 11.6.7
     - Xcode 13.0
     - macOS High Sierra 10.13 SDK (from Xcode 9.4.1)
   - For `arm64` architecture:
-    - macOS Big Sur 11.6.5
+    - macOS Big Sur 11.6.7
     - Xcode 13.2.1
     - macOS Big Sur 11.3 SDK (from Xcode 13.0)
 
