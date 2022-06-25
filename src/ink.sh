@@ -232,6 +232,13 @@ function ink_pipinstall_numpy
     "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER_MAJOR
   sed -i '' '1s|.*|#!/usr/bin/env python'"$INK_PYTHON_VER_MAJOR"'|' \
     "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER
+
+  find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
+    '(' -name "*.so" -o -name "*.dylib" ')' \
+    -exec codesign --remove-signature {} \;
+
+  find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
+    -name "*.a" -delete
 }
 
 function ink_pipinstall_pygobject
