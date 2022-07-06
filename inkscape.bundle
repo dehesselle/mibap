@@ -89,6 +89,16 @@
   <binary>
     ${prefix}/lib/enchant-2/*.so
   </binary>
+  <!-- Ghostscript (disable this for GPLv2+ compliance!) -->
+  <binary>
+    ${prefix}/bin/gs
+  </binary>
+  <data>
+    ${prefix}/share/ghostscript
+  </data>
+  <data>
+    ${prefix}/bin/ps2pdf*
+  </data>
   <!-- GObject Introspection -->
   <binary>
     ${prefix}/lib/libgirepository-1.0.1.dylib

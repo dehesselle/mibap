@@ -50,4 +50,11 @@ cd "$INK_BLD_DIR" || exit 1
 
 ninja tests   # build tests
 
-ctest -V      # run tests
+# run tests
+# exclude four tests: https://gitlab.com/inkscape/inbox/-/issues/7304
+ctest -V -E "(\
+export-clone-group-filtered-mp|\
+export-filtered-clones-mp|\
+export-grouped-mp|\
+export-with-filters-multipage\
+)"

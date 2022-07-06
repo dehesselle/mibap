@@ -72,6 +72,12 @@ lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
 lib_change_paths @loader_path/.. "$INK_APP_LIB_DIR" \
   "$INK_APP_LIB_DIR"/enchant-2/enchant_applespell.so
 
+# Point Ghostscript towards INK_APP_LIB_DIR using @executable_path.
+lib_change_paths \
+  @executable_path/../lib \
+  "$INK_APP_LIB_DIR" \
+  "$INK_APP_BIN_DIR"/gs
+
 #------------------------------------------------------ use rpath in cache files
 
 sed -i '' \

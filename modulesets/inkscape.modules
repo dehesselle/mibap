@@ -99,6 +99,25 @@
     </dependencies>
   </autotools>
 
+  <!-- Ghostscript https://www.ghostscript.com -->
+  <autotools
+    id="ghostscript"
+    autogen-sh="configure"
+    autogenargs="--without-tesseract --without-x">
+    <branch
+      module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/ghostscript-9.56.1.tar.xz"
+      version="9.56.1"
+      hash="sha256:d43406805650009b42c3d5f6dc535233454533c1e27c13a77dd1d462a056b8e4"
+      repo="github">
+      <patch
+        file="ghostscript_configure_libtiff.patch"
+        strip="1"/>
+      <patch
+        file="ghostscript_link_cupsimage.patch"
+        strip="1"/>
+    </branch>
+  </autotools>
+
   <!-- Google Testing and Mocking Framework https://github.com/google/googletest -->
   <cmake
     id="googletest">
@@ -276,6 +295,7 @@
     <dependencies>
       <dep package="bdwgc"/>
       <dep package="doubleconversion"/>
+      <dep package="ghostscript"/>
       <dep package="googletest"/>
       <dep package="gspell"/>
       <dep package="gsl"/>

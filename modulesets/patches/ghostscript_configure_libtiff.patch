@@ -1,0 +1,11 @@
+--- a/configure	2022-04-04 15:48:49.000000000 +0200
++++ b/configure	2022-07-06 01:03:53.000000000 +0200
+@@ -8796,7 +8796,7 @@
+       if ! test -d "$LIBTIFFCONFDIR" ; then
+         mkdir "$LIBTIFFCONFDIR"
+       fi
+-      cd "$LIBTIFFCONFDIR" && "$absolute_source_path/$LIBTIFFDIR/configure" $GS_TIFF_CONFIGURE_OPTS --disable-jbig --disable-lzma --disable-zstd --disable-webp --disable-libdeflate $SUBCONFIG_OPTS
++      cd "$LIBTIFFCONFDIR" && "$LIBTIFFDIR/configure" $GS_TIFF_CONFIGURE_OPTS --disable-jbig --disable-lzma --disable-zstd --disable-webp --disable-libdeflate $SUBCONFIG_OPTS
+       status=$?
+       if test $status -ne 0 ; then
+         as_fn_error $status "libtiff configure script failed" "$LINENO" 5
