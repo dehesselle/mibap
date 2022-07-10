@@ -1,0 +1,4 @@
+# The following code will be appended to jhbuildrc-custom.
+
+if _default_arch == "arm64":
+  module_extra_env["gsl"] = { "MACOSX_DEPLOYMENT_TARGET": "" }

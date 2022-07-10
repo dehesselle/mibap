@@ -28,11 +28,6 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 
-cat <<EOF >> "$ETC_DIR/jhbuildrc-inkscape"
-if _default_arch == "arm64":
-  module_extra_env["gsl"] = { "MACOSX_DEPLOYMENT_TARGET": "" }
-EOF
-
 jhb build \
   libxml2 \
   pygments \
