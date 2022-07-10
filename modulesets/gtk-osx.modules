@@ -281,11 +281,10 @@
 
   <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
   <meson id="gtk+-3.0" mesonargs="-Dx11_backend=false">
-    <branch module="gtk+/3.24/gtk+-3.24.33.tar.xz" version="3.24.33"
-            hash="sha256:588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801">
+    <branch module="gtk+/3.24/gtk+-3.24.34.tar.xz" version="3.24.34"
+            hash="sha256:dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec">
       <patch file="gtk-3.24.33-remove-gtk4-update-icon-cache-dependency.patch" strip="1"/>
       <patch file="gtk-3.24.33-quartz-window-transient-for.patch" strip="1"/>
-      <patch file="gtk-quartz_relocation.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
