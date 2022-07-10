@@ -15,15 +15,7 @@
 
   <include href="gtk-osx.modules"/>
 
-  <!--
-       - Dependencies marked with TODO have not been investigated yet.
-         Maybe there are no dependencies or maybe they need to be added.
-
-       - Indentation may look strange for an XML file, but this is to make
-         my life easier as this is a manually maintained file.
-  -->
-
-  <!-- Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
+  <!--  Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
   <autotools
     id="bdwgc"
     autogen-sh="configure">
@@ -35,11 +27,11 @@
     </branch>
   </autotools>
 
-  <!-- boost C++ libraries https://www.boost.org
+  <!--  boost C++ libraries https://www.boost.org
 
-       This is a hackish way of installing boost with JHBuild. Skipping
-       installation means that JHBuild will (re-)install this everytime
-       it gets pulled in.
+        This is a hackish way of installing boost with JHBuild. Skipping
+        installation means that JHBuild will (re-)install this everytime
+        it gets pulled in.
   -->
   <autotools
     id="boost"
@@ -57,7 +49,7 @@
     </branch>
   </autotools>
 
-  <!-- binary<->decimal routines for IEEE doubles https://github.com/google/double-conversion -->
+  <!--  binary<->decimal routines for IEEE doubles https://github.com/google/double-conversion -->
   <cmake
     id="doubleconversion">
     <branch
@@ -70,7 +62,7 @@
     </branch>
   </cmake>
 
-  <!-- GNU core utilities https://www.gnu.org/software/coreutils/ -->
+  <!--  GNU core utilities https://www.gnu.org/software/coreutils/ -->
   <autotools
     id="coreutils"
     autogen-sh="configure">
@@ -82,7 +74,7 @@
     </branch>
   </autotools>
 
-  <!-- cppunit test framework https://www.freedesktop.org/wiki/Software/cppunit/ -->
+  <!--  cppunit test framework https://www.freedesktop.org/wiki/Software/cppunit/ -->
   <autotools
     id="cppunit"
     autogen-sh="configure">
@@ -92,14 +84,12 @@
       hash="sha256:89c5c6665337f56fd2db36bc3805a5619709d51fb136e51937072f63fcc717a7"
       repo="libreoffice">
     </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
   </autotools>
 
-  <!-- Ghostscript https://www.ghostscript.com -->
+  <!--  Ghostscript https://www.ghostscript.com
+
+        This has to be removed entirely for GPLv2+ compatibility.
+  -->
   <autotools
     id="ghostscript"
     autogen-sh="configure"
@@ -118,7 +108,7 @@
     </branch>
   </autotools>
 
-  <!-- Google Testing and Mocking Framework https://github.com/google/googletest -->
+  <!--  Google Testing and Mocking Framework https://github.com/google/googletest -->
   <cmake
     id="googletest">
     <branch
@@ -129,16 +119,11 @@
       checkoutdir="googletest-1.10.0"
       rename-tarball="googletest-1.10.0.tar.gz">
     </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
   </cmake>
 
-  <!-- GNU Scientific Library https://www.gnu.org/software/gsl
+  <!--  GNU Scientific Library https://www.gnu.org/software/gsl
 
-       We stick to version 1.9 as this is the last one licensed under GPLv2.
+        We stick to version 1.9 as this is the last one licensed under GPLv2.
   -->
   <autotools
     id="gsl"
@@ -152,7 +137,7 @@
     </branch>
   </autotools>
 
-  <!-- Spell checking for GTK https://wiki.gnome.org/Projects/gspell -->
+  <!--  Spell checking for GTK https://wiki.gnome.org/Projects/gspell -->
   <autotools
     id="gspell">
     <branch
@@ -176,14 +161,14 @@
     </dependencies>
   </autotools>
 
-  <!-- GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
+  <!--  GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 
-       This is a hackish way of installing GTK Mac Bundler with JHBuild.
-       The patch supplies a mocked configure script that's only interested in
-       taking the prefix and patching the Makefile accordingly. Skipping
-       installation means that JHBuild will (re-)install this everytime
-       it gets pulled in.
-   -->
+        This is a hackish way of installing GTK Mac Bundler with JHBuild.
+        The patch supplies a mocked configure script that's only interested in
+        taking the prefix and patching the Makefile accordingly. Skipping
+        installation means that JHBuild will (re-)install this everytime
+        it gets pulled in.
+  -->
   <autotools
     id="gtkmacbundler"
     autogen-sh="configure"
@@ -203,7 +188,7 @@
     </branch>
   </autotools>
 
-  <!-- ImageMagick 6 https://legacy.imagemagick.org -->
+  <!--  ImageMagick 6 https://legacy.imagemagick.org -->
   <autotools
     id="imagemagick"
     autogen-sh="configure">
@@ -223,7 +208,7 @@
     </dependencies>
   </autotools>
 
-  <!-- Little cms color engine https://sourceforge.net/projects/lcms/ -->
+  <!--  Little cms color engine https://sourceforge.net/projects/lcms/ -->
   <autotools
     id="lcms"
     autogen-sh="configure">
@@ -234,7 +219,7 @@
       repo="sourceforge"/>
   </autotools>
 
-  <!-- Reading/Writing CorelDRAW files https://github.com/LibreOffice/libcdr -->
+  <!--  Reading/Writing CorelDRAW files https://github.com/LibreOffice/libcdr -->
   <autotools
     id="libcdr"
     autogen-sh="autoreconf">
@@ -254,7 +239,7 @@
     </dependencies>
   </autotools>
 
-  <!-- base library for document import filters https://sourceforge.net/p/libwpd/wiki/librevenge/ -->
+  <!--  base library for document import filters https://sourceforge.net/p/libwpd/wiki/librevenge/ -->
   <autotools
     id="librevenge"
     autogen-sh="configure">
@@ -269,7 +254,7 @@
     </dependencies>
   </autotools>
 
-  <!-- Reading/Converting Visio files https://github.com/LibreOffice/libvisio -->
+  <!--  Reading/Converting Visio files https://github.com/LibreOffice/libvisio -->
   <autotools
     id="libvisio"
     autogen-sh="autoreconf">
@@ -311,7 +296,7 @@
     </dependencies>
   </metamodule>
 
-  <!-- OpenJPEG https://github.com/uclouvain/openjpeg -->
+  <!--  OpenJPEG https://github.com/uclouvain/openjpeg -->
   <cmake
     id="openjpeg">
     <branch
@@ -323,13 +308,13 @@
       rename-tarball="openjpeg-2.4.0.tar.gz">
     </branch>
     <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
+      <dep package="lcms"/>
+      <dep package="libpng"/>
+      <dep package="libtiff"/>
     </dependencies>
   </cmake>
 
-  <!-- OpenMP https://github.com/llvm/llvm-project -->
+  <!--  OpenMP https://github.com/llvm/llvm-project -->
   <cmake
     id="openmp">
     <branch
@@ -341,7 +326,7 @@
     </branch>
   </cmake>
 
-  <!-- Poppler https://poppler.freedesktop.org -->
+  <!--  Poppler https://poppler.freedesktop.org -->
   <cmake
     id="poppler"
     cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF">
@@ -359,7 +344,7 @@
      </dependencies>
   </cmake>
 
-  <!-- Potrace http://potrace.sourceforge.net -->
+  <!--  Potrace http://potrace.sourceforge.net -->
   <autotools
     id="potrace"
     autogen-sh="configure"
@@ -370,17 +355,12 @@
       hash="sha256:be8248a17dedd6ccbaab2fcc45835bb0502d062e40fbded3bc56028ce5eb7acc"
       repo="sourceforge">
     </branch>
-    <dependencies>
-      <!-- TODO
-      <dep package="package-name"/>
-      -->
-    </dependencies>
   </autotools>
 
-  <!-- Rust https://www.rust-lang.org
+  <!--  Rust https://www.rust-lang.org
 
-    Rust has a custom setup routine (rustup) which is wrapped into
-    a cmake file introduced by that patch below.
+        Rust has a custom setup routine (rustup) which is wrapped into
+        a cmake file introduced by that patch below.
   -->
   <cmake
     id="rust"
