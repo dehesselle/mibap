@@ -61,8 +61,12 @@ build:
       rm -rf "${VAR_DIR:?}"/cache/pycache/*
     - jhb/usr/bin/archive create_dmg
   after_script:
-    # for persistent runners: cleanup
-    - rm -rf $WRK_DIR/mibap-$(grep VERSION= jhb-custom.conf.sh | awk -F '=' '{ print $2 }')
+    # Cleanup is necessary for persistent runners but can be disabled for
+    # debugging purposes.
+    - |
+      if [ ! -f "$WRK_DIR"/no_cleanup-15865869 ]; then
+        rm -rf "${VER_DIR:?}"
+      fi
   artifacts:
     paths:
       - mibap*.dmg
