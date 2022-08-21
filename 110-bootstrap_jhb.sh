@@ -6,9 +6,9 @@
 
 ### description ################################################################
 
-# Bootstrap jhb. We want to use our own versioning and naming (so mutiple
-# versions can coexist independent from each other on one machine), therefore we
-# cannot use the pre-built bootstrap archive.
+# Bootstrap jhb with our slightly customized configuration. We use our own
+# versioning and naming scheme, making this incompatible with the pre-built
+# bootstrapped jhb archive (everything will be built from scratch here).
 
 ### shellcheck #################################################################
 
@@ -28,10 +28,4 @@ SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 ### main #######################################################################
 
-#-------------------------------------------------- install custom configuration
-
-cp "$SELF_DIR"/jhb-custom.conf.sh "$SELF_DIR"/jhb/etc
-
-#----------------------------------------------------------------- run bootstrap
-
-"$SELF_DIR"/jhb/usr/bin/bootstrap
+"$SELF_DIR"/jhb/usr/bin/bootstrap "$SELF_DIR"/jhb-custom.conf.sh

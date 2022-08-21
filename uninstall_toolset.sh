@@ -14,8 +14,8 @@
 
 ### dependencies ###############################################################
 
-source "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
-source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh \
+  "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
 
 bash_d_include echo
@@ -23,7 +23,7 @@ bash_d_include error
 
 ### variables ##################################################################
 
-SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
+SELF_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1; pwd)
 
 ### functions ##################################################################
 

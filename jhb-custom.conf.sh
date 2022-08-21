@@ -24,8 +24,15 @@ VER_DIR_TEMPLATE="\$WRK_DIR/mibap-\$VERSION"
 RECOMMENDED_SDK_VER_X86_64=10.13
 
 RELEASE_ARCHIVE=mibap-"$VERSION"_$(uname -m).dmg
-RELEASE_URL_TEMPLATE="https://github.com/dehesselle/mibap/releases/download/\
-v\$VERSION/\$RELEASE_ARCHIVE"
+
+# GitHub: https://github.com/dehesselle/mibap
+# GitLab: https://gitlab.com/inkscape/devel/mibap
+RELEASE_URLS=(
+  "https://github.com/dehesselle/mibap/releases/download/\
+v$VERSION/$RELEASE_ARCHIVE"
+  "https://gitlab.com/api/v4/projects/15865869/packages/generic/mibap/\
+$VERSION/$RELEASE_ARCHIVE"
+)
 
 ### functions ##################################################################
 
