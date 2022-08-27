@@ -39,8 +39,8 @@ error_trace_enable
 
 ( # run gtk-mac-bundler
 
-  cp "$SELF_DIR"/inkscape.bundle "$INK_BLD_DIR"
-  cp "$SELF_DIR"/inkscape.plist "$INK_BLD_DIR"
+  cp "$SELF_DIR"/src/inkscape.bundle "$INK_BLD_DIR"
+  cp "$SELF_DIR"/res/inkscape.plist "$INK_BLD_DIR"
 
   cd "$INK_BLD_DIR" || exit 1
   export ARTIFACT_DIR=$ARTIFACT_DIR   # referenced in inkscape.bundle
@@ -168,7 +168,7 @@ done
 
 # Our customized version loses all the non-macOS paths and sets a cache
 # directory below '$HOME/Library/Application Support/Inkscape'.
-cp "$SELF_DIR"/fonts.conf "$INK_APP_ETC_DIR"/fonts
+cp "$SELF_DIR"/res/fonts.conf "$INK_APP_ETC_DIR"/fonts
 
 #-------------------------------- use rpath for GObject introspection repository
 

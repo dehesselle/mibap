@@ -52,7 +52,7 @@ function dmgbuild_run
 
   # Copy templated version of the file (it contains placeholders) to source
   # directory. They copy will be modified to contain the actual values.
-  cp "$SELF_DIR"/"$(basename "$DMGBUILD_CONFIG")" "$SRC_DIR"
+  cp "$SELF_DIR"/src/"$(basename "$DMGBUILD_CONFIG")" "$SRC_DIR"
 
   # set application
   sed -i '' "s|PLACEHOLDERAPPLICATION|$INK_APP_DIR|" "$DMGBUILD_CONFIG"
