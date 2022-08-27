@@ -1,8 +1,9 @@
 # macOS Inkscape build and package (mibap)
 
-![GitHub build worfklow](https://github.com/dehesselle/mibap/actions/workflows/build.yml/badge.svg)
+![pipeline status](https://gitlab.com/inkscape/devel/mibap/badges/master/pipeline.svg)
+![Latest Release](https://gitlab.com/inkscape/devel/mibap/-/badges/release.svg)
 
-This repository is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
+This repository (on [GitLab](https://gitlab.com/inkscape/devel/mibap), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
 
 ## Under the hood
 
@@ -122,6 +123,10 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
 ## Contact
 
 If you want to reach out, join [#team_devel_mac](https://chat.inkscape.org/channel/team_devel_mac) on Inkscape's RocketChat.
+
+## Credits
+
+- The red apple used in the mibap logo on GitLab is from [Fruit icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/fruit).
 
 ## License
 
