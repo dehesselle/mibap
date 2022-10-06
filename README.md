@@ -22,15 +22,11 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
   - Use a dedicated user account to avoid any interference with the environment.
     - No customizations in dotfiles like `.profile`, `.bashrc` etc.
 
-- There are __version recommendations__ based on known working setups.
-  - For `x86_64` architecture:
-    - macOS Big Sur 11.6.8
-    - Xcode 13.0
-    - macOS High Sierra 10.13 SDK (from Xcode 9.4.1)
-  - For `arm64` architecture:
-    - macOS Big Sur 11.6.8
-    - Xcode 13.2.1
-    - macOS Big Sur 11.3 SDK (from Xcode 13.0)
+- There are __version recommendations__ based on known working setups, targeting the minimum supported OS versions (see [`sys.sh`](etc/jhb.conf/sys.sh)).
+  - macOS Monterey 12.6
+  - Xcode 13.x
+  - macOS High Sierra 10.13.4 SDK (from Xcode 9.4.1) for `x86_64` architecture
+  - macOS Big Sur 11.3 SDK (from Xcode 13.0) for `arm64` architecture
 
 - An __internet connection__ for all the downloads.
 
