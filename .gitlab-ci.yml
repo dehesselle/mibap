@@ -17,20 +17,8 @@ include:
 
 #------------------------------------------------------------------------- build
 
-build:
+.build:
   stage: build
-  parallel:
-    matrix:
-      - RUNNER: [ "macosintel", "macosarm" ]
-  rules:
-    - if: $RUNNER == "macosintel"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
-    - if: $RUNNER == "macosarm"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX11.3.sdk
-  tags:
-    - ${RUNNER}
   script:
     - !reference [ .verify_sdk, script ]
     - ./build_toolset.sh
@@ -45,6 +33,24 @@ build:
       rm -rf "${VAR_DIR:?}"/cache/pip/*
       rm -rf "${VAR_DIR:?}"/cache/pycache/*
     - jhb/usr/bin/archive create_dmg
+  artifacts:
+    paths:
+      - mibap*.dmg
+
+build:
+  extends: .build
+  parallel:
+    matrix:
+      - RUNNER: [ "macosintel", "macosarm" ]
+  rules:
+    - if: $RUNNER == "macosintel"
+      variables:
+        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
+    - if: $RUNNER == "macosarm"
+      variables:
+        SDKROOT: /opt/sdks/MacOSX11.3.sdk
+  tags:
+    - ${RUNNER}
   after_script:
     # Cleanup is necessary for persistent runners but can be disabled for
     # debugging purposes. (the number is not random, it's the project ID)
@@ -53,9 +59,20 @@ build:
       if [ ! -f "$WRK_DIR"/no_cleanup-15865869 ]; then
         rm -rf "${VER_DIR:?}"
       fi
-  artifacts:
+
+build:gitlab:
+  extends: .build
+  tags:
+    - shared-macos-amd64
+  image: macos-10.15-xcode-11
+  when: manual   # on demand only!
+  variables:
+    CCACHE_DIR: $CI_PROJECT_DIR/ccache
+    SYS_IGNORE_USR_LOCAL: "true"
+  cache:
+    key: "ccache-macos"
     paths:
-      - mibap*.dmg
+      - $CI_PROJECT_DIR/ccache
 
 #----------------------------------------------------------------------- release
 
