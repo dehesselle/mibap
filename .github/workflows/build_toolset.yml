@@ -76,7 +76,7 @@ jobs:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
         run: |
           mkdir -p $WRK_DIR
-          curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+          curl --http1.1 -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
           echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
       # Checkout repository to verify SDK...

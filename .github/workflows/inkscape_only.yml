@@ -55,7 +55,7 @@ jobs:
       if: env.SDK_DOWNLOAD_URL != null
       run: |
         mkdir -p $WRK_DIR
-        curl -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
+        curl --http1.1 -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
         echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
     # Download for increased verbosity / to make this a dedicated step.
