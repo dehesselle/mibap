@@ -29,7 +29,7 @@ jobs:
   ##############################################################################
 
   build_toolset:
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache

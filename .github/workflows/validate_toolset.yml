@@ -29,7 +29,7 @@ jobs:
   ##############################################################################
 
   validate_toolset:
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       WRK_DIR: ${{ inputs.WRK_DIR }}
       CCACHE_DIR: ${{ inputs.CCACHE_DIR }}
