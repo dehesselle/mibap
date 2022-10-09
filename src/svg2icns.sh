@@ -13,7 +13,8 @@
 
 ### dependencies ###############################################################
 
-# Nothing here.
+source "$(dirname "${BASH_SOURCE[0]}")"/cairosvg.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/png2icns.sh
 
 ### variables ##################################################################
 
@@ -41,7 +42,7 @@ function svg2icns
   png_file=$TMP_DIR/$(basename -s .svg "$svg_file").png
 
   # svg to png
-  jhbuild run cairosvg -f png -s $scale -o "$png_file" "$svg_file"
+  jhb run cairosvg -f png -s $scale -o "$png_file" "$svg_file"
 
   # png to icns
   cd "$TMP_DIR" || exit 1   # png2icns.sh outputs to current directory

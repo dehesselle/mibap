@@ -16,15 +16,11 @@
 ### dependencies ###############################################################
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
-# shellcheck disable=SC1091 # dynamic include
-source "$SRC_DIR"/jhb/jhbuild.sh
+
+source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/svg2icns.sh
 
 bash_d_include error
-
-source "$(dirname "${BASH_SOURCE[0]}")"/src/cairosvg.sh
-source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
-source "$(dirname "${BASH_SOURCE[0]}")"/src/png2icns.sh
-source "$(dirname "${BASH_SOURCE[0]}")"/src/svg2icns.sh
 
 ### variables ##################################################################
 
