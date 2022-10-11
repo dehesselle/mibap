@@ -60,7 +60,7 @@ INK_PYTHON_VER_MAJOR=3
 INK_PYTHON_VER_MINOR=10
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/12/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
+python_macos/15/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
