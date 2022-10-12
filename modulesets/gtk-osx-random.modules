@@ -39,11 +39,9 @@
             hash="sha256:1de26310db465aca525679d3b5a3c1d8db2e067c4cbc0e5ddd015cd938bac68b"/>
     <dependencies>
       <dep package="graphviz"/>
-    </dependencies>
-    <after>
       <dep package="meta-gtk-osx-bootstrap"/>
       <dep package="meta-gtk-osx-gtk3"/>
-    </after>
+    </dependencies>
   </autotools>
 
   <meson id="glade" mesonargs="-Dmac_bundle=true -Dman=false" >
@@ -58,7 +56,7 @@
 
   <!-- gtksourceview got a major version ahead: 4.x.x supports recent versions of gtk+-3 and 5.x.x is for gtk4.
   -->
-  <meson id="gtksourceview3">
+  <meson id="gtksourceview3" mesonargs="-Dvapi=false">
     <branch module="gtksourceview/4.8/gtksourceview-4.8.1.tar.xz"
             version="4.8.1"
             hash="sha256:d163d71b5fcafbc5b1eec6dd841edbdbcddd3a7511cd5fdcffd86b8bbfe69ac1">

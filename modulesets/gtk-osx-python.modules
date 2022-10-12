@@ -16,16 +16,6 @@
   <repository type="tarball" name="github-tarball"
               href="https://github.com"/>
 
-  <metamodule id="meta-gtk-osx-python-gtk3">
-    <dependencies>
-      <dep package="pycairo"/>
-      <dep package="pygobject3"/>
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-gtk3"/>
-    </after>
-  </metamodule>
-
   <metamodule id="meta-gtk-osx-python3-gtk3">
     <dependencies>
       <dep package="pycairo"/>
@@ -52,12 +42,10 @@
 	    hash="sha256:5695a10cb7f9ae0d01f665b56602a845b0a8cb17e2123bfece10c2e58552468c"/>
     <dependencies>
       <dep package="cairo"/>
-    </dependencies>
-    <after>
       <dep package="python3"/>
       <dep package="meta-gtk-osx-gtk3"/>
-    </after>
-   </meson>
+    </dependencies>
+  </meson>
 
    <meson id="pygobject3" >
     <branch version="3.40.1" module="pygobject/3.40/pygobject-3.40.1.tar.xz"
@@ -158,5 +146,5 @@
       <dep package="python3"/>
     </dependencies>
   </distutils>
-
+  
 </moduleset>
