@@ -74,13 +74,9 @@
             hash="sha256:4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8"/>
   </autotools>
   
-  <!--
-    sticking with glib 2.70.5 until a new release contains
-    https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2578
-  -->
   <meson id="glib" mesonargs="-Dlibmount=disabled">
-    <branch module="glib/2.70/glib-2.70.5.tar.xz"  version="2.70.5"
-            hash="sha256:f70bf76ebcc84e0705722f038be8e2f9a58d17e1a700810c635fcc18b8974b7e">
+    <branch module="glib/2.72/glib-2.72.1.tar.xz"  version="2.72.1"
+            hash="sha256:c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2">
     </branch>
     <dependencies>
       <dep package="libffi"/>
