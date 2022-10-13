@@ -27,9 +27,9 @@ DMGBUILD_PIP="\
   dmgbuild==1.5.2\
   ds-store==1.3.0\
   mac-alias==2.2.0\
-  pyobjc-core==7.3\
-  pyobjc-framework-Cocoa==7.3\
-  pyobjc-framework-Quartz==7.3\
+  pyobjc-core==8.5.1\
+  pyobjc-framework-Cocoa==8.5.1\
+  pyobjc-framework-Quartz==8.5.1\
 "
 
 DMGBUILD_CONFIG="$SRC_DIR"/inkscape_dmg.py
