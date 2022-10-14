@@ -1,5 +1,6 @@
 # macOS Inkscape build and package (mibap)
 
+![mibap_icon](./res/mibap_icon.png)
 ![pipeline status](https://gitlab.com/inkscape/devel/mibap/badges/master/pipeline.svg)
 ![Latest Release](https://gitlab.com/inkscape/devel/mibap/-/badges/release.svg)
 
@@ -122,7 +123,7 @@ If you want to reach out, join [#team_devel_mac](https://chat.inkscape.org/chann
 
 ## Credits
 
-- The red apple used in the mibap logo on GitLab is from [Fruit icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/fruit).
+The mibap icon uses a [red apple](https://openclipart.org/detail/190698/apple-with-bite) and [gears](https://openclipart.org/detail/176293/meshed-gears) from [Openclipart](https://openclipart.org), licensed under [CC0-1.0](https://spdx.org/licenses/CC0-1.0.html).
 
 ## License
 
