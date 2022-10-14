@@ -85,8 +85,8 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
    cd mibap
    # checkout tag with highest version number
    git checkout $(git tag | grep "^v" | sort -V | tail -1)
-   git submodule init
-   git submodule update
+   # pull in submodules
+   git submodule update --init --recursive
    ```
 
 1. Install the toolset.
