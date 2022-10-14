@@ -68,7 +68,7 @@ build:gitlab:
   when: manual   # on demand only!
   variables:
     CCACHE_DIR: $CI_PROJECT_DIR/ccache
-    SYS_IGNORE_USR_LOCAL: "true"
+    SYS_USRLOCAL_IGNORE: "true"
   cache:
     key: "ccache-macos"
     paths:
