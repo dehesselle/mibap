@@ -90,17 +90,16 @@ sed -i '' \
 
 # update Inkscape version information
 /usr/libexec/PlistBuddy \
-  -c "Set CFBundleShortVersionString '$(ink_get_version) \
-($(ink_get_repo_shorthash))'" \
-  "$INK_APP_CON_DIR"/Info.plist
+  -c "Set CFBundleShortVersionString '$(ink_get_version)'" \
+  "$INK_APP_PLIST"
 /usr/libexec/PlistBuddy \
-  -c "Set CFBundleVersion '$(ink_get_version) ($(ink_get_repo_shorthash))'" \
-  "$INK_APP_CON_DIR"/Info.plist
+  -c "Set CFBundleVersion '$INK_BUILD'" \
+  "$INK_APP_PLIST"
 
 # update minimum system version according to deployment target
 /usr/libexec/PlistBuddy \
   -c "Set LSMinimumSystemVersion $SYS_SDK_VER" \
-  "$INK_APP_CON_DIR"/Info.plist
+  "$INK_APP_PLIST"
 
 # add some metadata to make CI identifiable
 if $CI_GITLAB; then
@@ -112,7 +111,7 @@ if $CI_GITLAB; then
         for (i=1; i<=NF; i++)
         printf "%s", toupper(substr($i,1,1)) tolower(substr($i,2))
       }'
-    ) string $(eval echo \$CI_$var)" "$INK_APP_CON_DIR"/Info.plist
+    ) string $(eval echo \$CI_$var)" "$INK_APP_PLIST"
   done
 fi
 

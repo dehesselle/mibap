@@ -16,7 +16,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
-source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
+source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
 
 bash_d_include error
 
@@ -45,4 +45,4 @@ LD_LIBRARY_PATH=$LIB_DIR convert -size 560x400 xc:transparent \
   "$SRC_DIR"/inkscape_dmg.png
 
 # Create the disk image.
-dmgbuild_run "$ARTIFACT_DIR"/Inkscape.dmg
+dmgbuild_run "$SELF_DIR"/src/inkscape_dmg.py "$INK_APP_PLIST"

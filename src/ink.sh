@@ -51,6 +51,10 @@ fi
 
 INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
 
+#------------------------------------------------------------------ build number
+
+INK_BUILD=${INK_BUILD:-0}
+
 #------------------------------------ Python runtime to be bundled with Inkscape
 
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
@@ -140,6 +144,8 @@ INK_APP_ETC_DIR=$INK_APP_RES_DIR/etc
 INK_APP_EXE_DIR=$INK_APP_CON_DIR/MacOS
 INK_APP_LIB_DIR=$INK_APP_RES_DIR/lib
 INK_APP_SPK_DIR=$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages
+
+INK_APP_PLIST=$INK_APP_CON_DIR/Info.plist
 
 ### functions ##################################################################
 

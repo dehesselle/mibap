@@ -17,7 +17,6 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
-source "$(dirname "${BASH_SOURCE[0]}")"/src/dmgbuild.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/src/svg2icns.sh
 
 bash_d_include error
@@ -35,10 +34,6 @@ bash_d_include error
 if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
   error_trace_enable
 fi
-
-#---------------------------------------------------- install disk image creator
-
-dmgbuild_install
 
 #-------------------------------------------- install application bundle creator
 
