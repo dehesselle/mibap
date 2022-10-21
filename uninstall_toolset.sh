@@ -15,7 +15,7 @@
 ### dependencies ###############################################################
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh \
-  "$(dirname "${BASH_SOURCE[0]}")"/jhb-custom.conf.sh
+  "$(dirname "${BASH_SOURCE[0]}")"/src/jhb-custom.conf.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/src/ink.sh
 
 bash_d_include echo

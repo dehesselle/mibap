@@ -65,7 +65,7 @@ jobs:
 
       - name: install toolset
         run: |
-          cp jhb-custom.conf.sh jhb/etc
+          cp src/jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
           hdiutil attach $RELEASE_ARCHIVE
           rsync -a /Volumes/${RELEASE_ARCHIVE%%_*}/ $VER_DIR/

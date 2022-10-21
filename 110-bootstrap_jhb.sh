@@ -28,4 +28,4 @@ SELF_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 ### main #######################################################################
 
-"$SELF_DIR"/jhb/usr/bin/bootstrap "$SELF_DIR"/jhb-custom.conf.sh
+"$SELF_DIR"/jhb/usr/bin/bootstrap "$SELF_DIR"/src/jhb-custom.conf.sh
