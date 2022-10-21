@@ -123,14 +123,7 @@ svg2icns \
 
 #----------------------------------------------------------- add file type icons
 
-# In order to simplify renaming the 'resources' folder to 'res', support
-# both locations for now.
-
-if [ -d "$INK_DIR"/packaging/macos/res ]; then
-  cp "$INK_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
-else
-  cp "$INK_DIR"/packaging/macos/resources/*.icns "$INK_APP_RES_DIR"
-fi
+cp "$INK_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
 
 #------------------------------------------------------- add Python and packages
 
