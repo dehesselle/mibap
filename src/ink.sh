@@ -21,18 +21,18 @@
 
 # There are 3 possible scenarios:
 #
-#   1. We're running inside GitLab CI:
+#   1. We're running inside Inkscape's CI:
 #      The repository has already been cloned, set INK_DIR accordingly.
 #
-#   2. We're not running inside GitLab CI and INK_DIR has been set:
+#   2. We're not running inside Inkscape's CI and INK_DIR has been set:
 #      Use INK_DIR provided as-is, we expect the source to be there.
 #
-#   3. We're not running inside GitLab CI and INK_DIR has not been set:
+#   3. We're not running inside Inkscape's CI CI and INK_DIR has not been set:
 #      Set INK_DIR to our default location, we'll clone the repo there.
 
-if $CI_GITLAB; then   # running GitLab CI
+if [ "$CI_PROJECT_NAME" = "inkscape" ]; then   # running in Inkscape's CI
   INK_DIR=$CI_PROJECT_DIR
-else                  # not running GitLab CI
+else                                       # not running in Inkscape's CI
   # Use default directory if not provided.
   if [ -z "$INK_DIR" ]; then
     INK_DIR=$SRC_DIR/inkscape

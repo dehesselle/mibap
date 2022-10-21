@@ -45,7 +45,9 @@ jhb configure
 
 #---------------------------------------------------------------- build Inkscape
 
-if ! $CI_GITLAB; then     # not running GitLab CI
+# If we're not running in Inkscape CI, use either an existing source directory
+# or clone the sources there.
+if [ "$CI_PROJECT_NAME" != "inkscape" ]; then
 
   if [ -d "$INK_DIR" ]; then   # Sourcecode directory already there?
     echo_i "using existing source $INK_DIR"
@@ -58,8 +60,7 @@ if ! $CI_GITLAB; then     # not running GitLab CI
       "$INK_URL" "$INK_DIR"
   fi
 
-  # Remove files from a previous build if they exist. This is to ensure clean
-  # builds when running locally or on non-ephemeral runners.
+  # Ensure a clean build by removing files from a previous one if they exist.
   if [ -d "$INK_BLD_DIR" ]; then
     rm -rf "$INK_BLD_DIR"
   fi
