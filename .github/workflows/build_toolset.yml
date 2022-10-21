@@ -44,7 +44,7 @@ jobs:
 
       - name: create cache id
         id: cache_id
-        uses: nanzm/get-time-action@v1.1
+        uses: josStorer/get-current-time@v2.0.2
         with:
           format: "YYYY-MM-DD-HH-mm-ss"
 
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.time }}
+          key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
           restore-keys: ccache-toolset-
 
       # GitHub does not provide 10.11 SDK on their runners and no image older
@@ -142,7 +142,7 @@ jobs:
         run: |
           jhb/usr/bin/archive create_dmg
           source jhb/etc/jhb.conf.sh
-          echo "::set-output name=dmg::$RELEASE_ARCHIVE"
+          echo "dmg=$RELEASE_ARCHIVE" >> $GITHUB_OUTPUT
 
       # Restore /usr/local, GitHub actions depend on these.
       - name: restore /usr/local

@@ -33,11 +33,11 @@ jobs:
         run: |
           cp jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: get repository version tag
         id: repo
-        run: echo "::set-output name=version::${GITHUB_REF##*v}"
+        run: echo "version=${GITHUB_REF##*v}" >> $GITHUB_OUTPUT
 
       # Once we have established that the "toolset version" (from jhb.conf.sh)
       # matches the "repo version" (from git tag) we can safely rely on
@@ -109,9 +109,9 @@ jobs:
         run: |
           cp jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
-          echo "::set-output name=VERSION::$VERSION"
-          echo "::set-output name=VER_DIR::$VER_DIR"
-          echo "::set-output name=dmg::$RELEASE_ARCHIVE"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "VER_DIR=$VER_DIR" >> $GITHUB_OUTPUT
+          echo "dmg=$RELEASE_ARCHIVE" >> $GITHUB_OUTPUT
 
     #------------------------------------------------------------ create release
 
