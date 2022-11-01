@@ -29,9 +29,7 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 
 jhb build \
-  libxml2 \
-  pygments \
-  python3
+  pygments
 
 jhb build \
   meta-gtk-osx-bootstrap \
