@@ -5,119 +5,86 @@
 name: inkscape_only
 on: workflow_dispatch
 
-# This workflow is not intended to build (or verify) the toolset but to
-# provide a convenient way of building Inkscape on macOS. By setting repository
-# INK_URL and INK_BRANCH you can instruct this workflow to build your custom
-# fork and branch of Inkscape without having to modify any files.
+# This workflow builds Inkscape using the latest release of mibap. You can
+# set repository secrets fpr INK_URL and INK_BRANCH to instruct this workflow
+# to build your custom fork and branch of Inkscape.
 
 jobs:
 
-################################################################################
+  ##############################################################################
 
   inkscape:
-    runs-on: macos-12
+    runs-on: macos-11
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache
+      INK_URL: ${{ secrets.INK_URL }}
+      INK_BRANCH: ${{ secrets.INK_BRANCH }}
     steps:
 
-    ### pre-build ##############################################################
+      #------------------------------------------------- prepare the environment
 
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        submodules: true
+      - name: get latest release version
+        uses: oprypin/find-latest-tag@v1
+        id: mibap
+        with:
+          repository: dehesselle/mibap
+          releases-only: true
 
-    - name: create timestamp
-      id: time
-      uses: josStorer/get-current-time@v2.0.2
-      with:
-        format: "YYYY-MM-DD-HH-mm-ss"
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: ${{ steps.mibap.outputs.tag }}
 
-    # Create a new cache, building ontop the most recent old one.
-    - name: populate CCACHE_DIR
-      id: cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.CCACHE_DIR }}
-        key: ccache-inkscape-${{ steps.time.outputs.formattedTime }}
-        restore-keys: ccache-inkscape-
+      - name: create cache id
+        id: cache_id
+        uses: josStorer/get-current-time@v2.0.2
+        with:
+          format: "YYYY-MM-DD-HH-mm-ss"
 
-    # GitHub does not provide old SDKs like 10.11 (from Xcode 7.3.1). There is
-    # no official public download available from Apple and I don't trust 3rd
-    # party sources (e.g. "phracker"), so I'm enabling this job to download
-    # a compressed tarball that contains the SDK.
-    # In order to use this, you need to setup a repository secret named
-    # SDK_DOWNLOAD_URL and give a link to a .tar.xz file.
-    - name: install macOS SDK
-      env:
-        SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-      if: env.SDK_DOWNLOAD_URL != null
-      run: |
-        mkdir -p $WRK_DIR
-        curl --http1.1 -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
-        echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
+      # Create a new cache, building ontop the most recent old one.
+      - name: setup cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-inkscape-${{ steps.cache_id.outputs.formattedTime }}
+          restore-keys: ccache-inkscape-
 
-    # Download for increased verbosity / to make this a dedicated step.
-    # (The 'install_toolset.sh' script below is capable of downloading the
-    # toolset itself.)
-    - name: download toolset
-      run: |
-        source 010-init.sh
-        mkdir -p $TOOLSET_REPO_DIR
-        curl -o $TOOLSET_REPO_DIR/$(basename $TOOLSET_URL) -L $TOOLSET_URL
+      - name: install toolset
+        run: ./install_toolset.sh
 
-    # We (ab)use a repository secret to allow passing a custom URL to the
-    # workflow. This way you can use this build machinery to compile your fork
-    # without changing the scripts.
-    - name: use custom Inkscape Git repository
-      env:
-        INK_URL: ${{ secrets.INK_URL }}
-      if: env.INK_URL != null
-      run: echo "INK_URL=$INK_URL" >> $GITHUB_ENV
+      # GitHub does not provide a clean macOS installation. We need to move the
+      # pre-installed components out of the way so we don't pick them up by
+      # accident.
+      - name: disable /usr/local
+        run: |
+          cd /usr/local
+          for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
-    # We (ab)use a repository secret to allow passing a custom branch name to
-    # the workflow.
-    - name: use custom branch
-      env:
-        INK_BRANCH: ${{ secrets.INK_BRANCH }}
-      if: env.INK_BRANCH != null
-      run: echo "INK_BRANCH=$INK_BRANCH" >> $GITHUB_ENV
+      #---------------------------------------------------------- build Inkscape
 
-    # GitHub does not provide a clean macOS installation. We need to move the
-    # pre-installed components out of the way so we don't pick them up by
-    # accident.
-    - name: disable /usr/local
-      run: |
-        cd /usr/local
-        for dir in include lib share; do sudo mv $dir $dir.disabled; done
+      - name: build Inkscape
+        run: ./210-inkscape_build.sh
 
-    - name: copy toolset
-      run: |
-        source 010-init.sh
-        toolset_copy $VER_DIR
+      - name: create Inkscape.app
+        run: ./220-inkscape_package.sh
 
-    ### build ##################################################################
+      - name: create Inkscape.dmg
+        run: ./230-inkscape_distrib.sh
 
-    - name: compile Inkscape
-      run: ./210-inkscape_build.sh
+      #------------------------------------------------ create Inkscape artifact
 
-    - name: create application bundle
-      run: ./220-inkscape_package.sh
+      # Restore /usr/local, GitHub actions depend on these.
+      - name: restore /usr/local
+        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
 
-    - name: create disk image
-      run: ./230-inkscape_distrib.sh
+      # Restore /usr/local, GitHub actions depend on these.
+      - name: restore /usr/local
+        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
 
-    ### post-build ##############################################################
-
-    # Undo what we did before, GitHub actions may depend on these.
-    - name: re-enable /usr/local
-      run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
-
-    ### artifact ###############################################################
-
-    - name: upload Inkscape disk image
-      uses: actions/upload-artifact@v2
-      with:
-        name: Inkscape_dmg
-        path: ${{ github.workspace }}/Inkscape.dmg
+      - name: upload Inkscape disk image
+        uses: actions/upload-artifact@v3
+        with:
+          name: Inkscape_dmg
+          path: Inkscape*.dmg
