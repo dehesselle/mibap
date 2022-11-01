@@ -106,8 +106,8 @@ jobs:
       - name: build Inkscape dependencies
         run: ./130-build_inkdeps.sh
 
-      - name: install additional components
-        run: ./140-build_other.sh
+      - name: build packaging related components
+        run: ./140-build_packaging.sh
 
       #------------------------------------------------- create toolset artifact
 
