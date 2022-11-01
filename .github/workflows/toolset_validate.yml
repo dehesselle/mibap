@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: validate_toolset
+name: toolset_validate
 on:
   workflow_call:
     inputs:
@@ -28,7 +28,7 @@ jobs:
 
   ##############################################################################
 
-  validate_toolset:
+  toolset_validate:
     runs-on: macos-12
     env:
       WRK_DIR: ${{ inputs.WRK_DIR }}
@@ -50,12 +50,11 @@ jobs:
 
       # Create a new cache, building ontop the most recent old one.
       - name: setup cache
-        id: cache
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
-          restore-keys: ccache-toolset-
+          key: ccache-inkscape-${{ steps.cache_id.outputs.formattedTime }}
+          restore-keys: ccache-inkscape-
 
       - name: get toolset artifact
         id: artifact
@@ -63,11 +62,16 @@ jobs:
         with:
           name: Inkscape_build_toolset
 
+      # We're not using 'usr/bin/archive install_dmg' here because in the past
+      # GitHub has not been able to handle the union-mounted dmg+ram combo
+      # reliably, often breaking a job, presumably because of resource
+      # starvation.
       - name: install toolset
         run: |
           cp src/jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
           hdiutil attach $RELEASE_ARCHIVE
+          mkdir -p $VER_DIR
           rsync -a /Volumes/${RELEASE_ARCHIVE%%_*}/ $VER_DIR/
           hdiutil eject /Volumes/${RELEASE_ARCHIVE%%_*}
           rm $RELEASE_ARCHIVE
@@ -91,7 +95,7 @@ jobs:
       - name: create Inkscape.dmg
         run: ./230-inkscape_distrib.sh
 
-      #-------------------------------------------------------- upload artifacts
+      #------------------------------------------------ create Inkscape artifact
 
       # Restore /usr/local, GitHub actions depend on these.
       - name: restore /usr/local
@@ -101,4 +105,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Inkscape_dmg
-          path: Inkscape.dmg
+          path: Inkscape*.dmg

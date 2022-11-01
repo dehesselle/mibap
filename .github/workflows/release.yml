@@ -11,7 +11,7 @@ jobs:
 
   ##############################################################################
 
-  check_requirements:
+  requirements_check:
     runs-on: macos-12
     steps:
 
@@ -58,29 +58,29 @@ jobs:
 
   ##############################################################################
 
-  call_build_toolset:
-    uses: ./.github/workflows/build_toolset.yml
+  call_toolset_build:
+    uses: ./.github/workflows/toolset_build.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: true
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: check_requirements
+    needs: requirements_check
 
   ##############################################################################
 
-  call_validate_toolset:
-    uses: ./.github/workflows/validate_toolset.yml
+  call_toolset_validate:
+    uses: ./.github/workflows/toolset_validate.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: true
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: call_build_toolset
+    needs: call_toolset_build
 
   ##############################################################################
 
   create_release:
     runs-on: macos-12
-    needs: call_validate_toolset
+    needs: call_toolset_validate
     env:
       WRK_DIR: /Users/Shared/work
     steps:
@@ -133,33 +133,8 @@ jobs:
         run: ./uninstall_toolset.sh
 
       - name: create release
-        id: release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Inkscape build toolset ${{ github.ref }}
+          artifacts: "${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}*"
+          token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          prerelease: false
-          body: ${{ steps.jhb_log.outputs.content }}
-
-      - name: upload toolset to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}
-          asset_name: ${{ steps.toolset.outputs.dmg }}
-          asset_content_type: application/octet-stream
-
-      - name: upload toolset checksum to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}.sha256
-          asset_name: ${{ steps.toolset.outputs.dmg }}.sha256
-          asset_content_type: text/plain

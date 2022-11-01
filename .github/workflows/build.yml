@@ -11,8 +11,8 @@ jobs:
 
   ##############################################################################
 
-  call_build_toolset:
-    uses: ./.github/workflows/build_toolset.yml
+  call_toolset_build:
+    uses: ./.github/workflows/toolset_build.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: false
     secrets:
@@ -20,10 +20,10 @@ jobs:
 
   ##############################################################################
 
-  call_validate_toolset:
-    uses: ./.github/workflows/validate_toolset.yml
+  call_toolset_validate:
+    uses: ./.github/workflows/toolset_validate.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: false
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: call_build_toolset
+    needs: call_toolset_build

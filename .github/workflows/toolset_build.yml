@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: build_toolset
+name: toolset_build
 on:
   workflow_call:
     inputs:
@@ -28,14 +28,14 @@ jobs:
 
   ##############################################################################
 
-  build_toolset:
+  toolset_build:
     runs-on: macos-12
     env:
-      WRK_DIR: /Users/Shared/work
-      CCACHE_DIR: /Users/Shared/work/ccache
+      WRK_DIR: ${{ inputs.WRK_DIR }}
+      CCACHE_DIR: ${{ inputs.CCACHE_DIR }}
     steps:
 
-      #------------------------------------------------- prepare the environemnt
+      #------------------------------------------------- prepare the environment
 
       - name: checkout mibap repository
         uses: actions/checkout@v3
@@ -50,14 +50,13 @@ jobs:
 
       # Create a new cache, building ontop the most recent old one.
       - name: setup cache
-        id: cache
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
           restore-keys: ccache-toolset-
 
-      # GitHub does not provide 10.11 SDK on their runners and no image older
+      # GitHub does not provide 10.13 SDK on their runners and no image older
       # than Catalina. See here for what you can expect in their images:
       # https://github.com/actions/virtual-environments/tree/main/images/macos
       #
@@ -67,9 +66,9 @@ jobs:
       # its genuinity, see here:
       # https://github.com/dehesselle/sdkchecksum
       #
-      # In order to use your custom SDK_DOWNLOAD_URL, create a repository secret
+      # In order to use your own SDK_DOWNLOAD_URL, create a repository secret
       # of said name and proivide a link to a .tar.xz file.
-      # At the moment, only 10.13.4 SDK is supported (hardcoded below).
+
       - name: install macOS SDK
         if: env.SDK_DOWNLOAD_URL != null
         env:
@@ -79,32 +78,14 @@ jobs:
           curl --http1.1 -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
           echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
-      # Checkout repository to verify SDK...
-      - name: checkout sdkchecksum repository
-        if: env.SDK_DOWNLOAD_URL != null
-        env:
-          SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-        uses: actions/checkout@v3
-        with:
-          repository: dehesselle/sdkchecksum
-          path: sdkchecksum
-          clean: false
-
-      # ...and use it to verify
       - name: verify SDK
         if: env.SDK_DOWNLOAD_URL != null
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-        run: |
-          shasum -a 256 sdkchecksum/MacOSX10.13.4.sdk.sha256
-          cd $WRK_DIR
-          if shasum -s -c $GITHUB_WORKSPACE/sdkchecksum/MacOSX10.13.4.sdk.sha256; then
-            echo "ok - SDK verified"
-            exit 0
-          else
-            echo "error - SDK verification failed"
-            exit 1
-          fi
+        uses: dehesselle/sdkchecksum@master
+        with:
+          SDKROOT: ${{ env.SDKROOT }}
+          SHA256_FILE: MacOSX10.13.4.sdk.sha256
 
       # GitHub does not provide a clean macOS installation. We need to move the
       # pre-installed components out of the way so we don't pick them up by
@@ -114,7 +95,7 @@ jobs:
           cd /usr/local
           for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
-      #----------------------------------------------------------- build toolset
+      #---------------------------------------------- run the actual build steps
 
       - name: bootstrap JHBuild
         run: ./110-bootstrap_jhb.sh
@@ -128,7 +109,7 @@ jobs:
       - name: install additional components
         run: ./140-build_other.sh
 
-      #---------------------------------------------------------------- artifact
+      #------------------------------------------------- create toolset artifact
 
       - name: remove non-essential files
         run: |
