@@ -6,7 +6,7 @@
   <repository name="boost"        type="tarball" href="https://boostorg.jfrog.io/artifactory/main/release/"/>
   <repository name="freedesktop"  type="tarball" href="https://gitlab.freedesktop.org/"/>
   <repository name="github"       type="tarball" href="https://github.com/"/>
-  <repository name="gnome_ftp"    type="tarball" href="https://ftp.fau.de/gnome/sources/"/>
+  <repository name="gnome_web"    type="tarball" href="https://download.gnome.org/sources/"/>
   <repository name="gnome_gitlab" type="tarball" href="https://gitlab.gnome.org/GNOME/"/>
   <repository name="gnu"          type="tarball" href="http://ftp.halifax.rwth-aachen.de/gnu/"/>
   <repository name="libreoffice"  type="tarball" href="https://dev-www.libreoffice.org/src/"/>
@@ -132,7 +132,7 @@
       module="gspell/1.11/gspell-1.11.1.tar.xz"
       version="1.11.1"
       hash="sha256:ef6aa4e3f711775158a7e241a5f809cf2426bc0e02c23a7d2b5c71fc3de00292"
-      repo="gnome_ftp">
+      repo="gnome_web">
       <patch
         file="gspell-makefile_objc.patch"
         strip="1"/>
