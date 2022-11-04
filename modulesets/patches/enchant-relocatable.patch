@@ -1,0 +1,38 @@
+diff --git a/src/lib.c b/src/lib.c
+index d9d3c54..ae3642f 100644
+--- a/src/lib.c
++++ b/src/lib.c
+@@ -130,6 +130,10 @@ enchant_get_conf_dirs (void)
+ 	char *pkgconfdir = NULL;
+ 	char *user_config_dir = NULL;
+ 
++	const char *prefix = g_getenv("ENCHANT_PREFIX");
++	if (prefix)
++		conf_dirs = g_slist_append(conf_dirs, g_build_filename(prefix, "/share/enchant", NULL));
++
+ 	if ((pkgdatadir = enchant_relocate (PKGDATADIR)) == NULL)
+ 		goto error_exit;
+ 	conf_dirs = g_slist_append (conf_dirs, pkgdatadir);
+@@ -148,6 +152,7 @@ enchant_get_conf_dirs (void)
+ 	return conf_dirs;
+ 
+  error_exit:
++	g_warning("error_exit in enchant_get_conf_dirs");
+ 	free (pkgdatadir);
+ 	free (sysconfdir);
+ 	g_free (pkgconfdir);
+@@ -878,7 +883,13 @@ enchant_load_providers_in_dir (EnchantBroker * broker, const char *dir_name)
+ static void
+ enchant_load_providers (EnchantBroker * broker)
+ {
+-	char *module_dir = enchant_relocate (PKGLIBDIR "-" ENCHANT_MAJOR_VERSION);
++	const char *prefix = g_getenv("ENCHANT_PREFIX");
++	char *module_dir = NULL;
++	if (prefix)
++		module_dir = g_build_filename(prefix, "/lib/enchant-2", NULL);
++	else
++		module_dir = enchant_relocate (PKGLIBDIR "-" ENCHANT_MAJOR_VERSION);
++
+ 	if (module_dir)
+ 		enchant_load_providers_in_dir (broker, module_dir);
+ 	free (module_dir);
