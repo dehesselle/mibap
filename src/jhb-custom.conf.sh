@@ -18,7 +18,7 @@
 
 ### variables ##################################################################
 
-VERSION=0.69
+VERSION=0.70
 VER_DIR_TEMPLATE="\$WRK_DIR/mibap-\$VERSION"
 
 RELEASE_ARCHIVE=mibap-"$VERSION"_$(uname -m).dmg
