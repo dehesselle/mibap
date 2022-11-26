@@ -143,12 +143,10 @@
        freetype it insists that it has to have fontconfig too and that
        they are both built into cairo. -->
   <meson id="cairo">
-    <branch module="1.17.6/cairo-1.17.6.tar.bz2"  version="1.17.6"
+    <branch module="f672f20/cairo-f672f20.tar.bz2"  version="f672f20"
             repo="cairographics-temp"
-            hash="sha256:90496d135c9ef7612c98f8ee358390cdec0825534573778a896ea021155599d2">
+            hash="sha256:4e58c976185e431ad0722f8d9254221c6056ac088d6fe5bb33eeed658af826f7">
       <patch file="cairo-pixman_dithering.patch" strip="1"/> <!-- Inkscape: packaging/cario.patch -->
-      <patch file="cairo-color_mgmt_perf.patch" strip="1"/> <!-- https://gitlab.freedesktop.org/cairo/cairo/-/merge_requests/290 -->
-      <patch file="cairo-snapshot_leak.patch" strip="1"/> <!-- https://gitlab.freedesktop.org/cairo/cairo/-/merge_requests/316 -->
     </branch>
     <dependencies>
       <dep package="pixman"/>
