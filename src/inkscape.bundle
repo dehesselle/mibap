@@ -129,6 +129,9 @@
   <translations  name="gtk30-properties">
     ${prefix}/share/locale
   </translations>
+  <translations name="gtksourceview-4">
+    ${prefix}/share/locale
+  </translations>
   <translations  name="inkscape">
     ${prefix}/share/locale
   </translations>
@@ -154,6 +157,9 @@
   </data>
   <data>
     ${prefix}/share/glib-2.0
+  </data>
+  <data>
+    ${prefix}/share/gtksourceview-4
   </data>
   <data>
     ${prefix}/share/icons

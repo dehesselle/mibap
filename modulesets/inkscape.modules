@@ -272,6 +272,7 @@
       <dep package="gspell"/>
       <dep package="gsl"/>
       <dep package="gspell"/>
+      <dep package="gtksourceview3"/>
       <dep package="imagemagick"/>
       <dep package="libcdr"/>
       <dep package="libsoup"/>
