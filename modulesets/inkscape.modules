@@ -18,13 +18,14 @@
   <!--  Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
   <autotools
     id="bdwgc"
-    autogen-sh="configure">
+    autogen-sh="configure"
+    >
     <branch
       module="ivmai/bdwgc/releases/download/v8.0.4/gc-8.0.4.tar.gz"
       version="8.0.4"
       hash="sha256:436a0ddc67b1ac0b0405b61a9675bca9e075c8156f4debd1d06f3a56c7cd289d"
-      repo="github">
-    </branch>
+      repo="github"
+    />
   </autotools>
 
   <!--  boost C++ libraries https://www.boost.org
@@ -38,40 +39,43 @@
     autogen-sh="bootstrap.sh"
     autogenargs="--without-libraries=python"
     autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
+    supports-non-srcdir-builds="no"
     makeargs="|| ./b2 -d0 install"
     skip-install="yes"
-    supports-non-srcdir-builds="no">
+    >
     <branch
       module="1.76.0/source/boost_1_76_0.tar.bz2"
       version="1.76.0"
       hash="sha256:f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
-      repo="boost">
-    </branch>
+      repo="boost"
+    />
   </autotools>
 
   <!--  binary<->decimal routines for IEEE doubles https://github.com/google/double-conversion -->
   <cmake
-    id="doubleconversion">
+    id="doubleconversion"
+    >
     <branch
       module="google/double-conversion/archive/v3.1.5.tar.gz"
       version="3.1.5"
       hash="sha256:a63ecb93182134ba4293fd5f22d6e08ca417caafa244afaa751cbfddf6415b13"
       repo="github"
       checkoutdir="doubleconversion-3.1.5"
-      rename-tarball="doubleconversion-3.1.5.tar.gz">
-    </branch>
+      rename-tarball="doubleconversion-3.1.5.tar.gz"
+    />
   </cmake>
 
   <!--  cppunit test framework https://www.freedesktop.org/wiki/Software/cppunit/ -->
   <autotools
     id="cppunit"
-    autogen-sh="configure">
+    autogen-sh="configure"
+    >
     <branch
       module="cppunit-1.15.1.tar.gz"
       version="1.15.1"
       hash="sha256:89c5c6665337f56fd2db36bc3805a5619709d51fb136e51937072f63fcc717a7"
-      repo="libreoffice">
-    </branch>
+      repo="libreoffice"
+    />
   </autotools>
 
   <!--  Ghostscript https://www.ghostscript.com
@@ -81,32 +85,37 @@
   <autotools
     id="ghostscript"
     autogen-sh="configure"
-    autogenargs="--without-tesseract --without-x">
+    autogenargs="--without-tesseract --without-x"
+    >
     <branch
       module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/ghostscript-9.56.1.tar.xz"
       version="9.56.1"
       hash="sha256:d43406805650009b42c3d5f6dc535233454533c1e27c13a77dd1d462a056b8e4"
-      repo="github">
+      repo="github"
+      >
       <patch
         file="ghostscript_configure_libtiff.patch"
-        strip="1"/>
+        strip="1"
+      />
       <patch
         file="ghostscript_link_cupsimage.patch"
-        strip="1"/>
+        strip="1"
+      />
     </branch>
   </autotools>
 
   <!--  Google Testing and Mocking Framework https://github.com/google/googletest -->
   <cmake
-    id="googletest">
+    id="googletest"
+    >
     <branch
       module="google/googletest/archive/release-1.12.1.tar.gz"
       version="1.12.1"
       hash="sha256:81964fe578e9bd7c94dfdb09c8e4d6e6759e19967e397dbea48d1c10e45d0df2"
       repo="github"
       checkoutdir="googletest-1.12.1"
-      rename-tarball="googletest-1.12.1.tar.gz">
-    </branch>
+      rename-tarball="googletest-1.12.1.tar.gz"
+    />
   </cmake>
 
   <!--  GNU Scientific Library https://www.gnu.org/software/gsl
@@ -116,29 +125,34 @@
   <autotools
     id="gsl"
     autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'
-    autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --infodir=%(prefix)s/share/info %(autogenargs)s">
+    autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --infodir=%(prefix)s/share/info %(autogenargs)s"
+    >
     <branch
       module="gsl/gsl-1.9.tar.gz"
       version="1.9"
       hash="sha256:fcd1c6784997c2312d922d107fcb30462f5be4335ebdfa8e1e0e07568c962250"
-      repo="gnu">
-    </branch>
+      repo="gnu"
+    />
   </autotools>
 
   <!--  Spell checking for GTK https://wiki.gnome.org/Projects/gspell -->
   <autotools
-    id="gspell">
+    id="gspell"
+    >
     <branch
       module="gspell/1.11/gspell-1.11.1.tar.xz"
       version="1.11.1"
       hash="sha256:ef6aa4e3f711775158a7e241a5f809cf2426bc0e02c23a7d2b5c71fc3de00292"
-      repo="gnome_web">
+      repo="gnome_web"
+      >
       <patch
         file="gspell-makefile_objc.patch"
-        strip="1"/>
+        strip="1"
+      />
       <patch
         file="gspell-remove_gtkmacintegration.patch"
-        strip="1"/>
+        strip="1"
+      />
     </branch>
     <dependencies>
       <dep package="enchant"/>
@@ -162,24 +176,28 @@
     autogen-sh="configure"
     supports-non-srcdir-builds="no"
     makeargs="&amp;&amp; make install"
-    skip-install="yes">
+    skip-install="yes"
+    >
     <branch
       module="gtk-mac-bundler/-/archive/58d951c8/gtk-mac-bundler-58d951c8.tar.bz2"
       version="58d951c8"
       hash="sha256:4617a36dadb7fe9ad242bdd826819e78098a089ccb3c4a002eb7b105ea0ca97c"
       repo="gnome_gitlab"
       checkoutdir="gtk-mac-bundler_58d951c8"
-      rename-tarball="gtk-mac-bundler_58d951c8.tar.bz2">
+      rename-tarball="gtk-mac-bundler_58d951c8.tar.bz2"
+      >
       <patch
         file="gtk-mac-bundler_configure.patch"
-        strip="1"/>
+        strip="1"
+      />
     </branch>
   </autotools>
 
   <!--  ImageMagick 6 https://legacy.imagemagick.org -->
   <autotools
     id="imagemagick"
-    autogen-sh="configure">
+    autogen-sh="configure"
+    >
     <branch
       module="ImageMagick/ImageMagick6/archive/6.9.12-7.tar.gz"
       version="6.9.12-7"
@@ -189,7 +207,8 @@
       rename-tarball="imagemagick-6.9.12-7.tar.gz">
       <patch
         file="imagemagick_configure_pango.patch"
-        strip="1"/>
+        strip="1"
+      />
     </branch>
     <dependencies>
       <dep package="pango"/>
@@ -199,25 +218,28 @@
   <!--  Little cms color engine https://sourceforge.net/projects/lcms/ -->
   <autotools
     id="lcms"
-    autogen-sh="configure">
+    autogen-sh="configure"
+    >
     <branch
       module="lcms/lcms/2.12/lcms2-2.12.tar.gz"
       version="2.12"
       hash="sha256:18663985e864100455ac3e507625c438c3710354d85e5cbb7cd4043e11fe10f5"
-      repo="sourceforge"/>
+      repo="sourceforge"
+    />
   </autotools>
 
   <!--  Reading/Writing CorelDRAW files https://github.com/LibreOffice/libcdr -->
   <autotools
     id="libcdr"
-    autogen-sh="autoreconf">
+    autogen-sh="autoreconf"
+    >
     <branch
       module="LibreOffice/libcdr/archive/libcdr-0.1.7.tar.gz"
       version="0.1.7"
       hash="sha256:0cfd3304b6ecaaa37fc2fb7213f5e69ab05153152f49e8e91776cd4fc7c09e23"
       repo="github"
-      checkoutdir="libcdr-0.1.7">
-    </branch>
+      checkoutdir="libcdr-0.1.7"
+    />
     <dependencies>
       <dep package="boost"/>
       <dep package="icu"/>
@@ -230,13 +252,14 @@
   <!--  base library for document import filters https://sourceforge.net/p/libwpd/wiki/librevenge/ -->
   <autotools
     id="librevenge"
-    autogen-sh="configure">
+    autogen-sh="configure"
+    >
     <branch
       module="libwpd/librevenge/librevenge-0.0.4/librevenge-0.0.4.tar.gz"
       version="0.0.4"
       hash="sha256:a2718efd86000fe769cb6178478af0fd424a9128807361241facd2491bcb772f"
-      repo="sourceforge">
-    </branch>
+      repo="sourceforge"
+    />
     <dependencies>
       <dep package="cppunit"/>
     </dependencies>
@@ -245,14 +268,15 @@
   <!--  Reading/Converting Visio files https://github.com/LibreOffice/libvisio -->
   <autotools
     id="libvisio"
-    autogen-sh="autoreconf">
+    autogen-sh="autoreconf"
+    >
     <branch
       module="LibreOffice/libvisio/archive/libvisio-0.1.7.tar.gz"
       version="0.1.7"
       hash="sha256:68b8a0b45e39b6ba154fe79169f2887cc19f6ee2b82f287b4b625c70294aff27"
       repo="github"
-      checkoutdir="libvisio-0.1.7">
-    </branch>
+      checkoutdir="libvisio-0.1.7"
+    />
     <dependencies>
       <dep package="boost"/>
       <dep package="icu"/>
@@ -263,13 +287,13 @@
   </autotools>
 
   <metamodule
-    id="meta-inkscape-dependencies">
+    id="meta-inkscape-dependencies"
+    >
     <dependencies>
       <dep package="bdwgc"/>
       <dep package="doubleconversion"/>
       <dep package="ghostscript"/>
       <dep package="googletest"/>
-      <dep package="gspell"/>
       <dep package="gsl"/>
       <dep package="gspell"/>
       <dep package="gtksourceview3"/>
@@ -287,15 +311,16 @@
 
   <!--  OpenJPEG https://github.com/uclouvain/openjpeg -->
   <cmake
-    id="openjpeg">
+    id="openjpeg"
+    >
     <branch
       module="uclouvain/openjpeg/archive/v2.4.0.tar.gz"
       version="2.4.0"
       hash="sha256:8702ba68b442657f11aaeb2b338443ca8d5fb95b0d845757968a7be31ef7f16d"
       repo="github"
       checkoutdir="openjpeg-2.4.0"
-      rename-tarball="openjpeg-2.4.0.tar.gz">
-    </branch>
+      rename-tarball="openjpeg-2.4.0.tar.gz"
+    />
     <dependencies>
       <dep package="lcms"/>
       <dep package="libpng"/>
@@ -305,45 +330,48 @@
 
   <!--  OpenMP https://github.com/llvm/llvm-project -->
   <cmake
-    id="openmp">
+    id="openmp"
+    >
     <branch
       module="llvm/llvm-project/releases/download/llvmorg-12.0.1/openmp-12.0.1.src.tar.xz"
       version="12.0.1"
       hash="sha256:60fe79440eaa9ebf583a6ea7f81501310388c02754dbe7dc210776014d06b091"
       repo="github"
-      checkoutdir="openmp-12.0.1">
-    </branch>
+      checkoutdir="openmp-12.0.1"
+    />
   </cmake>
 
   <!--  Poppler https://poppler.freedesktop.org -->
   <cmake
     id="poppler"
-    cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF">
+    cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF"
+    >
     <branch
       module="poppler-21.06.1.tar.xz"
       version="21.06.1"
       hash="sha256:86b09e5a02de40081a3916ef8711c5128eaf4b1fc59d5f87d0ec66f04f595db4"
-      repo="poppler">
-    </branch>
+      repo="poppler"
+    />
     <dependencies>
       <dep package="cmake"/>
       <dep package="glib"/>
       <dep package="gtk+-3.0"/>
       <dep package="gdk-pixbuf"/>
-     </dependencies>
+    </dependencies>
   </cmake>
 
   <!--  Potrace http://potrace.sourceforge.net -->
   <autotools
     id="potrace"
     autogen-sh="configure"
-    autogenargs="--with-libpotrace">
+    autogenargs="--with-libpotrace"
+    >
     <branch
       module="potrace/1.16/potrace-1.16.tar.gz"
       version="1.16"
       hash="sha256:be8248a17dedd6ccbaab2fcc45835bb0502d062e40fbded3bc56028ce5eb7acc"
-      repo="sourceforge">
-    </branch>
+      repo="sourceforge"
+    />
   </autotools>
 
   <!--  Rust https://www.rust-lang.org
@@ -355,17 +383,20 @@
     id="rust"
     cmakeargs="-DVERSION=1.59.0"
     supports-non-srcdir-builds="no"
-    use-ninja="no">
+    use-ninja="no"
+    >
     <branch
       module="rust-lang/rustup/archive/1.24.3.tar.gz"
       version="1.24.3"
       hash="sha256:24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6"
       repo="github"
       checkoutdir="rustup-1.24.3"
-      rename-tarball="rustup-1.24.3.tar.gz">
+      rename-tarball="rustup-1.24.3.tar.gz"
+      >
       <patch
         file="rust_cmake_install.patch"
-        strip="1"/>
+        strip="1"
+      />
     </branch>
   </cmake>
 
