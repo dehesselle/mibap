@@ -2,8 +2,8 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <repository type="tarball" name="ftp.gnome.org" default="yes"
-              href="http://ftp.gnome.org/pub/GNOME/sources/"/>
+  <repository type="tarball" name="download.gnome.org" default="yes"
+              href="https://download.gnome.org/sources/"/>
   <repository type="tarball" name="cairographics"
               href="https://www.cairographics.org/"/>
   <repository type="tarball" name="cairographics-temp"
@@ -59,11 +59,11 @@
     </after>
   </metamodule>
 
-  <autotools id="libffi" autogenargs="--disable-builddir"
+  <autotools id="libffi" autogenargs="--disable-multi-os-directory"
              autogen-sh="configure">
-    <branch module="libffi/libffi/releases/download/v3.3/libffi-3.3.tar.gz"
-            repo="github-tarball" version="3.3"
-            hash="sha256:72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"/>
+    <branch module="libffi/libffi/releases/download/v3.4.3/libffi-3.4.3.tar.gz"
+            repo="github-tarball" version="3.4.3"
+            hash="sha256:4416dd92b6ae8fcb5b10421e711c4d3cb31203d77521a77d85d0102311e6c3b8"/>
   </autotools>
 
   <autotools id="libpcre" autogen-sh="configure"
@@ -72,7 +72,7 @@
             module="pcre/pcre-8.45.tar.bz2"
             hash="sha256:4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8"/>
   </autotools>
-  
+
   <meson id="glib" mesonargs="-Dlibmount=disabled">
     <branch module="glib/2.72/glib-2.72.1.tar.xz"  version="2.72.1"
             hash="sha256:c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2">
@@ -110,6 +110,7 @@
 
   <cmake id="freetype" cmakeargs="-DCMAKE_DISABLE_FIND_PACKAGE_BZip2=TRUE -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release">
     <branch module="freetype/freetype-2.11.1.tar.gz" version="2.11.1"
+            hash="sha256:f8db94d307e9c54961b39a1cc799a67d46681480696ed72ecf78d4473770f09b"
             repo="sourceforge"/>
     <dependencies>
       <dep package="harfbuzz-no-cairo"/>
@@ -221,7 +222,7 @@
       <dep package="meta-gtk-osx-bootstrap"/>
     </after>
   </meson>
-  
+
   <meson id="atk">
     <branch module="atk/2.36/atk-2.36.0.tar.xz" version="2.36.0"
             hash="sha256:fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788"/>
@@ -274,10 +275,10 @@
 
   <!-- gtk3 is in maintenance mode with 3.24 the final release series. -->
   <meson id="gtk+-3.0" mesonargs="-Dx11_backend=false">
-    <branch module="gtk+/3.24/gtk+-3.24.34.tar.xz" version="3.24.34"
-            hash="sha256:dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec">
-      <patch file="gtk-3.24.33-remove-gtk4-update-icon-cache-dependency.patch" strip="1"/>
-      <patch file="gtk-3.24.33-quartz-window-transient-for.patch" strip="1"/>
+    <branch module="gtk+/3.24/gtk+-3.24.36.tar.xz" version="3.24.36"
+            hash="sha256:27a6ef157743350c807ffea59baa1d70226dbede82a5e953ffd58ea6059fe691">
+      <patch file="gtk-3-24-36-image-recolor-load-crash.patch" strip="1"/>
+      <patch file="gtk-3-24-36-call-gdk-quartz-osx-version.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -293,12 +294,6 @@
     </after>
   </meson>
 
-  <autotools id="libcroco" autogenargs="--disable-Bsymbolic"
-             autogen-sh="configure">
-    <branch module="libcroco/0.6/libcroco-0.6.13.tar.xz" version="0.6.13"
-            hash="sha256:767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4"/>
-  </autotools>
-
   <autotools id="librsvg" autogen-sh="autoreconf"
              autogenargs="--disable-Bsymbolic">
     <branch module="librsvg/2.54/librsvg-2.54.0.tar.xz" version="2.54.0"
@@ -313,7 +308,7 @@
       <dep package="gidocgen"/>
     </dependencies>
     <after>
-      <!-- Circular dependency if we depend on meta-gtk-osx or meta-gtk-osx-gtk3 -->
+<!-- Circular dependency if we depend on meta-gtk-osx-gtk3 -->
       <dep package="gtk+-3.0"/>
     </after>
   </autotools>
