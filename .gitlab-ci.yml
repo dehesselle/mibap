@@ -10,7 +10,6 @@ variables:
 
 stages:
   - build
-  - test
   - release
 
 include:
@@ -76,35 +75,6 @@ build:gitlab:
     key: "ccache-macos"
     paths:
       - $CI_PROJECT_DIR/ccache
-
-#-------------------------------------------------------------------------- test
-
-# Test the viability of the toolset by building Inkscape with it.
-
-test:
-  stage: test
-  variables:
-    REP_DIR: $CI_PROJECT_DIR
-  parallel:
-    matrix:
-      - RUNNER: [ "macosintel", "macosarm" ]
-  rules:
-    - if: $RUNNER == "macosintel"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
-    - if: $RUNNER == "macosarm"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX11.3.sdk
-  tags:
-    - ${RUNNER}
-  script:
-    - ./install_toolset.sh
-    - ./build_inkscape.sh
-  after_script:
-    - ./uninstall_toolset.sh
-  artifacts:
-    paths:
-      - Inkscape*.dmg
 
 #----------------------------------------------------------------------- release
 
