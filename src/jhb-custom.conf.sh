@@ -29,7 +29,7 @@ RELEASE_URLS=(
   "https://github.com/dehesselle/mibap/releases/download/\
 v$VERSION/$RELEASE_ARCHIVE"
   "https://gitlab.com/api/v4/projects/15865869/packages/generic/mibap/\
-$VERSION/$RELEASE_ARCHIVE"
+v$VERSION/$RELEASE_ARCHIVE"
 )
 
 ### functions ##################################################################

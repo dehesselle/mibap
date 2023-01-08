@@ -108,14 +108,39 @@ test:
 
 #----------------------------------------------------------------------- release
 
-# Release the toolset dmg.
+# Release the toolset disk image.
 
-release:
+.release:
   stage: release
-  only:
-    - tags
-  image: python:3-alpine
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+/
+  variables:
+    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${CI_COMMIT_TAG}"
+
+release:upload:
+  extends: .release
+  image: curlimages/curl:latest
+  needs:
+    - build
   script:
-    - pip3 install gitlab-release==5.6
-    # requires PRIVATE_TOKEN with api permission
-    - gitlab-release mibap*.dmg
+    - |
+      for ARTIFACT in mibap*.dmg; do
+        curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${ARTIFACT} ${PACKAGE_REGISTRY_URL}/${ARTIFACT}
+      done
+
+release:publish:
+  extends: .release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - build
+    - release:upload
+  script:
+    - |
+      {
+        echo -n "release-cli create --name $CI_COMMIT_TAG --tag-name $CI_COMMIT_TAG "
+        for ARTIFACT in mibap*.dmg; do
+          echo -n "--assets-link '{\"name\":\"${ARTIFACT}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${ARTIFACT}\"}' "
+        done
+      } > create_release.sh
+      chmod 755 create_release.sh
+      ./create_release.sh
