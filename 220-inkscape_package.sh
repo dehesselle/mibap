@@ -42,13 +42,13 @@ error_trace_enable
   cp "$SELF_DIR"/res/inkscape.plist "$INK_BLD_DIR"
 
   cd "$INK_BLD_DIR" || exit 1
-  export ARTIFACT_DIR=$ARTIFACT_DIR   # referenced in inkscape.bundle
+  export ARTIFACT_DIR=$ARTIFACT_DIR # referenced in inkscape.bundle
   jhb run gtk-mac-bundler inkscape.bundle
 )
 
 # Rename to get from lowercase "i" to capitalized "I" as the app bundle name
 # depends on the main binary (and that was lowercase in 0.9x).
-mv "$INK_APP_DIR" "$INK_APP_DIR".tmp   # requires case-insensitive filesysystem
+mv "$INK_APP_DIR" "$INK_APP_DIR".tmp # requires case-insensitive filesysystem
 mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
 #----------------------------------------------------- adjust library link paths
@@ -103,10 +103,10 @@ sed -i '' \
 
 # add some metadata to make CI identifiable
 if $CI_GITLAB; then
-  for var in PROJECT_NAME PROJECT_URL COMMIT_BRANCH COMMIT_SHA COMMIT_SHORT_SHA\
-             JOB_ID JOB_URL JOB_NAME PIPELINE_ID PIPELINE_URL; do
+  for var in PROJECT_NAME PROJECT_URL COMMIT_BRANCH COMMIT_SHA \
+    COMMIT_SHORT_SHA JOB_ID JOB_URL JOB_NAME PIPELINE_ID PIPELINE_URL; do
     # use awk to create camel case strings (e.g. PROJECT_NAME to ProjectName)
-    /usr/libexec/PlistBuddy -c "Add CI$(\
+    /usr/libexec/PlistBuddy -c "Add CI$(
       echo $var | awk -F _ '{
         for (i=1; i<=NF; i++)
         printf "%s", toupper(substr($i,1,1)) tolower(substr($i,2))
@@ -132,20 +132,19 @@ ink_install_python
 
 # Add rpath to find libraries.
 lib_add_rpath @executable_path/../../../../../Resources/lib \
-  "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/bin/\
-python"$INK_PYTHON_VER"
+  "$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin/python$INK_PYTHON_VER"
 lib_add_rpath @executable_path/../../../../../../../../Resources/lib \
-  "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/Resources/\
-Python.app/Contents/MacOS/Python
+  "$INK_APP_FRA_DIR/Python.framework/Versions/Current/Resources/Python.app/\
+Contents/MacOS/Python"
 
 # Install wheels.
-ink_pipinstall INK_PYTHON_PKG_APPDIRS         # extension manager
-ink_pipinstall INK_PYTHON_PKG_BEAUTIFULSOUP4  # extension manager
-ink_pipinstall INK_PYTHON_PKG_CACHECONTROL    # extension manager
+ink_pipinstall INK_PYTHON_PKG_APPDIRS        # extension manager
+ink_pipinstall INK_PYTHON_PKG_BEAUTIFULSOUP4 # extension manager
+ink_pipinstall INK_PYTHON_PKG_CACHECONTROL   # extension manager
 ink_pipinstall INK_PYTHON_PKG_CSSSELECT
 ink_pipinstall INK_PYTHON_PKG_LXML
 ink_pipinstall INK_PYTHON_PKG_NUMPY
-ink_pipinstall INK_PYTHON_PKG_PILLOW          # export raster extension
+ink_pipinstall INK_PYTHON_PKG_PILLOW # export raster extension
 ink_pipinstall INK_PYTHON_PKG_PYGOBJECT
 ink_pipinstall INK_PYTHON_PKG_PYSERIAL
 ink_pipinstall INK_PYTHON_PKG_SCOUR
@@ -171,7 +170,7 @@ cp "$SELF_DIR"/res/fonts.conf "$INK_APP_ETC_DIR"/fonts
 #-------------------------------- use rpath for GObject introspection repository
 
 for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
-  sed "s|@executable_path/..|@rpath|g" "$gir" > "$TMP_DIR/$(basename "$gir")"
+  sed "s|@executable_path/..|@rpath|g" "$gir" >"$TMP_DIR/$(basename "$gir")"
 done
 
 mv "$TMP_DIR"/*.gir "$INK_APP_RES_DIR"/share/gir-1.0

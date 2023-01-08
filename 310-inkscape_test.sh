@@ -49,6 +49,6 @@ jhb run pip3 install "$PKG_DIR"/lxml*.whl
 
 cd "$INK_BLD_DIR" || exit 1
 
-ninja tests   # build tests
+ninja tests # build tests
 
-ctest -V      # run tests
+ctest -V # run tests

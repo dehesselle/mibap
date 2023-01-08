@@ -30,9 +30,9 @@
 #   3. We're not running inside Inkscape's CI CI and INK_DIR has not been set:
 #      Set INK_DIR to our default location, we'll clone the repo there.
 
-if [ "$CI_PROJECT_NAME" = "inkscape" ]; then   # running in Inkscape's CI
+if [ "$CI_PROJECT_NAME" = "inkscape" ]; then # running in Inkscape's CI
   INK_DIR=$CI_PROJECT_DIR
-else                                       # not running in Inkscape's CI
+else # not running in Inkscape's CI
   # Use default directory if not provided.
   if [ -z "$INK_DIR" ]; then
     INK_DIR=$SRC_DIR/inkscape
@@ -49,7 +49,7 @@ else                                       # not running in Inkscape's CI
   fi
 fi
 
-INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR")  # we build out-of-tree
+INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR") # we build out-of-tree
 
 #------------------------------------------------------------------ build number
 
@@ -106,9 +106,9 @@ INK_PYTHON_PKG_CSSSELECT=cssselect==1.1.0
 INK_PYTHON_PKG_LXML=lxml==4.7.1
 
 # https://pypi.org/project/numpy/
-INK_PYTHON_PKG_NUMPY=https://files.pythonhosted.org/packages/\
-b4/85/8097082c4794d854e40f84639c83e33e516431faaeb9cecba39eba6921d5/\
-numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl
+INK_PYTHON_PKG_NUMPY="https://files.pythonhosted.org/packages/b4/85/\
+8097082c4794d854e40f84639c83e33e516431faaeb9cecba39eba6921d5/\
+numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl"
 
 # https://pypi.org/project/Pillow/
 INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
@@ -165,8 +165,8 @@ function ink_get_version
   ver_suffix=$(grep INKSCAPE_VERSION_SUFFIX "$file" | head -n 1 |
     awk '{ print $2 }')
 
-  ver_suffix=${ver_suffix%\"*}  # remove "double quotes and all" from end
-  ver_suffix=${ver_suffix#\"}   # remove "double quote" from beginning
+  ver_suffix=${ver_suffix%\"*} # remove "double quotes and all" from end
+  ver_suffix=${ver_suffix#\"}  # remove "double quote" from beginning
 
   echo "$ver_major.$ver_minor.$ver_patch$ver_suffix"
 }
@@ -179,8 +179,8 @@ function ink_get_repo_shorthash
 
 function ink_pipinstall
 {
-  local packages=$1     # name of variable that resolves to list of packages
-  local options=$2      # optional
+  local packages=$1 # name of variable that resolves to list of packages
+  local options=$2  # optional
 
   # turn package names into filenames of our wheels
   local wheels
@@ -216,7 +216,7 @@ function ink_pipinstall
   ink_pipinstall_func=ink_pipinstall_$(echo "${packages##*_}" |
     tr "[:upper:]" "[:lower:]")
 
-  if declare -F "$ink_pipinstall_func" > /dev/null; then
+  if declare -F "$ink_pipinstall_func" >/dev/null; then
     $ink_pipinstall_func
   fi
 }
@@ -285,14 +285,15 @@ function ink_install_python
   # link it to INK_APP_BIN_DIR so it'll be in PATH for the app
   mkdir -p "$INK_APP_BIN_DIR"
   # shellcheck disable=SC2086 # it's an integer
-  ln -sf ../../Frameworks/Python.framework/Versions/Current/bin/\
-python$INK_PYTHON_VER_MAJOR "$INK_APP_BIN_DIR"
+  ln -sf "../../Frameworks/Python.framework/Versions/Current/bin/\
+  python$INK_PYTHON_VER_MAJOR" "$INK_APP_BIN_DIR"
 
   # create '.pth' file inside Framework to include our site-packages directory
   # shellcheck disable=SC2086 # it's an integer
-  echo "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages"\
-    > "$INK_APP_FRA_DIR"/Python.framework/Versions/Current/lib/\
-python$INK_PYTHON_VER/site-packages/inkscape.pth
+  echo \
+    "../../../../../../../Resources/lib/python$INK_PYTHON_VER/site-packages" \
+    >"$INK_APP_FRA_DIR/Python.framework/Versions/Current/lib/\
+python$INK_PYTHON_VER/site-packages/inkscape.pth"
 
   # use custom icon for Python.app
   svg2icns \

@@ -18,8 +18,8 @@
 
 # https://github.com/bitboss-ca/png2icns
 PNG2ICNS_VER=0.1
-PNG2ICNS_URL=https://github.com/bitboss-ca/png2icns/archive/\
-v$PNG2ICNS_VER.tar.gz
+PNG2ICNS_URL="https://github.com/bitboss-ca/png2icns/archive/\
+v$PNG2ICNS_VER.tar.gz"
 
 ### functions ##################################################################
 

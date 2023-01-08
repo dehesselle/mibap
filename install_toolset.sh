@@ -20,7 +20,10 @@ source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh \
 
 ### variables ##################################################################
 
-SELF_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1; pwd)
+SELF_DIR=$(
+  cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
+  pwd
+)
 
 ### functions ##################################################################
 

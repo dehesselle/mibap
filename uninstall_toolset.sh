@@ -23,7 +23,10 @@ bash_d_include error
 
 ### variables ##################################################################
 
-SELF_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1; pwd)
+SELF_DIR=$(
+  cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
+  pwd
+)
 
 ### functions ##################################################################
 
@@ -36,7 +39,7 @@ function save_overlay
 
   mount -o nobrowse,ro -t hfs /dev/"$overlay" "$TMP_DIR"
   tar -C "$TMP_DIR" --exclude "Inkscape.???" --exclude ".fseventsd" -cp . |
-    XZ_OPT=-T0 xz > "$ARTIFACT_DIR"/toolset_overlay.tar.xz
+    XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/toolset_overlay.tar.xz
 
   diskutil eject "$overlay"
 }
@@ -51,7 +54,7 @@ case "$1" in
     ;;
   save_testfiles) # save files from test stage (test evidence)
     tar -C "$INK_BLD_DIR" -cp testfiles |
-      XZ_OPT=-T0 xz > "$ARTIFACT_DIR"/testfiles.tar.xz
+      XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/testfiles.tar.xz
     ;;
 esac
 

@@ -31,7 +31,7 @@ bash_d_include error
 
 ### main #######################################################################
 
-if $CI; then   # break in CI, otherwise we get interactive prompt by JHBuild
+if $CI; then # break in CI, otherwise we get interactive prompt by JHBuild
   error_trace_enable
 fi
 

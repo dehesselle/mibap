@@ -1,0 +1,11 @@
+root = true
+
+[{**.sh,usr/bin/*}]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+# --- for shellfmt
+shell_variant = bash
+function_next_line = true
+switch_case_indent = true

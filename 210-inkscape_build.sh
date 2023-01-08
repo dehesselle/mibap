@@ -49,7 +49,7 @@ jhb configure
 # or clone the sources there.
 if [ "$CI_PROJECT_NAME" != "inkscape" ]; then
 
-  if [ -d "$INK_DIR" ]; then   # Sourcecode directory already there?
+  if [ -d "$INK_DIR" ]; then # Sourcecode directory already there?
     echo_i "using existing source $INK_DIR"
   else
     git clone \
