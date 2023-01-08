@@ -14,6 +14,11 @@
   <repository name="sourceforge"  type="tarball" href="https://netcologne.dl.sourceforge.net/project/"/>
 
   <include href="gtk-osx.modules"/>
+  <!-- TODO: this nneds to be fixed upstream: build icu as part of meta-gtk-osx-bootstrap -->
+  <include href="../jhb/gtk-osx-bootstrap.modules"/>
+  <!-- Some modules are taken care of by the jhb base distribution. -->
+  <include href="../jhb/gtk-osx-python.modules"/>
+  <include href="../jhb/gtk-osx-random.modules"/>
 
   <!--  Boehm-Demers-Weiser Garbage Collector https://github.com/ivmai/bdwgc -->
   <autotools

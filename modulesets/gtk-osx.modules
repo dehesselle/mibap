@@ -39,7 +39,6 @@
        - gtk-osx-random.modules: "random stuff", has apps for testing GTK+.
   -->
 
-  <include href="gtk-osx-bootstrap.modules"/>
   <include href="gtk-osx-gtkmm.modules"/>
   <include href="gtk-osx-network.modules"/>
   <include href="gtk-osx-python.modules"/>
