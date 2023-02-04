@@ -37,7 +37,10 @@ function save_overlay
     awk '{ print $5 }')
   umount /dev/"$overlay"
 
-  mount -o nobrowse,ro -t hfs /dev/"$overlay" "$TMP_DIR"
+  diskutil mount \
+    -mountOptions nobrowse,ro \
+    -mountPoint "$TMP_DIR" \
+    /dev/"$overlay"
   tar -C "$TMP_DIR" --exclude "Inkscape.???" --exclude ".fseventsd" -cp . |
     XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/toolset_overlay.tar.xz
 
