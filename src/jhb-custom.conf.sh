@@ -23,12 +23,12 @@ VER_DIR_TEMPLATE="\$WRK_DIR/mibap-\$VERSION"
 
 RELEASE_ARCHIVE=mibap-"$VERSION"_$(uname -m).dmg
 
-# GitHub: https://github.com/dehesselle/mibap
 # GitLab: https://gitlab.com/inkscape/devel/mibap
+# GitHub: https://github.com/dehesselle/mibap
 RELEASE_URLS=(
-  "https://github.com/dehesselle/mibap/releases/download/\
-v$VERSION/$RELEASE_ARCHIVE"
   "https://gitlab.com/api/v4/projects/15865869/packages/generic/mibap/\
+v$VERSION/$RELEASE_ARCHIVE"
+  "https://github.com/dehesselle/mibap/releases/download/\
 v$VERSION/$RELEASE_ARCHIVE"
 )
 
