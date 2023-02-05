@@ -13,7 +13,6 @@
 
 ### dependencies ###############################################################
 
-source "$(dirname "${BASH_SOURCE[0]}")"/cairosvg.sh
 source "$(dirname "${BASH_SOURCE[0]}")"/png2icns.sh
 
 ### variables ##################################################################
@@ -24,7 +23,6 @@ source "$(dirname "${BASH_SOURCE[0]}")"/png2icns.sh
 
 function svg2icns_install
 {
-  cairosvg_install
   png2icns_install
 }
 
@@ -42,7 +40,7 @@ function svg2icns
   png_file=$TMP_DIR/$(basename -s .svg "$svg_file").png
 
   # svg to png
-  jhb run cairosvg -f png -s $scale -o "$png_file" "$svg_file"
+  jhb run rsvg-convert -w 1024 -h 1024 "$svg_file" -o "$png_file"
 
   # png to icns
   cd "$TMP_DIR" || exit 1 # png2icns.sh outputs to current directory
