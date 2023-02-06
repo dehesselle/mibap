@@ -184,13 +184,10 @@
     they are both built into cairo.
   -->
   <meson id="cairo">
-    <branch module="f672f20/cairo-f672f20.tar.bz2"
-            version="f672f20"
-            hash="sha256:4e58c976185e431ad0722f8d9254221c6056ac088d6fe5bb33eeed658af826f7"
-            repo="cairographics-temp">
-      <!--
-        Inkscape: packaging/cario.patch
-      -->
+    <branch module="snapshots/cairo-1.17.8.tar.xz"
+            version="1.17.8"
+            hash="sha256:5b10c8892d1b58d70d3f0ba5b47863a061262fa56b9dc7944161f8c8b783bc64"
+            repo="cairographics">
       <patch file="cairo-pixman_dithering.patch"
              strip="1" />
     </branch>
