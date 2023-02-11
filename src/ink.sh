@@ -286,7 +286,7 @@ function ink_install_python
   mkdir -p "$INK_APP_BIN_DIR"
   # shellcheck disable=SC2086 # it's an integer
   ln -sf "../../Frameworks/Python.framework/Versions/Current/bin/\
-  python$INK_PYTHON_VER_MAJOR" "$INK_APP_BIN_DIR"
+python$INK_PYTHON_VER_MAJOR" "$INK_APP_BIN_DIR"
 
   # create '.pth' file inside Framework to include our site-packages directory
   # shellcheck disable=SC2086 # it's an integer
