@@ -97,8 +97,11 @@ sed -i '' \
   "$INK_APP_PLIST"
 
 # update minimum system version according to deployment target
+if [ -z "$MACOSX_DEPLOYMENT_TARGET" ]; then
+  MACOSX_DEPLOYMENT_TARGET=$SYS_SDK_VER
+fi
 /usr/libexec/PlistBuddy \
-  -c "Set LSMinimumSystemVersion $SYS_SDK_VER" \
+  -c "Set LSMinimumSystemVersion $MACOSX_DEPLOYMENT_TARGET" \
   "$INK_APP_PLIST"
 
 # add some metadata to make CI identifiable
