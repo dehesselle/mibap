@@ -51,6 +51,10 @@ error_trace_enable
 mv "$INK_APP_DIR" "$INK_APP_DIR".tmp # requires case-insensitive filesysystem
 mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
 
+# Create versionless symlink to libinkscape_base.
+ln -sf "$(basename "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.1.*.dylib)" \
+  "$INK_APP_LIB_DIR/inkscape/libinkscape_base.dylib"
+
 #----------------------------------------------------- adjust library link paths
 
 # Add rpath according to our app bundle structure.

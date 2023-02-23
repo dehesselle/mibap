@@ -75,7 +75,7 @@
   </binary>
 -->
   <binary>
-    ${prefix}/lib/inkscape/libinkscape_base.dylib
+    ${prefix}/lib/inkscape/libinkscape_base.1.*.dylib
   </binary>
   <binary>
     ${prefix}/lib/libexslt.0.dylib
