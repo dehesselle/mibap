@@ -296,10 +296,9 @@
     relocatability breaks two tests in Inkscape
       - <symbol> geometric properties (SVG 2.0 feature)
       - .otf font with compressed SVG glyphs
-  <meson id="gdk-pixbuf" mesonargs="-Drelocatable=true -Dman=false">
   -->
   <meson id="gdk-pixbuf"
-         mesonargs="-Drelocatable=true -Dman=false">
+         mesonargs="-Dman=false">
     <branch module="gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz"
             version="2.42.8"
             hash="sha256:84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6">
