@@ -299,8 +299,7 @@ python$INK_PYTHON_VER/site-packages/inkscape.pth"
   svg2icns \
     "$PKG_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
     "$INK_APP_FRA_DIR/Python.framework/Resources/Python.app/Contents/\
-Resources/PythonInterpreter.icns" \
-    8
+Resources/PythonInterpreter.icns"
 }
 
 function ink_build_wheels

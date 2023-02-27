@@ -30,11 +30,6 @@ function svg2icns
 {
   local svg_file=$1
   local icns_file=$2
-  local scale=$3 # optional
-
-  if [ -z "$scale" ]; then
-    scale=1
-  fi
 
   local png_file
   png_file=$TMP_DIR/$(basename -s .svg "$svg_file").png
