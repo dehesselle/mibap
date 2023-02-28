@@ -302,11 +302,14 @@
     OpenMP https://github.com/llvm/llvm-project
   -->
   <cmake id="openmp">
-    <branch module="llvm/llvm-project/releases/download/llvmorg-12.0.1/openmp-12.0.1.src.tar.xz"
-            version="12.0.1"
-            hash="sha256:60fe79440eaa9ebf583a6ea7f81501310388c02754dbe7dc210776014d06b091"
-            checkoutdir="openmp-12.0.1"
-            repo="github" />
+    <branch module="llvm/llvm-project/releases/download/llvmorg-15.0.7/openmp-15.0.7.src.tar.xz"
+            version="15.0.7"
+            hash="sha256:3f168d38e7a37b928dcb94b33ce947f75d81eef6fa6a4f9d16b6dc5511c07358"
+            checkoutdir="openmp-15.0.7"
+            repo="github">
+      <patch file="openmp-cmake.patch"
+             strip="1" />
+    </branch>
   </cmake>
   <!--
     Poppler https://poppler.freedesktop.org
