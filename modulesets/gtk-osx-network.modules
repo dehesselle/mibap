@@ -11,9 +11,6 @@
               default="yes"
               href="https:////download.gnome.org/sources/"
               type="tarball" />
-  <repository name="openssl"
-              href="https://www.openssl.org/source/"
-              type="tarball" />
   <repository name="ftp.gnu.org"
               href="https://ftp.gnu.org/gnu/"
               type="tarball" />
@@ -32,21 +29,8 @@
   <repository name="zlib"
               href="https://www.zlib.net/"
               type="tarball" />
-  <!--
-    of the many arguments such as prefix and libdir that jhbuild might pass
-    to configure, openssl only understands prefix, and only with =.
-  -->
-  <autotools id="openssl"
-             autogen-sh="Configure"
-             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --openssldir=%(prefix)s/etc/ssl %(autogenargs)s"
-             autogenargs="shared"
-             makeinstallargs="install_sw"
-             supports-non-srcdir-builds="no">
-    <branch module="openssl-1.1.1s.tar.gz"
-            version="1.1.1s"
-            hash="sha256:c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa"
-            repo="openssl" />
-  </autotools>
+  <!---->
+  <include href="../jhb/gtk-osx-network.modules" />
   <!--
     Rudely demands TeX to build documentation
     libnettle 3.7 doesn't have arm64 assembler support and the support that's added in master

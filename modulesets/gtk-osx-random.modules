@@ -35,9 +35,8 @@
   <repository name="paguire"
               href="https://releases.pagure.org/"
               type="tarball" />
-  <repository name="pcre"
-              href="https://ftp.pcre.org/pub/"
-              type="tarball" />
+  <!---->
+  <include href="../jhb/gtk-osx-random.modules" />
   <!---->
   <cmake id="graphviz">
     <branch module="2.47.0/graphviz-2.47.0.tar.bz2"
