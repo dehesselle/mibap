@@ -71,4 +71,4 @@ if [ -d "$PACKAGE_CACHE_DIR" ]; then
   preload "$PACKAGE_CACHE_DIR"
 fi
 
-"$SELF_DIR"/jhb/usr/bin/bootstrap "$SELF_DIR"/src/jhb-custom.conf.sh
+"$SELF_DIR"/jhb/usr/bin/bootstrap
