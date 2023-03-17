@@ -43,7 +43,10 @@ jhb configure
 
 #----------------------------------------------- install additional dependencies
 
-jhb run pip3 install "$PKG_DIR"/lxml*.whl
+jhb run pip3 install \
+  "$PKG_DIR"/cssselect*.whl \
+  "$PKG_DIR"/lxml*.whl \
+  "$PKG_DIR"/numpy*.whl
 
 #--------------------------------------------------------------------- run tests
 
