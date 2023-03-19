@@ -114,7 +114,7 @@ jobs:
       - name: remove non-essential files
         run: |
           source jhb/etc/jhb.conf.sh
-          find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' ! -name 'png2icns*' -exec rm -rf {} \;
+          find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' -exec rm -rf {} \;
           rm -rf "${BLD_DIR:?}"/*
           rm -rf "${TMP_DIR:?}"/*
 

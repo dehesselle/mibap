@@ -28,7 +28,7 @@ include:
     # to stay below 1 GiB for GitLab.
     - |
       source jhb/etc/jhb.conf.sh
-      find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' ! -name 'png2icns*' -exec rm -rf {} \;
+      find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' -exec rm -rf {} \;
       rm -rf "${BLD_DIR:?}"/*
       find "${PKG_DIR:?}"/ -type f ! -name "python_*.tar.xz" ! -name "*.svg" ! -name "*.whl" -delete
       rm -rf "${TMP_DIR:?}"/*
