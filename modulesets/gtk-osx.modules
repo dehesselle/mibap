@@ -339,15 +339,11 @@
   -->
   <meson id="gtk+-3.0"
          mesonargs="-Dx11_backend=false">
-    <branch module="gtk+/3.24/gtk+-3.24.36.tar.xz"
-            version="3.24.36"
-            hash="sha256:27a6ef157743350c807ffea59baa1d70226dbede82a5e953ffd58ea6059fe691">
+    <branch module="gtk+/3.24/gtk+-3.24.37.tar.xz"
+            version="3.24.37"
+            hash="sha256:6745f0b4c053794151fd0f0e2474b077cccff5f83e9dd1bf3d39fe9fe5fb7f57">
 
       <patch file="gtk-3-24-36-image-recolor-load-crash.patch"
-             strip="1" />
-      <patch file="gtk-3-24-36-call-gdk-quartz-osx-version.patch"
-             strip="1" />
-      <patch file="gtk-3-24-36-match-window-size.patch"
              strip="1" />
     </branch>
     <dependencies>
