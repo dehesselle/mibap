@@ -70,6 +70,15 @@ INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 
 #----------------------------------- Python packages to be bundled with Inkscape
 
+# https://pypi.org/project/zstandard/
+# https://pypi.org/project/pyparsing/
+# https://pypi.org/project/pypdf/
+INK_PYTHON_PKG_AIIMPORT="\
+  zstandard==0.20.0\
+  pyparsing==3.0.9\
+  pypdf==3.6.0\
+"
+
 # https://pypi.org/project/appdirs/
 INK_PYTHON_PKG_APPDIRS=appdirs==1.4.4
 
@@ -129,7 +138,7 @@ INK_PYTHON_PKG_SCOUR="\
   scour==0.38.2\
   six==1.16.0\
   packaging==21.3 \
-  pyparsing==3.0.7 \
+  pyparsing==3.0.9 \
 "
 
 #------------------------------------------- application bundle directory layout
