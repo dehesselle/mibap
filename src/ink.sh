@@ -85,8 +85,8 @@ INK_PYTHON_PKG_APPDIRS=appdirs==1.4.4
 # https://pypi.org/project/beautifulsoup4/
 # https://pypi.org/project/soupsieve/
 INK_PYTHON_PKG_BEAUTIFULSOUP4="\
-  beautifulsoup4==4.10.0\
-  soupsieve==2.3.1\
+  beautifulsoup4==4.12.0\
+  soupsieve==2.4\
 "
 
 # https://pypi.org/project/CacheControl/
@@ -98,35 +98,37 @@ INK_PYTHON_PKG_BEAUTIFULSOUP4="\
 # https://pypi.org/project/requests/
 # https://pypi.org/project/urllib3/
 INK_PYTHON_PKG_CACHECONTROL="\
-  CacheControl==0.12.10\
-  certifi==2021.10.8\
-  charset_normalizer==2.0.11\
-  idna==3.3\
+  CacheControl==0.12.11\
+  certifi==2022.12.7\
+  charset_normalizer==3.1.0\
+  idna==3.4\
   lockfile==0.12.2\
-  msgpack==1.0.3\
-  requests==2.27.1\
-  urllib3==1.26.8\
+  msgpack==1.0.5\
+  requests==2.28.2\
+  urllib3==1.26.15\
 "
 
 # https://pypi.org/project/cssselect/
-INK_PYTHON_PKG_CSSSELECT=cssselect==1.1.0
+INK_PYTHON_PKG_CSSSELECT=cssselect==1.2.0
 
 # https://pypi.org/project/lxml/
-INK_PYTHON_PKG_LXML=lxml==4.7.1
+INK_PYTHON_PKG_LXML=lxml==4.9.2
 
 # https://pypi.org/project/numpy/
+# We're not building this from source as macOS is problematic with building
+# correct accelerators for it.
 INK_PYTHON_PKG_NUMPY="https://files.pythonhosted.org/packages/b4/85/\
 8097082c4794d854e40f84639c83e33e516431faaeb9cecba39eba6921d5/\
 numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl"
 
 # https://pypi.org/project/Pillow/
-INK_PYTHON_PKG_PILLOW=Pillow==9.0.0
+INK_PYTHON_PKG_PILLOW=Pillow==9.4.0
 
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PKG_PYGOBJECT="\
-  PyGObject==3.42.1\
-  pycairo==1.21.0\
+  PyGObject==3.44.0\
+  pycairo==1.23.0\
 "
 
 # https://pypi.org/project/pyserial/
@@ -137,7 +139,7 @@ INK_PYTHON_PKG_PYSERIAL=pyserial==3.5
 INK_PYTHON_PKG_SCOUR="\
   scour==0.38.2\
   six==1.16.0\
-  packaging==21.3 \
+  packaging==23.0 \
   pyparsing==3.0.9 \
 "
 
