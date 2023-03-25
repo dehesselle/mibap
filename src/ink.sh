@@ -329,7 +329,7 @@ function ink_build_wheels
 
     if [ -n "$packages" ]; then
       # shellcheck disable=SC2086 # we need word splitting here
-      jhb run pip3 wheel --no-binary :all: $packages -w "$PKG_DIR"
+      jhb run pip3 wheel $packages -w "$PKG_DIR"
       packages=""
     fi
   done
