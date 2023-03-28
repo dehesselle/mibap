@@ -46,6 +46,9 @@ function svg2icns
   mv "$iconset"/icon_64x64.png "$iconset"/icon_32x32@2x.png
   cp "$iconset"/icon_32x32.png "$iconset"/icon_16x16@2x.png
   iconutil -c icns -o "$icns_file" "$iconset"
+
+  # cleanup
+  rm -rf "$iconset"
 }
 
 ### main #######################################################################
