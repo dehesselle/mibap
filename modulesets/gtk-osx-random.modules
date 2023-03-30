@@ -121,7 +121,10 @@
     <branch module="AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz"
             version="2.3.3"
             hash="sha256:3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891"
-            repo="github-tarball" />
+            repo="github-tarball">
+      <patch file="enchant-relocatable.patch"
+             strip="1" />
+    </branch>
     <dependencies>
       <dep package="glib" />
     </dependencies>
