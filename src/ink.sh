@@ -281,6 +281,13 @@ function ink_pipinstall_scour
   sed -i '' '1s|.*|#!/usr/bin/env python3|' "$INK_APP_BIN_DIR"/scour
 }
 
+function ink_pipinstall_pillow
+{
+  find "$INK_APP_SPK_DIR/PIL" -type f \
+    '(' -name "*.so" -o -name "*.dylib" ')' \
+    -exec codesign --remove-signature {} \;
+}
+
 function ink_download_python
 {
   curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
