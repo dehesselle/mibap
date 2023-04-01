@@ -157,6 +157,14 @@ ink_pipinstall INK_PYTHON_PKG_PYGOBJECT      #
 ink_pipinstall INK_PYTHON_PKG_PYSERIAL       #
 ink_pipinstall INK_PYTHON_PKG_SCOUR          #
 
+# Reset Python interpreter shebang in all scripts.
+# shellcheck disable=SC2044 # fragile for loop
+for file in $(find "$INK_APP_BIN_DIR" -type f); do
+  if [[ $(file -b "$file") = *Python* ]]; then
+    gsed -i '1s|.*|#!/usr/bin/env python3|' "$file"
+  fi
+done
+
 #----------------------------------------------------- remove Python cache files
 
 rm -rf "$INK_APP_RES_DIR"/share/glib-2.0/codegen/__pycache__

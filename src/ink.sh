@@ -243,13 +243,6 @@ function ink_pipinstall_lxml
 
 function ink_pipinstall_numpy
 {
-  sed -i '' '1s|.*|#!/usr/bin/env python'"$INK_PYTHON_VER_MAJOR"'|' \
-    "$INK_APP_BIN_DIR"/f2py
-  sed -i '' '1s|.*|#!/usr/bin/env python'"$INK_PYTHON_VER_MAJOR"'|' \
-    "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER_MAJOR
-  sed -i '' '1s|.*|#!/usr/bin/env python'"$INK_PYTHON_VER_MAJOR"'|' \
-    "$INK_APP_BIN_DIR"/f2py$INK_PYTHON_VER
-
   find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
     '(' -name "*.so" -o -name "*.dylib" ')' \
     -exec codesign --remove-signature {} \;
@@ -271,14 +264,6 @@ function ink_pipinstall_pygobject
 function ink_pipinstall_pyserial
 {
   find "$INK_APP_SPK_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
-  sed -i '' '1s|.*|#!/usr/bin/env python3|' \
-    "$INK_APP_BIN_DIR"/pyserial-miniterm
-  sed -i '' '1s|.*|#!/usr/bin/env python3|' "$INK_APP_BIN_DIR"/pyserial-ports
-}
-
-function ink_pipinstall_scour
-{
-  sed -i '' '1s|.*|#!/usr/bin/env python3|' "$INK_APP_BIN_DIR"/scour
 }
 
 function ink_pipinstall_pillow
