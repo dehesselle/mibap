@@ -30,7 +30,7 @@ function preload
 {
   local source_dir=$1
 
-  source "$SELF_DIR/jhb/etc/jhb.conf.sh" "$SELF_DIR/src/jhb-custom.conf.sh"
+  source "$SELF_DIR/jhb/etc/jhb.conf.sh"
   mkdir -p "$PKG_DIR"
 
   echo "using PACKAGE_CACHE_DIR=$PACKAGE_CACHE_DIR"

@@ -31,7 +31,6 @@ jobs:
         env:
           SYS_USRLOCAL_IGNORE: true
         run: |
-          cp src/jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -107,7 +106,6 @@ jobs:
       - name: configure toolset
         id: toolset
         run: |
-          cp src/jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "VER_DIR=$VER_DIR" >> $GITHUB_OUTPUT

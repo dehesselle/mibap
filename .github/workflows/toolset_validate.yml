@@ -68,7 +68,6 @@ jobs:
       # starvation.
       - name: install toolset
         run: |
-          cp src/jhb-custom.conf.sh jhb/etc
           source jhb/etc/jhb.conf.sh
           hdiutil attach $RELEASE_ARCHIVE
           mkdir -p $VER_DIR
