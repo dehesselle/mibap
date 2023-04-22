@@ -19,6 +19,8 @@
 
 # mibap is built exclusively on Monterey
 SYS_MACOS_VER_SUPPORTED=(
+  12.6.5
+  12.6.4
   12.6.3
   12.6.2
   12.6.1
