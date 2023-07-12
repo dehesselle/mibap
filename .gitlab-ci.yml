@@ -62,20 +62,6 @@ build:
         rm -rf "${VER_DIR:?}"
       fi
 
-build:gitlab:
-  extends: .build
-  tags:
-    - shared-macos-amd64
-  image: macos-10.15-xcode-11
-  when: manual   # on demand only!
-  variables:
-    CCACHE_DIR: $CI_PROJECT_DIR/ccache
-    SYS_USRLOCAL_IGNORE: "true"
-  cache:
-    key: "ccache-macos"
-    paths:
-      - $CI_PROJECT_DIR/ccache
-
 #----------------------------------------------------------------------- release
 
 # Release the toolset disk image.
