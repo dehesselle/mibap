@@ -282,6 +282,7 @@
       <dep package="openmp" />
       <dep package="poppler" />
       <dep package="potrace" />
+      <dep package="wheel" />
     </dependencies>
   </metamodule>
   <!--

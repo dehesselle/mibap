@@ -130,4 +130,14 @@
     </dependencies>
   </distutils>
   <!---->
+  <distutils id="wheel">
+    <branch module="fc/ef/0335f7217dd1e8096a9e8383e1d472aa14717878ffe07c4772e68b6e8735/wheel-0.40.0.tar.gz"
+            version="0.40.0"
+            hash="sha256:cd1196f3faee2b31968d626e1731c94f99cbdb67cf5a46e4f5656cbee7738873"
+            repo="pymodules" />
+    <dependencies>
+      <dep package="python3" />
+    </dependencies>
+  </distutils>
+  <!---->
 </moduleset>
