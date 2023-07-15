@@ -112,6 +112,8 @@
              strip="1" />
       <patch file="ghostscript_link_cupsimage.patch"
              strip="1" />
+      <patch file="ghostscript_bug706761.patch"
+             strip="1" />
     </branch>
   </autotools>
   <!--
