@@ -41,9 +41,9 @@
                autogen-sh="configure"
                autogenargs="--disable-documentation --disable-assembler">
                
-      <branch module="nettle/nettle-3.7.3.tar.gz"
-              version="3.7.3"
-              hash="sha256:661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"
+      <branch module="nettle/nettle-3.9.1.tar.gz"
+              version="3.9.1"
+              hash="sha256:ccfeff981b0ca71bbd6fbcb054f407c60ffb644389a5be80d6716d5b550c6ce3"
               repo="ftp.gnu.org" />
       <dependencies>
         <dep package="gmp" />
@@ -56,9 +56,9 @@
     <autotools id="libnettle"
                autogen-sh="configure"
                autogenargs="--disable-documentation">
-      <branch module="nettle/nettle-3.7.3.tar.gz"
-              version="3.7.3"
-              hash="sha256:661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"
+      <branch module="nettle/nettle-3.9.1.tar.gz"
+              version="3.9.1"
+              hash="sha256:ccfeff981b0ca71bbd6fbcb054f407c60ffb644389a5be80d6716d5b550c6ce3"
               repo="ftp.gnu.org" />
       <dependencies>
         <dep package="gmp" />
@@ -69,79 +69,100 @@
   <!---->
   <autotools id="libtasn1"
              autogen-sh="configure">
-    <branch module="libtasn1/libtasn1-4.17.0.tar.gz"
-            version="4.17.0"
-            hash="sha256:ece7551cea7922b8e10d7ebc70bc2248d1fdd73351646a2d6a8d68a9421c45a5"
-            repo="ftp.gnu.org">
-      <patch file="libtasn1-inline-fix.patch"
-             strip="1" />
-    </branch>
+    <branch module="libtasn1/libtasn1-4.19.0.tar.gz"
+            version="4.19.0"
+            hash="sha256:1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
+            repo="ftp.gnu.org" />
   </autotools>
   <!---->
   <autotools id="p11-kit"
              autogen-sh="configure"
              autogenargs="--without-trust-paths">
-    <branch module="p11-glue/p11-kit/releases/download/0.23.22/p11-kit-0.23.22.tar.xz"
-            version="0.23.22"
-            hash="sha256:8a8f40153dd5a3f8e7c03e641f8db400133fb2a6a9ab2aee1b6d0cb0495ec6b6"
-            repo="github-tarball" />
+    <branch module="p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz"
+            version="0.24.1"
+            hash="sha256:d8be783efd5cd4ae534cee4132338e3f40f182c3205d23b200094ec85faaaef8"
+            repo="github-tarball">
+      <patch file="p11-kit-libintl.patch"
+             strip="1" />
+    </branch>
     <dependencies>
       <dep package="libffi" />
       <dep package="libtasn1" />
     </dependencies>
   </autotools>
   <!---->
-  <if condition-unset="pre-Mavericks">
-    <autotools id="gnutls"
-               autogen-sh="autoreconf"
-               autogenargs="--disable-gtk-doc-html --with-included-unistring">
-               
-      <branch module="gcrypt/gnutls/v3.7/gnutls-3.7.7.tar.xz"
-              version="3.7.7"
-              hash="sha256:be9143d0d58eab64dba9b77114aaafac529b6c0d7e81de6bdf1c9b59027d2106"
-              repo="gnupg.org">
-        <patch file="gnutls-pkg-config-pc.patch"
-               strip="1" />
-      </branch>
-      <dependencies>
-        <dep package="libnettle" />
-        <dep package="libtasn1" />
-        <dep package="zlib" />
-        <dep package="p11-kit" />
-        <dep package="libgcrypt" />
-      </dependencies>
-    </autotools>
-  </if>
+  <autotools id="gnutls"
+             autogen-sh="configure"
+             autogenargs="--disable-gtk-doc-html --with-included-unistring">
+             
+    <branch module="gcrypt/gnutls/v3.8/gnutls-3.8.0.tar.xz"
+            version="3.8.0"
+            hash="sha256:0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5"
+            repo="gnupg.org">
+      <patch file="gnutls-pkg-config-pc.patch"
+             strip="1" />
+      <patch file="gnutls-gnulib.patch"
+             strip="1" />
+    </branch>
+    <dependencies>
+      <dep package="libnettle" />
+      <dep package="libtasn1" />
+      <dep package="zlib" />
+      <dep package="p11-kit" />
+      <dep package="libgcrypt" />
+    </dependencies>
+  </autotools>
   <!---->
   <autotools id="libgpg-error"
              autogen-sh="autoreconf"
              autogenargs="--disable-doc">
-    <branch module="gcrypt/libgpg-error/libgpg-error-1.43.tar.bz2"
-            version="1.43"
-            hash="sha256:a9ab83ca7acc442a5bd846a75b920285ff79bdb4e3d34aa382be88ed2c3aebaf"
+    <branch module="gcrypt/libgpg-error/libgpg-error-1.47.tar.bz2"
+            version="1.47"
+            hash="sha256:9e3c670966b96ecc746c28c2c419541e3bcb787d1a73930f5e5f5e1bcbbb9bdb"
             repo="gnupg.org" />
   </autotools>
   <!---->
   <autotools id="libgcrypt"
              autogen-sh="configure">
-    <branch module="gcrypt/libgcrypt/libgcrypt-1.9.4.tar.bz2"
-            version="1.9.4"
-            hash="sha256:ea849c83a72454e3ed4267697e8ca03390aee972ab421e7df69dfe42b65caaf7"
-            repo="gnupg.org" />
+    <branch module="gcrypt/libgcrypt/libgcrypt-1.10.2.tar.bz2"
+            version="1.10.2"
+            hash="sha256:3b9c02a004b68c256add99701de00b383accccf37177e0d6c58289664cce0c03"
+            repo="gnupg.org">
+      <patch file="libgcrypt-1.10.2-no-getrandom.patch"
+             strip="1" />
+    </branch>
     <dependencies>
       <dep package="libgpg-error" />
     </dependencies>
   </autotools>
   <!---->
+  <meson id="gsettings-desktop-schemas">
+    <branch module="gsettings-desktop-schemas/44/gsettings-desktop-schemas-44.0.tar.xz"
+            version="44.0"
+            hash="shas56:eb2de45cad905994849e642a623adeb75d41b21b0626d40d2a07b8ea281fec0e" />
+  </meson>
+  <!---->
+  <meson id="libproxy"
+         mesonargs="-Ddocs=false -Dtests=false -Dpacrunner-duktape=false -Dvapi=false -Dcurl=false -Dintrospection=false">
+
+    <branch module="libproxy/libproxy/archive/refs/tags/0.5.2.tar.gz"
+            version="0.5.2"
+            hash="sha256:7d75a2cf1c977056eb86f460daab0247d30e6a34e26ec755aab4de40cfd0a06d"
+            checkoutdir="libproxy-0.5.2"
+            repo="github-tarball" />
+    <dependencies>
+      <dep package="gsettings-desktop-schemas" />
+    </dependencies>
+  </meson>
+  <!---->
   <meson id="glib-networking"
          mesonargs="-Dopenssl=enabled">
-    <branch module="glib-networking/2.68/glib-networking-2.68.0.tar.xz"
-            version="2.68.0"
-            hash="sha256:0b235e85ad26b3c0d12255d0963c460e5a639c4722f78e2a03e969e224b29f6e" />
+    <branch module="glib-networking/2.76/glib-networking-2.76.0.tar.xz"
+            version="2.76.0"
+            hash="sha256:149a05a179e629a538be25662aa324b499d7c4549c5151db5373e780a1bf1b9a" />
     <dependencies>
-      <if condition-unset="pre-Mavericks">
-        <dep package="gnutls" />
-      </if>
+      <dep package="libproxy" />
+      <dep package="gnutls" />
       <dep package="glib" />
     </dependencies>
   </meson>
@@ -156,9 +177,9 @@
   <!---->
   <meson id="libsoup"
          mesonargs="-Dvapi=disabled">
-    <branch module="libsoup/2.72/libsoup-2.72.0.tar.xz"
-            version="2.72.0"
-            hash="sha256:170c3f8446b0f65f8e4b93603349172b1085fb8917c181d10962f02bb85f5387">
+    <branch module="libsoup/2.74/libsoup-2.74.3.tar.xz"
+            version="2.74.3"
+            hash="sha256:e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13">
     </branch>
     <dependencies>
       <dep package="libpsl" />

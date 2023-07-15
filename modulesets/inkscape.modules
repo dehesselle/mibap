@@ -36,9 +36,6 @@
               type="tarball" />
   <!---->
   <include href="gtk-osx.modules" />
-  <!--
-    TODO: this nneds to be fixed upstream: build icu as part of meta-gtk-osx-bootstrap
-  -->
   <include href="../jhb/gtk-osx-bootstrap.modules" />
   <!--
     Some modules are taken care of by the jhb base distribution.
@@ -349,14 +346,14 @@
     a cmake file introduced by that patch below.
   -->
   <cmake id="rust"
-         cmakeargs="-DVERSION=1.59.0"
+         cmakeargs="-DVERSION=1.67.1"
          supports-non-srcdir-builds="no"
          use-ninja="no">
-    <branch module="rust-lang/rustup/archive/1.24.3.tar.gz"
-            version="1.24.3"
-            hash="sha256:24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6"
-            checkoutdir="rustup-1.24.3"
-            rename-tarball="rustup-1.24.3.tar.gz"
+    <branch module="rust-lang/rustup/archive/1.25.2.tar.gz"
+            version="1.25.2"
+            hash="sha256:dc9bb5d3dbac5cea9afa9b9c3c96fcf644a1e7ed6188a6b419dfe3605223b5f3"
+            checkoutdir="rustup-1.25.2"
+            rename-tarball="rustup-1.25.2.tar.gz"
             repo="github">
       <patch file="rust_cmake_install.patch"
              strip="1" />

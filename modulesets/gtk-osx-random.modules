@@ -38,10 +38,11 @@
   <!---->
   <include href="../jhb/gtk-osx-random.modules" />
   <!---->
-  <cmake id="graphviz">
-    <branch module="2.47.0/graphviz-2.47.0.tar.bz2"
-            version="2.47.0"
-            hash="sha256:dade5b374ce483bf28f2e535baef02280ba8ab86fbe6e93252ab0de48396b714"
+  <cmake id="graphviz"
+         cmakeargs="-Dwith_gvedit=NO">
+    <branch module="8.0.5/graphviz-8.0.5.tar.bz2"
+            version="8.0.5"
+            hash="sha256:c1901fe52483fad55fbf893ccd59a3dcaedd53f0d50b5aebbbf3deaba93b674d"
             repo="graphviz">
       <patch file="graphviz-remove-rpath.patch"
              strip="1" />
@@ -54,9 +55,9 @@
   <!---->
   <autotools id="vala"
              autogen-sh="configure">
-    <branch module="vala/0.52/vala-0.52.0.tar.xz"
-            version="0.52.0"
-            hash="sha256:1de26310db465aca525679d3b5a3c1d8db2e067c4cbc0e5ddd015cd938bac68b" />
+    <branch module="vala/0.56/vala-0.56.8.tar.xz"
+            version="0.56.8"
+            hash="sha256:93f81dcfc6a93b77baa271d65e6be981ee3238ad451ef380af118e295d904bde" />
     <dependencies>
       <dep package="graphviz" />
       <dep package="meta-gtk-osx-bootstrap" />
@@ -109,18 +110,18 @@
   <autotools id="sqlite"
              autogen-sh="configure"
              autogenargs="--disable-tcl --enable-threadsafe">
-    <branch module="2022/sqlite-autoconf-3390400.tar.gz"
-            version='3.39.4'
-            hash="sha256:f31d445b48e67e284cf206717cc170ab63cbe4fd7f79a82793b772285e78fdbb"
+    <branch module="2023/sqlite-autoconf-3420000.tar.gz"
+            version='3.42.0'
+            hash="sha256:7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
             repo="sqlite" />
   </autotools>
   <!---->
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz"
-            version="2.3.3"
-            hash="sha256:3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891"
+    <branch module="AbiWord/enchant/releases/download/v2.5.0/enchant-2.5.0.tar.gz"
+            version="2.5.0"
+            hash="sha256:149e224cdd2ca825d874639578b6246e07f37d5b8f3970658a377a1ef46f2e15"
             repo="github-tarball">
       <patch file="enchant-relocatable.patch"
              strip="1" />
@@ -128,18 +129,19 @@
     <dependencies>
       <dep package="glib" />
     </dependencies>
-    <!--
     <after>
       <dep package="hunspell" />
     </after>
-    -->
   </autotools>
   <!---->
   <autotools id="gmp">
     <branch module="gmp/gmp-6.2.1.tar.bz2"
             version="6.2.1"
             hash="sha256:eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
-            repo="ftp.gnu.org" />
+            repo="ftp.gnu.org">
+      <patch file="gmp-6.2.1-avoid-x18-register-apple-silicon.patch"
+             strip="1" />
+    </branch>
   </autotools>
   <!---->
   <autotools id="iso-codes"
@@ -148,6 +150,18 @@
             version="4.1"
             hash="sha256:67117fb76f32c8fb5e37d2d60bce238f1f8e865cc7b569a57cbc3017ca15488a"
             repo="iso-codes" />
+  </autotools>
+  <!---->
+  <autotools id="libxml2"
+             autogen-sh="autoreconf"
+             autogenargs='--libdir="$JHBUILD_LIBDIR" --with-python'>
+             
+    <branch module="libxml2/2.11/libxml2-2.11.4.tar.xz"
+            version="2.11.4"
+            hash="sha256:737e1d7f8ab3f139729ca13a2494fd17bf30ddb4b7a427cf336252cab57f57f7" />
+    <after>
+      <dep package="python3" />
+    </after>
   </autotools>
   <!---->
 </moduleset>
