@@ -71,6 +71,10 @@ lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
   "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules/*.so \
   "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/printbackends/*.so
 
+# Point GIO modules towards INK_APP_LIB_DIR using @loader_path.
+lib_change_paths @loader_path/../.. "$INK_APP_LIB_DIR" \
+  "$INK_APP_LIB_DIR"/gio/modules/*.so
+
 # Point enchant's applespell plugin towards INK_APP_LIB_DIR using @loader_path.
 lib_change_paths @loader_path/.. "$INK_APP_LIB_DIR" \
   "$INK_APP_LIB_DIR"/enchant-2/enchant_applespell.so
@@ -80,6 +84,11 @@ lib_change_paths \
   @executable_path/../lib \
   "$INK_APP_LIB_DIR" \
   "$INK_APP_BIN_DIR"/gs
+
+# Point libproxy towards its backend using @loader_path.
+lib_change_path \
+  @loader_path/libproxy/libpxbackend-1.0.dylib \
+  "$INK_APP_LIB_DIR"/libproxy.1.dylib
 
 #------------------------------------------------------ use rpath in cache files
 
