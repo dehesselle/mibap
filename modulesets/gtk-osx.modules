@@ -146,9 +146,9 @@
   <meson id="harfbuzz-no-cairo"
          mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled -Dintrospection=disabled">
 
-    <branch module="harfbuzz/harfbuzz/releases/download/2.9.1/harfbuzz-2.9.1.tar.xz"
-            version="2.9.1"
-            hash="sha256:0edcc980f526a338452180e701d6aba6323aef457b6686976a7d17ccbddc51cf"
+    <branch module="harfbuzz/harfbuzz/releases/download/8.0.1/harfbuzz-8.0.1.tar.xz"
+            version="8.0.1"
+            hash="sha256:c1ce780acd385569f25b9a29603d1d5bc71e6940e55bfdd4f7266fad50e42620"
             repo="github-tarball" />
     <dependencies>
       <dep package="glib" />
@@ -237,32 +237,18 @@
       <dep package='python3' />
     </after>
   </meson>
-  <!--
-    harfbuzz 4.1.0 breaks the following tests for Inkscape:
-        351 - render_test-glyph-y-pos (Failed)
-        352 - render_text-glyphs-combining (Failed)
-        353 - render_text-glyphs-vertical (Failed)
-        356 - render_test-rtl-vertical (Failed)
-
-    harfbuzz 3.4.0 breaks the following tests for Inkscape:
-        351 - render_test-glyph-y-pos (Failed)
-        353 - render_text-glyphs-vertical (Failed)
-        356 - render_test-rtl-vertical (Failed)
-  -->
+  <!---->
   <meson id="harfbuzz"
          mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled">
 
-    <branch module="harfbuzz/harfbuzz/releases/download/2.9.1/harfbuzz-2.9.1.tar.xz"
-            version="2.9.1"
-            hash="sha256:0edcc980f526a338452180e701d6aba6323aef457b6686976a7d17ccbddc51cf"
+    <branch module="harfbuzz/harfbuzz/releases/download/8.0.1/harfbuzz-8.0.1.tar.xz"
+            version="8.0.1"
+            hash="sha256:c1ce780acd385569f25b9a29603d1d5bc71e6940e55bfdd4f7266fad50e42620"
             repo="github-tarball" />
     <dependencies>
       <dep package="gobject-introspection" />
       <dep package="cairo" />
-      <!--
-        no longer required as of https://github.com/harfbuzz/harfbuzz/releases/tag/2.8.1
       <dep package="fontconfig"/>
-      -->
     </dependencies>
   </meson>
   <!---->
