@@ -58,3 +58,14 @@ diff --color=auto -Naur a/plugin/pango/CMakeLists.txt b/plugin/pango/CMakeLists.
    # Include DLLs with this library on Windows
    if(WIN32 AND install_win_dependency_dlls)
      install(
+--- a/plugin/quartz/CMakeLists.txt	2023-04-30 18:35:50
++++ b/plugin/quartz/CMakeLists.txt	2023-07-20 16:43:34
+@@ -38,6 +38,8 @@
+     ARCHIVE DESTINATION ${LIBRARY_INSTALL_DIR}
+   )
+
++  set_target_properties(gvplugin_quartz PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${PLUGIN_INSTALL_DIR}")
++
+   set_target_properties(gvplugin_quartz PROPERTIES
+     VERSION ${GRAPHVIZ_PLUGIN_VERSION}.0.0
+     SOVERSION ${GRAPHVIZ_PLUGIN_VERSION}
