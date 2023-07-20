@@ -54,11 +54,4 @@ cd "$INK_BLD_DIR" || exit 1
 
 ninja tests # build tests
 
-# run tests, but exclude *-data-directory because of
-#     +[NSXPCSharedListener endpointForReply:withListenerName:]: an error
-#     occurred while attempting to obtain endpoint for listener
-#     'ClientCallsAuxiliary': Connection interrupted
-ctest -V -E "(\
-system-data-directory|\
-user-data-directory\
-)"
+ctest -V
