@@ -103,6 +103,12 @@ jobs:
       - name: build GTK 3 stack
         run: ./120-build_gtk3.sh
 
+      - uses: actions/cache/save@v3
+        if: always()
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
+
       - name: build Inkscape dependencies
         run: ./130-build_inkdeps.sh
 
