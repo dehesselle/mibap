@@ -37,23 +37,23 @@ jobs:
 
       #------------------------------------------------- prepare the environment
 
-      - name: checkout mibap repository
+      - name: Checkout mibap repository
         uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: create cache id
-        id: cache_id
-        uses: josStorer/get-current-time@v2.0.2
+      - name: Create timestamp
+        id: timestamp
+        uses: josStorer/get-current-time@v2
         with:
           format: "YYYY-MM-DD-HH-mm-ss"
 
       # Create a new cache, building ontop the most recent old one.
-      - name: setup cache
+      - name: Set up cache
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
+          key: ccache-toolset-${{ steps.timestamp.outputs.formattedTime }}
           restore-keys: ccache-toolset-
 
       # GitHub does not provide 10.13 SDK on their runners and no image older
@@ -69,7 +69,7 @@ jobs:
       # In order to use your own SDK_DOWNLOAD_URL, create a repository secret
       # of said name and proivide a link to a .tar.xz file.
 
-      - name: install macOS SDK
+      - name: Install macOS SDK
         if: env.SDK_DOWNLOAD_URL != null
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
@@ -78,7 +78,7 @@ jobs:
           curl --http1.1 -L ${{ secrets.SDK_DOWNLOAD_URL }} | tar -C $WRK_DIR -xJp
           echo "SDKROOT=$WRK_DIR/$(basename ${SDK_DOWNLOAD_URL%%.tar.xz*})" >> $GITHUB_ENV
 
-      - name: verify SDK
+      - name: Verify macOS SDK
         if: env.SDK_DOWNLOAD_URL != null
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
@@ -90,41 +90,42 @@ jobs:
       # GitHub does not provide a clean macOS installation. We need to move the
       # pre-installed components out of the way so we don't pick them up by
       # accident.
-      - name: disable /usr/local
+      - name: Disable /usr/local
         run: |
           cd /usr/local
           for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
       #---------------------------------------------- run the actual build steps
 
-      - name: bootstrap JHBuild
+      - name: Bootstrap JHBuild
         run: ./110-bootstrap_jhb.sh
 
-      - name: build GTK 3 stack
+      - name: Build GTK 3 stack
         run: ./120-build_gtk3.sh
 
-      - uses: actions/cache/save@v3
+      - name: Save cache
+        uses: actions/cache/save@v3
         if: always()
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.cache_id.outputs.formattedTime }}
+          key: ccache-toolset-${{ steps.timestamp.outputs.formattedTime }}
 
-      - name: build Inkscape dependencies
+      - name: Build Inkscape dependencies
         run: ./130-build_inkdeps.sh
 
-      - name: build packaging related components
+      - name: Build packaging components
         run: ./140-build_packaging.sh
 
       #------------------------------------------------- create toolset artifact
 
-      - name: remove non-essential files
+      - name: Remove non-essential files
         run: |
           source jhb/etc/jhb.conf.sh
           find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' -exec rm -rf {} \;
           rm -rf "${BLD_DIR:?}"/*
           rm -rf "${TMP_DIR:?}"/*
 
-      - name: create toolset dmg
+      - name: Create disk image
         id: toolset
         run: |
           jhb/usr/bin/archive create_dmg
@@ -132,17 +133,11 @@ jobs:
           echo "dmg=$RELEASE_ARCHIVE" >> $GITHUB_OUTPUT
 
       # Restore /usr/local, GitHub actions depend on these.
-      - name: restore /usr/local
+      - name: Restore /usr/local
         run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
 
-      - name: upload toolset disk image
+      - name: Upload disk image
         uses: actions/upload-artifact@v3
         with:
           name: Inkscape_build_toolset
           path: ${{ steps.toolset.outputs.dmg }}
-
-      - name: upload toolset checksum
-        uses: actions/upload-artifact@v3
-        with:
-          name: Inkscape_build_toolset.sha256
-          path: ${{ steps.toolset.outputs.dmg }}.sha256

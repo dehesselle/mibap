@@ -15,18 +15,18 @@ jobs:
     runs-on: macos-12
     steps:
 
-      - name: checkout mibap repository
+      - name: Checkout mibap repository
         uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: fail on missing version tag
+      - name: Fail on missing version tag
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         uses: actions/github-script@v3
         with:
           script: core.setFailed("version tag not found")
 
-      - name: get toolset version
+      - name: Get toolset version
         id: toolset
         env:
           SYS_USRLOCAL_IGNORE: true
@@ -34,20 +34,20 @@ jobs:
           source jhb/etc/jhb.conf.sh
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: get repository version tag
+      - name: Get repository version tag
         id: repo
         run: echo "version=${GITHUB_REF##*v}" >> $GITHUB_OUTPUT
 
       # Once we have established that the "toolset version" (from jhb.conf.sh)
       # matches the "repo version" (from git tag) we can safely rely on
       # "repo version" from here on.
-      - name: fail on version mismatch
+      - name: Fail on version mismatch
         if: ${{ !endsWith(github.ref, steps.toolset.outputs.version) }}
         uses: actions/github-script@v3
         with:
           script: core.setFailed("version tag mismatch")
 
-      - name: fail on missing secret SDK_DOWNLOAD_URL
+      - name: Fail on missing secret SDK_DOWNLOAD_URL
         if: env.SDK_DOWNLOAD_URL == null
         env:
           SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
@@ -84,55 +84,15 @@ jobs:
       WRK_DIR: /Users/Shared/work
     steps:
 
-    #--------------------------------------------------- prepare the environment
-
-      - name: checkout mibap repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: download toolset
+      - name: Download toolset disk image
         uses: actions/download-artifact@v3
         with:
           name: Inkscape_build_toolset
           path: ${{ env.WRK_DIR }}/repo
 
-      - name: download toolset checksum
-        uses: actions/download-artifact@v3
-        with:
-          name: Inkscape_build_toolset.sha256
-          path: ${{ env.WRK_DIR }}/repo
-
-      - name: configure toolset
-        id: toolset
-        run: |
-          source jhb/etc/jhb.conf.sh
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "VER_DIR=$VER_DIR" >> $GITHUB_OUTPUT
-          echo "dmg=$RELEASE_ARCHIVE" >> $GITHUB_OUTPUT
-
-    #------------------------------------------------------------ create release
-
-      - name: install toolset
-        env:
-          SYS_USRLOCAL_IGNORE: true
-        run: |
-          ./install_toolset.sh
-
-      - name: read jhb log
-        id: jhb_log
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ${{ steps.toolset.outputs.VER_DIR }}/var/log/jhb.log
-
-      - name: uninstall toolset
-        env:
-          SYS_USRLOCAL_IGNORE: true
-        run: ./uninstall_toolset.sh
-
-      - name: create release
+      - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.WRK_DIR }}/repo/${{ steps.toolset.outputs.dmg }}*"
+          artifacts: "${{ env.WRK_DIR }}/repo/*.dmg"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
