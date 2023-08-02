@@ -1,16 +1,18 @@
-# macOS Inkscape build and package (mibap)
+# macOS dependencies and build system
 
 ![mibap_icon](./resources/mibap_icon.png)
 ![pipeline status](https://gitlab.com/inkscape/deps/macos/badges/master/pipeline.svg)
 ![Latest Release](https://gitlab.com/inkscape/deps/macos/-/badges/release.svg)
 
-This repository (on [GitLab](https://gitlab.com/inkscape/deps/macos), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
+This repository (on [GitLab](https://gitlab.com/inkscape/deps/macos), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image containing all dependencies and provides the build scripts that are being used in Inkscape's CI.
+
+Its original name was "mibap" (short for "macOS Inkscape build and package") which is still being used in a few places.
 
 ## Under the hood
 
-The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild) with a custom moduleset based off [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx). If you have never heard about these two, take a look at [GTK's documentation](https://www.gtk.org/docs/installations/macos/); it is important to understand that this is neither Homebrew nor MacPorts. But don't worry, in the end it's just another orchestration tool to perform "configure; make; make install" and manage dependencies.
+The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild) with a custom moduleset based on [gtk-osx](https://gitlab.gnome.org/GNOME/gtk-osx). If you have never heard about these two, take a look at [GTK's documentation](https://www.gtk.org/docs/installations/macos/); it is important to understand that this is neither Homebrew nor MacPorts. But don't worry, in the end it's just another orchestration tool to perform "configure; make; make install" and manage dependencies.
 
-## Building mibap ("the toolset")
+## Building Inkscape's dependencies
 
 ### Prerequisites
 
@@ -23,9 +25,9 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
   - Use a dedicated user account to avoid any interference with the environment.
     - No customizations in dotfiles like `.profile`, `.bashrc` etc.
 
-- There are __version recommendations__ based on known working setups, targeting the minimum supported OS versions (see [`sys.sh`](etc/jhb.conf.d/sys.sh)).
-  - macOS Monterey 12.6
-  - Xcode 13.x
+- There are __version recommendations__ based on a known working setup (used in CI), targeting the minimum supported OS versions (see [`sys.sh`](etc/jhb.conf.d/sys.sh)).
+  - macOS Monterey 12.6.x
+  - Xcode 14.0.1 (last version containing Monterey 12.3 SDK)
   - macOS High Sierra 10.13.4 SDK (from Xcode 9.4.1) for `x86_64` architecture
   - macOS Big Sur 11.3 SDK (from Xcode 13.0) for `arm64` architecture
 
@@ -54,7 +56,7 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    export SDKROOT=$HOME/MacOSX10.13.sdk
    ```
 
-1. Build the toolset.
+1. Build all dependencies.
 
    ```bash
    ./build_toolset.sh
@@ -89,7 +91,7 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
    git submodule update --init --recursive
    ```
 
-1. Install the toolset.
+1. Install the dependencies.
 
    ```bash
    ./install_toolset.sh
@@ -97,12 +99,11 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
 
    This will
 
-   - download the latest toolset [release](https://github.com/dehesselle/mibap/releases) (about 1.1 GiB) to `/Users/Shared/work/repo`
-   - mount the (read-only) toolset to `/Users/Shared/work/mibap-0.63`
-   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/mibap-0.63`
+   - download the latest [release](https://gitlab.com/inkscape/deps/macos/-/releases) (about 0.6 GiB) to `/Users/Shared/work/repo`
+   - mount the (read-only) toolset to `/Users/Shared/work/mibap-<version>`
+   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/mibap-<version>`
 
    The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.  
-   _(Version numbers are subject to change.)_
 
 1. Set `INK_DIR` to your clone of Inkscape's repository and start the build.
 
@@ -114,8 +115,8 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
    ```
 
    This will
-   - build and install Inkscape (unpackaged) to `/Users/Shared/work/mibap-0.63`
-   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/mibap-0.63`.
+   - build and install Inkscape (unpackaged) to `/Users/Shared/work/mibap-<version>`
+   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/mibap-<version>`
 
 ## Contact
 
