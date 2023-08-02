@@ -43,4 +43,4 @@ LD_LIBRARY_PATH=$LIB_DIR convert -size 560x400 xc:transparent \
   "$SRC_DIR"/inkscape_dmg.png
 
 # Create the disk image.
-dmgbuild_run "$SELF_DIR"/src/inkscape_dmg.py "$INK_APP_PLIST"
+dmgbuild_run "$SELF_DIR"/resources/inkscape_dmg.py "$INK_APP_PLIST"

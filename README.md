@@ -1,6 +1,6 @@
 # macOS Inkscape build and package (mibap)
 
-![mibap_icon](./res/mibap_icon.png)
+![mibap_icon](./resources/mibap_icon.png)
 ![pipeline status](https://gitlab.com/inkscape/devel/mibap/badges/master/pipeline.svg)
 ![Latest Release](https://gitlab.com/inkscape/devel/mibap/-/badges/release.svg)
 
