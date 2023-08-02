@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: toolset_validate
+name: inkscape
 on:
   workflow_call:
     inputs:
@@ -28,7 +28,7 @@ jobs:
 
   ##############################################################################
 
-  toolset_validate:
+  build:
     runs-on: macos-12
     env:
       WRK_DIR: ${{ inputs.WRK_DIR }}
@@ -56,16 +56,16 @@ jobs:
           key: ccache-inkscape-${{ steps.timestamp.outputs.formattedTime }}
           restore-keys: ccache-inkscape-
 
-      - name: Download toolset disk image
+      - name: Download dependencies disk image
         uses: actions/download-artifact@v3
         with:
-          name: Inkscape_build_toolset
+          name: dependencies
 
       # We're not using 'usr/bin/archive install_dmg' here because in the past
       # GitHub has not been able to handle the union-mounted dmg+ram combo
       # reliably, often breaking a job, presumably because of resource
       # starvation.
-      - name: Install toolset
+      - name: Install dependencies
         run: |
           source jhb/etc/jhb.conf.sh
           hdiutil attach $RELEASE_ARCHIVE
@@ -82,7 +82,7 @@ jobs:
           cd /usr/local
           for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
-      #-------------------------------------- build Inkscape to validate toolset
+      #---------------------------------------------------------- build Inkscape
 
       - name: Build Inkscape
         run: ./210-inkscape_build.sh
@@ -102,5 +102,5 @@ jobs:
       - name: Upload Inkscape disk image
         uses: actions/upload-artifact@v3
         with:
-          name: Inkscape_dmg
+          name: inkscape
           path: Inkscape*.dmg

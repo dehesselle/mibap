@@ -11,8 +11,8 @@ jobs:
 
   ##############################################################################
 
-  call_toolset_build:
-    uses: ./.github/workflows/toolset_build.yml
+  build_dependencies:
+    uses: ./.github/workflows/dependencies.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: false
     secrets:
@@ -20,10 +20,11 @@ jobs:
 
   ##############################################################################
 
-  call_toolset_validate:
-    uses: ./.github/workflows/toolset_validate.yml
+  # Build Inkscape to validate the viability of the dependencies.
+  build_inkscape:
+    uses: ./.github/workflows/inkscape.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: false
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: call_toolset_build
+    needs: build_dependencies

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: toolset_build
+name: dependencies
 on:
   workflow_call:
     inputs:
@@ -28,7 +28,7 @@ jobs:
 
   ##############################################################################
 
-  toolset_build:
+  build:
     runs-on: macos-12
     env:
       WRK_DIR: ${{ inputs.WRK_DIR }}
@@ -53,12 +53,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.timestamp.outputs.formattedTime }}
-          restore-keys: ccache-toolset-
+          key: ccache-dependencies-${{ steps.timestamp.outputs.formattedTime }}
+          restore-keys: ccache-dependencies-
 
-      # GitHub does not provide 10.13 SDK on their runners and no image older
-      # than Catalina. See here for what you can expect in their images:
-      # https://github.com/actions/virtual-environments/tree/main/images/macos
+      # Install a macOS SDK to target a minimum OS version if SDK_DOWNLOAD_URL
+      # has been provided, otherwise whatever SDK is the runner's default one
+      # is being used.
       #
       # Official downloads from Apple are not accessible without a developer
       # account and I don't trust 3rd party sources (e.g. "phracker"). So I'm
@@ -67,7 +67,7 @@ jobs:
       # https://github.com/dehesselle/sdkchecksum
       #
       # In order to use your own SDK_DOWNLOAD_URL, create a repository secret
-      # of said name and proivide a link to a .tar.xz file.
+      # of said name and provide a link to a .tar.xz file.
 
       - name: Install macOS SDK
         if: env.SDK_DOWNLOAD_URL != null
@@ -103,12 +103,14 @@ jobs:
       - name: Build GTK 3 stack
         run: ./120-build_gtk3.sh
 
+      # Save cache so we don't run into a timeout again after the job has
+      # previously failed due to timeout.
       - name: Save cache
         uses: actions/cache/save@v3
         if: always()
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-toolset-${{ steps.timestamp.outputs.formattedTime }}
+          key: ccache-dependencies-${{ steps.timestamp.outputs.formattedTime }}
 
       - name: Build Inkscape dependencies
         run: ./130-build_inkdeps.sh
@@ -116,7 +118,7 @@ jobs:
       - name: Build packaging components
         run: ./140-build_packaging.sh
 
-      #------------------------------------------------- create toolset artifact
+      #------------------------------------ package everything into a disk image
 
       - name: Remove non-essential files
         run: |
@@ -126,11 +128,7 @@ jobs:
           rm -rf "${TMP_DIR:?}"/*
 
       - name: Create disk image
-        id: toolset
-        run: |
-          jhb/usr/bin/archive create_dmg
-          source jhb/etc/jhb.conf.sh
-          echo "dmg=$RELEASE_ARCHIVE" >> $GITHUB_OUTPUT
+        run: jhb/usr/bin/archive create_dmg
 
       # Restore /usr/local, GitHub actions depend on these.
       - name: Restore /usr/local
@@ -139,5 +137,5 @@ jobs:
       - name: Upload disk image
         uses: actions/upload-artifact@v3
         with:
-          name: Inkscape_build_toolset
-          path: ${{ steps.toolset.outputs.dmg }}
+          name: dependencies
+          path: mibap*.dmg

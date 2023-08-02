@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: inkscape_only
+name: mibap
 on: workflow_dispatch
 
 # This workflow builds Inkscape using the latest release of mibap. You can
-# set repository secrets fpr INK_URL and INK_BRANCH to instruct this workflow
+# set repository secrets for INK_URL and INK_BRANCH to instruct this workflow
 # to build your custom fork and branch of Inkscape.
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
   ##############################################################################
 
   inkscape:
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       WRK_DIR: /Users/Shared/work
       CCACHE_DIR: /Users/Shared/work/ccache
@@ -24,67 +24,63 @@ jobs:
 
       #------------------------------------------------- prepare the environment
 
-      - name: get latest release version
+      - name: Get latest release
         uses: oprypin/find-latest-tag@v1
         id: mibap
         with:
           repository: dehesselle/mibap
           releases-only: true
 
-      - name: checkout repository
+      - name: Checkout mibap repository
         uses: actions/checkout@v3
         with:
           submodules: recursive
           ref: ${{ steps.mibap.outputs.tag }}
 
-      - name: create cache id
-        id: cache_id
-        uses: josStorer/get-current-time@v2.0.2
+      - name: Create timestamp
+        id: timestamp
+        uses: josStorer/get-current-time@v2
         with:
           format: "YYYY-MM-DD-HH-mm-ss"
 
       # Create a new cache, building ontop the most recent old one.
-      - name: setup cache
+      - name: Set up cache
         uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-inkscape-${{ steps.cache_id.outputs.formattedTime }}
+          key: ccache-inkscape-${{ steps.timestamp.outputs.formattedTime }}
           restore-keys: ccache-inkscape-
 
-      - name: install toolset
+      - name: Install dependencies
         run: ./install_toolset.sh
 
       # GitHub does not provide a clean macOS installation. We need to move the
       # pre-installed components out of the way so we don't pick them up by
       # accident.
-      - name: disable /usr/local
+      - name: Disable /usr/local
         run: |
           cd /usr/local
           for dir in include lib share; do sudo mv $dir $dir.disabled; done
 
       #---------------------------------------------------------- build Inkscape
 
-      - name: build Inkscape
+      - name: Build Inkscape
         run: ./210-inkscape_build.sh
 
-      - name: create Inkscape.app
+      - name: Create Inkscape application bundle
         run: ./220-inkscape_package.sh
 
-      - name: create Inkscape.dmg
+      - name: Create Inkscape disk image
         run: ./230-inkscape_distrib.sh
 
       #------------------------------------------------ create Inkscape artifact
 
       # Restore /usr/local, GitHub actions depend on these.
-      - name: restore /usr/local
+      - name: Restore /usr/local
         run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
 
-      # Restore /usr/local, GitHub actions depend on these.
-      - name: restore /usr/local
-        run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
-
-      - name: upload Inkscape disk image
+      - name: Upload Inkscape disk image
         uses: actions/upload-artifact@v3
         with:
-          name: Inkscape_dmg
+          name: inkscape
           path: Inkscape*.dmg

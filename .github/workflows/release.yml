@@ -11,7 +11,7 @@ jobs:
 
   ##############################################################################
 
-  requirements_check:
+  check_prerequisites:
     runs-on: macos-12
     steps:
 
@@ -26,23 +26,18 @@ jobs:
         with:
           script: core.setFailed("version tag not found")
 
-      - name: Get toolset version
-        id: toolset
+      - name: Get dependencies version
+        id: dependencies
         env:
           SYS_USRLOCAL_IGNORE: true
         run: |
           source jhb/etc/jhb.conf.sh
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Get repository version tag
-        id: repo
-        run: echo "version=${GITHUB_REF##*v}" >> $GITHUB_OUTPUT
-
-      # Once we have established that the "toolset version" (from jhb.conf.sh)
-      # matches the "repo version" (from git tag) we can safely rely on
-      # "repo version" from here on.
+      # Ensure that the dependencies version (see above) matches the repository
+      # version (from git tag).
       - name: Fail on version mismatch
-        if: ${{ !endsWith(github.ref, steps.toolset.outputs.version) }}
+        if: ${{ !endsWith(github.ref, steps.dependencies.outputs.version) }}
         uses: actions/github-script@v3
         with:
           script: core.setFailed("version tag mismatch")
@@ -57,42 +52,40 @@ jobs:
 
   ##############################################################################
 
-  call_toolset_build:
-    uses: ./.github/workflows/toolset_build.yml
+  build_dependencies:
+    uses: ./.github/workflows/dependencies.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: true
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: requirements_check
+    needs: check_prerequisites
 
   ##############################################################################
 
-  call_toolset_validate:
-    uses: ./.github/workflows/toolset_validate.yml
+  # Build Inkscape to validate the viability of the dependencies.
+  build_inkscape:
+    uses: ./.github/workflows/inkscape.yml
     with:
       SDK_DOWNLOAD_URL_REQUIRED: true
     secrets:
       SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: call_toolset_build
+    needs: build_dependencies
 
   ##############################################################################
 
   create_release:
-    runs-on: macos-12
-    needs: call_toolset_validate
-    env:
-      WRK_DIR: /Users/Shared/work
+    runs-on: ubuntu-latest
+    needs: build_inkscape
     steps:
 
-      - name: Download toolset disk image
+      - name: Download dependencies disk image
         uses: actions/download-artifact@v3
         with:
-          name: Inkscape_build_toolset
-          path: ${{ env.WRK_DIR }}/repo
+          name: dependencies
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.WRK_DIR }}/repo/*.dmg"
+          artifacts: mibap*.dmg
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
