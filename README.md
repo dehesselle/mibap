@@ -1,10 +1,10 @@
 # macOS Inkscape build and package (mibap)
 
 ![mibap_icon](./resources/mibap_icon.png)
-![pipeline status](https://gitlab.com/inkscape/devel/mibap/badges/master/pipeline.svg)
-![Latest Release](https://gitlab.com/inkscape/devel/mibap/-/badges/release.svg)
+![pipeline status](https://gitlab.com/inkscape/deps/macos/badges/master/pipeline.svg)
+![Latest Release](https://gitlab.com/inkscape/deps/macos/-/badges/release.svg)
 
-This repository (on [GitLab](https://gitlab.com/inkscape/devel/mibap), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
+This repository (on [GitLab](https://gitlab.com/inkscape/deps/macos), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image (otherwise referred to as "the toolset") that contains all dependencies so that Inkscape's CI can focus on building the app.
 
 ## Under the hood
 

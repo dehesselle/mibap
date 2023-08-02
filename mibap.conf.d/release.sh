@@ -16,10 +16,10 @@
 
 RELEASE_ARCHIVE=mibap-"$VERSION"_$(uname -m).dmg
 
-# GitLab: https://gitlab.com/inkscape/devel/mibap
+# GitLab: https://gitlab.com/inkscape/deps/macos
 # GitHub: https://github.com/dehesselle/mibap
 RELEASE_URLS=(
-  "https://gitlab.com/api/v4/projects/15865869/packages/generic/mibap/\
+  "https://gitlab.com/api/v4/projects/47632031/packages/generic/mibap/\
 v$VERSION/$RELEASE_ARCHIVE"
   "https://github.com/dehesselle/mibap/releases/download/\
 v$VERSION/$RELEASE_ARCHIVE"
