@@ -30,15 +30,6 @@ bash_d_include error
 
 error_trace_enable
 
-#----------------------------------------------------------- (re-) configure jhb
-
-# Rerun configuration to adapt to the current system. This will
-#   - allow Inkscape to be build against a different SDK than the toolset has
-#     been built with
-#   - setup ccache
-
-jhb configure
-
 #----------------------------------------------- install additional dependencies
 
 jhb run pip3 install \
@@ -49,8 +40,6 @@ jhb run pip3 install \
 #--------------------------------------------------------------------- run tests
 
 cd "$INK_BLD_DIR" || exit 1
-
-ninja tests # build tests
 
 # run tests, but exclude *-data-directory because of
 #     +[NSXPCSharedListener endpointForReply:withListenerName:]: an error

@@ -77,6 +77,7 @@ cmake \
 
 ninja
 ninja install
+ninja tests # build tests
 
 #----------------------------------- make libraries work for unpackaged Inkscape
 
