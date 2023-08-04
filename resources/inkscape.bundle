@@ -96,6 +96,10 @@
   <data>
     ${prefix}/bin/ps2pdf*
   </data>
+  <!-- Xfig -->
+  <binary>
+    ${prefix}/bin/fig2dev
+  </binary>
   <!-- GObject Introspection -->
   <binary>
     ${prefix}/lib/libgirepository-1.0.1.dylib
