@@ -266,13 +266,6 @@ function ink_pipinstall_pyserial
   find "$INK_APP_SPK_DIR"/serial -type f -name "*.pyc" -exec rm {} \;
 }
 
-function ink_pipinstall_pillow
-{
-  find "$INK_APP_SPK_DIR/PIL" -type f \
-    '(' -name "*.so" -o -name "*.dylib" ')' \
-    -exec codesign --remove-signature {} \;
-}
-
 function ink_download_python
 {
   curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
@@ -320,8 +313,10 @@ function ink_build_wheels
     done
 
     if [ -n "$packages" ]; then
+      # We build the wheels ourselves as the binary releases don't offer the
+      # backward compatiblity whe require.
       # shellcheck disable=SC2086 # we need word splitting here
-      jhb run pip3 wheel $packages -w "$PKG_DIR"
+      jhb run pip3 wheel --no-binary :all: $packages -w "$PKG_DIR"
       packages=""
     fi
   done
