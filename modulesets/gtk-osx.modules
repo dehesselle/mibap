@@ -144,7 +144,7 @@
   </autotools>
   <!---->
   <meson id="harfbuzz-no-cairo"
-         mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled -Dintrospection=disabled">
+         mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled -Dintrospection=disabled -Dtests=disabled">
 
     <branch module="harfbuzz/harfbuzz/releases/download/8.0.1/harfbuzz-8.0.1.tar.xz"
             version="8.0.1"
@@ -239,7 +239,7 @@
   </meson>
   <!---->
   <meson id="harfbuzz"
-         mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled">
+         mesonargs="-Dcoretext=enabled -Ddocs=disabled -Dbenchmark=disabled -Dtests=disabled">
 
     <branch module="harfbuzz/harfbuzz/releases/download/8.0.1/harfbuzz-8.0.1.tar.xz"
             version="8.0.1"
