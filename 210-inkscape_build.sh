@@ -22,7 +22,7 @@ bash_d_include lib
 
 ### variables ##################################################################
 
-# Nothing here.
+SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 ### functions ##################################################################
 
@@ -39,7 +39,7 @@ error_trace_enable
 #     been built with
 #   - setup ccache
 
-jhb configure
+jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 
 #---------------------------------------------------------------- build Inkscape
 
