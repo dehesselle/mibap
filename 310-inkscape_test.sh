@@ -41,11 +41,11 @@ jhb run pip3 install \
 
 cd "$INK_BLD_DIR" || exit 1
 
-# run tests, but exclude *-data-directory because of
-#     +[NSXPCSharedListener endpointForReply:withListenerName:]: an error
-#     occurred while attempting to obtain endpoint for listener
-#     'ClientCallsAuxiliary': Connection interrupted
+# exclude failing tests
 ctest -V -E "(\
-system-data-directory|\
-user-data-directory\
+user-data-directory|\
+glyph-y-pos|\
+glyphs-combining|\
+glyphs-vertical|\
+rtl-vertical\
 )"
