@@ -1,0 +1,10 @@
+--- a/meson.build	2023-03-02 14:19:55.000000000 +0100
++++ b/meson.build	2023-10-01 02:07:11.000000000 +0200
+@@ -570,7 +570,6 @@
+ subdir('pango')
+ subdir('utils')
+ subdir('examples')
+-subdir('tests')
+ subdir('tools')
+ 
+ if get_option('gtk_doc')
