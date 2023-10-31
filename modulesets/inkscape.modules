@@ -355,7 +355,7 @@
             checkoutdir="rustup-1.25.2"
             rename-tarball="rustup-1.25.2.tar.gz"
             repo="github">
-      <patch file="rust_cmake_install.patch"
+      <patch file="rust-cmake_install.patch"
              strip="1" />
     </branch>
   </cmake>
