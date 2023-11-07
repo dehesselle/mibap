@@ -240,7 +240,7 @@
     <dependencies>
       <dep package="gobject-introspection" />
       <dep package="cairo" />
-      <dep package="fontconfig"/>
+      <dep package="fontconfig" />
     </dependencies>
   </meson>
   <!---->
@@ -262,6 +262,7 @@
     <branch module="pango/1.50/pango-1.50.14.tar.xz"
             version="1.50.14"
             hash="sha256:1d67f205bfc318c27a29cfdfb6828568df566795df0cb51d2189cde7f2d581e8">
+
       <patch file="pango-disable_tests.patch"
              strip="1" />
     </branch>
@@ -363,6 +364,7 @@
       <dep package="freetype" />
       <dep package="docutils" />
       <dep package="gidocgen" />
+      <dep package="pygments" />
       <dep package="rust" />
     </dependencies>
     <after>

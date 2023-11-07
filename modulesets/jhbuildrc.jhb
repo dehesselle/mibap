@@ -1,0 +1,2 @@
+# ImageMagick 6.x doesn't like turbojpeg
+conditions.add("noturbojpeg")

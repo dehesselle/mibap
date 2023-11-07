@@ -2,3 +2,6 @@
 
 if _default_arch == "arm64":
   module_extra_env["gsl"] = { "MACOSX_DEPLOYMENT_TARGET": "" }
+
+# ImageMagick 6.x doesn't like turbojpeg
+conditions.add("noturbojpeg")

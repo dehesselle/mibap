@@ -16,7 +16,9 @@
 
 ### dependencies ###############################################################
 
-# Nothing here.
+#------------------------------------------------------ source jhb configuration
+
+source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
 ### variables ##################################################################
 
@@ -70,5 +72,8 @@ $xp_elements[$i]/branch/@module)" "$modules")
 if [ -d "$PACKAGE_CACHE_DIR" ]; then
   preload "$PACKAGE_CACHE_DIR"
 fi
+
+mkdir -p "$ETC_DIR"/modulesets/jhb
+cp "$SELF_DIR"/modulesets/jhbuildrc.jhb "$ETC_DIR"/modulesets/jhb/jhbuildrc
 
 "$SELF_DIR"/jhb/usr/bin/bootstrap

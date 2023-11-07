@@ -125,6 +125,8 @@
             repo="github-tarball">
       <patch file="enchant-relocatable.patch"
              strip="1" />
+      <patch file="enchant-no_groff.patch"
+             strip="1" />
     </branch>
     <dependencies>
       <dep package="glib" />

@@ -1,0 +1,30 @@
+--- a/src/Makefile.am	2023-05-24 11:23:45
++++ b/src/Makefile.am	2023-10-17 01:14:55
+@@ -32,10 +32,10 @@
+ DISTCLEANFILES = $(dist_man_MANS) $(nodist_doc_DATA)
+ 
+ .1.html:
+-	groff -mandoc -Thtml $< > $@
++	echo groff -mandoc -Thtml $< > $@
+ 
+ enchant.html: enchant.5
+-	groff -mandoc -Thtml $< > $@
++	echo groff -mandoc -Thtml $< > $@
+ 
+ enchant-@ENCHANT_MAJOR_VERSION@.1: $(builddir)/enchant.1 Makefile.am $(top_builddir)/config.status
+ 	rm -f $@ $@.tmp
+--- a/src/Makefile.in	2023-05-24 11:24:23
++++ b/src/Makefile.in	2023-10-17 01:15:46
+@@ -1495,10 +1495,10 @@
+ 
+ 
+ .1.html:
+-	groff -mandoc -Thtml $< > $@
++	echo groff -mandoc -Thtml $< > $@
+ 
+ enchant.html: enchant.5
+-	groff -mandoc -Thtml $< > $@
++	echo groff -mandoc -Thtml $< > $@
+ 
+ enchant-@ENCHANT_MAJOR_VERSION@.1: $(builddir)/enchant.1 Makefile.am $(top_builddir)/config.status
+ 	rm -f $@ $@.tmp
