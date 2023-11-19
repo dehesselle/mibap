@@ -24,16 +24,16 @@ include:
   script:
     - !reference [ .verify_sdk, script ]
     - ./build_toolset.sh
-    # I hate having to remove the contents of PKG_DIR but artifact size needs
-    # to stay below 1 GiB for GitLab.
+    # Artifact size needs to stay below 1 GiB for GitLab.
     - |
       source jhb/etc/jhb.conf.sh
       find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d ! -name 'bash_d' ! -name 'gtk-mac-bundler*' ! -name 'jhb*' -exec rm -rf {} \;
       rm -rf "${BLD_DIR:?}"/*
       find "${PKG_DIR:?}"/ -type f ! -name "python_*.tar.xz" ! -name "*.svg" ! -name "*.whl" -delete
       rm -rf "${TMP_DIR:?}"/*
-      rm -rf "${VAR_DIR:?}"/cache/pip/*
-      rm -rf "${VAR_DIR:?}"/cache/pycache/*
+      rm -rf "${VAR_DIR:?}"/cache/{pip,pychache}/*
+      rm -rf "${HOME:?}"/.{cargo,rustup}
+      rm -rf "${BIN_DIR:?}"/{cargo,rust}*
     - jhb/usr/bin/archive create_dmg
   artifacts:
     paths:
