@@ -130,7 +130,7 @@
   <translations  name="gtk30-properties">
     ${prefix}/share/locale
   </translations>
-  <translations name="gtksourceview-4">
+  <translations name="gtksourceview-5">
     ${prefix}/share/locale
   </translations>
   <translations  name="inkscape">
@@ -160,7 +160,7 @@
     ${prefix}/share/glib-2.0
   </data>
   <data>
-    ${prefix}/share/gtksourceview-4
+    ${prefix}/share/gtksourceview-5
   </data>
   <data>
     ${prefix}/share/icons

@@ -28,4 +28,4 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 
-jhb build meta-gtk-osx-gtk3 gtkmm3
+jhb build gtk-4 gtkmm4

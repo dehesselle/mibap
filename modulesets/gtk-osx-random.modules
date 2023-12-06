@@ -64,18 +64,16 @@
       <dep package="meta-gtk-osx-gtk3" />
     </dependencies>
   </autotools>
-  <!--
-    gtksourceview got a major version ahead:
-    4.x.x supports recent versions of gtk+-3 and 5.x.x is for gtk4.
-  -->
-  <meson id="gtksourceview3">
-    <branch module="gtksourceview/4.8/gtksourceview-4.8.4.tar.xz"
-            version="4.8.4"
-            hash="sha256:7ec9d18fb283d1f84a3a3eff3b7a72b09a10c9c006597b3fbabbb5958420a87d">
+  <!---->
+  <meson id="gtksourceview4"
+         mesonargs="-Dintrospection=disabled">
+    <branch module="gtksourceview/5.8/gtksourceview-5.8.0.tar.xz"
+            version="5.8.0"
+            hash="sha256:110dd4c20def21886fbf777298fe0ef8cc2ad6023b8f36c7424411a414818933">
     </branch>
     <dependencies>
-      <dep package="gtk+-3.0" />
-      <dep package="vala" />
+      <dep package="gtk-4" />
+      <dep package="libpcre2" />
     </dependencies>
   </meson>
   <!---->

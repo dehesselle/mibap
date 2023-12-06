@@ -269,8 +269,10 @@
       <dep package="ghostscript" />
       <dep package="googletest" />
       <dep package="gsl" />
+      <!-- does not support gtk4
       <dep package="gspell" />
-      <dep package="gtksourceview3" />
+      -->
+      <dep package="gtksourceview4" />
       <dep package="imagemagick" />
       <dep package="libcdr" />
       <dep package="libsoup" />

@@ -23,76 +23,68 @@
             version="1.0.5"
             hash="sha256:705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa" />
   </meson>
-  <!--
-    Libsigc++ was rewritten to use C++17 variadic templates for version 3, and
-    adopting that has created substantial API breaks for the whole "mm" stack.
-    gtkmm3 uses the older versions, gtkmm4 the new ones.
-    Note that C++17 is supported only on macOS-10.13 and later.
-  -->
-  <meson id="cairomm-1.14">
-    <branch module="cairomm-1.14.2.tar.xz"
-            version="1.14.2"
-            hash="sha256:0126b9cc295dc36bc9c0860d5b720cb5469fd78d5620c8f10cc5f0c07b928de3"
+  <!---->
+  <meson id="cairomm">
+    <branch module="cairomm-1.16.0.tar.xz"
+            version="1.16.0"
+            hash="sha256:7e881492c5f9f546688c31160deb742c166fc4c68b6b8eb9920c00a0f0f144f9"
             repo="cairographics" />
     <dependencies>
       <dep package="cairo" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="glibmm-2.4">
-    <branch module="glibmm/2.66/glibmm-2.66.6.tar.xz"
-            version="2.66.6"
-            hash="sha256:5358742598181e5351d7bf8da072bf93e6dd5f178d27640d4e462bc8f14e152f" />
+  <meson id="glibmm">
+    <branch module="glibmm/2.76/glibmm-2.76.0.tar.xz"
+            version="2.76.0"
+            hash="sha256:8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2">
+    </branch>
     <dependencies>
       <dep package="glib" />
-      <dep package="libsigc++2" />
+      <dep package="libsigc++3" />
       <dep package="mm-common" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="pangomm-1.4">
-    <branch module="pangomm/2.46/pangomm-2.46.2.tar.xz"
-            version="2.46.2"
-            hash="sha256:57442ab4dc043877bfe3839915731ab2d693fc6634a71614422fb530c9eaa6f4" />
+  <meson id="pangomm">
+    <branch module="pangomm/2.50/pangomm-2.50.1.tar.xz"
+            version="2.50.1"
+            hash="sha256:ccc9923413e408c2bff637df663248327d72822f11e394b423e1c5652b7d9214" />
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
+      <dep package="glibmm" />
+      <dep package="cairomm" />
       <dep package="pango" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="atkmm-1.6">
-    <branch module="atkmm/2.28/atkmm-2.28.3.tar.xz"
-            version="2.28.3"
-            hash="sha256:7c2088b486a909be8da2b18304e56c5f90884d1343c8da7367ea5cd3258b9969" />
+  <meson id="atkmm">
+    <branch module="atkmm/2.36/atkmm-2.36.2.tar.xz"
+            version="2.36.2"
+            hash="sha256:6f62dd99f746985e573605937577ccfc944368f606a71ca46342d70e1cdae079" />
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
-      <dep package="pangomm-1.4" />
+      <dep package="glibmm" />
+      <dep package="cairomm" />
+      <dep package="pangomm" />
       <dep package="atk" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="libsigc++2">
-    <branch module="libsigc++/2.12/libsigc++-2.12.0.tar.xz"
-            version="2.12.0"
-            hash="sha256:1c466d2e64b34f9b118976eb21b138c37ed124d0f61497df2a90ce6c3d9fa3b5" />
+  <meson id="libsigc++3">
+    <branch module="libsigc++/3.4/libsigc++-3.4.0.tar.xz"
+            version="3.4.0"
+            hash="sha256:02e2630ffb5ce93cd52c38423521dfe7063328863a6e96d41d765a6116b8707e" />
   </meson>
   <!---->
-  <meson id="gtkmm3">
-    <branch module="gtkmm/3.24/gtkmm-3.24.7.tar.xz"
-            version="3.24.7"
-            hash="sha256:1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c">
-
-      <patch file="gtkmm-3-bad-const-property-background.patch"
-             strip="1" />
-    </branch>
+  <meson id="gtkmm4">
+    <branch module="gtkmm/4.12/gtkmm-4.12.0.tar.xz"
+            version="4.12.0"
+            hash="sha256:fbc3e7618123345c0148ef71abb6548d421f52bb224fbda34875b677dc032c92" />
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
-      <dep package="pangomm-1.4" />
-      <dep package="atkmm-1.6" />
-      <dep package="gtk+-3.0" />
+      <dep package="glibmm" />
+      <dep package="cairomm" />
+      <dep package="pangomm" />
+      <dep package="atkmm" />
+      <dep package="gtk-4" />
     </dependencies>
   </meson>
   <!---->

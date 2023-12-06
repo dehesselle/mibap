@@ -69,16 +69,6 @@
     <branch repo="system" />
   </systemmodule>
   <!---->
-  <metamodule id="meta-gtk-osx-gtk3">
-    <dependencies>
-      <dep package="gtk+-3.0" />
-      <dep package="adwaita-icon-theme" />
-    </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap" />
-    </after>
-  </metamodule>
-  <!---->
   <autotools id="libffi"
              autogen-sh="configure"
              autogenargs="--disable-multi-os-directory --disable-docs">
@@ -310,44 +300,50 @@
             repo="hicolor" />
   </autotools>
   <!---->
-  <autotools id="xorg-util-macros">
-    <branch module="individual/util/util-macros-1.19.3.tar.bz2"
-            version="1.19.3"
-            hash="sha256:0f812e6e9d2786ba8f54b960ee563c0663ddbe2434bf24ff193f5feab1f31971"
-            repo="xorg" />
-  </autotools>
-  <!---->
   <meson id="libepoxy">
     <branch module="anholt/libepoxy/archive/refs/tags/1.5.10.tar.gz"
             version="1.5.10"
             hash="sha256:a7ced37f4102b745ac86d6a70a9da399cc139ff168ba6b8002b4d8d43c900c15"
             checkoutdir="libexpoxy-1.5.10"
             repo="github-tarball" />
-    <!--dependencies>
-      <dep package="xorg-util-macros" />
-    </dependencies-->
   </meson>
-  <!--
-    gtk3 is in maintenance mode with 3.24 the final release series.
-  -->
-  <meson id="gtk+-3.0"
-         mesonargs="-Dx11_backend=false">
-    <branch module="gtk+/3.24/gtk+-3.24.41.tar.xz"
-            version="3.24.41"
-            hash="sha256:47da61487af3087a94bc49296fd025ca0bc02f96ef06c556e7c8988bd651b6fa">
-    </branch>
+  <!---->
+  <meson id="graphene"
+         mesonargs="-Dtests=false">
+    <branch module="ebassi/graphene/releases/download/1.10.6/graphene-1.10.6.tar.xz"
+            version="1.10.8"
+            repo="github-tarball" />
     <dependencies>
       <dep package="glib" />
+      <dep package="gobject-introspection" />
+    </dependencies>
+  </meson>
+  <!---->
+  <autotools id="libsass"
+             autogen-sh="autoreconf"
+             autogenargs="--disable-tests --disable-static">
+    <branch module="sass/libsass/archive/refs/tags/3.6.5.tar.gz"
+            version="3.6.5"
+            hash="sha256:89d8f2c46ae2b1b826b58ce7dde966a176bac41975b82e84ad46b01a55080582"
+            checkoutdir="libsass-3.6.5"
+            rename-tarball="libsass-3.6.5.tar.gz"
+            repo="github-tarball" />
+  </autotools>
+  <!---->
+  <meson id="gtk-4"
+         mesonargs="-Dx11-backend=false -Dmedia-gstreamer=disabled -Dintrospection=enabled">
+
+    <branch module="gtk/4.12/gtk-4.12.4.tar.xz"
+            version="4.12.4"
+            hash="sha256:ba67c6498e5599f928edafb9e08a320adfaa50ab2f0da6fc6ab2252fc2d57520" />
+    <dependencies>
       <dep package="pango" />
       <dep package="atk" />
       <dep package="gdk-pixbuf" />
-      <dep package="gobject-introspection" />
+      <dep package="graphene" />
+      <dep package="libsass" />
       <dep package="libepoxy" />
-      <dep package="hicolor-icon-theme" />
     </dependencies>
-    <after>
-      <dep package="meta-gtk-osx-bootstrap" />
-    </after>
   </meson>
   <!---->
   <autotools id="librsvg"
