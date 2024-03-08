@@ -54,7 +54,7 @@ case "$1" in
     save_overlay
     ;;
   save_testfiles) # save files from test stage (test evidence)
-    tar -C "$INK_BLD_DIR" -cp testfiles |
+    tar -C "$INK_BLD_DIR" -cp testfiles Testing |
       XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/testfiles.tar.xz
     ;;
 esac
