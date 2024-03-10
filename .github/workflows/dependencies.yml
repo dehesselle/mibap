@@ -38,7 +38,7 @@ jobs:
       #------------------------------------------------- prepare the environment
 
       - name: Checkout mibap repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -50,7 +50,7 @@ jobs:
 
       # Create a new cache, building ontop the most recent old one.
       - name: Set up cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-dependencies-${{ steps.timestamp.outputs.formattedTime }}
@@ -106,7 +106,7 @@ jobs:
       # Save cache so we don't run into a timeout again after the job has
       # previously failed due to timeout.
       - name: Save cache
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         if: always()
         with:
           path: ${{ env.CCACHE_DIR }}
@@ -135,7 +135,7 @@ jobs:
         run: for dir in /usr/local/*.disabled; do sudo mv $dir ${dir/.disabled/}; done
 
       - name: Upload disk image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dependencies
           path: mibap*.dmg
