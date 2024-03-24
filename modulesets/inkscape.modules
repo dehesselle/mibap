@@ -161,25 +161,29 @@
   </autotools>
   <!--
     GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
-
-    This is a hackish way of installing GTK Mac Bundler with JHBuild.
-    The patch supplies a mocked configure script that's only interested in
-    taking the prefix and patching the Makefile accordingly. Skipping
-    installation means that JHBuild will (re-)install this everytime
-    it gets pulled in.
   -->
   <autotools id="gtkmacbundler"
              autogen-sh="configure"
              makeargs="&amp;&amp; make install"
              skip-install="yes"
              supports-non-srcdir-builds="no">
-    <branch module="gtk-mac-bundler/-/archive/58d951c8/gtk-mac-bundler-58d951c8.tar.bz2"
-            version="58d951c8"
-            hash="sha256:4617a36dadb7fe9ad242bdd826819e78098a089ccb3c4a002eb7b105ea0ca97c"
-            checkoutdir="gtk-mac-bundler_58d951c8"
-            rename-tarball="gtk-mac-bundler_58d951c8.tar.bz2"
+    <branch module="gtk-mac-bundler/-/archive/6dd89ea6/gtk-mac-bundler-6dd89ea6.tar.bz2"
+            version="6dd89ea6"
+            hash="sha256:ef70eba556679cae60d954b52f31c9936d0ca17e27ee7f71380936e1c3545c6b"
+            checkoutdir="gtk-mac-bundler_6dd89ea6"
+            rename-tarball="gtk-mac-bundler_6dd89ea6.tar.bz2"
             repo="gnome_gitlab">
-      <patch file="gtk-mac-bundler_configure.patch"
+      <!--
+        Mocks autotools interface to the extent that it provides a
+        "configure". (But the "make install" is still broken and needs to
+        be skipped.)
+      -->
+      <patch file="gtk-mac-bundler_autotools.patch"
+             strip="1" />
+      <!--
+        Disable immodules setup, no longer present in GTK 4.
+      -->
+      <patch file="gtk-mac-bundler_immodules.patch"
              strip="1" />
     </branch>
   </autotools>

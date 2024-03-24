@@ -52,13 +52,6 @@
 
   <main-binary>${prefix}/bin/inkscape</main-binary>
 
-  <!-- Copy in the input methods. Dunno if they actually work with
-       OSX. Note the ${gtkdir} macro, which expands to the correct
-       library subdirectory for the specified gtk version. -->
-  <binary>
-    ${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/immodules/*.so
-  </binary>
-
 <!-- And the print backends -->
   <binary>
     ${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/printbackends/*.so

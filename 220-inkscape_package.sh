@@ -65,8 +65,7 @@ lib_change_siblings "$INK_APP_LIB_DIR"
 
 # Point GTK modules towards INK_APP_LIB_DIR using @loader_path.
 lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
-  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules/*.so \
-  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/printbackends/*.so
+  "$INK_APP_LIB_DIR"/gtk-4.0/4.0.0/printbackends/*.so
 
 # Point GIO modules towards INK_APP_LIB_DIR using @loader_path.
 lib_change_paths @loader_path/../.. "$INK_APP_LIB_DIR" \
@@ -89,9 +88,6 @@ lib_change_path \
 
 #------------------------------------------------------ use rpath in cache files
 
-sed -i '' \
-  's|@executable_path/../Resources/lib|@rpath|g' \
-  "$INK_APP_LIB_DIR"/gtk-3.0/3.0.0/immodules.cache
 sed -i '' \
   's|@executable_path/../Resources/lib|@rpath|g' \
   "$INK_APP_LIB_DIR"/gdk-pixbuf-2.0/2.10.0/loaders.cache

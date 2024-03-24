@@ -1,0 +1,13 @@
+diff --git a/bundler/bundler.py b/bundler/bundler.py
+index dd7899a..5a42c21 100644
+--- a/bundler/bundler.py
++++ b/bundler/bundler.py
+@@ -503,7 +503,7 @@ class Bundler(object):
+         self.copy_icon_themes()
+ 
+         self.create_pango_setup()
+-        self.create_gtk_immodules_setup()
++        #self.create_gtk_immodules_setup()
+         self.create_gdk_pixbuf_loaders_setup()
+ 
+         main_binary_path.copy_target(self.project)
