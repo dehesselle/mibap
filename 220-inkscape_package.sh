@@ -71,10 +71,6 @@ lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
 lib_change_paths @loader_path/../.. "$INK_APP_LIB_DIR" \
   "$INK_APP_LIB_DIR"/gio/modules/*.so
 
-# Point enchant's applespell plugin towards INK_APP_LIB_DIR using @loader_path.
-lib_change_paths @loader_path/.. "$INK_APP_LIB_DIR" \
-  "$INK_APP_LIB_DIR"/enchant-2/enchant_applespell.so
-
 # Point Ghostscript towards INK_APP_LIB_DIR using @executable_path.
 lib_change_paths \
   @executable_path/../lib \

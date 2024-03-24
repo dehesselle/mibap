@@ -76,9 +76,11 @@
   <binary>
     ${prefix}/lib/gio/modules/*.so
   </binary>
+  <!-- no spellchecking support at the moment
   <binary>
     ${prefix}/lib/enchant-2/*.so
   </binary>
+  -->
   <!-- Ghostscript (disable this for GPLv2+ compliance!) -->
   <binary>
     ${prefix}/bin/gs
@@ -140,9 +142,11 @@
   <data>
     ${prefix}/etc/fonts
   </data>
+  <!-- no spellchecking support at the moment
   <data>
     ${prefix}/share/enchant
   </data>
+  -->
   <data>
     ${prefix}/share/fontconfig
   </data>
