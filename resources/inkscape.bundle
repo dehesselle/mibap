@@ -41,7 +41,7 @@
     <!-- runtime copy="yes">/usr/bin/python</runtime -->
     <!-- Indicate the active gtk version to use. This is needed only
          for gtk+-3.0 projects. -->
-    <gtk>gtk+-3.0</gtk>
+    <gtk>gtk4</gtk>
   </meta>
 
   <!-- The special macro "${project}" refers to the directory where
@@ -54,7 +54,7 @@
 
 <!-- And the print backends -->
   <binary>
-    ${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/printbackends/*.so
+    ${prefix}/lib/gtk-4.0/${pkg:${gtk}:gtk_binary_version}/printbackends/*.so
   </binary>
 
 <!-- Starting with 2.24, gdk-pixbuf installs into its own directory. -->
@@ -117,10 +117,7 @@
   <translations  name="gdk-pixbuf">
     ${prefix}/share/locale
   </translations>
-  <translations  name="gtk30">
-    ${prefix}/share/locale
-  </translations>
-  <translations  name="gtk30-properties">
+  <translations  name="gtk40">
     ${prefix}/share/locale
   </translations>
   <translations name="gtksourceview-5">
@@ -153,6 +150,9 @@
     ${prefix}/share/glib-2.0
   </data>
   <data>
+    ${prefix}/share/gtk-4.0
+  </data>
+  <data>
     ${prefix}/share/gtksourceview-5
   </data>
   <data>
@@ -163,11 +163,6 @@
   </data>
   <data>
     ${prefix}/share/inkscape
-  </data>
-  <!-- Copy in the themes data. You may want to trim this to save space
-       in your bundle. -->
-  <data>
-    ${prefix}/share/themes
   </data>
 
   <!-- Copy icons. Note that the .icns file is an Apple format which
