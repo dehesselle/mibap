@@ -6,7 +6,7 @@
 
 ### description ################################################################
 
-# Install GTK3 libraries and their dependencies.
+# Install GTK4 libraries and their dependencies.
 
 ### shellcheck #################################################################
 

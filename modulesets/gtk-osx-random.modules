@@ -61,7 +61,6 @@
     <dependencies>
       <dep package="graphviz" />
       <dep package="meta-gtk-osx-bootstrap" />
-      <dep package="meta-gtk-osx-gtk3" />
     </dependencies>
   </autotools>
   <!---->

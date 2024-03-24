@@ -100,8 +100,8 @@ jobs:
       - name: Bootstrap JHBuild
         run: ./110-bootstrap_jhb.sh
 
-      - name: Build GTK 3 stack
-        run: ./120-build_gtk3.sh
+      - name: Build GTK 4 stack
+        run: ./120-build_gtk4.sh
 
       # Save cache so we don't run into a timeout again after the job has
       # previously failed due to timeout.

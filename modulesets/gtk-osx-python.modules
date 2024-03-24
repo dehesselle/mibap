@@ -34,7 +34,6 @@
     <dependencies>
       <dep package="cairo" />
       <dep package="python3" />
-      <dep package="meta-gtk-osx-gtk3" />
     </dependencies>
   </meson>
   <!---->
