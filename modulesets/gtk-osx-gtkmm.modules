@@ -35,9 +35,9 @@
   </meson>
   <!---->
   <meson id="glibmm">
-    <branch module="glibmm/2.76/glibmm-2.76.0.tar.xz"
-            version="2.76.0"
-            hash="sha256:8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2">
+    <branch module="glibmm/2.78/glibmm-2.78.1.tar.xz"
+            version="2.78.1"
+            hash="sha256:f473f2975d26c3409e112ed11ed36406fb3843fa975df575c22d4cb843085f61">
     </branch>
     <dependencies>
       <dep package="glib" />
