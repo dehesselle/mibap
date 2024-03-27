@@ -246,9 +246,9 @@
   <!---->
   <meson id="pango"
          mesonargs="-Dfontconfig=enabled">
-    <branch module="pango/1.50/pango-1.50.14.tar.xz"
-            version="1.50.14"
-            hash="sha256:1d67f205bfc318c27a29cfdfb6828568df566795df0cb51d2189cde7f2d581e8">
+    <branch module="pango/1.52/pango-1.52.1.tar.xz"
+            version="1.52.1"
+            hash="sha256:58728a0a2d86f60761208df9493033d18ecb2497abac80ee1a274ad0c6e55f0f">
 
       <patch file="pango-disable_tests.patch"
              strip="1" />
