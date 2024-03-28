@@ -30,16 +30,18 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 error_trace_enable
 
-# Create background for development snapshots. This is not meant for
-# official releases, those will be repackaged eventually (they also need
-# to be signed and notarized).
-LD_LIBRARY_PATH=$LIB_DIR convert -size 560x400 xc:transparent \
-  -font Andale-Mono -pointsize 64 -fill black \
-  -draw "text 20,60 'Inkscape'" \
-  -draw "text 20,120 '$(ink_get_version)'" \
-  -draw "text 20,180 'development'" \
-  -draw "text 20,240 'snapshot'" \
-  -draw "text 20,300 '$(ink_get_repo_shorthash)'" \
+# Create background for development snapshots.
+LD_LIBRARY_PATH=$LIB_DIR convert \
+  -size 440x404 canvas:transparent \
+  -font Monaco -pointsize 32 -fill black \
+  -draw "text 60,55 'Inkscape $(ink_get_version)'" \
+  -draw "text 165,172 '>>>'" \
+  -pointsize 18 \
+  -draw "text 60,80 'commit $(ink_get_repo_shorthash)'" \
+  -fill red \
+  -draw "text 40,275 'Unsigned development version!'" \
+  -pointsize 14 \
+  -draw "text 40,292 'xattr -r -d com.apple.quarantine Inkscape.app'" \
   "$SRC_DIR"/inkscape_dmg.png
 
 # Create the disk image.
