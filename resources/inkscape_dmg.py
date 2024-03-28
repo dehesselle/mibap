@@ -51,7 +51,7 @@ size = defines.get("size", None)  # noqa: F821
 files = [application]
 
 # Symlinks to create
-# symlinks = {"Applications": "/Applications"}
+symlinks = {"Applications": "/Applications"}
 
 # Files to hide
 # hide = [ 'Secret.data' ]
@@ -71,8 +71,8 @@ badge_icon = icon_from_app(application)
 
 # Where to put the icons
 icon_locations = {
-    appname:        (390, 240),
-#    "Applications": (500, 120)
+    appname:        (50, 155),
+    "Applications": (270, 155)
     }
 
 # .. Window configuration ......................................................
@@ -107,7 +107,7 @@ show_sidebar = False
 sidebar_width = 180
 
 # Window position in ((x, y), (w, h)) format
-window_rect = ((100, 100), (500, 380))
+window_rect = ((100, 100), (460, 365))
 
 # Select the default view; must be one of
 #
