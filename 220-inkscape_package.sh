@@ -43,11 +43,6 @@ error_trace_enable
   jhb run gtk-mac-bundler inkscape.bundle
 )
 
-# Rename to get from lowercase "i" to capitalized "I" as the app bundle name
-# depends on the main binary (and that was lowercase in 0.9x).
-mv "$INK_APP_DIR" "$INK_APP_DIR".tmp # requires case-insensitive filesysystem
-mv "$INK_APP_DIR".tmp "$INK_APP_DIR"
-
 # Create versionless symlink to libinkscape_base.
 ln -sf "$(basename "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.1.*.dylib)" \
   "$INK_APP_LIB_DIR/inkscape/libinkscape_base.dylib"
