@@ -36,3 +36,6 @@ fi
 #-------------------------------------------- install application bundle creator
 
 jhb build gtkmacbundler
+
+# protect against removal during cleanup
+basename "$SRC_DIR"/gtk-mac-bundler* >> "$SRC_DIR"/.keep

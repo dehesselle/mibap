@@ -145,7 +145,7 @@ INK_PYTHON_PKG_SCOUR="\
 
 #------------------------------------------- application bundle directory layout
 
-INK_APP_DIR=$ARTIFACT_DIR/Inkscape.app
+INK_APP_DIR=$ART_DIR/Inkscape.app
 
 INK_APP_CON_DIR=$INK_APP_DIR/Contents
 INK_APP_RES_DIR=$INK_APP_CON_DIR/Resources
@@ -271,6 +271,11 @@ function ink_download_python
   curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
   curl -o "$PKG_DIR"/"$(basename "$INK_PYTHON_ICON_URL")" \
     -L "$INK_PYTHON_ICON_URL"
+
+  # Exclude the above from cleanup procedure.
+  for url in $INK_PYTHON_URL $INK_PYTHON_ICON_URL; do
+    basename "$url" >> "$PKG_DIR"/.keep
+  done
 }
 
 function ink_install_python
@@ -320,6 +325,10 @@ function ink_build_wheels
       packages=""
     fi
   done
+
+  # Exclude wheels from cleanup procedure.
+  find "$PKG_DIR" -type f -name '*.whl' \
+    -exec bash -c 'basename "$1" >> "${2:?}"/.keep' _ {} "$PKG_DIR" \;
 }
 
 ### main #######################################################################

@@ -39,7 +39,7 @@ error_trace_enable
   cp "$SELF_DIR"/resources/inkscape.plist "$INK_BLD_DIR"
 
   cd "$INK_BLD_DIR" || exit 1
-  export ARTIFACT_DIR=$ARTIFACT_DIR # referenced in inkscape.bundle
+  export ART_DIR=$ART_DIR # referenced in inkscape.bundle
   jhb run gtk-mac-bundler inkscape.bundle
 )
 
