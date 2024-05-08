@@ -25,7 +25,7 @@ include:
     - !reference [ .verify_sdk, script ]
     - ./build_toolset.sh
     # Artifact size needs to stay below 1 GiB for GitLab.
-    - jhb/usr/bin/jhb run rustup self uninstall -y
+    - jhb/usr/bin/jhb run rustup self uninstall -y || true
     - jhb/usr/bin/archive remove_nonessentials
     - jhb/usr/bin/archive create_dmg
   artifacts:
