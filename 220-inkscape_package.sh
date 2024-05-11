@@ -149,6 +149,7 @@ ink_pipinstall INK_PYTHON_PKG_PILLOW         # export raster extension
 ink_pipinstall INK_PYTHON_PKG_PYGOBJECT      #
 ink_pipinstall INK_PYTHON_PKG_PYSERIAL       #
 ink_pipinstall INK_PYTHON_PKG_SCOUR          #
+ink_pipinstall INK_PYTHON_PKG_TINYCSS2       #
 
 # Reset Python interpreter shebang in all scripts.
 # shellcheck disable=SC2044 # fragile for loop
