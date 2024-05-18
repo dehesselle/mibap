@@ -40,7 +40,7 @@ function save_overlay
     -mountPoint "$TMP_DIR" \
     /dev/"$overlay"
   tar -C "$TMP_DIR" --exclude "Inkscape.???" --exclude ".fseventsd" -cp . |
-    XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/toolset_overlay.tar.xz
+    XZ_OPT=-T0 xz >"$ART_DIR"/toolset_overlay.tar.xz
 
   diskutil eject "$overlay"
 }
@@ -55,7 +55,7 @@ case "$1" in
     ;;
   save_testfiles) # save files from test stage (test evidence)
     tar -C "$INK_BLD_DIR" -cp testfiles Testing |
-      XZ_OPT=-T0 xz >"$ARTIFACT_DIR"/testfiles.tar.xz
+      XZ_OPT=-T0 xz >"$ART_DIR"/testfiles.tar.xz
     ;;
 esac
 

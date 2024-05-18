@@ -34,5 +34,5 @@ SELF_DIR=$(
 
 if [ "$1" = "restore_overlay" ]; then
   # restore files fronm build stage
-  gtar -C "$VER_DIR" -xpJf "$ARTIFACT_DIR"/toolset_overlay.tar.xz
+  gtar -C "$VER_DIR" -xpJf "$ART_DIR"/toolset_overlay.tar.xz
 fi

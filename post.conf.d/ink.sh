@@ -145,7 +145,7 @@ INK_PYTHON_PKG_SCOUR="\
 
 #------------------------------------------- application bundle directory layout
 
-INK_APP_DIR=$ARTIFACT_DIR/Inkscape.app
+INK_APP_DIR=$ART_DIR/Inkscape.app
 
 INK_APP_CON_DIR=$INK_APP_DIR/Contents
 INK_APP_RES_DIR=$INK_APP_CON_DIR/Resources
