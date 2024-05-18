@@ -80,9 +80,9 @@
   </meson>
   <!---->
   <meson id="gtkmm3">
-    <branch module="gtkmm/3.24/gtkmm-3.24.7.tar.xz"
-            version="3.24.7"
-            hash="sha256:1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c">
+    <branch module="gtkmm/3.24/gtkmm-3.24.9.tar.xz"
+            version="3.24.9"
+            hash="sha256:30d5bfe404571ce566a8e938c8bac17576420eb508f1e257837da63f14ad44ce">
 
       <patch file="gtkmm-3-bad-const-property-background.patch"
              strip="1" />
