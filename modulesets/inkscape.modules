@@ -319,19 +319,23 @@
   </cmake>
   <!--
     Poppler https://poppler.freedesktop.org
+
+    24.02.0 is the last version supporting macOS 10.13
+    (24.03.0 and up use std::filesystem::path)
   -->
   <cmake id="poppler"
-         cmakeargs="-DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_GOBJECT_INTROSPECTION=OFF">
+         cmakeargs="-DENABLE_BOOST=off -DENABLE_GPGME=off -DENABLE_LIBCURL=off -DENABLE_NSS3=off -DENABLE_QT5=off -DENABLE_QT6=off -DENABLE_UNSTABLE_API_ABI_HEADERS=ON">
 
-    <branch module="poppler-21.06.1.tar.xz"
-            version="21.06.1"
-            hash="sha256:86b09e5a02de40081a3916ef8711c5128eaf4b1fc59d5f87d0ec66f04f595db4"
+    <branch module="poppler-24.02.0.tar.xz"
+            version="24.02.0"
+            hash="sha256:19187a3fdd05f33e7d604c4799c183de5ca0118640c88b370ddcf3136343222e"
             repo="poppler" />
     <dependencies>
+      <dep package="cairo" />
       <dep package="cmake" />
       <dep package="glib" />
-      <dep package="gtk+-3.0" />
       <dep package="gdk-pixbuf" />
+      <dep package="openjpeg" />
     </dependencies>
   </cmake>
   <!--
