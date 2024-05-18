@@ -131,9 +131,6 @@
     <dependencies>
       <dep package="glib" />
     </dependencies>
-    <after>
-      <dep package="hunspell" />
-    </after>
   </autotools>
   <!---->
   <autotools id="gmp">
