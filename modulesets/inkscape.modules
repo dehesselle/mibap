@@ -139,27 +139,6 @@
             repo="gnu" />
   </autotools>
   <!--
-    Spell checking for GTK https://wiki.gnome.org/Projects/gspell
-  -->
-  <autotools id="gspell"
-             autogen-sh="configure"
-             autogenargs="--disable-gtk-doc">
-    <branch module="gspell/1.12/gspell-1.12.1.tar.xz"
-            version="1.12.1"
-            hash="sha256:8ec44f32052e896fcdd4926eb814a326e39a5047e251eec7b9056fbd9444b0f1"
-            repo="gnome_web">
-      <patch file="gspell-makefile_objc.patch"
-             strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="enchant" />
-      <dep package="glib" />
-      <dep package="gtk+-3.0" />
-      <dep package="iso-codes" />
-      <dep package="vala" />
-    </dependencies>
-  </autotools>
-  <!--
     GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
   -->
   <autotools id="gtkmacbundler"
@@ -274,9 +253,6 @@
       <dep package="ghostscript" />
       <dep package="googletest" />
       <dep package="gsl" />
-      <!-- does not support gtk4
-      <dep package="gspell" />
-      -->
       <dep package="gtksourceview4" />
       <dep package="imagemagick" />
       <dep package="libcdr" />

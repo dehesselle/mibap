@@ -17,46 +17,14 @@
   <repository name="ftp.gnu.org"
               href="https://ftp.gnu.org/gnu/"
               type="tarball" />
-  <repository name="iso-codes"
-              href="https://salsa.debian.org/iso-codes-team/iso-codes/uploads/"
-              type="tarball" />
   <repository name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"
-              type="tarball" />
-  <repository name="graphviz"
-              href="https://gitlab.com/graphviz/graphviz/-/archive/"
               type="tarball" />
   <repository name="sqlite"
               href="http://www.sqlite.org/"
               type="tarball" />
   <!---->
   <include href="../jhb/gtk-osx-random.modules" />
-  <!---->
-  <cmake id="graphviz"
-         cmakeargs="-Dwith_gvedit=NO">
-    <branch module="8.0.5/graphviz-8.0.5.tar.bz2"
-            version="8.0.5"
-            hash="sha256:c1901fe52483fad55fbf893ccd59a3dcaedd53f0d50b5aebbbf3deaba93b674d"
-            repo="graphviz">
-      <patch file="graphviz-remove-rpath.patch"
-             strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="pango" />
-      <dep package="librsvg" />
-    </dependencies>
-  </cmake>
-  <!---->
-  <autotools id="vala"
-             autogen-sh="configure">
-    <branch module="vala/0.56/vala-0.56.17.tar.xz"
-            version="0.56.17"
-            hash="sha256:26100c4e4ef0049c619275f140d97cf565883d00c7543c82bcce5a426934ed6a" />
-    <dependencies>
-      <dep package="graphviz" />
-      <dep package="meta-gtk-osx-bootstrap" />
-    </dependencies>
-  </autotools>
   <!---->
   <meson id="gtksourceview4"
          mesonargs="-Dintrospection=disabled">
@@ -105,14 +73,6 @@
             version="6.3.0"
             hash="sha256:ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
             repo="ftp.gnu.org" />
-  </autotools>
-  <!---->
-  <autotools id="iso-codes"
-             autogen-sh="configure">
-    <branch module="049ce6aac94d842be809f4063950646c/iso-codes-4.1.tar.xz"
-            version="4.1"
-            hash="sha256:67117fb76f32c8fb5e37d2d60bce238f1f8e865cc7b569a57cbc3017ca15488a"
-            repo="iso-codes" />
   </autotools>
   <!---->
   <autotools id="libxml2"
