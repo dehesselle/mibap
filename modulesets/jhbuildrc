@@ -5,3 +5,12 @@ if _default_arch == "arm64":
 
 # ImageMagick 6.x doesn't like turbojpeg
 conditions.add("noturbojpeg")
+
+# because of ICU
+module_extra_env["libcdr"] = { "CXXFLAGS": "-std=c++17" }
+module_extra_env["libvisio"] = { "CXXFLAGS": "-std=c++17" }
+
+# Cannot disable autoconf's call to gtkdocize by other means, so we're turning
+# it into a dummy call. This workaround has been taken from
+# https://github.com/spack/spack/issues/23964
+module_extra_env["gnutls"] = { "GTKDOCIZE": "echo" }

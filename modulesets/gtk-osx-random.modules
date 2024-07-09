@@ -29,12 +29,6 @@
   <repository name="sqlite"
               href="http://www.sqlite.org/"
               type="tarball" />
-  <repository name="fossies"
-              href="https://fossies.org/linux/misc/"
-              type="tarball" />
-  <repository name="paguire"
-              href="https://releases.pagure.org/"
-              type="tarball" />
   <!---->
   <include href="../jhb/gtk-osx-random.modules" />
   <!---->
@@ -55,9 +49,9 @@
   <!---->
   <autotools id="vala"
              autogen-sh="configure">
-    <branch module="vala/0.56/vala-0.56.8.tar.xz"
-            version="0.56.8"
-            hash="sha256:93f81dcfc6a93b77baa271d65e6be981ee3238ad451ef380af118e295d904bde" />
+    <branch module="vala/0.56/vala-0.56.17.tar.xz"
+            version="0.56.17"
+            hash="sha256:26100c4e4ef0049c619275f140d97cf565883d00c7543c82bcce5a426934ed6a" />
     <dependencies>
       <dep package="graphviz" />
       <dep package="meta-gtk-osx-bootstrap" />
@@ -66,59 +60,32 @@
   <!---->
   <meson id="gtksourceview4"
          mesonargs="-Dintrospection=disabled">
-    <branch module="gtksourceview/5.8/gtksourceview-5.8.0.tar.xz"
-            version="5.8.0"
-            hash="sha256:110dd4c20def21886fbf777298fe0ef8cc2ad6023b8f36c7424411a414818933">
-    </branch>
+    <branch module="gtksourceview/5.12/gtksourceview-5.12.1.tar.xz"
+            version="5.12.1"
+            hash="sha256:84c82aad985c5aadae7cea7804904a76341ec82b268d46594c1a478f39b42c1f" />
     <dependencies>
       <dep package="gtk-4" />
       <dep package="libpcre2" />
     </dependencies>
   </meson>
-  <!---->
-  <autotools id="getopt"
-             autogen-sh="configure"
-             supports-non-srcdir-builds="no">
-    <branch module="getopt-1.1.6.tar.gz"
-            version="1.1.6"
-            hash="sha256:d0bf1dc642a993e7388a1cddfb9409bed375c21d5278056ccca3a0acd09dc5fe"
-            repo="fossies">
-      <patch file="getopt-autotools.patch"
-             strip="1" />
-    </branch>
-  </autotools>
-  <!---->
-  <autotools id="xmlto"
-             autogen-sh="autoreconf">
-    <branch module="xmlto/xmlto-0.0.28.tar.bz2"
-            version="0.0.28"
-            hash="sha256:1130df3a7957eb9f6f0d29e4aa1c75732a7dfb6d639be013859b5c7ec5421276"
-            repo="paguire">
-      <patch file="xmlto-allow-net-access.patch"
-             strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="getopt" />
-    </dependencies>
-  </autotools>
   <!--
     SQLite3 is also available from the macOS SDK
   -->
   <autotools id="sqlite"
              autogen-sh="configure"
              autogenargs="--disable-tcl --enable-threadsafe">
-    <branch module="2023/sqlite-autoconf-3420000.tar.gz"
-            version='3.42.0'
-            hash="sha256:7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+    <branch module="2024/sqlite-autoconf-3460000.tar.gz"
+            version="3.46.0"
+            hash="sha256:6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
             repo="sqlite" />
   </autotools>
   <!---->
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.5.0/enchant-2.5.0.tar.gz"
-            version="2.5.0"
-            hash="sha256:149e224cdd2ca825d874639578b6246e07f37d5b8f3970658a377a1ef46f2e15"
+    <branch module="AbiWord/enchant/releases/download/v2.8.0/enchant-2.8.0.tar.gz"
+            version="2.8.0"
+            hash="sha256:c57add422237b8a7eed116a9a88d8be4f7b9281778fa36f03e1f2c051ecb0372"
             repo="github-tarball">
       <patch file="enchant-relocatable.patch"
              strip="1" />
@@ -134,13 +101,10 @@
   </autotools>
   <!---->
   <autotools id="gmp">
-    <branch module="gmp/gmp-6.2.1.tar.bz2"
-            version="6.2.1"
-            hash="sha256:eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
-            repo="ftp.gnu.org">
-      <patch file="gmp-6.2.1-avoid-x18-register-apple-silicon.patch"
-             strip="1" />
-    </branch>
+    <branch module="gmp/gmp-6.3.0.tar.bz2"
+            version="6.3.0"
+            hash="sha256:ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
+            repo="ftp.gnu.org" />
   </autotools>
   <!---->
   <autotools id="iso-codes"
@@ -155,9 +119,9 @@
              autogen-sh="autoreconf"
              autogenargs='--libdir="$JHBUILD_LIBDIR" --with-python'>
              
-    <branch module="libxml2/2.11/libxml2-2.11.4.tar.xz"
-            version="2.11.4"
-            hash="sha256:737e1d7f8ab3f139729ca13a2494fd17bf30ddb4b7a427cf336252cab57f57f7" />
+    <branch module="libxml2/2.11/libxml2-2.11.5.tar.xz"
+            version="2.11.5"
+            hash="sha256:3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6" />
     <after>
       <dep package="python3" />
     </after>

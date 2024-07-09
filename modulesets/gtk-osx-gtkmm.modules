@@ -19,15 +19,15 @@
               type="tarball" />
   <!---->
   <meson id="mm-common">
-    <branch module="mm-common/1.0/mm-common-1.0.5.tar.xz"
+    <branch module="mm-common/1.0/mm-common-1.0.6.tar.xz"
             version="1.0.5"
-            hash="sha256:705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa" />
+            hash="sha256:b55c46037dbcdabc5cee3b389ea11cc3910adb68ebe883e9477847aa660862e7" />
   </meson>
   <!---->
   <meson id="cairomm">
-    <branch module="cairomm-1.16.0.tar.xz"
-            version="1.16.0"
-            hash="sha256:7e881492c5f9f546688c31160deb742c166fc4c68b6b8eb9920c00a0f0f144f9"
+    <branch module="cairomm-1.18.0.tar.xz"
+            version="1.18.0"
+            hash="sha256:b81255394e3ea8e8aa887276d22afa8985fc8daef60692eb2407d23049f03cfb"
             repo="cairographics" />
     <dependencies>
       <dep package="cairo" />
@@ -35,10 +35,9 @@
   </meson>
   <!---->
   <meson id="glibmm">
-    <branch module="glibmm/2.78/glibmm-2.78.1.tar.xz"
-            version="2.78.1"
-            hash="sha256:f473f2975d26c3409e112ed11ed36406fb3843fa975df575c22d4cb843085f61">
-    </branch>
+    <branch module="glibmm/2.80/glibmm-2.80.0.tar.xz"
+            version="2.80.0"
+            hash="sha256:539b0a29e15a96676c4f0594541250566c5ca44da5d4d87a3732fa2d07909e4a" />
     <dependencies>
       <dep package="glib" />
       <dep package="libsigc++3" />
@@ -58,9 +57,9 @@
   </meson>
   <!---->
   <meson id="atkmm">
-    <branch module="atkmm/2.36/atkmm-2.36.2.tar.xz"
-            version="2.36.2"
-            hash="sha256:6f62dd99f746985e573605937577ccfc944368f606a71ca46342d70e1cdae079" />
+    <branch module="atkmm/2.36/atkmm-2.36.3.tar.xz"
+            version="2.36.3"
+            hash="sha256:6ec264eaa0c4de0adb7202c600170bde9a7fbe4d466bfbe940eaf7faaa6c5974" />
     <dependencies>
       <dep package="glibmm" />
       <dep package="cairomm" />
@@ -70,9 +69,9 @@
   </meson>
   <!---->
   <meson id="libsigc++3">
-    <branch module="libsigc++/3.4/libsigc++-3.4.0.tar.xz"
-            version="3.4.0"
-            hash="sha256:02e2630ffb5ce93cd52c38423521dfe7063328863a6e96d41d765a6116b8707e" />
+    <branch module="libsigc++/3.6/libsigc++-3.6.0.tar.xz"
+            version="3.6.0"
+            hash="sha256:c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17" />
   </meson>
   <!---->
   <meson id="gtkmm4">
