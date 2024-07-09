@@ -43,9 +43,10 @@ error_trace_enable
   jhb run gtk-mac-bundler inkscape.bundle
 )
 
-# Create versionless symlink to libinkscape_base.
-ln -sf "$(basename "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.1.*.dylib)" \
-  "$INK_APP_LIB_DIR/inkscape/libinkscape_base.dylib"
+lib_change_path \
+  @executable_path/../Resources/lib/inkscape/"$(basename \
+    "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.*)" \
+  "$INK_APP_EXE_DIR"/Inkscape
 
 #----------------------------------------------------- adjust library link paths
 

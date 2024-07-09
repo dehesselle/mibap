@@ -146,11 +146,11 @@
              makeargs="&amp;&amp; make install"
              skip-install="yes"
              supports-non-srcdir-builds="no">
-    <branch module="gtk-mac-bundler/-/archive/6dd89ea6/gtk-mac-bundler-6dd89ea6.tar.bz2"
-            version="6dd89ea6"
-            hash="sha256:ef70eba556679cae60d954b52f31c9936d0ca17e27ee7f71380936e1c3545c6b"
-            checkoutdir="gtk-mac-bundler_6dd89ea6"
-            rename-tarball="gtk-mac-bundler_6dd89ea6.tar.bz2"
+    <branch module="gtk-mac-bundler/-/archive/90443a1d/gtk-mac-bundler-90443a1d.tar.bz2"
+            version="90443a1d"
+            hash="sha256:447146bacc3428f1336da88bd1a297d78fc2f4382494d22d29709fe38344e0a9"
+            checkoutdir="gtk-mac-bundler-90443a1d"
+            rename-tarball="gtk-mac-bundler-90443a1d.tar.bz2"
             repo="gnome_gitlab">
       <!--
         Mocks autotools interface to the extent that it provides a
@@ -158,11 +158,6 @@
         be skipped.)
       -->
       <patch file="gtk-mac-bundler_autotools.patch"
-             strip="1" />
-      <!--
-        Disable immodules setup, no longer present in GTK 4.
-      -->
-      <patch file="gtk-mac-bundler_immodules.patch"
              strip="1" />
     </branch>
   </autotools>
