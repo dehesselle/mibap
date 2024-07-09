@@ -160,21 +160,26 @@
     ${prefix}/share/gtksourceview-5
   </data>
   <data>
-    ${prefix}/share/icons
-  </data>
-  <data>
     ${prefix}/share/ImageMagick-6
   </data>
   <data>
     ${prefix}/share/inkscape
   </data>
 
-  <!-- Copy icons. Note that the .icns file is an Apple format which
-       contains up to 4 sizes of icon. You can use
-       /Developer/Applications/Utilities/Icon Composer.app to import
-       artwork and create the file. >
-  <data dest="${bundle}/Contents/Resources">
-    ${project}/Giggle.icns
-  </data -->
+  <!-- Icon themes to copy. The "icons" property can be either of
+       "auto", "all", or "none". All or none should be
+       self-explanatory, while auto means that the script will try to
+       figure out which icons are needed. This is done by getting all
+       the strings from all copied binaries, and matching them against
+       icon names. To be safe, you should use "all". "none" is useful
+       if you want just the index.theme file but no icons, mostly
+       needed for the "hicolor" base theme.
+  -->
+  <icon-theme icons="all">
+    Adwaita
+  </icon-theme>
+  <icon-theme icons="all">
+    hicolor
+  </icon-theme>
 
   </app-bundle>
