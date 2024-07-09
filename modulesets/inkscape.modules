@@ -267,6 +267,7 @@
   <!---->
   <metamodule id="meta-inkscape-dependencies">
     <dependencies>
+      <dep package="adwaita-icon-theme" />
       <dep package="bdwgc" />
       <dep package="doubleconversion" />
       <dep package="fig2dev" />
