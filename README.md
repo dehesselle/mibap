@@ -1,4 +1,4 @@
-# macOS dependencies and build system
+# building and packaging Inkscape on macOS
 
 ![mibap_icon](./resources/mibap_icon.png)
 ![pipeline status](https://gitlab.com/inkscape/deps/macos/badges/master/pipeline.svg)
@@ -6,7 +6,7 @@
 
 This repository (on [GitLab](https://gitlab.com/inkscape/deps/macos), [GitHub](https://github.com/dehesselle/mibap)) is the development platform for building and packaging [Inkscape](https://inkscape.org) 1.x on macOS. It creates a disk image containing all dependencies and provides the build scripts that are being used in Inkscape's CI.
 
-Its original name was "mibap" (short for "macOS Inkscape build and package") which is still being used in a few places.
+Its working title was/is "mibap" (short for "macOS Inkscape build and package") which is still being used in a few places.
 
 ## Under the hood
 
@@ -66,8 +66,6 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    - build everything in your `$WRK_DIR`
    - take some time!
 
-You'll likely see warnings during the build - that's normal. Some of them cannot be avoided, others are there to point out where you might be deviating from the recommended setup (e.g. using a different macOS version).
-
 ## Building Inkscape
 
 <!-- markdownlint-disable MD024 -->
@@ -94,16 +92,16 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
 1. Install the dependencies.
 
    ```bash
-   ./install_toolset.sh
+   jhb/usr/bin/archive install_dmg
    ```
 
    This will
 
-   - download the latest [release](https://gitlab.com/inkscape/deps/macos/-/releases) (about 0.6 GiB) to `/Users/Shared/work/repo`
-   - mount the (read-only) toolset to `/Users/Shared/work/mibap-<version>`
-   - union mount a ramdisk (3 GiB) on top `/Users/Shared/work/mibap-<version>`
+   - download the latest [release](https://gitlab.com/inkscape/deps/macos/-/releases) (about 300 MiB) to `/Users/Shared/work/repo`
+   - mount the disk image to `/Users/Shared/work/mibap-N.N`
 
-   The mounted volumes won't show up in Finder but you can see them using `diskutil list`. You can use `uninstall_toolset.sh` to eject them later.  
+   The mounted volume won't show up in Finder (on purpose) but you can see it using `diskutil list`.  
+   A temporary file ending in `.dmg.shadow` will be created in `/Users/Shared/work` and will be automatically discarded when uninstalling.
 
 1. Set `INK_DIR` to your clone of Inkscape's repository and start the build.
 
@@ -115,12 +113,19 @@ You'll likely see warnings during the build - that's normal. Some of them cannot
    ```
 
    This will
-   - build and install Inkscape (unpackaged) to `/Users/Shared/work/mibap-<version>`
-   - create `Inkscape.app` and `Inkscape.dmg` in `/Users/Shared/work/mibap-<version>`
+
+   - build and install Inkscape to `/Users/Shared/work/mibap-<version>`
+   - create `Inkscape*.dmg` in your working directory
+
+1. Uninstall the dependencies.
+
+   ```bash
+   jhb/usr/bin/archive uninstall_dmg
+   ```
 
 ## Contact
 
-If you want to reach out, join [#team_devel_mac](https://chat.inkscape.org/channel/team_devel_mac) on Inkscape's RocketChat.
+If you want to reach out, join [#team_devel](https://chat.inkscape.org/channel/team_devel) on Inkscape's RocketChat.
 
 ## Credits
 
