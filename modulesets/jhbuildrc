@@ -11,6 +11,9 @@ conditions.add("noturbojpeg")
 module_extra_env["libcdr"] = { "CXXFLAGS": "-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" }
 module_extra_env["libvisio"] = { "CXXFLAGS": "-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" }
 
+#
+module_extra_env["librevenge"] = { "CXXFLAGS": "-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" }
+
 # Cannot disable autoconf's call to gtkdocize by other means, so we're turning
 # it into a dummy call. This workaround has been taken from
 # https://github.com/spack/spack/issues/23964
