@@ -233,9 +233,9 @@
   -->
   <autotools id="librevenge"
              autogen-sh="configure">
-    <branch module="libwpd/librevenge/librevenge-0.0.4/librevenge-0.0.4.tar.gz"
-            version="0.0.4"
-            hash="sha256:a2718efd86000fe769cb6178478af0fd424a9128807361241facd2491bcb772f"
+    <branch module="libwpd/librevenge/librevenge-0.0.5/librevenge-0.0.5.tar.gz"
+            version="0.0.5"
+            hash="sha256:04fd10d3eea39644c0d7231be9c6c174f3955c51a710266935e8c147e7045d9e"
             repo="sourceforge" />
     <dependencies>
       <dep package="cppunit" />
@@ -317,7 +317,7 @@
     (24.03.0 and up use std::filesystem::path)
   -->
   <cmake id="poppler"
-         cmakeargs="-DENABLE_BOOST=off -DENABLE_GPGME=off -DENABLE_LIBCURL=off -DENABLE_NSS3=off -DENABLE_QT5=off -DENABLE_QT6=off -DENABLE_UNSTABLE_API_ABI_HEADERS=ON">
+         cmakeargs="-DENABLE_BOOST=off -DENABLE_GPGME=off -DENABLE_LIBCURL=off -DENABLE_LIBTIFF=off -DENABLE_NSS3=off -DENABLE_QT5=off -DENABLE_QT6=off -DENABLE_UNSTABLE_API_ABI_HEADERS=ON">
 
     <branch module="poppler-24.02.0.tar.xz"
             version="24.02.0"

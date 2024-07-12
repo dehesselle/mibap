@@ -2,29 +2,141 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-name: build
+name: Build
 on:
-  push:   # do not run when pushing tags
-    branches:
-      - '*'
+  push:
+env:
+  WRK_DIR: /Users/Shared/work
+  CCACHE_DIR: /Users/Shared/work/ccache
+
 jobs:
 
   ##############################################################################
 
-  build_dependencies:
-    uses: ./.github/workflows/dependencies.yml
-    with:
-      SDK_DOWNLOAD_URL_REQUIRED: false
-    secrets:
-      SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
+  dependencies:
+    runs-on: macos-14
+    env:
+      CCACHE_MAXSIZE: 1GiB
+    steps:
+
+      #------------------------------------------------- prepare the environment
+
+      - name: Select Xcode 15.4
+        run: sudo xcode-select -s "/Applications/Xcode_15.4.app"
+
+      - name: Checkout mibap repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Create timestamp
+        id: timestamp
+        uses: josStorer/get-current-time@v2
+        with:
+          format: "YYYY-MM-DD-HH-mm-ss"
+
+      # Create a new cache, building ontop the most recent old one.
+      - name: Set up cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-dependencies-${{ steps.timestamp.outputs.formattedTime }}
+          restore-keys: ccache-dependencies-
+
+      - name: Disable Homebrew
+        run: sudo mv /opt/homebrew /opt/homebrew.disabled
+
+      #---------------------------------------------- run the actual build steps
+
+      - name: Bootstrap JHBuild
+        run: ./110-bootstrap_jhb.sh
+
+      - name: Build GTK 3 stack
+        run: ./120-build_gtk3.sh
+
+      - name: Build Inkscape dependencies
+        run: ./130-build_inkdeps.sh
+
+      - name: Build packaging components
+        run: ./140-build_packaging.sh
+
+      #------------------------------------ package everything into a disk image
+
+      - name: Remove non-essential files
+        run: |
+          jhb/usr/bin/jhb run rustup self uninstall -y || true
+          jhb/usr/bin/archive remove_nonessentials
+
+      - name: Create disk image
+        run: jhb/usr/bin/archive create_dmg
+
+      #------------------------------------------------------- upload disk image
+
+      - name: Re-enable Homebrew
+        run: sudo mv /opt/homebrew.disabled /opt/homebrew
+
+      - name: Upload disk image
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependencies
+          path: mibap*.dmg
 
   ##############################################################################
 
-  # Build Inkscape to validate the viability of the dependencies.
-  build_inkscape:
-    uses: ./.github/workflows/inkscape.yml
-    with:
-      SDK_DOWNLOAD_URL_REQUIRED: false
-    secrets:
-      SDK_DOWNLOAD_URL: ${{ secrets.SDK_DOWNLOAD_URL }}
-    needs: build_dependencies
+  inkscape:
+    name: Inkscape
+    needs: dependencies
+    runs-on: macos-14
+    env:
+      CCACHE_MAXSIZE: 512MiB
+    steps:
+
+      #------------------------------------------------- prepare the environment
+
+      - name: Checkout mibap repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Create timestamp
+        id: timestamp
+        uses: josStorer/get-current-time@v2
+        with:
+          format: "YYYY-MM-DD-HH-mm-ss"
+
+      # Create a new cache, building ontop the most recent old one.
+      - name: Set up cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-inkscape-${{ steps.timestamp.outputs.formattedTime }}
+          restore-keys: ccache-inkscape-
+
+      - name: Download dependencies disk image
+        uses: actions/download-artifact@v4
+        with:
+          name: dependencies
+
+      - name: Install dependencies
+        env:
+          REP_DIR: ${{ github.workspace }}
+        run: jhb/usr/bin/archive install_dmg
+
+      #---------------------------------------------------------- build Inkscape
+
+      - name: Build Inkscape
+        run: ./210-inkscape_build.sh
+
+      - name: Create Inkscape application bundle
+        run: ./220-inkscape_package.sh
+
+      - name: Create Inkscape disk image
+        run: ./230-inkscape_distrib.sh
+
+      #------------------------------------------------------- upload disk image
+
+      - name: Upload Inkscape disk image
+        uses: actions/upload-artifact@v4
+        with:
+          name: inkscape
+          path: Inkscape*.dmg
