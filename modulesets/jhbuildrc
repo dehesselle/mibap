@@ -6,9 +6,10 @@ if _default_arch == "arm64":
 # ImageMagick 6.x doesn't like turbojpeg
 conditions.add("noturbojpeg")
 
-# because of ICU
-module_extra_env["libcdr"] = { "CXXFLAGS": "-std=c++17" }
-module_extra_env["libvisio"] = { "CXXFLAGS": "-std=c++17" }
+# c++17 because of ICU
+# unary_binary_function because of macOS SDK 14.5
+module_extra_env["libcdr"] = { "CXXFLAGS": "-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" }
+module_extra_env["libvisio"] = { "CXXFLAGS": "-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" }
 
 # Cannot disable autoconf's call to gtkdocize by other means, so we're turning
 # it into a dummy call. This workaround has been taken from
