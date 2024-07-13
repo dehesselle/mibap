@@ -5,10 +5,14 @@
 name: Build
 on:
   push:
+    branches:
+      - "*"
+      - "!master"
+  workflow_call:
+  workflow_dispatch:
 env:
   WRK_DIR: /Users/Shared/work
   CCACHE_DIR: /Users/Shared/work/ccache
-
 jobs:
 
   ##############################################################################

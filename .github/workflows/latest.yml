@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2024 René de Hesselle <dehesselle@web.de>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+name: Latest
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  ##############################################################################
+
+  build:
+    uses: ./.github/workflows/build.yml
+
+  ##############################################################################
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+
+      - name: Download disk images
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.workspace }}
+          merge-multiple: true
+
+      - name: Create timestamp
+        id: timestamp
+        uses: josStorer/get-current-time@v2
+        with:
+          format: "YYYY-MM-DD HH:mm:ss"
+
+      - name: Move 'latest' tag here
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: "tags/latest"
+              })
+            }
+            catch { console.log("no tag to delete") }
+            await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: "refs/tags/latest",
+                sha: context.sha
+            })
+
+      - name: Update the 'latest' pre-release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          name: latest
+          artifacts: "mibap*.dmg,Inkscape*.dmg"
+          tag: latest
+          body: |
+            Automatically created on __${{ steps.timestamp.outputs.ISOTime }}__.
+            - Built for Apple Silicon and latest macOS.
+            - Not for production usage!
+            - Not officially supported by the Inkscape project!
+          prerelease: true
+          allowUpdates: true
+          removeArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
