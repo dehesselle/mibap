@@ -19,9 +19,9 @@
               type="tarball" />
   <!---->
   <meson id="mm-common">
-    <branch module="mm-common/1.0/mm-common-1.0.5.tar.xz"
-            version="1.0.5"
-            hash="sha256:705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa" />
+    <branch module="mm-common/1.0/mm-common-1.0.6.tar.xz"
+            version="1.0.6"
+            hash="sha256:b55c46037dbcdabc5cee3b389ea11cc3910adb68ebe883e9477847aa660862e7" />
   </meson>
   <!--
     Libsigc++ was rewritten to use C++17 variadic templates for version 3, and
@@ -29,20 +29,20 @@
     gtkmm3 uses the older versions, gtkmm4 the new ones.
     Note that C++17 is supported only on macOS-10.13 and later.
   -->
-  <meson id="cairomm-1.14">
-    <branch module="cairomm-1.14.2.tar.xz"
-            version="1.14.2"
-            hash="sha256:0126b9cc295dc36bc9c0860d5b720cb5469fd78d5620c8f10cc5f0c07b928de3"
+  <meson id="cairomm3">
+    <branch module="cairomm-1.14.5.tar.xz"
+            version="1.14.5"
+            hash="sha256:70136203540c884e89ce1c9edfb6369b9953937f6cd596d97c78c9758a5d48db"
             repo="cairographics" />
     <dependencies>
       <dep package="cairo" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="glibmm-2.4">
-    <branch module="glibmm/2.66/glibmm-2.66.6.tar.xz"
-            version="2.66.6"
-            hash="sha256:5358742598181e5351d7bf8da072bf93e6dd5f178d27640d4e462bc8f14e152f" />
+  <meson id="glibmm3">
+    <branch module="glibmm/2.66/glibmm-2.66.7.tar.xz"
+            version="2.66.7"
+            hash="sha256:fe02c1e5f5825940d82b56b6ec31a12c06c05c1583cfe62f934d0763e1e542b3" />
     <dependencies>
       <dep package="glib" />
       <dep package="libsigc++2" />
@@ -50,33 +50,33 @@
     </dependencies>
   </meson>
   <!---->
-  <meson id="pangomm-1.4">
+  <meson id="pangomm3">
     <branch module="pangomm/2.46/pangomm-2.46.2.tar.xz"
             version="2.46.2"
             hash="sha256:57442ab4dc043877bfe3839915731ab2d693fc6634a71614422fb530c9eaa6f4" />
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
+      <dep package="glibmm3" />
+      <dep package="cairomm3" />
       <dep package="pango" />
     </dependencies>
   </meson>
   <!---->
-  <meson id="atkmm-1.6">
-    <branch module="atkmm/2.28/atkmm-2.28.3.tar.xz"
-            version="2.28.3"
-            hash="sha256:7c2088b486a909be8da2b18304e56c5f90884d1343c8da7367ea5cd3258b9969" />
+  <meson id="atkmm3">
+    <branch module="atkmm/2.28/atkmm-2.28.4.tar.xz"
+            version="2.28.4"
+            hash="sha256:0a142a8128f83c001efb8014ee463e9a766054ef84686af953135e04d28fdab3" />
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
-      <dep package="pangomm-1.4" />
+      <dep package="glibmm3" />
+      <dep package="cairomm3" />
+      <dep package="pangomm3" />
       <dep package="atk" />
     </dependencies>
   </meson>
   <!---->
   <meson id="libsigc++2">
-    <branch module="libsigc++/2.12/libsigc++-2.12.0.tar.xz"
-            version="2.12.0"
-            hash="sha256:1c466d2e64b34f9b118976eb21b138c37ed124d0f61497df2a90ce6c3d9fa3b5" />
+    <branch module="libsigc++/2.12/libsigc++-2.12.1.tar.xz"
+            version="2.12.1"
+            hash="sha256:a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843" />
   </meson>
   <!---->
   <meson id="gtkmm3">
@@ -88,10 +88,10 @@
              strip="1" />
     </branch>
     <dependencies>
-      <dep package="glibmm-2.4" />
-      <dep package="cairomm-1.14" />
-      <dep package="pangomm-1.4" />
-      <dep package="atkmm-1.6" />
+      <dep package="glibmm3" />
+      <dep package="cairomm3" />
+      <dep package="pangomm3" />
+      <dep package="atkmm3" />
       <dep package="gtk+-3.0" />
     </dependencies>
   </meson>

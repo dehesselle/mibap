@@ -9,7 +9,7 @@
   -->
   <repository name="download.gnome.org"
               default="yes"
-              href="https:////download.gnome.org/sources/"
+              href="https://download.gnome.org/sources/"
               type="tarball" />
   <repository name="ftp.gnu.org"
               href="https://ftp.gnu.org/gnu/"
@@ -31,16 +31,11 @@
               type="tarball" />
   <!---->
   <include href="../jhb/gtk-osx-network.modules" />
-  <!--
-    Rudely demands TeX to build documentation
-    libnettle 3.7 doesn't have arm64 assembler support and the support that's added in master
-    is for arm-64-neutron that's incompatible with Apple Silicon.
-  -->
+  <!---->
   <if condition-set="arm64">
     <autotools id="libnettle"
                autogen-sh="configure"
                autogenargs="--disable-documentation --disable-assembler">
-               
       <branch module="nettle/nettle-3.9.1.tar.gz"
               version="3.9.1"
               hash="sha256:ccfeff981b0ca71bbd6fbcb054f407c60ffb644389a5be80d6716d5b550c6ce3"
@@ -79,8 +74,8 @@
              autogen-sh="configure"
              autogenargs="--without-trust-paths">
     <branch module="p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz"
-            version="0.24.1"
-            hash="sha256:d8be783efd5cd4ae534cee4132338e3f40f182c3205d23b200094ec85faaaef8"
+            version="0.25.3"
+
             repo="github-tarball">
       <patch file="p11-kit-libintl.patch"
              strip="1" />
@@ -93,8 +88,7 @@
   <!---->
   <autotools id="gnutls"
              autogen-sh="configure"
-             autogenargs="--disable-gtk-doc-html --with-included-unistring">
-             
+             autogenargs="--disable-gtk-doc-html --disable-doc --with-included-unistring">
     <branch module="gcrypt/gnutls/v3.8/gnutls-3.8.5.tar.xz"
             version="3.8.5"
             hash="sha256:66269a2cfe0e1c2dabec87bdbbd8ab656f396edd9a40dd006978e003cfa52bfc"
@@ -116,20 +110,19 @@
   <autotools id="libgpg-error"
              autogen-sh="autoreconf"
              autogenargs="--disable-doc">
-    <branch module="gcrypt/libgpg-error/libgpg-error-1.47.tar.bz2"
-            version="1.47"
-            hash="sha256:9e3c670966b96ecc746c28c2c419541e3bcb787d1a73930f5e5f5e1bcbbb9bdb"
+    <branch module="gcrypt/libgpg-error/libgpg-error-1.49.tar.bz2"
+            version="1.49"
+            hash="sha256:8b79d54639dbf4abc08b5406fb2f37e669a2dec091dd024fb87dd367131c63a9"
             repo="gnupg.org" />
   </autotools>
   <!---->
   <autotools id="libgcrypt"
              autogen-sh="configure">
-    <branch module="gcrypt/libgcrypt/libgcrypt-1.10.2.tar.bz2"
-            version="1.10.2"
-            hash="sha256:3b9c02a004b68c256add99701de00b383accccf37177e0d6c58289664cce0c03"
+    <branch module="gcrypt/libgcrypt/libgcrypt-1.10.3.tar.bz2"
+            version="1.10.3"
+            hash="sha256:8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
+
             repo="gnupg.org">
-      <patch file="libgcrypt-1.10.2-no-getrandom.patch"
-             strip="1" />
     </branch>
     <dependencies>
       <dep package="libgpg-error" />
@@ -137,18 +130,18 @@
   </autotools>
   <!---->
   <meson id="gsettings-desktop-schemas">
-    <branch module="gsettings-desktop-schemas/44/gsettings-desktop-schemas-44.0.tar.xz"
-            version="44.0"
-            hash="shas56:eb2de45cad905994849e642a623adeb75d41b21b0626d40d2a07b8ea281fec0e" />
+    <branch module="gsettings-desktop-schemas/46/gsettings-desktop-schemas-46.0.tar.xz"
+            version="46.0"
+            hash="shas56:493a46a1161b6388d57aa72f632a79ce96c42d5ffbd1d0b00f496ec5876f8575" />
   </meson>
   <!---->
   <meson id="libproxy"
          mesonargs="-Ddocs=false -Dtests=false -Dpacrunner-duktape=false -Dvapi=false -Dcurl=false -Dintrospection=false">
 
-    <branch module="libproxy/libproxy/archive/refs/tags/0.5.2.tar.gz"
-            version="0.5.2"
-            hash="sha256:7d75a2cf1c977056eb86f460daab0247d30e6a34e26ec755aab4de40cfd0a06d"
-            checkoutdir="libproxy-0.5.2"
+    <branch module="libproxy/libproxy/archive/refs/tags/0.5.6.tar.gz"
+            version="0.5.6"
+            hash="sha256:68cb4548143e843826a35e024dba8ced92117c0982c2cc9a4c8247e32d259603"
+            checkoutdir="libproxy-0.5.6"
             repo="github-tarball" />
     <dependencies>
       <dep package="gsettings-desktop-schemas" />
@@ -157,9 +150,9 @@
   <!---->
   <meson id="glib-networking"
          mesonargs="-Dopenssl=enabled">
-    <branch module="glib-networking/2.76/glib-networking-2.76.0.tar.xz"
-            version="2.76.0"
-            hash="sha256:149a05a179e629a538be25662aa324b499d7c4549c5151db5373e780a1bf1b9a" />
+    <branch module="glib-networking/2.80/glib-networking-2.80.0.tar.xz"
+            version="2.80.0"
+            hash="sha256:d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf" />
     <dependencies>
       <dep package="libproxy" />
       <dep package="gnutls" />
@@ -169,9 +162,9 @@
   <!---->
   <autotools id="libpsl"
              autogen-sh='configure'>
-    <branch module="rockdaboot/libpsl/releases/download/0.21.2/libpsl-0.21.2.tar.gz"
-            version="0.21.2"
-            hash="sha256:e35991b6e17001afa2c0ca3b10c357650602b92596209b7492802f3768a6285f"
+    <branch module="rockdaboot/libpsl/releases/download/0.21.5/libpsl-0.21.5.tar.gz"
+            version="0.21.5"
+            hash="sha256:1dcc9ceae8b128f3c0b3f654decd0e1e891afc6ff81098f227ef260449dae208"
             repo="github-tarball" />
   </autotools>
   <!---->
@@ -187,7 +180,6 @@
       <dep package="glib" />
       <dep package="glib-networking" />
       <dep package="sqlite" />
-      <dep package="vala" />
     </dependencies>
   </meson>
   <!---->

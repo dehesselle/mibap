@@ -156,7 +156,6 @@
       <dep package="glib" />
       <dep package="gtk+-3.0" />
       <dep package="iso-codes" />
-      <dep package="vala" />
     </dependencies>
   </autotools>
   <!--

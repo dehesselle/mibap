@@ -18,111 +18,75 @@
               href="https://ftp.gnu.org/gnu/"
               type="tarball" />
   <repository name="iso-codes"
-              href="https://salsa.debian.org/iso-codes-team/iso-codes/uploads/"
-              type="tarball" />
+              href="https://salsa.debian.org/iso-codes-team/"
+              type="git" />
   <repository name="sourceforge"
               href="http://downloads.sourceforge.net/sourceforge/"
               type="tarball" />
   <repository name="graphviz"
-              href="https://gitlab.com/graphviz/graphviz/-/archive/"
+              href="https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/"
               type="tarball" />
   <repository name="sqlite"
               href="http://www.sqlite.org/"
               type="tarball" />
-  <repository name="fossies"
-              href="https://fossies.org/linux/misc/"
-              type="tarball" />
-  <repository name="paguire"
-              href="https://releases.pagure.org/"
+  <repository name="itstool"
+              href="http://files.itstool.org/"
               type="tarball" />
   <!---->
   <include href="../jhb/gtk-osx-random.modules" />
-  <!---->
-  <cmake id="graphviz"
-         cmakeargs="-Dwith_gvedit=NO">
-    <branch module="8.0.5/graphviz-8.0.5.tar.bz2"
-            version="8.0.5"
-            hash="sha256:c1901fe52483fad55fbf893ccd59a3dcaedd53f0d50b5aebbbf3deaba93b674d"
-            repo="graphviz">
-      <patch file="graphviz-remove-rpath.patch"
-             strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="pango" />
-      <dep package="librsvg" />
-    </dependencies>
-  </cmake>
-  <!---->
-  <autotools id="vala"
-             autogen-sh="configure">
-    <branch module="vala/0.56/vala-0.56.8.tar.xz"
-            version="0.56.8"
-            hash="sha256:93f81dcfc6a93b77baa271d65e6be981ee3238ad451ef380af118e295d904bde" />
-    <dependencies>
-      <dep package="graphviz" />
-      <dep package="meta-gtk-osx-bootstrap" />
-      <dep package="meta-gtk-osx-gtk3" />
-    </dependencies>
-  </autotools>
   <!--
     gtksourceview got a major version ahead:
     4.x.x supports recent versions of gtk+-3 and 5.x.x is for gtk4.
   -->
-  <meson id="gtksourceview3">
+  <meson id="gtksourceview3"
+         mesonargs="-Dvapi=false">
     <branch module="gtksourceview/4.8/gtksourceview-4.8.4.tar.xz"
             version="4.8.4"
             hash="sha256:7ec9d18fb283d1f84a3a3eff3b7a72b09a10c9c006597b3fbabbb5958420a87d">
     </branch>
     <dependencies>
       <dep package="gtk+-3.0" />
-      <dep package="vala" />
     </dependencies>
   </meson>
   <!---->
-  <autotools id="getopt"
-             autogen-sh="configure"
-             supports-non-srcdir-builds="no">
-    <branch module="getopt-1.1.6.tar.gz"
-            version="1.1.6"
-            hash="sha256:d0bf1dc642a993e7388a1cddfb9409bed375c21d5278056ccca3a0acd09dc5fe"
-            repo="fossies">
-      <patch file="getopt-autotools.patch"
-             strip="1" />
-    </branch>
-  </autotools>
-  <!---->
-  <autotools id="xmlto"
-             autogen-sh="autoreconf">
-    <branch module="xmlto/xmlto-0.0.28.tar.bz2"
-            version="0.0.28"
-            hash="sha256:1130df3a7957eb9f6f0d29e4aa1c75732a7dfb6d639be013859b5c7ec5421276"
-            repo="paguire">
-      <patch file="xmlto-allow-net-access.patch"
-             strip="1" />
-    </branch>
+  <meson id="shared-mime-info">
+    <branch module="2.4/shared-mime-info-2.4.tar.bz2"
+            version="2.4"
+            hash="sha256:32dc32ae39ff1c1bf8434dd3b36770b48538a1772bc0298509d034f057005992"
+            repo="shared-mime-info" />
     <dependencies>
-      <dep package="getopt" />
+      <dep package="glib" />
     </dependencies>
-  </autotools>
+  </meson>
+  <!---->
+  <meson id="gsettings-desktop-schemas">
+    <branch module="gsettings-desktop-schemas/46/gsettings-desktop-schemas-46.0.tar.xz"
+            version="46.0"
+            hash="sha256:493a46a1161b6388d57aa72f632a79ce96c42d5ffbd1d0b00f496ec5876f8575" />
+    <dependencies>
+      <dep package="gobject-introspection" />
+    </dependencies>
+  </meson>
   <!--
     SQLite3 is also available from the macOS SDK
+    https://www.sqlite.org/
   -->
   <autotools id="sqlite"
              autogen-sh="configure"
              autogenargs="--disable-tcl --enable-threadsafe">
-    <branch module="2023/sqlite-autoconf-3420000.tar.gz"
-            version='3.42.0'
-            hash="sha256:7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+    <branch module="2024/sqlite-autoconf-3460000.tar.gz"
+            version='3.46.0'
+            hash="sha256:6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
             repo="sqlite" />
   </autotools>
   <!---->
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.5.0/enchant-2.5.0.tar.gz"
-            version="2.5.0"
-            hash="sha256:149e224cdd2ca825d874639578b6246e07f37d5b8f3970658a377a1ef46f2e15"
-            repo="github-tarball">
+    <branch module="AbiWord/enchant/releases/download/v2.8.0/enchant-2.8.0.tar.gz"
+            version="2.8.0"
+            hash="sha256:c57add422237b8a7eed116a9a88d8be4f7b9281778fa36f03e1f2c051ecb0372"
+            repo="github-tarball" >
       <patch file="enchant-relocatable.patch"
              strip="1" />
       <patch file="enchant-no_groff.patch"
@@ -131,23 +95,23 @@
     <dependencies>
       <dep package="glib" />
     </dependencies>
+    <after>
+      <dep package="hunspell" />
+    </after>
   </autotools>
   <!---->
   <autotools id="gmp">
-    <branch module="gmp/gmp-6.2.1.tar.bz2"
-            version="6.2.1"
-            hash="sha256:eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
+    <branch module="gmp/gmp-6.3.0.tar.bz2"
+            version="6.3.0"
+            hash="sha256:ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
             repo="ftp.gnu.org">
-      <patch file="gmp-6.2.1-avoid-x18-register-apple-silicon.patch"
-             strip="1" />
     </branch>
   </autotools>
-  <!---->
+  <!--iso-codes last released a tarball for version 4.1 in 2019-->
   <autotools id="iso-codes"
              autogen-sh="configure">
-    <branch module="049ce6aac94d842be809f4063950646c/iso-codes-4.1.tar.xz"
-            version="4.1"
-            hash="sha256:67117fb76f32c8fb5e37d2d60bce238f1f8e865cc7b569a57cbc3017ca15488a"
+    <branch module="iso-codes"
+            revision="v4.16.0"
             repo="iso-codes" />
   </autotools>
   <!---->
@@ -155,9 +119,9 @@
              autogen-sh="autoreconf"
              autogenargs='--libdir="$JHBUILD_LIBDIR" --with-python'>
              
-    <branch module="libxml2/2.11/libxml2-2.11.4.tar.xz"
-            version="2.11.4"
-            hash="sha256:737e1d7f8ab3f139729ca13a2494fd17bf30ddb4b7a427cf336252cab57f57f7" />
+    <branch module="libxml2/2.11/libxml2-2.11.5.tar.xz"
+            version="2.11.5"
+            hash="sha256:3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6" />
     <after>
       <dep package="python3" />
     </after>
