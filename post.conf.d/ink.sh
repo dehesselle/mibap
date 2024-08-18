@@ -34,21 +34,10 @@
 
 if [ "$CI_PROJECT_NAME" = "inkscape" ]; then # running in Inkscape's CI
   INK_SRC_DIR=$CI_PROJECT_DIR
-else # not running in Inkscape's CI
-  # Allow using a custom branch.
-  if [ -z "$INK_BRANCH" ]; then
-    INK_BRANCH=master
-  fi
-
-  # Use default directory if not provided.
-  if [ -z "$INK_SRC_DIR" ]; then
-    INK_SRC_DIR=$SRC_DIR/inkscape-$INK_BRANCH
-  fi
-
-  # Allow using a custom Inkscape repository and branch.
-  if [ -z "$INK_URL" ]; then
-    INK_URL=https://gitlab.com/inkscape/inkscape
-  fi
+else                                     # not running in Inkscape's CI
+  INK_BRANCH=${INK_BRANCH:-1.4.x}
+  INK_SRC_DIR=${INK_SRC_DIR:-$SRC_DIR/inkscape-$INK_BRANCH}
+  INK_URL=${INK_URL:-https://gitlab.com/inkscape/inkscape}
 fi
 
 INK_BLD_DIR=${INK_BLD_DIR:-$BLD_DIR/$(basename "$INK_SRC_DIR")}
