@@ -143,8 +143,10 @@ INK_PYTHON_PKG_SCOUR="\
   pyparsing==3.0.9 \
 "
 # https://pypi.org/project/tinycss2/
-INK_PYTHON_PKG_TINYCSS2=tinycss2==1.3.0
-
+INK_PYTHON_PKG_TINYCSS2="\
+  tinycss2==1.3.0\
+  webencodings==0.5.1\
+"
 
 #------------------------------------------- application bundle directory layout
 
