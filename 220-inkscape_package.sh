@@ -131,12 +131,12 @@ fi
 #----------------------------------------------------- generate application icon
 
 svg2icns \
-  "$INK_DIR"/share/branding/inkscape-mac.svg \
+  "$INK_SRC_DIR"/share/branding/inkscape-mac.svg \
   "$INK_APP_RES_DIR"/inkscape.icns
 
 #----------------------------------------------------------- add file type icons
 
-cp "$INK_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
+cp "$INK_SRC_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
 
 #------------------------------------------------------- add Python and packages
 

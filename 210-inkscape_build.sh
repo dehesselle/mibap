@@ -47,37 +47,30 @@ jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 # or clone the sources there.
 if [ "$CI_PROJECT_NAME" != "inkscape" ]; then
 
-  if [ -d "$INK_DIR" ]; then # Sourcecode directory already there?
-    echo_i "using existing source $INK_DIR"
+  if [ -d "$INK_SRC_DIR" ]; then # Sourcecode directory already there?
+    echo_i "using existing source $INK_SRC_DIR"
   else
     git clone \
       --branch "$INK_BRANCH" \
       --depth 10 \
       --recurse-submodules \
       --single-branch \
-      "$INK_URL" "$INK_DIR"
-  fi
-
-  # Ensure a clean build by removing files from a previous one if they exist.
-  if [ -d "$INK_BLD_DIR" ]; then
-    rm -rf "$INK_BLD_DIR"
+      "$INK_URL" "$INK_SRC_DIR"
   fi
 fi
 
-mkdir -p "$INK_BLD_DIR"
-cd "$INK_BLD_DIR" || exit 1
-
 cmake \
+  -S"$INK_SRC_DIR" \
+  -B"$INK_BLD_DIR" \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
   -DCMAKE_C_COMPILER_LAUNCHER=ccache \
   -DCMAKE_PREFIX_PATH="$VER_DIR" \
   -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
-  -GNinja \
-  "$INK_DIR"
+  -GNinja
 
-ninja
-ninja install
-ninja tests # build tests
+ninja -C "$INK_BLD_DIR"
+ninja -C "$INK_BLD_DIR" install
+ninja -C "$INK_BLD_DIR" tests # build tests
 
 #----------------------------------- make libraries work for unpackaged Inkscape
 
