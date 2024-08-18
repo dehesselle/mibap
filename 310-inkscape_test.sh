@@ -40,10 +40,8 @@ jhb run pip3 install \
 
 #--------------------------------------------------------------------- run tests
 
-cd "$INK_BLD_DIR" || exit 1
-
 # exclude failing tests
-ctest -V -E "(\
+ctest --test-dir "$INK_BLD_DIR" -V -E "(\
 user-data-directory|\
 glyph-y-pos|\
 glyphs-combining|\
