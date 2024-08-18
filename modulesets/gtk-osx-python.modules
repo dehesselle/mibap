@@ -26,6 +26,16 @@
   <!---->
   <include href="../jhb/gtk-osx-python.modules" />
   <!---->
+  <distutils id="packaging">
+    <branch module="df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz"
+            version="21.3"
+            hash="sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"
+            repo="pymodules" />
+    <dependencies>
+      <dep package="python3" />
+    </dependencies>
+  </distutils>
+  <!---->
   <meson id="pycairo">
     <branch module="pygobject/pycairo/releases/download/v1.26.0/pycairo-1.26.0.tar.gz"
             version="1.26.0"

@@ -104,6 +104,7 @@
     <dependencies>
       <dep package="libffi" />
       <dep package="libpcre2" />
+      <dep package="packaging" />
     </dependencies>
   </meson>
   <!---->
