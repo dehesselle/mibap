@@ -150,8 +150,8 @@
   <data>
     ${prefix}/etc/fonts
   </data>
-  <data>
-    ${prefix}/share/enchant
+  <data dest="${bundle}/Contents/Resources/share/enchant">
+    ${prefix}/share/enchant-2
   </data>
   <data>
     ${prefix}/share/fontconfig

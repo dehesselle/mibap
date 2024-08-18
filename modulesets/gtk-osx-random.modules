@@ -79,13 +79,16 @@
             hash="sha256:6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
             repo="sqlite" />
   </autotools>
-  <!---->
+  <!--
+    Version 2.6.9 is the last before the Vala rewrite. Our custom patches need to be
+    rewritten as well in order to upgrade beyond that.
+  -->
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.8.0/enchant-2.8.0.tar.gz"
-            version="2.8.0"
-            hash="sha256:c57add422237b8a7eed116a9a88d8be4f7b9281778fa36f03e1f2c051ecb0372"
+    <branch module="AbiWord/enchant/releases/download/v2.6.9/enchant-2.6.9.tar.gz"
+            version="2.6.9"
+            hash="sha256:d9a5a10dc9b38a43b3a0fa22c76ed6ebb7e09eb535aff62954afcdbd40efff6b"
             repo="github-tarball" >
       <patch file="enchant-relocatable.patch"
              strip="1" />
