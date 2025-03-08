@@ -16,9 +16,6 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
-bash_d_include echo
-bash_d_include error
-
 ### variables ##################################################################
 
 SELF_DIR=$(

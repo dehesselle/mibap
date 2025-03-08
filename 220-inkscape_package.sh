@@ -16,9 +16,6 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
-bash_d_include error
-bash_d_include lib
-
 ### variables ##################################################################
 
 SELF_DIR=$(dirname "$(greadlink -f "$0")")
