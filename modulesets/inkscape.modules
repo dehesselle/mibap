@@ -8,7 +8,7 @@
         tidy -config tidy.conf -m inkscape.modules
   -->
   <repository name="boost"
-              href="https://boostorg.jfrog.io/artifactory/main/release/"
+              href="https://archives.boost.io/release/"
               type="tarball" />
   <repository name="freedesktop"
               href="https://gitlab.freedesktop.org/"
