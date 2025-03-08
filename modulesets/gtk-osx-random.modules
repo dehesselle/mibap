@@ -89,7 +89,7 @@
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.6.9/enchant-2.6.9.tar.gz"
+    <branch module="rrthomas/enchant/releases/download/v2.6.9/enchant-2.6.9.tar.gz"
             version="2.6.9"
             hash="sha256:d9a5a10dc9b38a43b3a0fa22c76ed6ebb7e09eb535aff62954afcdbd40efff6b"
             repo="github-tarball" >
