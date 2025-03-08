@@ -353,15 +353,24 @@
     </dependencies>
   </autotools>
   <!---->
-  <autotools id="adwaita-icon-theme"
-             autogen-sh="configure">
-    <branch module="adwaita-icon-theme/44/adwaita-icon-theme-44.0.tar.xz"
-            version="44.0"
-            hash="sha256:4889c5601bbfecd25d80ba342209d0a936dcf691ee56bd6eca4cde361f1a664c" />
+  <meson id="adwaita-icon-theme">
+    <branch module="adwaita-icon-theme/47/adwaita-icon-theme-47.0.tar.xz"
+            version="47.0"
+            hash="sha256:ad088a22958cb8469e41d9f1bba0efb27e586a2102213cd89cc26db2e002bdfe" />
+    <dependencies>
+      <dep package="librsvg" />
+      <dep package="adwaita-icon-theme-legacy" />
+    </dependencies>
+  </meson>
+  <!---->
+  <meson id="adwaita-icon-theme-legacy">
+    <branch module="adwaita-icon-theme-legacy/46/adwaita-icon-theme-legacy-46.2.tar.xz"
+            version="46.2"
+            hash="sha256:548480f58589a54b72d18833b755b15ffbd567e3187249d74e2e1f8f99f22fb4" />
     <dependencies>
       <dep package="librsvg" />
     </dependencies>
-  </autotools>
+  </meson>
   <!--
     Null metamodule, provided so as not to break modules that use it.
   -->
