@@ -141,23 +141,19 @@
   <!--
     Spell checking for GTK https://wiki.gnome.org/Projects/gspell
   -->
-  <autotools id="gspell"
-             autogen-sh="configure"
-             autogenargs="--disable-gtk-doc">
-    <branch module="gspell/1.12/gspell-1.12.1.tar.xz"
-            version="1.12.1"
-            hash="sha256:8ec44f32052e896fcdd4926eb814a326e39a5047e251eec7b9056fbd9444b0f1"
-            repo="gnome_web">
-      <patch file="gspell-makefile_objc.patch"
-             strip="1" />
-    </branch>
+  <meson id="gspell"
+             mesonargs="-Dgtk_doc=false -Dvapi=false">
+    <branch module="gspell/1.14/gspell-1.14.0.tar.xz"
+            version="1.14.0"
+            hash="sha256:64ea1d8e9edc1c25b45a920e80daf67559d1866ffcd7f8432fecfea6d0fe8897"
+            repo="gnome_web"/>
     <dependencies>
       <dep package="enchant" />
       <dep package="glib" />
       <dep package="gtk+-3.0" />
       <dep package="iso-codes" />
     </dependencies>
-  </autotools>
+  </meson>
   <!--
     GTK Mac Bundler https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 
