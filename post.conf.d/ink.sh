@@ -84,19 +84,17 @@ INK_PYTHON_PKG_BEAUTIFULSOUP4="\
 # https://pypi.org/project/certifi/
 # https://pypi.org/project/charset-normalizer/
 # https://pypi.org/project/idna/
-# https://pypi.org/project/lockfile/
 # https://pypi.org/project/msgpack/
 # https://pypi.org/project/requests/
 # https://pypi.org/project/urllib3/
 INK_PYTHON_PKG_CACHECONTROL="\
-  CacheControl==0.12.11\
-  certifi==2022.12.7\
-  charset_normalizer==3.1.0\
-  idna==3.4\
-  lockfile==0.12.2\
-  msgpack==1.0.5\
-  requests==2.28.2\
-  urllib3==1.26.15\
+  cachecontrol==0.14.2\
+  certifi==2025.1.31\
+  charset_normalizer==3.4.1\
+  idna==3.10\
+  msgpack==1.1.0\
+  requests==2.32.2\
+  urllib3==2.3.0\
 "
 
 # https://pypi.org/project/cssselect/
