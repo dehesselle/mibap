@@ -57,7 +57,7 @@ jobs:
         uses: ncipollo/release-action@v1.14.0
         with:
           name: latest
-          artifacts: "mibap*.dmg,Inkscape*.dmg"
+          artifacts: "jhb*.dmg,Inkscape*.dmg"
           tag: latest
           body: |
             Automatically created on __${{ steps.timestamp.outputs.ISOTime }}__.

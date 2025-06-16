@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dependencies
-          path: mibap*.dmg
+          path: jhb*.dmg
 
   ##############################################################################
 

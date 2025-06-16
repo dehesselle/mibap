@@ -10,17 +10,24 @@ variables:
 
 stages:
   - build
-  - release
 
 include:
   - remote: https://raw.githubusercontent.com/dehesselle/sdkchecksum/master/.gitlab-ci/verify_sdk-template.yml
 
 #------------------------------------------------------------------------- build
 
-# Built the toolset, from sources to dmg.
+# Build the dependencies.
 
-.build:
+build:
   stage: build
+  parallel:
+    matrix:
+      - ARCHITECTURE: [ "x86_64", "arm64" ]
+  tags:
+    - macos
+    - ${ARCHITECTURE}
+  variables:
+    SDKROOT: /opt/sdks/MacOSX11.3.sdk
   script:
     - !reference [ .verify_sdk, script ]
     - ./build_toolset.sh
@@ -30,66 +37,4 @@ include:
     - jhb/usr/bin/archive create_dmg
   artifacts:
     paths:
-      - mibap*.dmg
-
-build:
-  extends: .build
-  parallel:
-    matrix:
-      - RUNNER: [ "macosintel", "macosarm" ]
-  rules:
-    - if: $RUNNER == "macosintel"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
-    - if: $RUNNER == "macosarm"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX11.3.sdk
-  tags:
-    - ${RUNNER}
-  after_script:
-    # Cleanup is necessary for persistent runners but can be disabled for
-    # debugging purposes. (the number is not random, it's the project ID)
-    - |
-      source jhb/etc/jhb.conf.sh
-      if [ ! -f "$WRK_DIR"/no_cleanup-47632031 ]; then
-        rm -rf "${VER_DIR:?}"
-      fi
-
-#----------------------------------------------------------------------- release
-
-# Release the toolset disk image.
-
-.release:
-  stage: release
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d+/
-  variables:
-    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/mibap/${CI_COMMIT_TAG}"
-
-release:upload:
-  extends: .release
-  image: curlimages/curl:latest
-  needs:
-    - build
-  script:
-    - |
-      for ARTIFACT in mibap*.dmg; do
-        curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${ARTIFACT} ${PACKAGE_REGISTRY_URL}/${ARTIFACT}
-      done
-
-release:publish:
-  extends: .release
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs:
-    - build
-    - release:upload
-  script:
-    - |
-      {
-        echo -n "release-cli create --name $CI_COMMIT_TAG --tag-name $CI_COMMIT_TAG "
-        for ARTIFACT in mibap*.dmg; do
-          echo -n "--assets-link '{\"name\":\"${ARTIFACT}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${ARTIFACT}\"}' "
-        done
-      } > create_release.sh
-      chmod 755 create_release.sh
-      ./create_release.sh
+      - jhb*.dmg
