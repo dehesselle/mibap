@@ -127,7 +127,7 @@ INK_PYTHON_PKG_PILLOW=Pillow==9.4.0
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PKG_PYGOBJECT="\
-  PyGObject==3.44.0\
+  pygobject==3.44.0\
   pycairo==1.23.0\
 "
 
@@ -238,27 +238,17 @@ function ink_pipinstall
 function ink_pipinstall_lxml
 {
   lib_change_paths \
-    @loader_path/../../.. \
-    "$INK_APP_LIB_DIR" \
+    @loader_path/../../../../../Frameworks \
+    "$INK_APP_FRA_DIR" \
     "$INK_APP_SPK_DIR"/lxml/etree.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
     "$INK_APP_SPK_DIR"/lxml/objectify.cpython-"${INK_PYTHON_VER/./}"-darwin.so
-}
-
-function ink_pipinstall_numpy
-{
-  find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
-    '(' -name "*.so" -o -name "*.dylib" ')' \
-    -exec codesign --remove-signature {} \;
-
-  find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
-    -name "*.a" -delete
 }
 
 function ink_pipinstall_pygobject
 {
   lib_change_paths \
-    @loader_path/../../.. \
-    "$INK_APP_LIB_DIR" \
+    @loader_path/../../../../../Frameworks \
+    "$INK_APP_FRA_DIR" \
     "$INK_APP_SPK_DIR"/gi/_gi.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
     "$INK_APP_SPK_DIR"/gi/_gi_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so \
     "$INK_APP_SPK_DIR"/cairo/_cairo.cpython-"${INK_PYTHON_VER/./}"-darwin.so
@@ -281,17 +271,8 @@ function ink_download_python
   done
 }
 
-function ink_install_python
+function ink_configure_python
 {
-  mkdir "$INK_APP_FRA_DIR"
-  tar -C "$INK_APP_FRA_DIR" -xf "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")"
-
-  # link it to INK_APP_BIN_DIR so it'll be in PATH for the app
-  mkdir -p "$INK_APP_BIN_DIR"
-  # shellcheck disable=SC2086 # it's an integer
-  ln -sf "../../Frameworks/Python.framework/Versions/Current/bin/\
-python$INK_PYTHON_VER_MAJOR" "$INK_APP_BIN_DIR"
-
   # create '.pth' file inside Framework to include our site-packages directory
   # shellcheck disable=SC2086 # it's an integer
   echo \

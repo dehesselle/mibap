@@ -19,7 +19,7 @@ source "$(dirname "${BASH_SOURCE[0]}")"/jhb/etc/jhb.conf.sh
 
 ### variables ##################################################################
 
-# Nothing here.
+ABCREATE_VER=0.5
 
 ### functions ##################################################################
 
@@ -33,7 +33,4 @@ fi
 
 #-------------------------------------------- install application bundle creator
 
-jhb build gtkmacbundler
-
-# protect against removal during cleanup
-basename "$SRC_DIR"/gtk-mac-bundler* >> "$SRC_DIR"/.keep
+jhb run pip install abcreate==$ABCREATE_VER

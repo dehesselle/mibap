@@ -28,58 +28,18 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 
 error_trace_enable
 
+#----------------------------------------------------- generate application icon
+
+svg2icns \
+  "$INK_DIR"/share/branding/inkscape-mac.svg \
+  "$TMP_DIR"/Inkscape.icns
+
 #----------------------------------------------------- create application bundle
 
-( # run gtk-mac-bundler
+tar -C "$TMP_DIR" -xJf "$PKG_DIR/$(basename "${INK_PYTHON_URL}")"
 
-  cp "$SELF_DIR"/resources/inkscape.bundle "$INK_BLD_DIR"
-  cp "$SELF_DIR"/resources/inkscape.plist "$INK_BLD_DIR"
-
-  cd "$INK_BLD_DIR" || exit 1
-  export ART_DIR=$ART_DIR # referenced in inkscape.bundle
-  jhb run gtk-mac-bundler inkscape.bundle
-)
-
-lib_change_path \
-  @executable_path/../Resources/lib/inkscape/"$(basename \
-    "$INK_APP_LIB_DIR"/inkscape/libinkscape_base.*)" \
-  "$INK_APP_EXE_DIR"/Inkscape
-
-#----------------------------------------------------- adjust library link paths
-
-# Add rpath according to our app bundle structure.
-lib_clear_rpath "$INK_APP_EXE_DIR"/inkscape
-lib_add_rpath @executable_path/../Resources/lib "$INK_APP_EXE_DIR"/inkscape
-lib_add_rpath @executable_path/../Resources/lib/inkscape \
-  "$INK_APP_EXE_DIR"/inkscape
-
-# Libraries in INK_APP_LIB_DIR can reference each other directly.
-lib_change_siblings "$INK_APP_LIB_DIR"
-
-# Point GTK modules towards INK_APP_LIB_DIR using @loader_path.
-lib_change_paths @loader_path/../../.. "$INK_APP_LIB_DIR" \
-  "$INK_APP_LIB_DIR"/gtk-4.0/4.0.0/printbackends/*.so
-
-# Point GIO modules towards INK_APP_LIB_DIR using @loader_path.
-lib_change_paths @loader_path/../.. "$INK_APP_LIB_DIR" \
-  "$INK_APP_LIB_DIR"/gio/modules/*.so
-
-# Point Ghostscript towards INK_APP_LIB_DIR using @executable_path.
-lib_change_paths \
-  @executable_path/../lib \
-  "$INK_APP_LIB_DIR" \
-  "$INK_APP_BIN_DIR"/gs
-
-# Point libproxy towards its backend using @loader_path.
-lib_change_path \
-  @loader_path/libproxy/libpxbackend-1.0.dylib \
-  "$INK_APP_LIB_DIR"/libproxy.1.dylib
-
-#------------------------------------------------------ use rpath in cache files
-
-sed -i '' \
-  's|@executable_path/../Resources/lib|@rpath|g' \
-  "$INK_APP_LIB_DIR"/gdk-pixbuf-2.0/2.10.0/loaders.cache
+abcreate create -s "$VER_DIR" -t "$ART_DIR" \
+    "$SELF_DIR"/resources/applicationbundle.xml
 
 #------------------------------------------------------------- modify Info.plist
 
@@ -113,25 +73,19 @@ if $CI_GITLAB; then
   done
 fi
 
-#----------------------------------------------------- generate application icon
-
-svg2icns \
-  "$INK_DIR"/share/branding/inkscape-mac.svg \
-  "$INK_APP_RES_DIR"/inkscape.icns
-
 #----------------------------------------------------------- add file type icons
 
 cp "$INK_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
 
-#------------------------------------------------------- add Python and packages
+#----------------------------------------------------------- add Python packages
 
-# Install externally built Python framework.
-ink_install_python
+# add .pth file and icon
+ink_configure_python
 
 # Add rpath to find libraries.
-lib_add_rpath @executable_path/../../../../../Resources/lib \
+lib_add_rpath @executable_path/../../../../../Frameworks \
   "$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin/python$INK_PYTHON_VER"
-lib_add_rpath @executable_path/../../../../../../../../Resources/lib \
+lib_add_rpath @executable_path/../../../../../../../../Frameworks \
   "$INK_APP_FRA_DIR/Python.framework/Versions/Current/Resources/Python.app/\
 Contents/MacOS/Python"
 
@@ -174,18 +128,3 @@ done
 # Our customized version loses all the non-macOS paths and sets a cache
 # directory below '$HOME/Library/Application Support/Inkscape'.
 cp "$SELF_DIR"/resources/fonts.conf "$INK_APP_ETC_DIR"/fonts
-
-#-------------------------------- use rpath for GObject introspection repository
-
-for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
-  sed "s|@executable_path/..|@rpath|g" "$gir" >"$TMP_DIR/$(basename "$gir")"
-done
-
-mv "$TMP_DIR"/*.gir "$INK_APP_RES_DIR"/share/gir-1.0
-
-# compile *.gir into *.typelib files
-for gir in "$INK_APP_RES_DIR"/share/gir-1.0/*.gir; do
-  jhb run g-ir-compiler \
-    -o "$INK_APP_LIB_DIR/girepository-1.0/$(basename -s .gir "$gir")".typelib \
-    "$gir"
-done
