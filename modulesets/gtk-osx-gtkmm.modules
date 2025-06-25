@@ -46,9 +46,9 @@
   </meson>
   <!---->
   <meson id="pangomm">
-    <branch module="pangomm/2.52/pangomm-2.52.0.tar.xz"
-            version="2.52.0"
-            hash="sha256:34a134126a6484ff12f774358c36ecc44d0e9df094e1b83796d9774bb7d24947" />
+    <branch module="pangomm/2.56/pangomm-2.56.1.tar.xz"
+            version="2.56.1"
+            hash="sha256:539f5aa60e9bdc6b955bb448e2a62cc14562744df690258040fbb74bf885755d" />
     <dependencies>
       <dep package="glibmm" />
       <dep package="cairomm" />
@@ -75,9 +75,9 @@
   </meson>
   <!---->
   <meson id="gtkmm4">
-    <branch module="gtkmm/4.14/gtkmm-4.14.0.tar.xz"
-            version="4.14.0"
-            hash="sha256:9350a0444b744ca3dc69586ebd1b6707520922b6d9f4f232103ce603a271ecda" />
+    <branch module="gtkmm/4.18/gtkmm-4.18.0.tar.xz"
+            version="4.18.0"
+            hash="sha256:2ee31c15479fc4d8e958b03c8b5fbbc8e17bc122c2a2f544497b4e05619e33ec" />
     <dependencies>
       <dep package="glibmm" />
       <dep package="cairomm" />
