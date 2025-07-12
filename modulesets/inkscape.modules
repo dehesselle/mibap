@@ -170,10 +170,10 @@
   <autotools id="libcdr"
              autogen-sh="autoreconf"
              autogenargs="--without-docs">
-    <branch module="LibreOffice/libcdr/archive/libcdr-0.1.7.tar.gz"
-            version="0.1.7"
-            hash="sha256:0cfd3304b6ecaaa37fc2fb7213f5e69ab05153152f49e8e91776cd4fc7c09e23"
-            checkoutdir="libcdr-0.1.7"
+    <branch module="LibreOffice/libcdr/archive/libcdr-0.1.8.tar.gz"
+            version="0.1.8"
+            hash="sha256:4c71c1b454e570073b4175a8d40b727e17ad1cb69a5dc73d2fb8d3c6338a9b56"
+            checkoutdir="libcdr-0.1.8"
             repo="github" />
     <dependencies>
       <dep package="boost" />

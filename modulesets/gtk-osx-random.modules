@@ -2,11 +2,9 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <!--
-    Please format this file using https://github.com/htacg/tidy-html5
-
-        tidy -config tidy.conf -m gtk-osx-random.modules
-  -->
+  <!-- Please format this file using the following command:
+       tidy -config ../tidy.conf -m gtk-osx-random.modules; sed -i "" '/^ *$/d' gtk-osx-random.modules
+       You can get 'tidy' here: https://github.com/htacg/tidy-html5 -->
   <repository name="download.gnome.org"
               default="yes"
               href="https://download.gnome.org/sources/"
@@ -23,9 +21,7 @@
   <repository name="sqlite"
               href="http://www.sqlite.org/"
               type="tarball" />
-  <!---->
   <include href="../jhb/gtk-osx-random.modules" />
-  <!---->
   <meson id="gtksourceview4"
          mesonargs="-Dintrospection=disabled">
     <branch module="gtksourceview/5.12/gtksourceview-5.12.1.tar.xz"
@@ -36,27 +32,30 @@
       <dep package="libpcre2" />
     </dependencies>
   </meson>
-  <!--
-    SQLite3 is also available from the macOS SDK
-  -->
-  <autotools id="sqlite"
+  <!-- SQLite3 is also available from the macOS SDK -->
+    <autotools id="sqlite"
              autogen-sh="configure"
-             autogenargs="--disable-tcl --enable-threadsafe">
-    <branch module="2024/sqlite-autoconf-3460000.tar.gz"
-            version="3.46.0"
-            hash="sha256:6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
-            repo="sqlite" />
+             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s">
+    <branch module="2025/sqlite-autoconf-3490100.tar.gz"
+            version="3.49.1"
+            hash="sha256:106642d8ccb36c5f7323b64e4152e9b719f7c0215acf5bfeac3d5e7f97b59254"
+            repo="sqlite" >
+      <patch file="sqlite3-install-name.patch" strip="1" />
+    </branch>
+    <dependencies>
+      <dep package="readline" />
+      <dep package="openssl" />
+      <dep package="zlib" />
+    </dependencies>
   </autotools>
   <!---->
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="AbiWord/enchant/releases/download/v2.8.0/enchant-2.8.0.tar.gz"
-            version="2.8.0"
-            hash="sha256:c57add422237b8a7eed116a9a88d8be4f7b9281778fa36f03e1f2c051ecb0372"
+    <branch module="rrthomas/enchant/releases/download/v2.8.10/enchant-2.8.10.tar.gz"
+            version="2.8.10"
+            hash="sha256:6db791265ace652c63a6d24f376f4c562b742284d70d3ccb9e1ce8be45b288c9"
             repo="github-tarball">
-      <patch file="enchant-relocatable.patch"
-             strip="1" />
       <patch file="enchant-no_groff.patch"
              strip="1" />
     </branch>

@@ -2,28 +2,21 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <!--
-    Please format this file using https://github.com/htacg/tidy-html5
-
-        tidy -config tidy.conf -m gtk-osx-gtkmm.modules
-  -->
+  <!-- Please format this file using the following command:
+       tidy -config ../tidy.conf -m gtk-osx-gtkmm.modules; sed -i "" '/^ *$/d' gtk-osx-gtkmm.modules
+       You can get 'tidy' here: https://github.com/htacg/tidy-html5 -->
   <repository name="download.gnome.org"
               default="yes"
               href="https://download.gnome.org/sources/"
               type="tarball" />
-  <repository name="doxygen"
-              href="http://ftp.stack.nl/pub/users/dimitri/"
-              type="tarball" />
   <repository name="cairographics"
               href="http://cairographics.org/releases/"
               type="tarball" />
-  <!---->
   <meson id="mm-common">
     <branch module="mm-common/1.0/mm-common-1.0.6.tar.xz"
-            version="1.0.5"
+            version="1.0.6"
             hash="sha256:b55c46037dbcdabc5cee3b389ea11cc3910adb68ebe883e9477847aa660862e7" />
   </meson>
-  <!---->
   <meson id="cairomm">
     <branch module="cairomm-1.18.0.tar.xz"
             version="1.18.0"
@@ -33,18 +26,17 @@
       <dep package="cairo" />
     </dependencies>
   </meson>
-  <!---->
   <meson id="glibmm">
-    <branch module="glibmm/2.80/glibmm-2.80.0.tar.xz"
-            version="2.80.0"
-            hash="sha256:539b0a29e15a96676c4f0594541250566c5ca44da5d4d87a3732fa2d07909e4a" />
+    <branch module="glibmm/2.83/glibmm-2.83.1.tar.xz"
+            version="2.83.1"
+            hash="sha256:68350a823c33da8acfb1263715bb002a36c68346bd44c19ac4c3f0bd190fd2b1">
+    </branch>
     <dependencies>
       <dep package="glib" />
       <dep package="libsigc++3" />
       <dep package="mm-common" />
     </dependencies>
   </meson>
-  <!---->
   <meson id="pangomm">
     <branch module="pangomm/2.56/pangomm-2.56.1.tar.xz"
             version="2.56.1"
@@ -55,7 +47,6 @@
       <dep package="pango" />
     </dependencies>
   </meson>
-  <!---->
   <meson id="atkmm">
     <branch module="atkmm/2.36/atkmm-2.36.3.tar.xz"
             version="2.36.3"
@@ -67,13 +58,11 @@
       <dep package="atk" />
     </dependencies>
   </meson>
-  <!---->
   <meson id="libsigc++3">
     <branch module="libsigc++/3.6/libsigc++-3.6.0.tar.xz"
             version="3.6.0"
             hash="sha256:c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17" />
   </meson>
-  <!---->
   <meson id="gtkmm4">
     <branch module="gtkmm/4.18/gtkmm-4.18.0.tar.xz"
             version="4.18.0"
@@ -86,5 +75,4 @@
       <dep package="gtk-4" />
     </dependencies>
   </meson>
-  <!---->
 </moduleset>
