@@ -197,6 +197,19 @@
     </dependencies>
   </autotools>
   <!--
+    A spellcheck library for GTK 4. https://gitlab.gnome.org/GNOME/libspelling
+  -->
+  <meson id="libspelling"
+         mesonargs="-Ddocs=false -Dintrospection=disabled -Dvapi=false -Dsysprof=false">
+    <branch module="libspelling/-/archive/0.4.8/libspelling-0.4.8.tar.bz2"
+            version="0.4.8"
+            hash="sha256:dadd7bfc58511b85f966570b6f241ae1c695986746daa634de4a2d856886ae18"
+            repo="gnome_gitlab" />
+    <dependencies>
+      <dep package="enchant" />
+    </dependencies>
+  </meson>
+  <!--
     Reading/Converting Visio files https://github.com/LibreOffice/libvisio
   -->
   <autotools id="libvisio"
@@ -229,6 +242,7 @@
       <dep package="imagemagick" />
       <dep package="libcdr" />
       <dep package="libsoup" />
+      <dep package="libspelling" />
       <dep package="libvisio" />
       <dep package="libwebp" />
       <dep package="openjpeg" />
