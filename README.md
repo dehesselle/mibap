@@ -59,7 +59,10 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
 1. Build all dependencies.
 
    ```bash
-   ./build_toolset.sh
+   ./110-bootstrap_jhb.sh
+   ./120-build_gtk4.sh
+   ./130-build_inkdeps.sh
+   ./140-build_packaging.sh
    ```
 
    This will
@@ -109,7 +112,9 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    # Clone Inkscape's sources if you haven't done this yet:
    # git clone --recurse-submodules https://gitlab.com/inkscape/inkscape $HOME/inkscape
    export INK_DIR=$HOME/inkscape
-   ./build_inkscape.sh
+   ./210-inkscape_build.sh
+   ./220-inkscape_package.sh
+   ./230-inkscape_distrib.sh
    ```
 
    This will
