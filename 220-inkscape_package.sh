@@ -38,7 +38,7 @@ svg2icns \
 
 tar -C "$TMP_DIR" -xJf "$PKG_DIR/$(basename "${INK_PYTHON_URL}")"
 
-abcreate create -s "$VER_DIR" -t "$ART_DIR" \
+abcreate create -i "$VER_DIR" -o "$ART_DIR" \
     "$SELF_DIR"/resources/applicationbundle.xml
 
 #------------------------------------------------------------- modify Info.plist
