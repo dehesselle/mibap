@@ -6,14 +6,11 @@
     <executable>fig2dev</executable>
     <executable>gs</executable>
     <executable>gtk4-demo</executable>
-  </executables>
-  <symlinks>
     <symlink>../Frameworks/Python.framework/Versions/Current/bin/python3</symlink>
-  </symlinks>
+  </executables>
   <frameworks>
     <framework>tmp/Python.framework</framework>
   </frameworks>
-  <gdkpixbuf/>
   <gir command="jhb run g-ir-compiler" lib_dir="@rpath"/>
   <gtk4/>
   <icons>
@@ -25,17 +22,13 @@
   </libraries>
   <locales>
     <locale>inkscape.mo</locale>
-    <locale>gtk40.mo</locale>
     <locale>gtksourceview-5.mo</locale>
   </locales>
   <plist/>
   <resources>
-    <!---->
     <resource>etc/fonts</resource>
     <resource>share/fontconfig</resource>
-    <resource>share/glib-2.0</resource>
     <resource>share/ghostscript</resource>
-    <resource>share/gtk-4.0</resource>
     <resource>share/gtksourceview-5</resource>
     <resource>share/ImageMagick-6</resource>
     <resource>share/icons</resource>
