@@ -101,9 +101,9 @@
   <autotools id="ghostscript"
              autogen-sh="configure"
              autogenargs="--without-tesseract --without-x">
-    <branch module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs10031/ghostscript-10.03.1.tar.xz"
-            version="10.03.1"
-            hash="sha256:157212edc96b8ccc409475dce2e49833fb4427f150c455258ded9632c106abee"
+    <branch module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/ghostscript-10.05.1.tar.xz"
+            version="10.05.1"
+            hash="sha256:22f2bdca15c28830c9715cddc5c296ea66898bfdab0b604a4e0bcfeb03af6cad"
             repo="github">
       <patch file="ghostscript_configure_libtiff.patch"
              strip="1" />
