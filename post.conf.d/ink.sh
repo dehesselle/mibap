@@ -61,10 +61,10 @@ INK_BUILD=${INK_BUILD:-0}
 # the core extensions work out-of-the-box.
 
 INK_PYTHON_VER_MAJOR=3
-INK_PYTHON_VER_MINOR=10
+INK_PYTHON_VER_MINOR=12
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/v20/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
+python_macos/v24/pythonframework_$(uname -m).tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
@@ -98,7 +98,7 @@ INK_PYTHON_PKG_BEAUTIFULSOUP4="\
 # https://pypi.org/project/requests/
 # https://pypi.org/project/urllib3/
 INK_PYTHON_PKG_CACHECONTROL="\
-  CacheControl==0.12.11\
+  cachecontrol==0.12.11\
   certifi==2022.12.7\
   charset_normalizer==3.1.0\
   idna==3.4\
@@ -112,17 +112,22 @@ INK_PYTHON_PKG_CACHECONTROL="\
 INK_PYTHON_PKG_CSSSELECT=cssselect==1.2.0
 
 # https://pypi.org/project/lxml/
-INK_PYTHON_PKG_LXML=lxml==4.9.2
+INK_PYTHON_PKG_LXML=lxml==6.0.0
 
 # https://pypi.org/project/numpy/
 # We're not building this from source as macOS is problematic with building
 # correct accelerators for it.
-INK_PYTHON_PKG_NUMPY="https://files.pythonhosted.org/packages/b4/85/\
-8097082c4794d854e40f84639c83e33e516431faaeb9cecba39eba6921d5/\
-numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl"
+INK_PYTHON_PKG_NUMPY="\
+  https://files.pythonhosted.org/packages/25/65/\
+2db52ba049813670f7f987cc5db6dac9be7cd95e923cc6832b3d32d87cef/\
+numpy-2.3.1-cp312-cp312-macosx_11_0_arm64.whl\
+  https://files.pythonhosted.org/packages/c6/56/\
+71ad5022e2f63cfe0ca93559403d0edef14aea70a841d640bd13cdba578e/\
+numpy-2.3.1-cp312-cp312-macosx_10_13_x86_64.whl
+"
 
 # https://pypi.org/project/Pillow/
-INK_PYTHON_PKG_PILLOW=Pillow==9.4.0
+INK_PYTHON_PKG_PILLOW=pillow==9.4.0
 
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
@@ -200,37 +205,36 @@ function ink_pipinstall
   local wheels
   for package in $(eval echo \$"$packages"); do
     if [ "${package::8}" = "https://" ]; then
+      if [[ $package != *$(uname -m).whl ]]; then
+        continue # skip package for different architecture
+      fi
       package=$(basename "$package")
+    elif [ "${package:1:1}" = "-" ]; then
+      options="$options $package"
+      continue
     else
       package=$(eval echo "${package/==/-}"*.whl)
     fi
 
-    # If present in TMP_DIR, use that. This is how the externally built
-    # packages can be fed into this.
-    if [ -f "$TMP_DIR/$package" ]; then
-      wheels="$wheels $TMP_DIR/$package"
-    else
-      wheels="$wheels $PKG_DIR/$package"
-    fi
+    wheels="$wheels $PKG_DIR/$package"
   done
 
-  local path_original=$PATH
-  export PATH=$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
+  (
+    # shellcheck disable=SC2030 # local PATH modification is intentional
+    export PATH=$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin:$PATH
 
-  # shellcheck disable=SC2086 # we need word splitting here
-  pip$INK_PYTHON_VER_MAJOR install \
-    --prefix "$INK_APP_RES_DIR" \
-    --ignore-installed \
-    $options \
-    $wheels
-
-  export PATH=$path_original
+    # shellcheck disable=SC2086 # we need word splitting here
+    pip3 install \
+      --prefix "$INK_APP_RES_DIR" \
+      $options \
+      $wheels
+  )
 
   local ink_pipinstall_func
-  ink_pipinstall_func=ink_pipinstall_$(echo "${packages##*_}" |
+  ink_pipinstall_func=zim_pipinstall_$(echo "${packages##*_}" |
     tr "[:upper:]" "[:lower:]")
 
-  if declare -F "$ink_pipinstall_func" >/dev/null; then
+  if declare -F "$ink_pipinstall_func" > /dev/null; then
     $ink_pipinstall_func
   fi
 }
@@ -289,30 +293,54 @@ Resources/PythonInterpreter.icns"
 
 function ink_build_wheels
 {
-  jhb run pip3 install wheel
+  # create a venv based on Python.framework
+  local tmp_dir=$TMP_DIR/${FUNCNAME[0]}
+  ink_install_python "$tmp_dir"
+  "$tmp_dir"/Python.framework/Versions/Current/bin/python3 \
+      -m venv "$tmp_dir"/venv
 
-  for package_set in ${!INK_PYTHON_PKG_*}; do
-    local packages
-    for package in $(eval echo \$"$package_set"); do
-      if [ "${package::8}" = "https://" ]; then
-        curl -L -o "$PKG_DIR/$(basename "$package")" "$package"
-      else
-        packages="$packages $package"
+  (
+    export MACOSX_DEPLOYMENT_TARGET=$SYS_SDK_VER
+
+    # shellcheck disable=SC1091 # cannot follow dynmaically created location
+    source "$tmp_dir"/venv/bin/activate
+    pip3 install wheel==0.41.2
+
+    for package_set in ${!INK_PYTHON_PKG_*}; do
+      local packages
+      local options
+      for package in $(eval echo \$"$package_set"); do
+        if [ "${package::8}" = "https://" ]; then
+          if [[ $package != *$(uname -m).whl ]]; then
+            continue # skip package for different architecture
+          fi
+          pip3 download -d "$PKG_DIR" "$package"
+        elif [ "${package:1:1}" = "-" ]; then
+          options="$options $package"
+        else
+          packages="$packages $package"
+        fi
+      done
+
+      if [ -n "$packages" ]; then
+        # shellcheck disable=SC2086 # we need word splitting here
+        pip3 wheel \
+          --no-binary :all: \
+          --use-feature=no-binary-enable-wheel-cache \
+          -w "$PKG_DIR" \
+          -f "$PKG_DIR" \
+          $options \
+          $packages
+        packages=""
       fi
     done
 
-    if [ -n "$packages" ]; then
-      # We build the wheels ourselves as the binary releases don't offer the
-      # backward compatiblity whe require.
-      # shellcheck disable=SC2086 # we need word splitting here
-      jhb run pip3 wheel --no-binary :all: $packages -w "$PKG_DIR"
-      packages=""
-    fi
-  done
+    # Exclude wheels from cleanup procedure.
+    find "$PKG_DIR" -type f -name '*.whl' \
+      -exec bash -c 'basename "$1" >> "${2:?}"/.keep' _ {} "$PKG_DIR" \;
+  )
 
-  # Exclude wheels from cleanup procedure.
-  find "$PKG_DIR" -type f -name '*.whl' \
-    -exec bash -c 'basename "$1" >> "${2:?}"/.keep' _ {} "$PKG_DIR" \;
+  rm -rf "${tmp_dir:?}"
 }
 
 ### main #######################################################################
