@@ -294,8 +294,10 @@ Resources/PythonInterpreter.icns"
 function ink_build_wheels
 {
   # create a venv based on Python.framework
+  # shellcheck disable=SC2153 # TMP_DIR is a global variable
   local tmp_dir=$TMP_DIR/${FUNCNAME[0]}
-  ink_install_python "$tmp_dir"
+  mkdir -p "$tmp_dir"
+  tar -C "$tmp_dir" -xJf "$PKG_DIR/$(basename "${INK_PYTHON_URL}")"
   "$tmp_dir"/Python.framework/Versions/Current/bin/python3 \
       -m venv "$tmp_dir"/venv
 
