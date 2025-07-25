@@ -138,7 +138,7 @@
   <!--
     GNU Scientific Library https://www.gnu.org/software/gsl
 
-   We stick to version 1.9 as this is the last one licensed under GPLv2.
+    We stick to version 1.9 as this is the last one licensed under GPLv2.
   -->
   <autotools id="gsl"
              autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'
@@ -149,6 +149,20 @@
             hash="sha256:fcd1c6784997c2312d922d107fcb30462f5be4335ebdfa8e1e0e07568c962250"
             repo="gnu" />
   </autotools>
+  <if condition-unset="arm64">
+    <autotools id="gsl"
+              autogen-sh='configure CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration"'
+              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s --infodir=%(prefix)s/share/info %(autogenargs)s">
+
+      <branch module="gsl/gsl-1.9.tar.gz"
+              version="1.9"
+              hash="sha256:fcd1c6784997c2312d922d107fcb30462f5be4335ebdfa8e1e0e07568c962250"
+              repo="gnu" >
+        <patch file="gsl-link_bigsur_intel.patch"
+               strip="1" />
+      </branch>
+    </autotools>
+  </if>
   <!--
     ImageMagick 6 https://legacy.imagemagick.org
   -->
