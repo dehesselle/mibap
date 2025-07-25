@@ -1,0 +1,17 @@
+inspired by MacPorts' dynamic_lookup-11.patch
+https://github.com/macports/macports-ports/commit/2d348a95d23e10daec78d6e4c938adf691ad0578
+--- a/configure	2025-07-25 09:58:10
++++ b/configure	2025-07-25 10:01:44
+@@ -6349,10 +6349,10 @@
+            allow_undefined_flag='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
+          else
+            case ${MACOSX_DEPLOYMENT_TARGET} in
+-             10.[012])
++             10.[012],*|,*powerpc*)
+                allow_undefined_flag='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
+                ;;
+-             10.*)
++             *)
+                allow_undefined_flag='${wl}-undefined ${wl}dynamic_lookup'
+                ;;
+            esac
