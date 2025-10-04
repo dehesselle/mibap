@@ -186,9 +186,9 @@
   -->
   <autotools id="lcms"
              autogen-sh="configure">
-    <branch module="lcms/lcms/2.12/lcms2-2.12.tar.gz"
-            version="2.12"
-            hash="sha256:18663985e864100455ac3e507625c438c3710354d85e5cbb7cd4043e11fe10f5"
+    <branch module="lcms/lcms/2.17/lcms2-2.17.tar.gz"
+            version="2.17"
+            hash="sha256:d11af569e42a1baa1650d20ad61d12e41af4fead4aa7964a01f93b08b53ab074"
             repo="sourceforge" />
   </autotools>
   <!--
