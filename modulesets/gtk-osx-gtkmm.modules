@@ -64,9 +64,9 @@
             hash="sha256:c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17" />
   </meson>
   <meson id="gtkmm4">
-    <branch module="gtkmm/4.18/gtkmm-4.18.0.tar.xz"
-            version="4.18.0"
-            hash="sha256:2ee31c15479fc4d8e958b03c8b5fbbc8e17bc122c2a2f544497b4e05619e33ec" />
+    <branch module="gtkmm/4.20/gtkmm-4.20.0.tar.xz"
+            version="4.20.0"
+            hash="sha256:daad9bf9b70f90975f91781fc7a656c923a91374261f576c883cd3aebd59c833" />
     <dependencies>
       <dep package="glibmm" />
       <dep package="cairomm" />
