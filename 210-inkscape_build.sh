@@ -75,12 +75,3 @@ cmake \
 ninja
 ninja install
 ninja tests # build tests
-
-#----------------------------------- make libraries work for unpackaged Inkscape
-
-# Most libraries are linked to with their fully qualified paths, a few have been
-# linked to using '@rpath'. The Inkscape binary only provides an LC_RPATH
-# setting for its custom library path 'lib/inkscape' at this point, so we need
-# to add the common library path 'lib'.
-
-lib_add_rpath @loader_path/../lib "$BIN_DIR"/inkscape
