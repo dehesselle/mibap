@@ -27,6 +27,7 @@ build:
     - macos
     - ${ARCHITECTURE}
   variables:
+    ORKA_RUNNER: sequoia-5
     SDKROOT: /opt/sdks/MacOSX11.3.sdk
   script:
     - !reference [ .verify_sdk, script ]
