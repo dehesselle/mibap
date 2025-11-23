@@ -32,7 +32,7 @@
               href="https://poppler.freedesktop.org/"
               type="tarball" />
   <repository name="sourceforge"
-              href="https://netcologne.dl.sourceforge.net/project/"
+              href="https://downloads.sourceforge.net/sourceforge/"
               type="tarball" />
   <!---->
   <include href="gtk-osx.modules" />
@@ -66,9 +66,9 @@
              makeargs="|| ./b2 -d0 install"
              skip-install="yes"
              supports-non-srcdir-builds="no">
-    <branch module="1.76.0/source/boost_1_76_0.tar.bz2"
-            version="1.76.0"
-            hash="sha256:f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
+    <branch module="1.87.0/source/boost_1_87_0.tar.bz2"
+            version="1.87.0"
+            hash="sha256:af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a11ef548f4d527d89"
             repo="boost" />
   </autotools>
   <!--
@@ -101,15 +101,13 @@
   <autotools id="ghostscript"
              autogen-sh="configure"
              autogenargs="--without-tesseract --without-x">
-    <branch module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/ghostscript-9.56.1.tar.xz"
-            version="9.56.1"
-            hash="sha256:d43406805650009b42c3d5f6dc535233454533c1e27c13a77dd1d462a056b8e4"
+    <branch module="ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/ghostscript-10.05.1.tar.xz"
+            version="10.05.1"
+            hash="sha256:22f2bdca15c28830c9715cddc5c296ea66898bfdab0b604a4e0bcfeb03af6cad"
             repo="github">
       <patch file="ghostscript_configure_libtiff.patch"
              strip="1" />
       <patch file="ghostscript_link_cupsimage.patch"
-             strip="1" />
-      <patch file="ghostscript_bug706761.patch"
              strip="1" />
     </branch>
   </autotools>
@@ -199,22 +197,21 @@
   <!--
     Little cms color engine https://sourceforge.net/projects/lcms/
   -->
-  <autotools id="lcms"
-             autogen-sh="configure">
-    <branch module="lcms/lcms/2.12/lcms2-2.12.tar.gz"
-            version="2.12"
-            hash="sha256:18663985e864100455ac3e507625c438c3710354d85e5cbb7cd4043e11fe10f5"
+  <meson id="lcms">
+    <branch module="lcms/lcms2-2.17.tar.gz"
+            version="2.17"
+            hash="sha256:d11af569e42a1baa1650d20ad61d12e41af4fead4aa7964a01f93b08b53ab074"
             repo="sourceforge" />
-  </autotools>
+  </meson>
   <!--
     Reading/Writing CorelDRAW files https://github.com/LibreOffice/libcdr
   -->
   <autotools id="libcdr"
              autogen-sh="autoreconf">
-    <branch module="LibreOffice/libcdr/archive/libcdr-0.1.7.tar.gz"
-            version="0.1.7"
-            hash="sha256:0cfd3304b6ecaaa37fc2fb7213f5e69ab05153152f49e8e91776cd4fc7c09e23"
-            checkoutdir="libcdr-0.1.7"
+    <branch module="LibreOffice/libcdr/archive/libcdr-0.1.8.tar.gz"
+            version="0.1.8"
+            hash="sha256:4c71c1b454e570073b4175a8d40b727e17ad1cb69a5dc73d2fb8d3c6338a9b56"
+            checkoutdir="libcdr-0.1.8"
             repo="github" />
     <dependencies>
       <dep package="boost" />
@@ -345,7 +342,7 @@
     a cmake file introduced by that patch below.
   -->
   <cmake id="rust"
-         cmakeargs="-DVERSION=1.67.1"
+         cmakeargs="-DVERSION=1.91.1"
          supports-non-srcdir-builds="no"
          use-ninja="no">
     <branch module="rust-lang/rustup/archive/1.25.2.tar.gz"

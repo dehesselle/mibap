@@ -160,6 +160,7 @@ ink_pipinstall INK_PYTHON_PKG_PYGOBJECT      #
 ink_pipinstall INK_PYTHON_PKG_PYSERIAL       #
 ink_pipinstall INK_PYTHON_PKG_SCOUR          #
 ink_pipinstall INK_PYTHON_PKG_TINYCSS2       #
+ink_pipinstall INK_PYTHON_PKG_UNKNOWN        #
 
 # Reset Python interpreter shebang in all scripts.
 # shellcheck disable=SC2044 # fragile for loop

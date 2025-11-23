@@ -55,7 +55,7 @@ INK_PYTHON_VER_MAJOR=3
 INK_PYTHON_VER_MINOR=10
 INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/v21.1/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
+python_macos/v21.3/python_${INK_PYTHON_VER/./}_$(uname -m)_inkscape.tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
@@ -65,9 +65,10 @@ INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 # https://pypi.org/project/pyparsing/
 # https://pypi.org/project/pypdf/
 INK_PYTHON_PKG_AIIMPORT="\
-  zstandard==0.20.0\
-  pyparsing==3.0.9\
-  pypdf==3.6.0\
+  pyparsing==3.2.5\
+  pypdf==6.3.0\
+  typing_extensions==4.15.0\
+  zstandard==0.25.0\
 "
 
 # https://pypi.org/project/appdirs/
@@ -76,8 +77,9 @@ INK_PYTHON_PKG_APPDIRS=appdirs==1.4.4
 # https://pypi.org/project/beautifulsoup4/
 # https://pypi.org/project/soupsieve/
 INK_PYTHON_PKG_BEAUTIFULSOUP4="\
-  beautifulsoup4==4.12.0\
-  soupsieve==2.4\
+  beautifulsoup4==4.14.2\
+  soupsieve==2.8\
+  typing_extensions==4.15.0\
 "
 
 # https://pypi.org/project/CacheControl/
@@ -88,20 +90,20 @@ INK_PYTHON_PKG_BEAUTIFULSOUP4="\
 # https://pypi.org/project/requests/
 # https://pypi.org/project/urllib3/
 INK_PYTHON_PKG_CACHECONTROL="\
-  cachecontrol==0.14.2\
-  certifi==2025.1.31\
-  charset_normalizer==3.4.1\
-  idna==3.10\
-  msgpack==1.1.0\
-  requests==2.32.2\
-  urllib3==2.3.0\
+  cachecontrol==0.14.4\
+  certifi==2025.11.12\
+  charset_normalizer==3.4.4\
+  idna==3.11\
+  msgpack==1.1.2\
+  requests==2.32.5\
+  urllib3==2.5.0\
 "
 
 # https://pypi.org/project/cssselect/
-INK_PYTHON_PKG_CSSSELECT=cssselect==1.2.0
+INK_PYTHON_PKG_CSSSELECT=cssselect==1.3.0
 
 # https://pypi.org/project/lxml/
-INK_PYTHON_PKG_LXML=lxml==4.9.2
+INK_PYTHON_PKG_LXML=lxml==6.0.2
 
 # https://pypi.org/project/numpy/
 # We're not building this from source as macOS is problematic with building
@@ -111,12 +113,12 @@ INK_PYTHON_PKG_NUMPY="https://files.pythonhosted.org/packages/b4/85/\
 numpy-1.22.1-cp310-cp310-macosx_10_9_universal2.whl"
 
 # https://pypi.org/project/Pillow/
-INK_PYTHON_PKG_PILLOW=Pillow==9.4.0
+INK_PYTHON_PKG_PILLOW=pillow==12.0.0
 
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PKG_PYGOBJECT="\
-  pygobject==3.50.0\
+  pygobject==3.50.2\
   pycairo==1.27.0\
 "
 
@@ -127,14 +129,20 @@ INK_PYTHON_PKG_PYSERIAL=pyserial==3.5
 # https://pypi.org/project/six/
 INK_PYTHON_PKG_SCOUR="\
   scour==0.38.2\
-  six==1.16.0\
-  packaging==23.0 \
-  pyparsing==3.0.9 \
+  six==1.17.0\
 "
+
 # https://pypi.org/project/tinycss2/
 INK_PYTHON_PKG_TINYCSS2="\
-  tinycss2==1.3.0\
+  tinycss2==1.5.1\
   webencodings==0.5.1\
+"
+
+# These dependencies were previously part of one of the packages above
+# but are not direct dependencies (anymore?!). Candidates for removal.
+INK_PYTHON_PKG_UNKNOWN="\
+  packaging==23.0 \
+  pyparsing==3.0.9 \
 "
 
 #------------------------------------------- application bundle directory layout

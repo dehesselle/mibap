@@ -23,19 +23,16 @@
   <repository name="github-tarball"
               href="https://github.com"
               type="tarball" />
-  <!---->
   <include href="../jhb/gtk-osx-python.modules" />
-  <!---->
-  <distutils id="packaging">
-    <branch module="df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz"
-            version="21.3"
-            hash="sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"
+  <pip id="packaging">
+    <branch module="a1/d4/1fc4078c65507b51b96ca8f8c3ba19e6a61c8253c72794544580a7b6c24d/packaging-25.0.tar.gz"
+            version="25.0"
+            hash="sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"
             repo="pymodules" />
     <dependencies>
       <dep package="python3" />
     </dependencies>
-  </distutils>
-  <!---->
+  </pip>
   <meson id="pycairo">
     <branch module="pygobject/pycairo/releases/download/v1.27.0/pycairo-1.27.0.tar.gz"
             version="1.27.0"
@@ -47,11 +44,10 @@
       <dep package="meta-gtk-osx-gtk3" />
     </dependencies>
   </meson>
-  <!---->
   <meson id="pygobject3">
-    <branch module="pygobject/3.50/pygobject-3.50.0.tar.xz"
-            version="3.50.0"
-            hash="sha256:8d836e75b5a881d457ee1622cae4a32bcdba28a0ba562193adb3bbb472472212" />
+    <branch module="pygobject/3.51/pygobject-3.51.0.tar.xz"
+            version="3.51.0"
+            hash="sha256:5d8ec64b034a29a14c3739541436a07ea0de83c8a394c6e5ecaa9e2e5b7b4e72" />
     <dependencies>
       <dep package="pycairo" />
     </dependencies>
@@ -59,100 +55,6 @@
       <dep package="python3" />
     </after>
   </meson>
-  <!---->
-  <distutils id="docutils">
-    <branch module="57/b1/b880503681ea1b64df05106fc7e3c4e3801736cf63deffc6fa7fc5404cf5/docutils-0.18.1.tar.gz"
-            version="0.18.1"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="gidocgen">
-    <branch module="25/11/64ea759ba610d7442e8827306d1adba233ca69547d2a0e974f5ea74fa320/gi-docgen-2022.1.tar.gz"
-            version="2022.1"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-      <dep package="markdown" />
-      <dep package="markupsafe" />
-      <dep package="typogrify" />
-      <dep package="jinja2" />
-      <dep package="toml" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="markdown">
-    <branch module="15/06/d60f21eda994b044cbd496892d4d4c5c708aa597fcaded7d421513cb219b/Markdown-3.3.6.tar.gz"
-            version="3.3.6"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="markupsafe">
-    <branch module="1d/97/2288fe498044284f39ab8950703e88abbac2abbdf65524d576157af70556/MarkupSafe-2.1.1.tar.gz"
-            version="2.1.1"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="pygments">
-    <branch module="d6/f7/4d461ddf9c2bcd6a4d7b2b139267ca32a69439387cc1f02a924ff8883825/Pygments-2.16.1.tar.gz"
-            version="2.16.1"
-            hash="1daff0494820c69bc8941e407aa20f577374ee88364ee10a98fdbe0aece96e29"
-            repo="pymodules" >
-      <patch file="Pygments-setup-py.patch"
-             strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="typogrify">
-    <branch module="8a/bf/64959d6187d42472acb846bcf462347c9124952c05bd57e5769d5f28f9a6/typogrify-2.0.7.tar.gz"
-            version="2.0.7"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-      <dep package="smartypants" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="jinja2">
-    <branch module="89/e3/b36266381ae7a1310a653bb85f4f3658c462a69634fa9b2fef76252a50ed/Jinja2-3.1.1.tar.gz"
-            version="3.1.1"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="toml">
-    <branch module="be/ba/1f744cdc819428fc6b5084ec34d9b30660f6f9daaf70eead706e3203ec3c/toml-0.10.2.tar.gz"
-            version="0.10.2"
-            repo="pymodules" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
-  <distutils id="smartypants">
-    <branch module="leohemsted/smartypants.py/archive/refs/tags/v2.0.1.tar.gz"
-            version="2.0.1"
-            checkoutdir="smartypants-2.0.1"
-            rename-tarball="smartypants-2.0.1.tar.gz"
-            repo="github-tarball" />
-    <dependencies>
-      <dep package="python3" />
-    </dependencies>
-  </distutils>
-  <!---->
   <distutils id="wheel">
     <branch module="fc/ef/0335f7217dd1e8096a9e8383e1d472aa14717878ffe07c4772e68b6e8735/wheel-0.40.0.tar.gz"
             version="0.40.0"
@@ -162,5 +64,4 @@
       <dep package="python3" />
     </dependencies>
   </distutils>
-  <!---->
 </moduleset>
