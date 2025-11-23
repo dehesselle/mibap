@@ -43,24 +43,19 @@ build:
   extends: .build
   parallel:
     matrix:
-      - RUNNER: [ "macosintel", "macosarm" ]
+      - ARCHITECTURE: [ "arm64", "x86_64" ]
   rules:
-    - if: $RUNNER == "macosintel"
+    - if: $ARCHITECTURE == "x86_64"
       variables:
         SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
-    - if: $RUNNER == "macosarm"
+    - if: $ARCHITECTURE == "arm64"
       variables:
         SDKROOT: /opt/sdks/MacOSX11.3.sdk
   tags:
-    - ${RUNNER}
-  after_script:
-    # Cleanup is necessary for persistent runners but can be disabled for
-    # debugging purposes. (the number is not random, it's the project ID)
-    - |
-      source jhb/etc/jhb.conf.sh
-      if [ ! -f "$WRK_DIR"/no_cleanup-47632031 ]; then
-        rm -rf "${VER_DIR:?}"
-      fi
+    - macos
+    - ${ARCHITECTURE}
+  variables:
+    ORKA_RUNNER: sonoma-2
 
 #----------------------------------------------------------------------- release
 
