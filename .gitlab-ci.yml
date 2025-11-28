@@ -55,7 +55,7 @@ build:
     - macos
     - ${ARCHITECTURE}
   variables:
-    ORKA_RUNNER: sonoma-2
+    ORKA_RUNNER: sonoma-3
 
 #----------------------------------------------------------------------- release
 
