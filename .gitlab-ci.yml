@@ -5,8 +5,6 @@
 variables:
   GIT_DEPTH: 1
   GIT_SUBMODULE_STRATEGY: recursive
-  WRK_DIR: /Users/Shared/work
-  CCACHE_DIR: /Users/Shared/work/ccache
 
 stages:
   - build
@@ -19,8 +17,34 @@ include:
 
 # Built the toolset, from sources to dmg.
 
-.build:
+build:
   stage: build
+  parallel:
+    matrix:
+      - ARCHITECTURE: [ "arm64", "x86_64" ]
+  rules:
+    - if: $ARCHITECTURE == "x86_64"
+      variables:
+        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
+    - if: $ARCHITECTURE == "arm64"
+      variables:
+        SDKROOT: /opt/sdks/MacOSX11.3.sdk
+  tags:
+    - macos
+    - ${ARCHITECTURE}
+  cache:
+    - key: ccache-$CI_JOB_NAME_SLUG-$CI_COMMIT_REF_SLUG
+      paths:
+        - ccache
+  variables:
+      CCACHE_DIR: $CI_PROJECT_DIR/ccache
+      ORKA_RUNNER: sonoma-3
+      WRK_DIR: /Users/Shared/work
+  before_script:
+    - |
+      if [ "$ARCHITECTURE" = "x86_64" ]; then
+        export CCACHE_DIR=/Users/Shared/work/ccache
+      fi
   script:
     - !reference [ .verify_sdk, script ]
     - ./build_toolset.sh
@@ -35,27 +59,10 @@ include:
       rm -rf "${HOME:?}"/.{cargo,rustup}
       rm -rf "${BIN_DIR:?}"/{cargo,rust}*
     - jhb/usr/bin/archive create_dmg
+    - rm -rf "${VER_DIR:?}"
   artifacts:
     paths:
       - mibap*.dmg
-
-build:
-  extends: .build
-  parallel:
-    matrix:
-      - ARCHITECTURE: [ "arm64", "x86_64" ]
-  rules:
-    - if: $ARCHITECTURE == "x86_64"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX10.13.4.sdk
-    - if: $ARCHITECTURE == "arm64"
-      variables:
-        SDKROOT: /opt/sdks/MacOSX11.3.sdk
-  tags:
-    - macos
-    - ${ARCHITECTURE}
-  variables:
-    ORKA_RUNNER: sonoma-3
 
 #----------------------------------------------------------------------- release
 
