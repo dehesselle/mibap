@@ -247,7 +247,7 @@ function ink_pipinstall_numpy
 {
   find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
     '(' -name "*.so" -o -name "*.dylib" ')' \
-    -exec codesign --remove-signature {} \;
+    -exec codesign --force -s - {} \;
 
   find "$INK_APP_LIB_DIR/python$INK_PYTHON_VER/site-packages/numpy" \
     -name "*.a" -delete
