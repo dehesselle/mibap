@@ -91,7 +91,7 @@ Contents/MacOS/Python"
 
 # Install wheels.
 ink_pipinstall INK_PYTHON_PKG_AIIMPORT       # AI import extension
-ink_pipinstall INK_PYTHON_PKG_APPDIRS        # extension manager
+ink_pipinstall INK_PYTHON_PKG_PLATFORMDIRS   # extension manager
 ink_pipinstall INK_PYTHON_PKG_BEAUTIFULSOUP4 # extension manager
 ink_pipinstall INK_PYTHON_PKG_CACHECONTROL   # extension manager
 ink_pipinstall INK_PYTHON_PKG_CSSSELECT      #
