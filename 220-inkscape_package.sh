@@ -32,13 +32,13 @@ error_trace_enable
 
 svg2icns \
   "$INK_DIR"/share/branding/inkscape-mac.svg \
-  "$TMP_DIR"/Inkscape.icns
+  "$DIR_TMP"/Inkscape.icns
 
 #----------------------------------------------------- create application bundle
 
-tar -C "$TMP_DIR" -xJf "$PKG_DIR/$(basename "${INK_PYTHON_URL}")"
+tar -C "$DIR_TMP" -xJf "$DIR_PKG/$(basename "${INK_PYTHON_URL}")"
 
-abcreate create -i "$VER_DIR" -o "$ART_DIR" \
+abcreate create -i "$DIR_VERSION" -o "$DIR_ARTIFACT" \
     "$SELF_DIR"/resources/applicationbundle.xml
 
 #------------------------------------------------------------- modify Info.plist
@@ -83,9 +83,10 @@ cp "$INK_DIR"/packaging/macos/res/*.icns "$INK_APP_RES_DIR"
 ink_configure_python
 
 # Add rpath to find libraries.
-lib_add_rpath @executable_path/../../../../../Frameworks \
+install_name_tool -add_rpath "@executable_path/../../../../../Frameworks" \
   "$INK_APP_FRA_DIR/Python.framework/Versions/Current/bin/python$INK_PYTHON_VER"
-lib_add_rpath @executable_path/../../../../../../../../Frameworks \
+install_name_tool -add_rpath "@executable_path/../../../../../../../../\
+Frameworks" \
   "$INK_APP_FRA_DIR/Python.framework/Versions/Current/Resources/Python.app/\
 Contents/MacOS/Python"
 

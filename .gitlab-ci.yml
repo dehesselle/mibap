@@ -15,7 +15,7 @@ workflow:
 variables:
   GIT_DEPTH: 1
   GIT_SUBMODULE_STRATEGY: recursive
-  WRK_DIR: /Users/Shared/work
+  DIR_WORK: /Users/Shared/work
   CCACHE_DIR: /Users/Shared/work/ccache
 
 stages:

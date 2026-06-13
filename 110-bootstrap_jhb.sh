@@ -33,7 +33,7 @@ function preload
   local source_dir=$1
 
   source "$SELF_DIR/jhb/etc/jhb.conf.sh"
-  mkdir -p "$PKG_DIR"
+  mkdir -p "$DIR_PKG"
 
   echo "using PACKAGE_CACHE_DIR=$PACKAGE_CACHE_DIR"
 
@@ -41,7 +41,7 @@ function preload
 self::meson]"
 
   # Iterate over every module in every moduleset and check if the file is
-  # available in source_dir. If it is, copy it to PKG_DIR.
+  # available in source_dir. If it is, copy it to DIR_PKG.
   for modules in "$SELF_DIR"/jhb/etc/modulesets/jhb/*.modules \
                  "$SELF_DIR"/modulesets/*.modules; do
     local count
@@ -60,7 +60,7 @@ $xp_elements[$i]/branch/@module)" "$modules")
 
       package=$source_dir/$(basename "$package")
       if [ -f "$package" ]; then
-        cp "$package" "$PKG_DIR"
+        cp "$package" "$DIR_PKG"
       fi
       ((i++))
     done
@@ -73,7 +73,7 @@ if [ -d "$PACKAGE_CACHE_DIR" ]; then
   preload "$PACKAGE_CACHE_DIR"
 fi
 
-mkdir -p "$ETC_DIR"/modulesets/jhb
-cp "$SELF_DIR"/modulesets/jhbuildrc.jhb "$ETC_DIR"/modulesets/jhb/jhbuildrc
+mkdir -p "$DIR_ETC"/modulesets/jhb
+cp "$SELF_DIR"/modulesets/jhbuildrc.jhb "$DIR_ETC"/modulesets/jhb/jhbuildrc
 
 "$SELF_DIR"/jhb/usr/bin/bootstrap

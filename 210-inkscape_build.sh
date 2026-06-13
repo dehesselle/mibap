@@ -7,7 +7,7 @@
 ### description ################################################################
 
 # Build and install Inkscape. For non-CI builds, this will build Inkscape
-# master branch. Installation prefix is VER_DIR.
+# master branch. Installation prefix is DIR_VERSION.
 
 ### shellcheck #################################################################
 
@@ -67,8 +67,8 @@ cd "$INK_BLD_DIR" || exit 1
 cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
   -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-  -DCMAKE_PREFIX_PATH="$VER_DIR" \
-  -DCMAKE_INSTALL_PREFIX="$VER_DIR" \
+  -DCMAKE_PREFIX_PATH="$DIR_VERSION" \
+  -DCMAKE_INSTALL_PREFIX="$DIR_VERSION" \
   -GNinja \
   "$INK_DIR"
 

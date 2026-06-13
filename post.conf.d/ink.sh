@@ -35,7 +35,7 @@ if [ "$CI_PROJECT_NAME" = "inkscape" ]; then # running in Inkscape's CI
 else # not running in Inkscape's CI
   # Use default directory if not provided.
   if [ -z "$INK_DIR" ]; then
-    INK_DIR=$SRC_DIR/inkscape
+    INK_DIR=$DIR_SRC/inkscape
   fi
 
   # Allow using a custom Inkscape repository and branch.
@@ -49,7 +49,7 @@ else # not running in Inkscape's CI
   fi
 fi
 
-INK_BLD_DIR=$BLD_DIR/$(basename "$INK_DIR") # we build out-of-tree
+INK_BLD_DIR=$DIR_BUILD/$(basename "$INK_DIR") # we build out-of-tree
 
 #------------------------------------------------------------------ build number
 
@@ -153,7 +153,7 @@ INK_PYTHON_PKG_TINYCSS2=tinycss2==1.3.0
 
 #------------------------------------------- application bundle directory layout
 
-INK_APP_DIR=$ART_DIR/Inkscape.app
+INK_APP_DIR=$DIR_ARTIFACT/Inkscape.app
 
 INK_APP_CON_DIR=$INK_APP_DIR/Contents
 INK_APP_RES_DIR=$INK_APP_CON_DIR/Resources
@@ -216,7 +216,7 @@ function ink_pipinstall
       package=$(eval echo "${package/==/-}"*.whl)
     fi
 
-    wheels="$wheels $PKG_DIR/$package"
+    wheels="$wheels $DIR_PKG/$package"
   done
 
   (
@@ -265,13 +265,13 @@ function ink_pipinstall_pyserial
 
 function ink_download_python
 {
-  curl -o "$PKG_DIR"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
-  curl -o "$PKG_DIR"/"$(basename "$INK_PYTHON_ICON_URL")" \
+  curl -o "$DIR_PKG"/"$(basename "${INK_PYTHON_URL%\?*}")" -L "$INK_PYTHON_URL"
+  curl -o "$DIR_PKG"/"$(basename "$INK_PYTHON_ICON_URL")" \
     -L "$INK_PYTHON_ICON_URL"
 
   # Exclude the above from cleanup procedure.
   for url in $INK_PYTHON_URL $INK_PYTHON_ICON_URL; do
-    basename "$url" >> "$PKG_DIR"/.keep
+    basename "$url" >> "$DIR_PKG"/.keep
   done
 }
 
@@ -286,7 +286,7 @@ python$INK_PYTHON_VER/site-packages/inkscape.pth"
 
   # use custom icon for Python.app
   svg2icns \
-    "$PKG_DIR/$(basename "$INK_PYTHON_ICON_URL")" \
+    "$DIR_PKG/$(basename "$INK_PYTHON_ICON_URL")" \
     "$INK_APP_FRA_DIR/Python.framework/Resources/Python.app/Contents/\
 Resources/PythonInterpreter.icns"
 }
@@ -294,10 +294,10 @@ Resources/PythonInterpreter.icns"
 function ink_build_wheels
 {
   # create a venv based on Python.framework
-  # shellcheck disable=SC2153 # TMP_DIR is a global variable
-  local tmp_dir=$TMP_DIR/${FUNCNAME[0]}
+  # shellcheck disable=SC2153 # DIR_TMP is a global variable
+  local tmp_dir=$DIR_TMP/${FUNCNAME[0]}
   mkdir -p "$tmp_dir"
-  tar -C "$tmp_dir" -xJf "$PKG_DIR/$(basename "${INK_PYTHON_URL}")"
+  tar -C "$tmp_dir" -xJf "$DIR_PKG/$(basename "${INK_PYTHON_URL}")"
   "$tmp_dir"/Python.framework/Versions/Current/bin/python3 \
       -m venv "$tmp_dir"/venv
 
@@ -316,7 +316,7 @@ function ink_build_wheels
           if [[ $package != *$(uname -m).whl ]]; then
             continue # skip package for different architecture
           fi
-          pip3 download -d "$PKG_DIR" "$package"
+          pip3 download -d "$DIR_PKG" "$package"
         elif [ "${package:1:1}" = "-" ]; then
           options="$options $package"
         else
@@ -329,8 +329,8 @@ function ink_build_wheels
         pip3 wheel \
           --no-binary :all: \
           --use-feature=no-binary-enable-wheel-cache \
-          -w "$PKG_DIR" \
-          -f "$PKG_DIR" \
+          -w "$DIR_PKG" \
+          -f "$DIR_PKG" \
           $options \
           $packages
         packages=""
@@ -338,8 +338,8 @@ function ink_build_wheels
     done
 
     # Exclude wheels from cleanup procedure.
-    find "$PKG_DIR" -type f -name '*.whl' \
-      -exec bash -c 'basename "$1" >> "${2:?}"/.keep' _ {} "$PKG_DIR" \;
+    find "$DIR_PKG" -type f -name '*.whl' \
+      -exec bash -c 'basename "$1" >> "${2:?}"/.keep' _ {} "$DIR_PKG" \;
   )
 
   rm -rf "${tmp_dir:?}"

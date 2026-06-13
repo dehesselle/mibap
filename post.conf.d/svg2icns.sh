@@ -27,14 +27,14 @@ function svg2icns
   local icns_file=$2
 
   local png_file
-  png_file=$TMP_DIR/$(basename -s .svg "$svg_file").png
+  png_file=$DIR_TMP/$(basename -s .svg "$svg_file").png
 
   # svg to png
   jhb run rsvg-convert -w 1024 -h 1024 "$svg_file" -o "$png_file"
 
   # png to icns
   local iconset
-  iconset=$TMP_DIR/$(basename -s .icns "$icns_file").iconset
+  iconset=$DIR_TMP/$(basename -s .icns "$icns_file").iconset
   mkdir "$iconset"
   for resolution in 1024 512 256 128 64 32 16; do
     sips -s format png --resampleWidth $resolution "$png_file" \

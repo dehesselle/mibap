@@ -75,7 +75,8 @@
     binary<->decimal routines for IEEE doubles
     https://github.com/google/double-conversion
   -->
-  <cmake id="doubleconversion">
+  <cmake id="doubleconversion"
+         cmakeargs="-DCMAKE_POLICY_VERSION_MINIMUM=3.5">
     <branch module="google/double-conversion/archive/v3.1.5.tar.gz"
             version="3.1.5"
             hash="sha256:a63ecb93182134ba4293fd5f22d6e08ca417caafa244afaa751cbfddf6415b13"
@@ -282,11 +283,11 @@
     OpenJPEG https://github.com/uclouvain/openjpeg
   -->
   <cmake id="openjpeg">
-    <branch module="uclouvain/openjpeg/archive/v2.4.0.tar.gz"
-            version="2.4.0"
-            hash="sha256:8702ba68b442657f11aaeb2b338443ca8d5fb95b0d845757968a7be31ef7f16d"
-            checkoutdir="openjpeg-2.4.0"
-            rename-tarball="openjpeg-2.4.0.tar.gz"
+    <branch module="uclouvain/openjpeg/archive/v2.5.4.tar.gz"
+            version="2.5.4"
+            hash="sha256:a695fbe19c0165f295a8531b1e4e855cd94d0875d2f88ec4b61080677e27188a"
+            checkoutdir="openjpeg-2.5.4"
+            rename-tarball="openjpeg-2.5.4.tar.gz"
             repo="github" />
     <dependencies>
       <dep package="lcms" />

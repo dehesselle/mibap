@@ -40,7 +40,7 @@ LD_LIBRARY_PATH=$LIB_DIR convert \
   -draw "text 40,275 'Unsigned development version!'" \
   -pointsize 14 \
   -draw "text 40,292 'xattr -r -d com.apple.quarantine Inkscape.app'" \
-  "$SRC_DIR"/inkscape_dmg.png
+  "$DIR_SRC"/inkscape_dmg.png
 
 # Create the disk image.
-dmgbuild_run "$SELF_DIR"/resources/inkscape_dmg.py "$INK_APP_PLIST"
+venvtools_dmgbuild "$SELF_DIR"/resources/inkscape_dmg.py "$INK_APP_PLIST"
