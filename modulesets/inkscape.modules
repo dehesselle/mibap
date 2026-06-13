@@ -32,7 +32,7 @@
               href="https://poppler.freedesktop.org/"
               type="tarball" />
   <repository name="sourceforge"
-              href="https://netcologne.dl.sourceforge.net/project/"
+              href="https://downloads.sourceforge.net/project/" 
               type="tarball" />
   <!---->
   <include href="gtk-osx.modules" />
@@ -364,9 +364,9 @@
   -->
   <autotools id="fig2dev"
              autogen-sh="configure">
-    <branch module="mcj/fig2dev-3.2.8b.tar.xz"
-            version="3.2.8b"
-            hash="sha256:418a164aa9fad72d25bb4fec8d7b452fe3a2f12f990cf22e05c0eb16cecb68cb"
+    <branch module="mcj/fig2dev-3.2.9a.tar.xz"
+            version="3.2.9a"
+            hash="sha256:61e185393176852f03b901b3b05b19fbc5ad8258ff142f3da6e70b1b83513326"
             repo="sourceforge" />
   </autotools>
   <!---->
