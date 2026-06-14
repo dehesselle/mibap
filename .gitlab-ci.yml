@@ -46,7 +46,7 @@ build:
       ./120-build_gtk4.sh
       ./130-build_inkdeps.sh
     # Artifact size needs to stay below 1 GiB for GitLab.
-    - jhb/usr/bin/jhb run rustup self uninstall -y || true
+    - jhb/usr/bin/jhb run rustup self uninstall -y
     - jhb/usr/bin/archive remove_nonessentials
     - jhb/usr/bin/archive create_dmg
   artifacts:
