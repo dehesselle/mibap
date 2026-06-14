@@ -44,15 +44,15 @@ jhb configure "$SELF_DIR"/modulesets/inkscape.modules
 # or clone the sources there.
 if [ "$CI_PROJECT_NAME" != "inkscape" ]; then
 
-  if [ -d "$INK_DIR" ]; then # Sourcecode directory already there?
-    echo_i "using existing source $INK_DIR"
+  if [ -d "$INK_SRC_DIR" ]; then # Sourcecode directory already there?
+    echo_i "using existing source $INK_SRC_DIR"
   else
     git clone \
       --branch "$INK_BRANCH" \
       --depth 10 \
       --recurse-submodules \
       --single-branch \
-      "$INK_URL" "$INK_DIR"
+      "$INK_URL" "$INK_SRC_DIR"
   fi
 
   # Ensure a clean build by removing files from a previous one if they exist.
@@ -70,7 +70,7 @@ cmake \
   -DCMAKE_PREFIX_PATH="$DIR_VERSION" \
   -DCMAKE_INSTALL_PREFIX="$DIR_VERSION" \
   -GNinja \
-  "$INK_DIR"
+  "$INK_SRC_DIR"
 
 ninja
 ninja install

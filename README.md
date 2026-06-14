@@ -106,12 +106,12 @@ The build system being used is [JHBuild](https://gitlab.gnome.org/GNOME/jhbuild)
    The mounted volume won't show up in Finder (on purpose) but you can see it using `diskutil list`.  
    A temporary file ending in `.dmg.shadow` will be created in `/Users/Shared/work` and will be automatically discarded when uninstalling.
 
-1. Set `INK_DIR` to your clone of Inkscape's repository and start the build.
+1. Set `INK_SRC_DIR` to your clone of Inkscape's repository and start the build.
 
    ```bash
    # Clone Inkscape's sources if you haven't done this yet:
    # git clone --recurse-submodules https://gitlab.com/inkscape/inkscape $HOME/inkscape
-   export INK_DIR=$HOME/inkscape
+   export INK_SRC_DIR=$HOME/inkscape
    ./210-inkscape_build.sh
    ./220-inkscape_package.sh
    ./230-inkscape_distrib.sh

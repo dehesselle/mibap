@@ -22,20 +22,20 @@
 # There are 3 possible scenarios:
 #
 #   1. We're running inside Inkscape's CI:
-#      The repository has already been cloned, set INK_DIR accordingly.
+#      The repository has already been cloned, set INK_SRC_DIR accordingly.
 #
-#   2. We're not running inside Inkscape's CI and INK_DIR has been set:
-#      Use INK_DIR provided as-is, we expect the source to be there.
+#   2. We're not running inside Inkscape's CI and INK_SRC_DIR has been set:
+#      Use INK_SRC_DIR provided as-is, we expect the source to be there.
 #
-#   3. We're not running inside Inkscape's CI CI and INK_DIR has not been set:
-#      Set INK_DIR to our default location, we'll clone the repo there.
+#   3. We're not running inside Inkscape's CI and INK_SRC_DIR has not been set:
+#      Set INK_SRC_DIR to our default location, we'll clone the repo there.
 
 if [ "$CI_PROJECT_NAME" = "inkscape" ]; then # running in Inkscape's CI
-  INK_DIR=$CI_PROJECT_DIR
+  INK_SRC_DIR=$CI_PROJECT_DIR
 else # not running in Inkscape's CI
   # Use default directory if not provided.
-  if [ -z "$INK_DIR" ]; then
-    INK_DIR=$DIR_SRC/inkscape
+  if [ -z "$INK_SRC_DIR" ]; then
+    INK_SRC_DIR=$DIR_SRC/inkscape
   fi
 
   # Allow using a custom Inkscape repository and branch.
@@ -49,7 +49,7 @@ else # not running in Inkscape's CI
   fi
 fi
 
-INK_BLD_DIR=$DIR_BUILD/$(basename "$INK_DIR") # we build out-of-tree
+INK_BLD_DIR=$DIR_BUILD/$(basename "$INK_SRC_DIR") # we build out-of-tree
 
 #------------------------------------------------------------------ build number
 
@@ -170,7 +170,7 @@ INK_APP_PLIST=$INK_APP_CON_DIR/Info.plist
 
 function ink_get_version
 {
-  local file=$INK_DIR/CMakeLists.txt
+  local file=$INK_SRC_DIR/CMakeLists.txt
   local ver_major
   ver_major=$(grep INKSCAPE_VERSION_MAJOR "$file" | head -n 1 |
     awk '{ print $2+0 }')
@@ -193,7 +193,7 @@ function ink_get_version
 function ink_get_repo_shorthash
 {
   # do it the same way as in CMakeScripts/inkscape-version.cmake
-  git -C "$INK_DIR" rev-parse --short HEAD
+  git -C "$INK_SRC_DIR" rev-parse --short HEAD
 }
 
 function ink_pipinstall
