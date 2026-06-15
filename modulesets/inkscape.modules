@@ -7,9 +7,6 @@
 
         tidy -config tidy.conf -m inkscape.modules
   -->
-  <repository name="boost"
-              href="https://archives.boost.io/release/"
-              type="tarball" />
   <repository name="freedesktop"
               href="https://gitlab.freedesktop.org/"
               type="tarball" />
@@ -59,18 +56,14 @@
     installation means that JHBuild will (re-)install this everytime
     it gets pulled in.
   -->
-  <autotools id="boost"
-             autogen-sh="bootstrap.sh"
-             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--without-libraries=python"
-             makeargs="|| ./b2 -d0 install"
-             skip-install="yes"
-             supports-non-srcdir-builds="no">
-    <branch module="1.85.0/source/boost_1_85_0.tar.bz2"
+  <cmake id="boost"
+         cmakeargs="-DCMAKE_BUILD_TYPE=Release">
+    <branch module="boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0-cmake.tar.xz"
             version="1.85.0"
-            hash="sha256:7009fe1faa1697476bdc7027703a2badb84e849b7b0baad5086b087b971f8617"
-            repo="boost" />
-  </autotools>
+            hash="sha256:0a9cc56ceae46986f5f4d43fe0311d90cf6d2fa9028258a95cab49ffdacf92ad"
+            checkoutdir="boost-1.85.0"
+            repo="github" />
+  </cmake>
   <!--
     CapyPDF https://github.com/jpakkane/capypdf
   -->
