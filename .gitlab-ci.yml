@@ -38,16 +38,22 @@ build:
     - ${ARCHITECTURE}
   variables:
     ORKA_RUNNER: sequoia-8
-    SDKROOT: /opt/sdks/MacOSX11.3.sdk
+    SDKROOT: /opt/sdks/MacOSX13.3.sdk
   script:
     - !reference [ .verify_sdk, script ]
     - |
       ./110-bootstrap_jhb.sh
       ./120-build_gtk4.sh
       ./130-build_inkdeps.sh
-    # Artifact size needs to stay below 1 GiB for GitLab.
-    - jhb/usr/bin/jhb run rustup self uninstall -y
-    - jhb/usr/bin/archive remove_nonessentials
+    - | # build with the runner's SDK (Sequoia) for C++23 support
+      if [ "$ARCHITECTURE" = "arm64" ]; then
+        unset SDKROOT
+        export MACOSX_DEPLOYMENT_TARGET=13.3
+        ./140-build_capypdf.sh
+      fi
+    - | # Artifact size needs to stay below 1 GiB for GitLab.
+      jhb/usr/bin/jhb run rustup self uninstall -y
+      jhb/usr/bin/archive remove_nonessentials
     - jhb/usr/bin/archive create_dmg
   artifacts:
     paths:

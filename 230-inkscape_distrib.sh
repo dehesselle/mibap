@@ -29,8 +29,8 @@ SELF_DIR=$(dirname "$(greadlink -f "$0")")
 error_trace_enable
 
 # Create background for development snapshots.
-LD_LIBRARY_PATH=$LIB_DIR convert \
-  -size 440x404 canvas:transparent \
+gm convert \
+  -size 440x404 \
   -font Monaco -pointsize 32 -fill black \
   -draw "text 60,55 'Inkscape $(ink_get_version)'" \
   -draw "text 165,172 '>>>'" \
@@ -40,6 +40,7 @@ LD_LIBRARY_PATH=$LIB_DIR convert \
   -draw "text 40,275 'Unsigned development version!'" \
   -pointsize 14 \
   -draw "text 40,292 'xattr -r -d com.apple.quarantine Inkscape.app'" \
+  xc:white \
   "$DIR_SRC"/inkscape_dmg.png
 
 # Create the disk image.
