@@ -80,7 +80,7 @@ INK_PYTHON_PKG_AIIMPORT="\
 "
 
 # https://pypi.org/project/platformdirs
-INK_PYTHON_PKG_APPDIRS=platformdirs==4.5.1
+INK_PYTHON_PKG_PLATFORMDIRS=platformdirs==4.5.1
 
 # https://pypi.org/project/beautifulsoup4/
 # https://pypi.org/project/soupsieve/
