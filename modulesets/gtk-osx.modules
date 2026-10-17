@@ -14,7 +14,7 @@
               href="https://www.cairographics.org/"
               type="tarball" />
   <repository name="fontconfig"
-              href="http://www.freedesktop.org/software/fontconfig/release/"
+              href="http://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/"
               type="tarball" />
   <repository name="hicolor"
               href="https://icon-theme.freedesktop.org/releases/"
@@ -55,24 +55,25 @@
   <autotools id="libffi"
              autogen-sh="configure"
              autogenargs="--disable-multi-os-directory --disable-docs">
-    <branch module="libffi/libffi/releases/download/v3.4.7/libffi-3.4.7.tar.gz"
-            version="3.4.7"
-            hash="sha256:138607dee268bdecf374adf9144c00e839e38541f75f24a1fcf18b78fda48b2d"
+    <branch module="libffi/libffi/releases/download/v3.5.2/libffi-3.5.2.tar.gz"
+            version="3.5.2"
+            hash="sha256:f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
             repo="github-tarball" />
   </autotools>
   <autotools id="libpcre2"
              autogen-sh="configure"
              autogenargs="--enable-pcre2-16 --enable-pcre2-32 --enable-jit">
-    <branch module="PCRE2Project/pcre2/releases/download/pcre2-10.45/pcre2-10.45.tar.bz2"
-            version="10.45"
+    <branch module="PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.gz"
+            version="10.47"
+            hash="sha256:c08ae2388ef333e8403e670ad70c0a11f1eed021fd88308d7e02f596fcd9dc16"
 
             repo="github-tarball" />
   </autotools>
   <meson id="glib-no-introspection"
          mesonargs="-Dlibmount=disabled -Dintrospection=disabled">
-    <branch module="glib/2.83/glib-2.83.4.tar.xz"
-            version="2.83.4"
-            hash="sha256:4edc4dc184f46d1220694b7775c5d7c62265c83b0e9632d844da127c181fc391" >
+    <branch module="glib/2.90/glib-2.90.1.tar.xz"
+            version="2.90.1"
+            hash="sha256:93c941aa17d5eb1d53fe838365f29a8b4e539c222a256d974ec8f30fc413e396" >
     </branch>
     <dependencies>
       <dep package="libffi" />
@@ -82,9 +83,9 @@
   </meson>
   <meson id="glib"
          mesonargs="-Dlibmount=disabled">
-    <branch module="glib/2.83/glib-2.83.4.tar.xz"
-            version="2.83.4"
-            hash="sha256:4edc4dc184f46d1220694b7775c5d7c62265c83b0e9632d844da127c181fc391" >
+    <branch module="glib/2.90/glib-2.90.1.tar.xz"
+            version="2.90.1"
+            hash="sha256:93c941aa17d5eb1d53fe838365f29a8b4e539c222a256d974ec8f30fc413e396" >
     </branch>
     <dependencies>
       <dep package="gobject-introspection" />
@@ -100,9 +101,9 @@
   -->
   <cmake id="freetype-no-harfbuzz"
          cmakeargs='-DFT_DISABLE_HARFBUZZ=ON -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_NAME_DIR="${JHBUILD_PREFIX}/lib"'>
-    <branch module="freetype/freetype-2.13.3.tar.xz"
-            version="2.13.3"
-            hash="sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289"
+    <branch module="freetype/freetype-2.14.3.tar.xz"
+            version="2.14.3"
+            hash="sha256:36bc4f1cc413335368ee656c42afca65c5a3987e8768cc28cf11ba775e785a5f"
             repo="sourceforge" />
     <dependencies>
       <dep package="zlib" />
@@ -112,16 +113,18 @@
              autogen-sh="source/configure"
              autogenargs="--enable-rpath"
              makeargs='CFLAGS="$CFLAGS -DU_CHARSET_IS_UTF8=1 -DU_USING_ICU_NAMESPACE=0"'>
-    <branch module="unicode-org/icu/releases/download/release-76-1/icu4c-76_1-src.tgz"
-            version="76.1"
+    <branch module="unicode-org/icu/releases/download/release-78.3/icu4c-78.3-sources.tgz"
+            version="78.3"
+            hash="sha256:3a2e7a47604ba702f345878308e6fefeca612ee895cf4a5f222e7955fabfe0c0"
 
             checkoutdir="icu"
             repo="github-tarball" />
   </autotools>
   <meson id="harfbuzz-no-cairo"
          mesonargs="-Dcoretext=enabled -Dfreetype=enabled -Ddocs=disabled -Dbenchmark=disabled -Dintrospection=disabled -Dtests=disabled">
-    <branch module="harfbuzz/harfbuzz/releases/download/10.2.0/harfbuzz-10.2.0.tar.xz"
-            version="10.2.0"
+    <branch module="harfbuzz/harfbuzz/releases/download/13.2.1/harfbuzz-13.2.1.tar.xz"
+            version="13.2.1"
+            hash="sha256:6695da3eb7e1be0aa3092fe4d81433a33b47f4519259c759d729e3a9a55c1429"
 
             repo="github-tarball" />
     <dependencies>
@@ -132,9 +135,9 @@
   </meson>
   <cmake id="freetype"
          cmakeargs='-DFT_REQUIRE_HARFBUZZ=ON -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_NAME_DIR="${JHBUILD_PREFIX}/lib"'>
-    <branch module="freetype/freetype-2.13.3.tar.xz"
-            version="2.13.3"
-            hash="sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289"
+    <branch module="freetype/freetype-2.14.3.tar.xz"
+            version="2.14.3"
+            hash="sha256:36bc4f1cc413335368ee656c42afca65c5a3987e8768cc28cf11ba775e785a5f"
             repo="sourceforge" />
     <dependencies>
       <dep package="harfbuzz-no-cairo" />
@@ -143,9 +146,9 @@
   </cmake>
   <meson id="fontconfig"
          mesonargs="-Ddoc=disabled -Ddefault-fonts-dirs=/System/Library/Fonts -Dadditional-fonts-dirs=/Library/Fonts">
-    <branch module="fontconfig-2.16.0.tar.xz"
-            version="2.16.0"
-            hash="sha256:6a33dc555cc9ba8b10caf7695878ef134eeb36d0af366041f639b1da9b6ed220"
+    <branch module="fontconfig/2.17.1/fontconfig-2.17.1.tar.xz"
+            version="2.17.1"
+            hash="sha256:9f5cae93f4fffc1fbc05ae99cdfc708cd60dfd6612ffc0512827025c026fa541"
             repo="fontconfig" />
     <dependencies>
       <dep package="freetype" />
@@ -153,8 +156,8 @@
   </meson>
   <meson id="pixman"
          mesonargs="-Dgtk=disabled -Dmmx=disabled -Da64-neon=disabled">
-    <branch module="releases/pixman-0.44.2.tar.gz"
-            version="0.44.2"
+    <branch module="releases/pixman-0.46.4.tar.gz"
+            version="0.46.4"
 
             repo="cairographics" />
     <after>
@@ -166,9 +169,9 @@
        they are both built into cairo. -->
   <meson id="cairo"
          mesonargs="-Dfontconfig=enabled -Dfreetype=enabled">
-    <branch module="releases/cairo-1.18.2.tar.xz"
-            version="1.18.2"
-            hash="sha256:a62b9bb42425e844cc3d6ddde043ff39dbabedd1542eba57a2eb79f85889d45a"
+    <branch module="releases/cairo-1.18.6.tar.xz"
+            version="1.18.6"
+            hash="sha256:1c767308174337a74694da0f3ec069c271452163a1ef4540964c50c301f157d4"
             repo="cairographics" />
     <dependencies>
       <dep package="pixman" />
@@ -178,9 +181,9 @@
     </dependencies>
   </meson>
   <meson id="gobject-introspection">
-    <branch module="gobject-introspection/1.82/gobject-introspection-1.82.0.tar.xz"
-            version="1.82.0"
-            hash="sha256:0f5a4c1908424bf26bc41e9361168c363685080fbdb87a196c891c8401ca2f09">
+    <branch module="gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz"
+            version="1.86.0"
+            hash="sha256:920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae">
     </branch>
     <dependencies>
       <dep package="glib-no-introspection" />
@@ -192,8 +195,9 @@
   </meson>
   <meson id="harfbuzz"
          mesonargs="-Dcoretext=enabled -Dfreetype=enabled -Ddocs=disabled -Dbenchmark=disabled -Dintrospection=enabled -Dtests=disabled">
-    <branch module="harfbuzz/harfbuzz/releases/download/10.2.0/harfbuzz-10.2.0.tar.xz"
-            version="10.2.0"
+    <branch module="harfbuzz/harfbuzz/releases/download/13.2.1/harfbuzz-13.2.1.tar.xz"
+            version="13.2.1"
+            hash="sha256:6695da3eb7e1be0aa3092fe4d81433a33b47f4519259c759d729e3a9a55c1429"
 
             repo="github-tarball" />
     <dependencies>
@@ -214,9 +218,9 @@
   </meson>
   <meson id="pango"
          mesonargs="-Dfontconfig=enabled -Dintrospection=enabled">
-    <branch module="pango/1.56/pango-1.56.1.tar.xz"
-            version="1.56.1"
-            hash="sha256:426be66460c98b8378573e7f6b0b2ab450f6bb6d2ec7cecc33ae81178f246480" />
+    <branch module="pango/1.58/pango-1.58.2.tar.xz"
+            version="1.58.2"
+            hash="sha256:342385b6ca3b7c73455d7c80a13b7dbe4489e00bc3bd4c5bd6ed4dce421e374a" />
     <dependencies>
       <dep package="glib" />
       <dep package="cairo" />
@@ -239,9 +243,9 @@
   </meson>
   <meson id="gdk-pixbuf"
          mesonargs="-Drelocatable=true -Dman=false">
-    <branch module="gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz"
-            version="2.42.12"
-            hash="sha256:b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7">
+    <branch module="gdk-pixbuf/2.44/gdk-pixbuf-2.44.5.tar.xz"
+            version="2.44.5"
+            hash="sha256:69b93e09139b80c0ee661503d60deb5a5874a31772b5184b9cd5462a4100ab68">
       <patch file="gdk-pixbuf-loader-name.patch"
              strip="1" />
     </branch>
@@ -279,9 +283,9 @@
   <meson id="gtk-4"
          mesonargs="-Dx11-backend=false -Dmedia-gstreamer=disabled -Dvulkan=disabled">
          
-    <branch module="gtk/4.20/gtk-4.20.2.tar.xz"
-            version="4.20.2"
-            hash="sha256:5e8240edecafaff2b8baf4663bdceaa668ef10a207bee4d7f90e010e10bddc5c" />
+    <branch module="gtk/4.24/gtk-4.24.1.tar.xz"
+            version="4.24.1"
+            hash="sha256:e98abe720e16129c8c0f50761dee0a2e9ae2478055e31018f6cf977fcf6513e9" />
     <dependencies>
       <dep package="pango" />
       <dep package="atk" />
@@ -310,9 +314,9 @@
     </dependencies>
   </autotools>
   <meson id="adwaita-icon-theme">
-    <branch module="adwaita-icon-theme/47/adwaita-icon-theme-47.0.tar.xz"
-            version="47.0"
-            hash="sha256:ad088a22958cb8469e41d9f1bba0efb27e586a2102213cd89cc26db2e002bdfe" />
+    <branch module="adwaita-icon-theme/50/adwaita-icon-theme-50.0.tar.xz"
+            version="50.0"
+            hash="sha256:fac6e0401fca714780561a081b8f7e27c3bc1db34ebda4da175081f26b24d460" />
     <dependencies>
       <dep package="librsvg" />
     </dependencies>

@@ -1,0 +1,23 @@
+patch copied from MacPorts
+https://github.com/macports/macports-ports/blob/e63c8517894250a6d5702e309a408eb7c80341cc/devel/gnutls/files/CRAU_MAYBE_UNUSED.patch
+It fixes building on Ventura because of old clang
+--- a/lib/crau/crau.h	2026-04-29 09:33:25.000000000 -0500
++++ b/lib/crau/crau.h	2026-04-30 21:06:11.000000000 -0500
+@@ -255,10 +255,16 @@
+ #    if __has_c_attribute (__maybe_unused__)
+ #     define CRAU_MAYBE_UNUSED [[__maybe_unused__]]
+ #    endif
+-#   elif defined(__GNUC__)
++#   endif
++#  endif /* CRAU_MAYBE_UNUSED */
++#  ifndef CRAU_MAYBE_UNUSED
++#   ifdef __GNUC__
+ #    define CRAU_MAYBE_UNUSED __attribute__((__unused__))
+ #   endif
+ #  endif /* CRAU_MAYBE_UNUSED */
++#  ifndef CRAU_MAYBE_UNUSED
++#   define CRAU_MAYBE_UNUSED
++#  endif /* CRAU_MAYBE_UNUSED */
+ 
+ void crau_push_context(struct crau_context_stack_st *stack CRAU_MAYBE_UNUSED,
+ 		       long context CRAU_MAYBE_UNUSED)

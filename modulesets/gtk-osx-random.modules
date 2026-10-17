@@ -24,9 +24,9 @@
   <include href="../jhb/gtk-osx-random.modules" />
   <meson id="gtksourceview4"
          mesonargs="-Dintrospection=disabled">
-    <branch module="gtksourceview/5.12/gtksourceview-5.12.1.tar.xz"
-            version="5.12.1"
-            hash="sha256:84c82aad985c5aadae7cea7804904a76341ec82b268d46594c1a478f39b42c1f" />
+    <branch module="gtksourceview/5.20/gtksourceview-5.20.0.tar.xz"
+            version="5.20.0"
+            hash="sha256:e38bcd23f52b86eadf0fe4d8bde698e3a8ca102322b8b4cf1a51ac294a448c1b" />
     <dependencies>
       <dep package="gtk-4" />
       <dep package="libpcre2" />
@@ -36,9 +36,9 @@
     <autotools id="sqlite"
              autogen-sh="configure"
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s">
-    <branch module="2025/sqlite-autoconf-3490100.tar.gz"
-            version="3.49.1"
-            hash="sha256:106642d8ccb36c5f7323b64e4152e9b719f7c0215acf5bfeac3d5e7f97b59254"
+    <branch module="2026/sqlite-autoconf-3530000.tar.gz"
+            version="3.53.0"
+            hash="sha256:851e9b38192fe2ceaa65e0baa665e7fa06230c3d9bd1a6a9662d02380d73365a"
             repo="sqlite" >
       <patch file="sqlite3-install-name.patch" strip="1" />
     </branch>
@@ -52,9 +52,9 @@
   <autotools id="enchant"
              autogen-sh="configure"
              autogenargs="--enable-relocatable">
-    <branch module="rrthomas/enchant/releases/download/v2.8.10/enchant-2.8.10.tar.gz"
-            version="2.8.10"
-            hash="sha256:6db791265ace652c63a6d24f376f4c562b742284d70d3ccb9e1ce8be45b288c9"
+    <branch module="rrthomas/enchant/releases/download/v2.8.15/enchant-2.8.15.tar.gz"
+            version="2.8.15"
+            hash="sha256:d3fd9e4170bfb5110b0bda577fe764a38fb606b3c25d2f0c3840234521ff1252"
             repo="github-tarball">
       <patch file="enchant-no_groff.patch"
              strip="1" />
@@ -75,15 +75,22 @@
   </autotools>
   <!---->
   <autotools id="libxml2"
-             autogen-sh="autoreconf"
              autogenargs='--libdir="$JHBUILD_LIBDIR" --with-python'>
-             
-    <branch module="libxml2/2.11/libxml2-2.11.5.tar.xz"
-            version="2.11.5"
-            hash="sha256:3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6" />
+    <branch module="libxml2/2.15/libxml2-2.15.2.tar.xz"
+            version="2.15.2"
+            hash="sha256:c8b9bc81f8b590c33af8cc6c336dbff2f53409973588a351c95f1c621b13d09d" />
     <after>
       <dep package="python3" />
     </after>
+    <dependencies>
+      <dep package="doxygen" />
+    </dependencies>
   </autotools>
   <!---->
+  <cmake id="doxygen">
+    <branch module="doxygen/doxygen/releases/download/Release_1_18_0/doxygen-1.18.0.src.tar.gz"
+            version="1.18.0"
+            hash="sha256:a1deed70a6785bbec95a2b2a9e419dc7f7b223a9d74a8644ae611c8e2dcdd354"
+            repo="github-tarball" />
+  </cmake>
 </moduleset>

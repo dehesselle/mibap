@@ -132,8 +132,8 @@ INK_PYTHON_PKG_PILLOW=pillow==9.4.0
 # https://pypi.org/project/pycairo/
 # https://pypi.org/project/PyGObject/
 INK_PYTHON_PKG_PYGOBJECT="\
-  pygobject==3.44.0\
-  pycairo==1.23.0\
+  pygobject==3.56.2\
+  pycairo==1.29.0\
 "
 
 # https://pypi.org/project/pyserial/
