@@ -281,7 +281,7 @@
     </dependencies>
   </meson>
   <meson id="gtk-4"
-         mesonargs="-Dx11-backend=false -Dmedia-gstreamer=disabled -Dvulkan=disabled">
+         mesonargs="-Dx11-backend=false -Dmedia-gstreamer=disabled -Dintrospection=enabled -Dvulkan=disabled">
          
     <branch module="gtk/4.24/gtk-4.24.1.tar.xz"
             version="4.24.1"
@@ -290,6 +290,7 @@
       <dep package="pango" />
       <dep package="atk" />
       <dep package="gdk-pixbuf" />
+      <dep package="gobject-introspection" />
       <dep package="graphene" />
       <dep package="libepoxy" />
       <dep package="librsvg" />
