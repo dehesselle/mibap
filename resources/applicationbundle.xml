@@ -17,6 +17,7 @@
     <icon>tmp/Inkscape.icns</icon>
   </icons>
   <libraries>
+    <library>libgirepository-2.0.0.dylib</library>
     <library>libgtksourceview-5.0.dylib</library>
     <library>libreadline.8.dylib</library>
   </libraries>
