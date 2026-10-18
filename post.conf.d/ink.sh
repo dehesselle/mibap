@@ -231,7 +231,7 @@ function ink_pipinstall
   )
 
   local ink_pipinstall_func
-  ink_pipinstall_func=zim_pipinstall_$(echo "${packages##*_}" |
+  ink_pipinstall_func=ink_pipinstall_$(echo "${packages##*_}" |
     tr "[:upper:]" "[:lower:]")
 
   if declare -F "$ink_pipinstall_func" > /dev/null; then
