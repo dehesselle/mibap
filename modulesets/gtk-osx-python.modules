@@ -132,7 +132,7 @@
   <pip id="smartypants">
     <branch module="leohemsted/smartypants.py/archive/refs/tags/v2.0.2.tar.gz"
             version="2.0.2"
-            hash="sha256:sha256:39d64ce1d7cc6964b698297bdf391bc12c3251b7f608e6e55d857cd7c5f800c6"
+            hash="sha256:560ae7485a27c288f5bd63131f5c3c7b8f0745f50e7c3f85f0bbc65d87799d19"
             checkoutdir="smartypants-2.0.2"
             rename-tarball="smartypants-2.0.2.tar.gz"
             repo="github-tarball" />
