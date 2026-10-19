@@ -115,6 +115,19 @@
     </branch>
   </autotools>
   <!--
+    Glycin https://gitlab.gnome.org/GNOME/glycin
+  -->
+  <meson id="glycin"
+         mesonargs="-Dvapi=false">
+    <branch module="glycin/2.2/glycin-2.2.3.tar.xz"
+            version="2.2.3"
+            hash="sha256:a767776442fce1fea7bda0178b4c443d241c33ac72e0ef83c6e06caeaaa7d9fa"
+            repo="gnome_web" />
+    <dependencies>
+      <dep package="rust"/>
+    </dependencies>
+  </meson>
+  <!--
     Google Testing and Mocking Framework https://github.com/google/googletest
   -->
   <cmake id="googletest">
@@ -250,6 +263,7 @@
       <dep package="doubleconversion" />
       <dep package="fig2dev" />
       <dep package="ghostscript" />
+      <dep package="glycin" />
       <dep package="googletest" />
       <dep package="gsl" />
       <dep package="gtksourceview4" />
@@ -334,7 +348,7 @@
     a cmake file introduced by that patch below.
   -->
   <cmake id="rust"
-         cmakeargs="-DVERSION=1.67.1"
+         cmakeargs="-DVERSION=1.99.1"
          supports-non-srcdir-builds="no"
          use-ninja="no">
     <branch module="rust-lang/rustup/archive/1.25.2.tar.gz"
