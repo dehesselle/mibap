@@ -60,11 +60,9 @@ INK_BUILD=${INK_BUILD:-0}
 # Inkscape will be bundled with its own (customized) Python 3 runtime to make
 # the core extensions work out-of-the-box.
 
-INK_PYTHON_VER_MAJOR=3
-INK_PYTHON_VER_MINOR=12
-INK_PYTHON_VER=$INK_PYTHON_VER_MAJOR.$INK_PYTHON_VER_MINOR
+INK_PYTHON_VER=3.12
 INK_PYTHON_URL="https://gitlab.com/api/v4/projects/26780227/packages/generic/\
-python_macos/v24/pythonframework_$(uname -m).tar.xz"
+python_macos/v$INK_PYTHON_VER.15-1/python-framework_$INK_PYTHON_VER.15-1_$(uname -m).tar.xz"
 INK_PYTHON_ICON_URL="https://gitlab.com/inkscape/vectors/content/-/raw/\
 5f4f4cdf/branding/projects/extensions_c1.svg"
 
